@@ -1,4 +1,4 @@
-# Intent Trader (v0.4.0-pre)
+# Intent Trader cognitive application
 
 Intent Trader is a modular, analytics-ready AI trading assistant designed for high-performance, independent traders.
 
