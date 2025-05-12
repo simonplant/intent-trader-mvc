@@ -1,0 +1,81 @@
+{
+  "date": "2025-05-08",
+  "macro_sentiment": "Mixed Risk-On",
+  "technical_outlook": "SPX coiled under resistance with Failed Breakdowns in play",
+  "primary_focus": "Execute level-to-level using pre-validated setups",
+  "spx_levels": {
+    "long_zone": "5570\u20135580 (FB buy zone)",
+    "resistance_zone": ">5650 (fade unless high momentum)",
+    "targets": [
+      "5605",
+      "5620",
+      "5650"
+    ],
+    "stop": "<5560 or trailing"
+  },
+  "dp_trade_ideas": [
+    {
+      "ticker": "BROS",
+      "type": "Pullback Long",
+      "entry": "54\u201356",
+      "target": "HOD / 60",
+      "stop": "<53.5",
+      "notes": "Strong print"
+    },
+    {
+      "ticker": "PLTR",
+      "type": "Breakdown Short",
+      "entry": "<Open",
+      "target": "17.5\u201318",
+      "stop": ">Open",
+      "notes": "Puts for Lotto or next week"
+    },
+    {
+      "ticker": "SHOP",
+      "type": "Seller Print Short",
+      "entry": "<Open",
+      "target": "-$3\u20135",
+      "stop": ">Open reclaim",
+      "notes": "Weak guidance"
+    },
+    {
+      "ticker": "GOOGL",
+      "type": "Bounce Fade",
+      "entry": "Pop",
+      "target": "-2.5\u20133",
+      "stop": ">Prev HOD",
+      "notes": "Value trap thesis"
+    },
+    {
+      "ticker": "TEM",
+      "type": "Breakout Long",
+      "entry": ">61",
+      "target": "70",
+      "stop": "<60",
+      "notes": "Multi-week swing"
+    },
+    {
+      "ticker": "SOXL",
+      "type": "Wait/Dip",
+      "entry": "n/a",
+      "target": "Mid 14s",
+      "stop": "<13.5",
+      "notes": "Already took gains"
+    },
+    {
+      "ticker": "QBTS",
+      "type": "Spec Long",
+      "entry": "n/a",
+      "target": "+10\u201315%",
+      "stop": "<Pre breakout",
+      "notes": "Watch volatility"
+    }
+  ],
+  "risk_guidance": [
+    "Only trade planned levels and validated setups",
+    "Trim 75% at first level, leave 25% runner",
+    "Trail stop on runners, never let trades go red",
+    "Fade strength through puts if market spikes",
+    "No forcing trades\u2014profit protection mode if green"
+  ]
+}

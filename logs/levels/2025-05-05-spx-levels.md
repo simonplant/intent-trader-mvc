@@ -1,0 +1,1 @@
+SPX Levels for 2025-05-06:Support:- 5638: Shelf high- 5635: Base of support shelf- 5627: Overnight shelf- 5620: Line in sand Ð FBD trigger- 5596: Deep FBD base- 5570: Critical lower flush targetResistance:- 5642: FBD reclaim trigger (active)- 5655: First target- 5670: Major resistance / gap-fill- 5690: Breakout level- 5715: Macro resistance zone

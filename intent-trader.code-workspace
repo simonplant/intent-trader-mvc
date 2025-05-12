@@ -1,0 +1,39 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "prompts/premarket"
+    },
+    {
+      "path": "prompts/intraday"
+    },
+    {
+      "path": "prompts/postmarket"
+    },
+    {
+      "path": "prompts/system"
+    },
+    {
+      "path": "system-specs"
+    },
+    {
+      "path": "logs"
+    },
+    {
+      "path": "data"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/*.log": true,
+      "**/*.tmp": true
+    },
+    "editor.wordWrap": "on",
+    "editor.formatOnSave": true,
+    "markdown.preview.breaks": true,
+    "yaml.format.enable": true
+  }
+}

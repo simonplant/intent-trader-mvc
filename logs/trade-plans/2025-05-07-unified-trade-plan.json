@@ -1,0 +1,94 @@
+{
+  "date": "2025-05-07",
+  "setup_type": "Failed Breakdown longs only, no directional shorts",
+  "macro_notes": "FOMC today – volatility expected, high probability of traps. No prediction bias. Only trade high-conviction setups with level-to-level exits.",
+  "dp_trade_ideas": [
+    {
+      "ticker": "UBER",
+      "sentiment": "bullish",
+      "confidence": "high",
+      "setup": "buy on dips",
+      "sizing": "full",
+      "notes": "Monster earnings beat despite revenue miss. DP: 'Uber is a verb.' Focus long."
+    },
+    {
+      "ticker": "NFLX",
+      "sentiment": "bearish",
+      "confidence": "high",
+      "setup": "short under 1127",
+      "sizing": "full",
+      "notes": "Watching 10d MA. DP upset he missed it. Potential aggressive short."
+    },
+    {
+      "ticker": "PLTR",
+      "sentiment": "bearish",
+      "confidence": "medium",
+      "setup": "short above 113",
+      "sizing": "⅓ position",
+      "notes": "DP sees distribution. Bearish into resistance range 105–113."
+    },
+    {
+      "ticker": "HIMS",
+      "sentiment": "bullish on pullback",
+      "confidence": "medium",
+      "setup": "buy 2–3 point pullback",
+      "sizing": "scalable",
+      "notes": "Strong reversal. Buy-the-dip candidate, but not near support yet."
+    },
+    {
+      "ticker": "DIS",
+      "sentiment": "bullish",
+      "confidence": "medium",
+      "setup": "gap-and-go after strong earnings",
+      "notes": "Beat on all metrics. DP impressed. Likely continuation."
+    },
+    {
+      "ticker": "NBIS",
+      "sentiment": "bullish",
+      "confidence": "medium",
+      "setup": "watch-only post Bezos news",
+      "notes": "Bezos family office leads round. Watch dips for future setup."
+    },
+    {
+      "ticker": "UPST",
+      "sentiment": "bearish",
+      "confidence": "medium",
+      "setup": "ugly earnings, avoid or lotto short",
+      "notes": "Down 17%. Subprime credit risks. DP unclear why but not touching."
+    },
+    {
+      "ticker": "TEM",
+      "sentiment": "bullish LT",
+      "confidence": "low",
+      "setup": "wait for pullback",
+      "notes": "Beat/raise quarter, but very volatile. Long-term story."
+    },
+    {
+      "ticker": "AMD",
+      "sentiment": "neutral",
+      "confidence": "low",
+      "setup": "day-after trade",
+      "notes": "Flat post-earnings. Not exciting. DP: 'Just a day-after trade.'"
+    }
+  ],
+  "mancini_levels": {
+    "support": [
+      "5620",
+      "5607",
+      "5597–5600",
+      "5583",
+      "5574",
+      "5528",
+      "5493"
+    ],
+    "resistance": [
+      "5650",
+      "5667",
+      "5673",
+      "5698",
+      "5745",
+      "5770–5802"
+    ]
+  },
+  "spx_offset": 30
+}

@@ -1,0 +1,84 @@
+.
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── data
+├── docs
+│   └── audit-v0.4.0.md
+├── intent-trader.code-workspace
+├── knowledge
+│   ├── dp-insights.md
+│   ├── future-vision.md
+│   ├── glossary.md
+│   ├── mancini-insights.md
+│   ├── patterns-and-setups.md
+│   ├── personal-lessons.md
+│   └── trade-psychology.md
+├── logs
+│   ├── behaviors
+│   │   ├── 2025-05-05-trading-behaviors.md
+│   │   ├── 2025-05-06-trading-behaviors.md
+│   │   ├── 2025-05-07-trading-behaviors.md
+│   │   └── 2025-05-08-trading-behaviors.md
+│   ├── index.md
+│   ├── journal
+│   │   ├── 2025-05-05-trading-journal.md
+│   │   ├── 2025-05-06-trading-journal.md
+│   │   ├── 2025-05-07-trading-journal.md
+│   │   └── 2025-05-08-trading-journal.md
+│   ├── kb-updates
+│   │   ├── 2025-05-05-kb-update-recommendations.md
+│   │   ├── 2025-05-06-kb-update-recommendations.md
+│   │   ├── 2025-05-07-kb-update.md
+│   │   └── 2025-05-08-kb-update.md
+│   ├── levels
+│   │   ├── 2025-05-05-spx-levels.md
+│   │   └── 2025-05-06-spx-levels.md
+│   ├── performance
+│   │   ├── 2025-05-06-daily-performance-debrief.md
+│   │   ├── 2025-05-07-performance-debrief-mancini.md
+│   │   ├── 2025-05-07-performance-debrief.md
+│   │   └── 2025-05-08-daily-performance-debrief.md
+│   ├── plan-performance
+│   │   ├── 2025-05-08-trade-plan-performance.md
+│   │   └── 2025-05-08-trade-plan-performance2.md
+│   ├── reconciliation
+│   │   └── 2025-05-08-reconciliation.md
+│   ├── trade-plans
+│   │   ├── 2025-05-06-dp-trade-plan.md
+│   │   ├── 2025-05-06-mancini-trade-plan.md
+│   │   ├── 2025-05-06-unified-trade-plan.md
+│   │   ├── 2025-05-06-unified-trade-plan2.md
+│   │   ├── 2025-05-07-unified-trade-plan.json
+│   │   └── 2025-05-08-unified-trade-plan.json
+│   └── trades
+│       ├── 2025-05-05-daily-performance-debrief.md
+│       ├── 2025-05-07-trade-log.md
+│       └── 2025-05-08-trade-log.json
+├── prompts
+│   ├── intraday
+│   │   ├── check-alerts.md
+│   │   ├── log-trade.md
+│   │   └── validate-trade.md
+│   ├── postmarket
+│   │   ├── compare-execution.md
+│   │   ├── missed-trades.md
+│   │   └── performance-coach.md
+│   ├── premarket
+│   │   ├── dp-analysis.md
+│   │   └── stack-rank-trades.md
+│   └── system
+│       └── sizing-rules.md
+├── README.md
+├── system
+│   ├── daily-template.md
+│   ├── main-controller.md
+│   ├── metadata-style.md
+│   ├── registry.yaml
+│   └── setup-notes.md
+├── system-specs
+├── tests
+│   ├── validate-metadata.py
+│   └── verify-log-schema.py
+└── tree.txt
+
+22 directories, 60 files
