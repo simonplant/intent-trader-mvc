@@ -1,0 +1,25 @@
+name: QA Validation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Run Metadata Validator
+        run: python3 tests/validate-metadata.py
+
+      - name: Run Log Schema Validator
+        run: python3 tests/verify-log-schema.py
