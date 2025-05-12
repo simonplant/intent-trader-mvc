@@ -2,7 +2,7 @@
 
 Intent Trader is a modular, analytics-ready AI trading assistant designed for high-performance, independent traders.
 
-## 🔧 What It Does
+## What It Does
 - Parses elite market intelligence (DP, Mancini, VTF)
 - Builds a unified daily trade plan by confidence and size
 - Validates trades in real time for plan alignment
@@ -10,7 +10,7 @@ Intent Trader is a modular, analytics-ready AI trading assistant designed for hi
 - Coaches you postmarket based on missed trades and performance
 - Prepares your mind and account for sustainable alpha
 
-## 🗂️ Project Structure
+## Project Structure
 
 | Folder         | Purpose                                          |
 |----------------|--------------------------------------------------|
@@ -21,7 +21,7 @@ Intent Trader is a modular, analytics-ready AI trading assistant designed for hi
 | `/docs/`       | Daily reference, audits, process flows           |
 | `/tests/`      | QA testing of prompt metadata and file health    |
 
-## 🚀 Getting Started
+## Getting Started
 
 ```bash
 cd ~/Documents/code/
@@ -31,7 +31,7 @@ code intent-trader.code-workspace
 
 Use `/dp-analysis`, `/mancini-analysis`, and `/stack-rank-trades` to begin your day.
 
-## 🧪 QA Testing
+## QA Testing
 
 ```bash
 python3 tests/validate-metadata.py
@@ -39,7 +39,7 @@ python3 tests/validate-metadata.py
 
 More tests will follow in `/tests/` as simulation support is added.
 
-## 👨‍💻 Development Status
+## Development Status
 This is a private alpha. Use at your own risk. Structured for aggressive iteration. Feedback welcome.
 
 ## License
