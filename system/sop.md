@@ -54,33 +54,77 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 - Cross-validated with system tier data
 - Does not feed back into system processes
 
-## Daily Workflow
+### Previous Day Preparation (12:00 PM - 4:00 PM ET)
 
-### 1. System Initialization (5:30 AM - 6:00 AM ET)
-
-#### System Status Verification
-- [ ] Check system status: `/system-status`
-- [ ] Ensure all system components are available
-- [ ] Verify all data sources are accessible
-- [ ] Review charter and parameters: `/show-charter`
-- [ ] Check for any overnight system updates
-- [ ] Verify JSON schema compatibility
-- [ ] Initialize trade status tracker: `/initialize-status-tracker`
-
-#### Market Regime Classification
-- [ ] Determine current market regime: `/classify-regime`
+#### Mancini Analysis Pre-Staging
+- [ ] Process Mancini's newsletter for next day: `/analyze-mancini`
   ```
-  /classify-regime
-  Indices: [current index levels]
-  VIX: [current VIX]
-  Breadth: [advance/decline ratio]
-  Context: [major news/events]
+  /analyze-mancini
+  Content:
+  [paste Mancini newsletter here]
   ```
-- [ ] Review allowed setup types for this regime
-- [ ] Set appropriate position sizing limits based on regime
-- [ ] Document regime-specific risk protocols to apply
+- [ ] Map Mancini's key levels to chart framework: `/mancini-chart-map`
+  ```
+  /mancini-chart-map
+  ManciniFile: [reference to Mancini JSON]
+  ChartLegend: [reference to chart-visual-legend.md]
+  ```
+- [ ] Identify Mancini's critical decision points: `/mancini-ma-alignment`
+  ```
+  /mancini-ma-alignment
+  Levels: [list of Mancini levels]
+  TimeFrame: [chart timeframe]
+  ```
+- [ ] Create preliminary decision tree: `/stage-decision-tree`
+  ```
+  /stage-decision-tree
+  ManciniTree: [Mancini decision points]
+  ChartPatterns: [MA patterns]
+  ```
+- [ ] Document alignment between Mancini levels and chart legend hierarchy
+- [ ] Pre-configure ThinkOrSwim charts with horizontal lines at key levels
+- [ ] Generate pre-staged analysis document: `/generate-prestaged-analysis`
+  ```
+  /generate-prestaged-analysis
+  Mancini: [reference to Mancini JSON]
+  ChartContext: [reference to chart analysis]
+  MAPatterns: [reference to MA pattern data]
+  ```
+
+#### Chart Configuration Update
+- [ ] Update yH, yL price levels on charts for watchlist stocks
+- [ ] Configure MA studies according to chart-visual-legend.md
+- [ ] Set up pivot point studies with correct formatting
+- [ ] Configure VWAP and AVWAP studies
+- [ ] Create saved chart templates for morning session
+- [ ] Apply conditional formatting based on "traffic light" 21 SMA
+- [ ] Set preliminary alerts for key levels and MA interactions
+
+#### Pre-Market Preparation
+- [ ] Create "Morning Blueprint" combining Mancini analysis and chart patterns
+- [ ] Stage preliminary trade ideas based on technical structure
+- [ ] Set conditional alerts for overnight futures interactions with key levels
+- [ ] Prepare validation checklist for morning DP integration
+- [ ] Document expected MA pattern behavior for priority securities
+- [ ] Pre-configure ThinkOrSwim layout for morning session
 
 ### 2. Premarket Data Collection & Analysis (6:00 AM - 8:00 AM ET)
+
+#### Chart Pattern Analysis
+- [ ] Document current MA relationships for key securities:
+  - MA alignment patterns (stacked bullish/bearish, crosses)
+  - Price positions relative to MA sequence (above all, below all, between)
+  - "Traffic light" 21 SMA classification (green, yellow, red)
+- [ ] Identify VWAP and AVWAP relationships for priority securities
+- [ ] Apply level hierarchy from chart-visual-legend.md to prioritize levels
+- [ ] Generate technical structure summary: `/generate-chart-summary`
+  ```
+  /generate-chart-summary
+  Indices: SPX,QQQ,IWM
+  Stocks: [watchlist stocks]
+  Patterns: true
+  Levels: true
+  ```
 
 #### DP Analysis
 - [ ] Process DP's morning call: `/analyze-dp`
@@ -95,6 +139,12 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 - [ ] Cross-check emphasis patterns and conviction classifications
 - [ ] Document behavioral flags and position context
 - [ ] Track moderator positions and sentiment: `/track-moderator-positions`
+- [ ] Map DP's price levels to chart patterns: `/map-levels-to-charts`
+  ```
+  /map-levels-to-charts
+  Levels: [DP's key levels]
+  ChartContext: [current chart patterns]
+  ```
 
 #### Mancini Analysis
 - [ ] Process Mancini's blueprint: `/analyze-mancini`
@@ -108,6 +158,12 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 - [ ] Generate human-readable Mancini summary: `/mancini-summary`
 - [ ] Verify Failed Breakdown components are complete
 - [ ] Ensure decision tree logic is properly structured
+- [ ] Map Mancini's key levels to chart patterns: `/map-levels-to-charts`
+  ```
+  /map-levels-to-charts
+  Levels: [Mancini's key levels]
+  ChartContext: [current chart patterns]
+  ```
 
 #### Technical Level Collection
 - [ ] Extract key moving averages: `/get-sma`
@@ -124,6 +180,8 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
   ```
 - [ ] Document premarket ranges and gap conditions
 - [ ] Flag any unusual technical conditions
+- [ ] Map all technical levels to chart legend hierarchy
+- [ ] Identify convergence points between levels and MAs
 
 ### 3. Trade Plan Generation & Validation (8:00 AM - 9:00 AM ET)
 
@@ -134,8 +192,42 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
   - Secondary Aligned Setup: 2 points
   - Tertiary Aligned Setup: 1 point
   - Setup Conflicts: -1 point per conflict
+  - Chart Pattern Alignment: 1-3 points based on strength
 - [ ] Verify regime compatibility for each setup
 - [ ] Flag setups scoring 5+ points for priority
+- [ ] Evaluate chart pattern alignment for each setup:
+  ```
+  /evaluate-chart-alignment
+  Setup: [setup details]
+  Pattern: [current chart pattern]
+  ```
+
+#### Technical Structure Section
+- [ ] Add dedicated technical structure section to trade plan:
+  ```
+  ## Technical Structure (Chart Legend Analysis)
+  
+  ### Index MA Patterns
+  - SPX: [8/21/34/50/100/200 SMA relationship] → [Current pattern] → [Implications]
+  - QQQ: [8/21/34/50/100/200 SMA relationship] → [Current pattern] → [Implications]
+  - IWM: [8/21/34/50/100/200 SMA relationship] → [Current pattern] → [Implications]
+  
+  ### Key Level Interactions
+  - Recently Tested: [Levels with recent interaction]
+  - Currently Testing: [Levels currently being challenged]
+  - Next Targets: [Approaching significant levels]
+  
+  ### MA Traffic Light Status
+  - GREEN (Price > 8 & 21): [List securities]
+  - YELLOW (Price between): [List securities]
+  - RED (Price < 8 & 21): [List securities]
+  
+  ### Pattern Watch
+  - Potential Bull Crosses: [List securities]
+  - Potential Bear Crosses: [List securities]
+  - MA Compression Areas: [List securities]
+  - MA Expansion Developing: [List securities]
+  ```
 
 #### Risk Protocol Application
 - [ ] Apply Confirmation Requirements for puts/shorts
@@ -143,6 +235,10 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 - [ ] Incorporate Sentiment Flip Rule instructions
 - [ ] Cross-reference trades against behavioral flags
 - [ ] Apply position sizing matrix based on setup/regime/conviction
+- [ ] Adjust risk parameters based on chart patterns:
+  - Reduce size for counter-trend entries
+  - Increase size for strong pattern alignment
+  - Apply tighter stops for pattern transition zones
 
 #### Interaction Effects Analysis
 - [ ] Identify correlated trade opportunities
@@ -150,6 +246,7 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 - [ ] Assess portfolio impact of concurrent trades
 - [ ] Document potential hedge relationships
 - [ ] Flag potentially conflicting directional exposure
+- [ ] Evaluate technical correlation across setups
 
 #### Unified Plan Generation
 - [ ] Generate unified trade plan: `/generate-trade-plan`
@@ -160,6 +257,7 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
   Mancini: [reference to Mancini JSON]
   Levels: [reference to levels data]
   SMA: [reference to SMA data]
+  ChartPatterns: [reference to chart pattern data]
   ```
 - [ ] Validate plan against JSON schema
 - [ ] Verify all risk protocols are properly applied
@@ -167,6 +265,7 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 - [ ] Check for proper position sizing guidance
 - [ ] Perform final cross-validation with source data
 - [ ] Initialize trade status categories in tracker
+- [ ] Verify chart pattern context for each trade idea
 
 #### Plan Review & Preparation
 - [ ] Review complete trade plan: `/show-trade-plan`
@@ -175,6 +274,7 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 - [ ] Prepare logging templates for planned trades
 - [ ] Document any known potential behavioral triggers
 - [ ] Schedule any planned order entries/exits based on optimal windows
+- [ ] Configure chart alerts for pattern transitions
 
 ### 4. Market Open (9:30 AM - 10:30 AM ET)
 
@@ -240,14 +340,21 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
   CurrentLevels: true
   PlanState: true
   ModeratorContext: true
+  ChartPatterns: true
   ```
 - [ ] Review trade ideas sorted by status category:
   - **Already Triggered**: Trades currently active, with execution details
   - **Invalidated**: Setups no longer valid due to price action or time decay
   - **Ready Soon**: Setups approaching trigger conditions within ~5% of price
   - **Not Close**: Valid setups that remain distant from execution conditions
+- [ ] Add technical context for each trade idea:
+  - MA Pattern: Current pattern from chart-visual-legend.md
+  - Level Context: Position relative to key levels in hierarchy
+  - VWAP Relationship: Current VWAP status
+  - Price-MA Relationship: Above/below/between specific MAs
 - [ ] Document reasons for status categorization
 - [ ] Reassess active trade management priorities
+- [ ] Format status update using standardized chart-enhanced template
 
 #### Chart Context Integration
 - [ ] Generate multi-timeframe technical picture: `/chart-analysis`
@@ -257,10 +364,22 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
   Timeframes: [short-term, medium-term]
   TechnicalPatterns: true
   ExtensionMeasures: true
+  MARelationships: true
   ```
 - [ ] Identify potential technical exhaustion conditions
 - [ ] Document position within market structure
 - [ ] Reassess support/resistance relevance
+- [ ] Apply MA alignment pattern recognition from chart-visual-legend.md:
+  - Stacked Bullish/Bearish configurations
+  - Recent or pending crosses
+  - MA compression/expansion areas
+  - Price-MA relationships
+- [ ] Classify current state using standardized patterns
+- [ ] Document VWAP relationships per legend definitions
+- [ ] Assess support/resistance strength using level hierarchy from legend
+- [ ] Generate MA relationship summary for key securities
+- [ ] Identify "traffic light" 21 SMA status across watchlist
+- [ ] Map observed patterns to historical performance data
 
 #### Moderator Alert Processing
 - [ ] Process any moderator alerts since last orientation: `/process-moderator-alerts`
@@ -411,17 +530,21 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 
 | Phase | Command | Purpose | Validation |
 |-------|---------|---------|------------|
+| 0 | `/load-chart-legend` | Access visual legend reference | Verify proper loading |
 | 1 | `/system-status` | Verify system readiness | Check all components |
 | 2 | `/initialize-status-tracker` | Prepare trade status tracking | Verify initialization |
 | 3 | `/classify-regime` | Establish market regime | Validate regime characteristics |
-| 4 | `/analyze-dp` | Process DP Morning Call transcript | Validate JSON structure |
-| 5 | `/dp-summary` | Generate human-readable DP summary | Cross-check with JSON |
-| 6 | `/track-moderator-positions` | Log current moderator positions | Verify position tagging |
-| 7 | `/analyze-mancini` | Process Mancini Blueprint data | Validate JSON structure |
-| 8 | `/mancini-summary` | Generate human-readable Mancini summary | Cross-check with JSON |
-| 9 | `/get-sma` | Get daily SMA data for key tickers | Verify completeness |
-| 10 | `/get-levels` | Extract market levels for indices | Validate against external sources |
-| 11 | `/generate-trade-plan` | Generate unified plan from all sources | Verify setup classifications |
+| 4 | `/generate-chart-summary` | Generate technical structure summary | Verify pattern recognition |
+| 5 | `/analyze-dp` | Process DP Morning Call transcript | Validate JSON structure |
+| 6 | `/dp-summary` | Generate human-readable DP summary | Cross-check with JSON |
+| 7 | `/track-moderator-positions` | Log current moderator positions | Verify position tagging |
+| 8 | `/analyze-mancini` | Process Mancini Blueprint data | Validate JSON structure |
+| 9 | `/mancini-summary` | Generate human-readable Mancini summary | Cross-check with JSON |
+| 10 | `/map-levels-to-charts` | Map price levels to chart patterns | Verify level-pattern alignment |
+| 11 | `/get-sma` | Get daily SMA data for key tickers | Verify completeness |
+| 12 | `/get-levels` | Extract market levels for indices | Validate against external sources |
+| 13 | `/evaluate-chart-alignment` | Assess chart pattern alignment for setups | Verify pattern recognition |
+| 14 | `/generate-trade-plan` | Generate unified plan from all sources | Verify setup classifications |
 | Alt | `/premarket-sequence` | Run complete premarket workflow in one step | Validate all outputs |
 
 ### Intraday Command Sequence
@@ -431,14 +554,16 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 | 1 | `/copilot` | Activate intraday trading copilot | Verify activation |
 | 2 | `/status-update` | Generate current trade status report | Verify categorization |
 | 3 | `/chart-analysis` | Analyze current technical conditions | Validate exhaustion metrics |
-| 4 | `/process-moderator-alerts` | Process recent moderator communications | Check sentiment tracking |
-| 5 | `/copilot-scout` | Scan for setups matching criteria | Validate against setup KB |
-| 6 | `/copilot-confirm` | Validate potential trade against plan | Check regime compatibility |
-| 7 | `/track-moderator-alert` | Track a new moderator alert | Verify action categorization |
-| 8 | `/update-trade-status` | Update status of specific trade idea | Validate status transition |
-| 9 | `/copilot-debrief` | Log and review completed trade | Verify standardized logging |
-| 10 | `/midday-reset` | Mid-session review and plan adjustment | Check invalidation triggers |
-| 11 | `/copilot-recenter` | Reset focus during trading day | Validate priority shift logic |
+| 4 | `/chart-legend` | Access visual legend reference | Verify correct interpretation |
+| 5 | `/process-moderator-alerts` | Process recent moderator communications | Check sentiment tracking |
+| 6 | `/copilot-scout` | Scan for setups matching criteria | Validate against setup KB |
+| 7 | `/copilot-confirm` | Validate potential trade against plan | Check regime compatibility |
+| 8 | `/track-moderator-alert` | Track a new moderator alert | Verify action categorization |
+| 9 | `/update-trade-status` | Update status of specific trade idea | Validate status transition |
+| 10 | `/update-chart-patterns` | Update chart pattern recognition | Verify pattern transitions |
+| 11 | `/copilot-debrief` | Log and review completed trade | Verify standardized logging |
+| 12 | `/midday-reset` | Mid-session review and plan adjustment | Check invalidation triggers |
+| 13 | `/copilot-recenter` | Reset focus during trading day | Validate priority shift logic |
 
 ### Postmarket Command Sequence
 
@@ -446,14 +571,16 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 |-------|---------|---------|------------|
 | 1 | `/generate-trade-log` | Create structured log of today's trades | Verify complete metadata |
 | 2 | `/performance-debrief` | Analyze trading performance by multiple dimensions | Check setup-specific metrics |
-| 3 | `/performance-vs-mancini` | Compare execution vs plan | Validate opportunity capture rate |
+| 3 | `/performance-vs-patterns` | Compare performance against chart patterns | Validate pattern effectiveness |
 | 4 | `/evaluate-status-tracking` | Assess status tracking effectiveness | Check transition accuracy |
-| 5 | `/generate-journal` | Create trading journal entry | Ensure key lesson identification |
-| 6 | `/log-kb` | Log a behavioral pattern or insight | Validate categorization |
-| 7 | `/generate-kb-update` | Generate KB update recommendations | Check for actionable insights |
-| 8 | `/update-behaviors` | Update trading behaviors knowledge base | Verify updates applied |
-| 9 | `/export-journal` | Export journal entry to markdown | Validate export format |
-| Alt | `/postmarket-sequence` | Run complete postmarket workflow in one step | Verify all outputs |
+| 5 | `/evaluate-chart-patterns` | Assess effectiveness of chart pattern recognition | Validate pattern predictiveness |
+| 6 | `/generate-journal` | Create trading journal entry | Ensure key lesson identification |
+| 7 | `/log-kb` | Log a behavioral pattern or insight | Validate categorization |
+| 8 | `/generate-kb-update` | Generate KB update recommendations | Check for actionable insights |
+| 9 | `/update-chart-knowledge` | Update chart pattern knowledge base | Validate pattern effectiveness |
+| 10 | `/update-behaviors` | Update trading behaviors knowledge base | Verify updates applied |
+| 11 | `/export-journal` | Export journal entry to markdown | Validate export format |
+| Alt | `/postmarket-sequence` | Run complete postmarket workflow in one step | Verify all outputs | `/postmarket-sequence` | Run complete postmarket workflow in one step | Verify all outputs |
 
 ## Enhanced Data Validation Requirements
 
