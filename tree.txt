@@ -1,7 +1,6 @@
 .
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
-├── data
 ├── docs
 │   └── audit-v0.4.0.md
 ├── intent-trader.code-workspace
@@ -75,10 +74,9 @@
 │   ├── metadata-style.md
 │   ├── registry.yaml
 │   └── setup-notes.md
-├── system-specs
 ├── tests
 │   ├── validate-metadata.py
 │   └── verify-log-schema.py
 └── tree.txt
 
-22 directories, 60 files
+20 directories, 60 files
