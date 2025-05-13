@@ -1,9 +1,22 @@
 .
 ├── CHANGELOG.md
+├── config
+│   └── app-config.js
 ├── CONTRIBUTING.md
 ├── docs
 │   └── audit-v0.4.0.md
 ├── intent-trader.code-workspace
+├── js
+│   ├── command-router.js
+│   ├── data-pipeline.js
+│   ├── direction-extractor.js
+│   ├── logger.js
+│   ├── pattern-detector.js
+│   ├── schema-registry.js
+│   ├── size-creep-detector.js
+│   ├── technical-alignment-scorer.js
+│   ├── text-analyzer.js
+│   └── trade-plan-generator.js
 ├── knowledge
 │   ├── dp-insights.md
 │   ├── future-vision.md
@@ -75,8 +88,10 @@
 │   ├── registry.yaml
 │   └── setup-notes.md
 ├── tests
+│   ├── dp-analyzer-test-suite.js
+│   ├── test-framework.js
 │   ├── validate-metadata.py
 │   └── verify-log-schema.py
 └── tree.txt
 
-20 directories, 60 files
+22 directories, 73 files
