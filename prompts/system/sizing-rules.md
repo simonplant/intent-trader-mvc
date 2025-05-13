@@ -10,7 +10,7 @@ style:
   tone: direct
   format: text/plain
 tags: [risk, sizing, rules, capital]
-version: 0.4.0-pre
+version: 0.4.1
 ---
 
 Sizing guide:
