@@ -77,7 +77,6 @@
 ├── README.md
 ├── requirements
 │   ├── requirements-github-issues.md
-│   ├── sop-intraday-feedback.md
 │   ├── templates
 │   │   ├── enhanced-requirements-analysis.md
 │   │   ├── enhanced-requirements-csv.txt
@@ -93,6 +92,7 @@
 │   │   ├── audit-v0.4.0.md
 │   │   ├── claude-eod-analysis-unstructured.md
 │   │   ├── consolidated-trading-debrief.md
+│   │   ├── gap-analysis-needs.md
 │   │   ├── sop-intraday-feedback MORE.md
 │   │   └── sop-intraday-feedback.md
 │   └── wip-consolidation plan.md
