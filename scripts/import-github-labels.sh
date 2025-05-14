@@ -2,7 +2,7 @@
 
 # === CONFIG ===
 REPO="simonplant/intent-trader"
-TOKEN="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"
+TOKEN="!!paste-my-PAT-token-in-here!!"
 LABEL_FILE="import-github-labels.json"
 
 # === CHECKS ===
