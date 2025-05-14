@@ -10,57 +10,58 @@ style:
   tone: direct
   format: text/plain
 tags: [planning, architecture, optimization, roadmap]
-version: 0.4.1
+version: 0.2
 ---
 # Intent Trader Repository Analysis and Optimization Plan
 
-After reviewing your repository structure from `tree.txt` and comparing it with the information categories we've identified, I'll provide a comprehensive analysis of what exists, what needs updating, what should be created, and what might be archived.
+Based on your updated repository structure and the identified information categories, I'll provide a revised analysis of what exists, what needs updating, what should be created, and what might be archived.
 
 ## 1. System Architecture Components
 
 ### Existing Documents to Update
 - `system/main-controller.md` - Update to include new routes like `/status-update`, `/chart-analysis`, etc.
 - `system/registry.yaml` - Update with all new command routes
-- `docs/architectural-review.md` - Enhanced with cognitive-deterministic separation pattern already defined
-- `docs/system-docs/architecture-overview.md` - Consolidate with two-tier processing architecture
+- `docs/system-docs/architecture-overview.md` - Enhance with two-tier processing architecture
 
 ### Documents to Create
-- `system/data-architecture.md` - Formalize the two-tier (System/Human) data architecture from architectural-review.md
+- `system/data-architecture.md` - Formalize the two-tier (System/Human) data architecture
 - `system/interfaces.md` - Define the Command, Knowledge, Execution, and Analytics interfaces
 - `system/component-interactions.md` - Document how components interact with each other
 
-### Documents to Archive/Consolidate
-- Consolidate duplicative architecture information between `docs/architectural-review.md` and `docs/system-docs/architecture-overview.md`
-- Extract clean version of architecture diagram from v0.4.1-documentation.md for reuse
+### Documents to Move
+- `requirements/wip/architectural-review.md` → `docs/system-docs/architectural-review.md`
+- `requirements/wip/audit-v0.4.0.md` → `docs/system-docs/audit-report.md`
 
 ## 2. Standard Operating Procedures (SOP)
 
 ### Existing Documents to Update
 - `system/sop.md` - Major update needed to incorporate the Intraday Reorientation Protocol and other new protocols
-- `requirements/sop-intraday-feedback.md` - Should be integrated into `system/sop.md` and archived
 
 ### Documents to Create
+- `system/protocols/` - New directory for protocol documentation
 - `system/protocols/intraday-reorientation.md` - Detailed protocol documentation
 - `system/protocols/risk-management.md` - Comprehensive risk protocols
 - `system/protocols/moderator-signals.md` - Moderator signal processing
+- `system/workflows/` - New directory for workflow documentation
 - `system/workflows/trading-timeline.md` - Detailed timeline of daily trading workflow
 
 ### Documents to Archive/Consolidate
-- `docs/requirements/wip/sop-intraday-feedback.md` and `docs/requirements/wip/sop-intraday-feedback MORE.md` should be consolidated into the main SOP and archived
+- `requirements/sop-intraday-feedback.md` - Integrate into `system/sop.md` and archive
+- `requirements/wip/sop-intraday-feedback.md` and `requirements/wip/sop-intraday-feedback MORE.md` - Extract information and archive
 
 ## 3. Status Tracking Framework
 
-### Existing Documents to Update
-- None directly addressing this framework exists
-
 ### Documents to Create
+- `system/status-tracking/` - New directory for status tracking framework
 - `system/status-tracking/framework.md` - Define the status categories and attributes
 - `system/status-tracking/transitions.md` - Document the transition rules
 - `prompts/intraday/status-update.md` - Create the status update prompt
 - `knowledge/status-tracking.md` - Document best practices for status management
 
-### Documents to Archive/Consolidate
-- Status tracking information from various WIP documents should be extracted and formalized
+### Documents to Extract From
+- `requirements/wip/2025-05-13 - trading-session-review.md`
+- `requirements/wip/2025-05-13 - backlog feedback intraday.md`
+- `requirements/wip/consolidated-trading-debrief.md`
 
 ## 4. Risk Management Framework
 
@@ -69,27 +70,28 @@ After reviewing your repository structure from `tree.txt` and comparing it with 
 - `knowledge/trade-psychology.md` - Update with risk management psychology aspects
 
 ### Documents to Create
+- `system/risk-management/` - New directory for risk management framework
 - `system/risk-management/position-sizing.md` - Formalize position sizing rules
 - `system/risk-management/entry-validation.md` - Document entry validation rules
 - `system/risk-management/exit-framework.md` - Establish exit strategy guidelines
 - `system/risk-management/protocols.md` - Document specific risk protocols
 
-### Documents to Archive/Consolidate
-- Risk management information scattered across WIP documents
+### Documents to Extract From
+- `requirements/wip/consolidated-trading-debrief.md`
+- `requirements/wip/2025-05-13 - trading-session-review.md`
 
 ## 5. Moderator Signal Integration
 
-### Existing Documents to Update
-- None directly addressing this framework exists
-
 ### Documents to Create
+- `system/moderator-signals/` - New directory for moderator signal framework
 - `system/moderator-signals/classification.md` - Signal classification system
 - `system/moderator-signals/hierarchy.md` - Priority weighting system 
 - `system/moderator-signals/processing.md` - Signal processing workflow
 - `prompts/intraday/process-moderator-alerts.md` - Create prompt for processing moderator alerts
 
-### Documents to Archive/Consolidate
-- Moderator signal information from various WIP documents
+### Documents to Extract From
+- `requirements/wip/2025-05-13 - trading-session-review.md`
+- `requirements/wip/consolidated-trading-debrief.md`
 
 ## 6. Technical Framework Integration
 
@@ -97,13 +99,15 @@ After reviewing your repository structure from `tree.txt` and comparing it with 
 - `system/chart-legend.md` - Update with comprehensive pattern taxonomy
 
 ### Documents to Create
+- `system/technical-framework/` - New directory for technical framework
 - `system/technical-framework/pattern-recognition.md` - Document pattern recognition system
 - `system/technical-framework/mancini-integration.md` - Mancini framework integration
 - `prompts/intraday/chart-analysis.md` - Create chart analysis prompt
-- `prompts/premarket/mancini-chart-map.md` - Create Mancini-to-chart mapping prompt
+- `prompts/premarket/mancini-chart-map.md` - Create Mancini level mapping prompt
 
-### Documents to Archive/Consolidate
-- Technical integration information from various WIP documents
+### Documents to Extract From
+- `requirements/wip/2025-05-13 - trading-session-review.md`
+- `requirements/wip/sop-intraday-feedback MORE.md`
 
 ## 7. Knowledge Base Structure
 
@@ -115,13 +119,16 @@ After reviewing your repository structure from `tree.txt` and comparing it with 
 
 ### Documents to Create
 - `knowledge/market-regimes.md` - Formal market condition classifications
+- `knowledge/strategic-playbooks/` - New directory for strategic playbooks
 - `knowledge/strategic-playbooks/trend-day.md` - Strategy for trend days
 - `knowledge/strategic-playbooks/range-day.md` - Strategy for range days
 - `knowledge/strategic-playbooks/rotation-day.md` - Strategy for rotation days
 - `knowledge/strategic-playbooks/headline-event.md` - Strategy for news-driven markets
 
-### Documents to Archive/Consolidate
-- None needed - existing knowledge base is well-structured but needs expansion
+### Documents to Extract From
+- `requirements/wip/20205-05-13 - eod-reflection.md`
+- `requirements/wip/consolidated-trading-debrief.md`
+- `requirements/wip/2025-05-13 - trading-session-review.md`
 
 ## 8. Prompt Library Organization
 
@@ -138,36 +145,36 @@ After reviewing your repository structure from `tree.txt` and comparing it with 
 - `prompts/premarket/mancini-chart-map.md` - Mancini level mapping prompt
 - `prompts/premarket/generate-pre-staged-analysis.md` - Previous day prep prompt
 
-### Documents to Archive/Consolidate
-- None needed - prompt library is well-organized but needs expansion
+### Documents to Extract From
+- `requirements/wip/2025-05-13 - trading-session-review.md`
+- `requirements/wip/sop-intraday-feedback.md`
 
 ## 9. Execution Workflow Optimization
 
-### Existing Documents to Update
-- None directly addressing this framework exists
-
 ### Documents to Create
+- `system/execution/` - New directory for execution workflow framework
 - `system/execution/plan-to-execution.md` - Bridge between planning and execution
 - `system/execution/real-time-adaptation.md` - Framework for adapting to changing conditions
 - `system/execution/cognitive-load.md` - Cognitive load management strategies
 - `prompts/intraday/copilot-recenter.md` - Prompt for cognitive recentering
 
-### Documents to Archive/Consolidate
-- Execution workflow information from various WIP documents
+### Documents to Extract From
+- `requirements/wip/2025-05-13 - coaching-feedback.md`
+- `requirements/wip/consolidated-trading-debrief.md`
 
 ## 10. System Development Roadmap
 
 ### Existing Documents to Update
-- `docs/requirements/requirements-github-issues.md` - Updated with new GitHub issue structure
+- `requirements/requirements-github-issues.md` - Updated with new GitHub issue structure
 
 ### Documents to Create
 - `docs/roadmap.md` - Comprehensive development roadmap
 - `docs/milestones.md` - Defined development milestones
 - `docs/priorities.md` - Implementation priority list
 
-### Documents to Archive/Consolidate
-- Consolidate roadmap information from various WIP documents
-- `docs/requirements/wip/*.md` - After extracting information, these should be archived
+### Documents to Extract From
+- `requirements/wip-consolidation plan.md`
+- `requirements/wip/2025-05-13 - consolidated-eod-requirements.md`
 
 ## 11. Implementation Requirements
 
@@ -181,22 +188,21 @@ After reviewing your repository structure from `tree.txt` and comparing it with 
 - `system/schemas/status.json` - Schema for status updates
 - `system/schemas/moderator-signal.json` - Schema for moderator signals
 
-### Documents to Archive/Consolidate
-- None needed - implementation requirements are well-structured but need expansion
-
 ## 12. Cognitive Enhancement Features
 
 ### Existing Documents to Update
 - `knowledge/trade-psychology.md` - Update with cognitive enhancement strategies
 
 ### Documents to Create
+- `knowledge/cognitive-tools/` - New directory for cognitive tools
 - `knowledge/cognitive-tools/orientation.md` - Orientation tools documentation
 - `knowledge/cognitive-tools/decision-quality.md` - Decision quality enhancement strategies
 - `knowledge/cognitive-tools/pattern-recognition.md` - Pattern recognition development guide
 - `prompts/intraday/cognitive-reset.md` - Prompt for cognitive reset procedure
 
-### Documents to Archive/Consolidate
-- Cognitive enhancement information from various WIP documents
+### Documents to Extract From
+- `requirements/wip/2025-05-13 - coaching-feedback.md`
+- `requirements/wip/consolidated-trading-debrief.md`
 
 ## 13. Daily Workflow Integration
 
@@ -208,14 +214,15 @@ After reviewing your repository structure from `tree.txt` and comparing it with 
 - `system/workflows/intraday-management.md` - Intraday management cycle
 - `system/workflows/learning-cycle.md` - Learning and improvement cycle
 
-### Documents to Archive/Consolidate
-- Workflow information from various WIP documents
+### Documents to Extract From
+- `requirements/wip/2025-05-13 - trading-session-review.md`
+- `requirements/wip/consolidated-trading-debrief.md`
 
 ---
 
 ## Comprehensive Action Plan
 
-Based on the above analysis and incorporating insights from architectural-review.md, audit-v0.4.0.md, and v0.4.1-documentation.md, here's a prioritized action plan to optimize your repository:
+Based on the above analysis, here's a prioritized action plan to optimize your repository:
 
 ### Phase 1: Core Framework Updates
 
@@ -318,8 +325,8 @@ For this chat, we'll focus on GROUP_NAME updates. Please help me:
 
 ## Source WIP Notes
 The information for these updates comes primarily from:
-- `docs/requirements/wip/2025-05-13 - trading-session-review.md` (for status tracking)
-- `docs/requirements/wip/sop-intraday-feedback.md` (for SOP updates)
+- `requirements/wip/2025-05-13 - trading-session-review.md` (for status tracking)
+- `requirements/wip/sop-intraday-feedback.md` (for SOP updates)
 - [Add other specific source documents relevant to this group]
 
 ## Files to Update in This Chat
@@ -362,22 +369,22 @@ For maximum efficiency before starting chats:
 ### Specific Source-to-Destination Mapping
 
 **Core Framework Updates**
-- `sop.md`: Source from `sop-intraday-feedback.md` and `trading-session-review.md`
-- `status-tracking/framework.md`: Source from `trading-session-review.md` and `backlog feedback intraday.md`
+- `sop.md`: Source from `requirements/sop-intraday-feedback.md` and `requirements/wip/2025-05-13 - trading-session-review.md`
+- `status-tracking/framework.md`: Source from `requirements/wip/2025-05-13 - trading-session-review.md` and `requirements/wip/2025-05-13 - backlog feedback intraday.md`
 - `main-controller.md`: Source from existing routes and new requirements
 - `registry.yaml`: Mirror updates from main-controller.md
 
 **Prompt Creation**
-- `status-update.md`: Source from `trading-session-review.md`
-- `chart-analysis.md`: Source from `sop-intraday-feedback.md`
-- `midday-reset.md`: Source from `sop.md` invalidation triggers
+- `status-update.md`: Source from `requirements/wip/2025-05-13 - trading-session-review.md`
+- `chart-analysis.md`: Source from `requirements/sop-intraday-feedback.md`
+- `midday-reset.md`: Source from `system/sop.md` invalidation triggers
 - `sizing-rules.md`: Source from position sizing matrix in WIP notes
 
 **Knowledge & Workflow Updates**
-- `trade-psychology.md`: Source from `coaching-feedback.md`
-- `mancini-insights.md`: Source from `trading-session-review.md` and `eod-reflection.md`
-- `risk-management/protocols.md`: Source from risk protocols in `sop.md`
-- `workflows/intraday-management.md`: Source from `trading-session-review.md`
+- `trade-psychology.md`: Source from `requirements/wip/2025-05-13 - coaching-feedback.md`
+- `mancini-insights.md`: Source from `requirements/wip/2025-05-13 - trading-session-review.md` and `requirements/wip/20205-05-13 - eod-reflection.md`
+- `risk-management/protocols.md`: Source from risk protocols in `system/sop.md`
+- `workflows/intraday-management.md`: Source from `requirements/wip/2025-05-13 - trading-session-review.md`
 
 ## Immediate Next Steps
 
@@ -386,5 +393,3 @@ For maximum efficiency before starting chats:
 3. Update the Main Controller with new routes
 4. Create the most critical missing prompts (`status-update.md`, `chart-analysis.md`)
 5. Update knowledge bases with insights from May 13 trading session
-
-This optimized plan leverages the existing architectural strengths identified in the audit report (modularity, metadata enforcement, knowledge system) while enhancing the system with the new capabilities identified from your trading session feedback. The cognitive-deterministic separation pattern from architectural-review.md provides an excellent foundation for the new status tracking and moderator signal frameworks.
