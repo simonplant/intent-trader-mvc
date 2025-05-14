@@ -1,22 +1,35 @@
 .
 ├── CHANGELOG.md
-├── config
-│   └── app-config.js
 ├── CONTRIBUTING.md
 ├── docs
-│   └── audit-v0.4.0.md
+│   ├── architectural-review.md
+│   ├── audit-v0.4.0.md
+│   ├── requirements
+│   │   ├── requirements-github-issues.md
+│   │   ├── requirements.json
+│   │   ├── templates
+│   │   │   ├── enhanced-requirements-analysis.md
+│   │   │   ├── enhanced-requirements-csv.txt
+│   │   │   ├── github-import-csv.txt
+│   │   │   └── requirements.json
+│   │   └── wip
+│   │       ├── 20205-05-13 - eod-reflection.md
+│   │       ├── 2025-05-13 - backlog feedback intraday.md
+│   │       ├── 2025-05-13 - coaching-feedback.md
+│   │       ├── 2025-05-13 - consolidated-eod-requirements.md
+│   │       ├── 2025-05-13 - trading-session-review.md
+│   │       ├── claude-eod-analysis-unstructured.md
+│   │       ├── consolidated-trading-debrief.md
+│   │       ├── sop-intraday-feedback MORE.md
+│   │       └── sop-intraday-feedback.md
+│   ├── system-docs
+│   │   ├── architecture-overview.md
+│   │   ├── github-configs.md
+│   │   ├── github-setup-guide.md
+│   │   └── labels.json
+│   └── v0.4.1-documentation.md
 ├── intent-trader.code-workspace
 ├── js
-│   ├── command-router.js
-│   ├── data-pipeline.js
-│   ├── direction-extractor.js
-│   ├── logger.js
-│   ├── pattern-detector.js
-│   ├── schema-registry.js
-│   ├── size-creep-detector.js
-│   ├── technical-alignment-scorer.js
-│   ├── text-analyzer.js
-│   └── trade-plan-generator.js
 ├── knowledge
 │   ├── dp-insights.md
 │   ├── future-vision.md
@@ -77,21 +90,27 @@
 │   │   └── performance-coach.md
 │   ├── premarket
 │   │   ├── dp-analysis.md
-│   │   └── stack-rank-trades.md
+│   │   ├── mancini-analysis.md
+│   │   ├── stack-rank-trades.md
+│   │   └── unified-trade-plan.md
 │   └── system
 │       └── sizing-rules.md
 ├── README.md
+├── requirements
+│   └── sop-intraday-feedback.md
+├── scripts
+│   ├── import-github-labels.json
+│   └── import-github-labels.sh
 ├── system
-│   ├── daily-template.md
+│   ├── chart-legend.md
 │   ├── main-controller.md
 │   ├── metadata-style.md
 │   ├── registry.yaml
-│   └── setup-notes.md
+│   ├── setup-notes.md
+│   └── sop.md
 ├── tests
-│   ├── dp-analyzer-test-suite.js
-│   ├── test-framework.js
 │   ├── validate-metadata.py
 │   └── verify-log-schema.py
 └── tree.txt
 
-22 directories, 73 files
+27 directories, 87 files
