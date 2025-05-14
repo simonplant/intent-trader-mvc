@@ -1,47 +1,72 @@
 ---
-# Template for new prompts in Intent Trader
-# Fill in all required frontmatter fields
-
-id: your-prompt-id            # e.g. morning-scan
-version: "1.0.0"
-type: prompt                  # prompt | reference | system | blueprint | etc.
-created: YYYY-MM-DDTHH:MM:SSZ
-updated: YYYY-MM-DDTHH:MM:SSZ
-cognitiveLoad: MEDIUM         # LOW | MEDIUM | HIGH
-requiresConfirmation: true    # true if prompt affects state or action
+id: your-prompt-id
+title: Your Prompt Title
+description: Describe what this prompt does in 1–2 sentences.
+author: Simon Plant
+version: 1.0.0
+release: 0.5.0
+created: YYYY-MM-DD
+updated: YYYY-MM-DD
+category: system
+status: draft
+tags: [prompt, validation, template]
+requires: []
+outputs: []
+input_format: prompt
+output_format: markdown
+ai_enabled: true
 ---
 
-# Prompt Title
+# Prompt Name (e.g., Validate Trade Intent)
 
-## Inputs
-- List all required input values and types
+This prompt is responsible for...
 
-## Processing Logic
-- What the prompt does with inputs
-- Decision rules, filters, etc.
+---
+
+## Input Format
+
+```json
+{
+  "symbol": "AAPL",
+  "idea": "Momentum breakout",
+  "entry": 188.50,
+  "stop": 187.00,
+  "target": 192.00
+}
+```
+
+---
 
 ## Output Format
+
 ```json
 {
-  "exampleField": "value"
+  "valid": true,
+  "reasons": ["Momentum confirmed", "Within blueprint scope"],
+  "action": "Consider long with full position"
 }
 ```
 
-## Test Vector
+---
+
+## Test Input
+
+Paste this into ChatGPT or your runner to validate:
+
 ```json
 {
-  "input1": "value",
-  "input2": 123
+  "symbol": "TSLA",
+  "idea": "Failed breakdown at 600 with reclaim",
+  "entry": 602,
+  "stop": 598,
+  "target": 615
 }
 ```
 
-## Expected Output
-```json
-{
-  "output1": "result"
-}
-```
+---
 
-## References
-- system/schemas/your-schema.json
-- system/blueprints/structure.md
+## Related Files
+
+- `status-update.md`
+- `blueprint.schema.json`
+- `command-map.md`
