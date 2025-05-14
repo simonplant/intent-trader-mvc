@@ -1,3 +1,17 @@
+---
+title: Repository Analysis and Optimization Plan
+description: Comprehensive plan for updating and expanding the Intent Trader system.
+phase: system
+route: 
+output: raw
+style:
+  decorate: false
+  emojis: false
+  tone: direct
+  format: text/plain
+tags: [planning, architecture, optimization, roadmap]
+version: 0.4.1
+---
 # Intent Trader Repository Analysis and Optimization Plan
 
 After reviewing your repository structure from `tree.txt` and comparing it with the information categories we've identified, I'll provide a comprehensive analysis of what exists, what needs updating, what should be created, and what might be archived.
@@ -7,16 +21,17 @@ After reviewing your repository structure from `tree.txt` and comparing it with 
 ### Existing Documents to Update
 - `system/main-controller.md` - Update to include new routes like `/status-update`, `/chart-analysis`, etc.
 - `system/registry.yaml` - Update with all new command routes
-- `docs/architectural-review.md` - Enhance with the two-tier processing architecture
-- `docs/system-docs/architecture-overview.md` - Consolidate architecture information
+- `docs/architectural-review.md` - Enhanced with cognitive-deterministic separation pattern already defined
+- `docs/system-docs/architecture-overview.md` - Consolidate with two-tier processing architecture
 
 ### Documents to Create
-- `system/data-architecture.md` - Formalize the two-tier (System/Human) data architecture
+- `system/data-architecture.md` - Formalize the two-tier (System/Human) data architecture from architectural-review.md
 - `system/interfaces.md` - Define the Command, Knowledge, Execution, and Analytics interfaces
 - `system/component-interactions.md` - Document how components interact with each other
 
 ### Documents to Archive/Consolidate
-- Potentially consolidate duplicative architecture information between `docs/architectural-review.md` and `docs/system-docs/architecture-overview.md`
+- Consolidate duplicative architecture information between `docs/architectural-review.md` and `docs/system-docs/architecture-overview.md`
+- Extract clean version of architecture diagram from v0.4.1-documentation.md for reuse
 
 ## 2. Standard Operating Procedures (SOP)
 
@@ -111,7 +126,7 @@ After reviewing your repository structure from `tree.txt` and comparing it with 
 ## 8. Prompt Library Organization
 
 ### Existing Documents to Update
-- Update all existing prompts with standardized front matter
+- Update all existing prompts with standardized front matter from `system/metadata-style.md`
 - `prompts/premarket/*.md` - Update all premarket prompts to support new features
 - `prompts/intraday/*.md` - Update intraday prompts with status tracking integration
 - `prompts/postmarket/*.md` - Update postmarket prompts with enhanced analysis
@@ -143,7 +158,7 @@ After reviewing your repository structure from `tree.txt` and comparing it with 
 ## 10. System Development Roadmap
 
 ### Existing Documents to Update
-- `docs/requirements/requirements-github-issues.md` - Update with latest priorities
+- `docs/requirements/requirements-github-issues.md` - Updated with new GitHub issue structure
 
 ### Documents to Create
 - `docs/roadmap.md` - Comprehensive development roadmap
@@ -157,7 +172,7 @@ After reviewing your repository structure from `tree.txt` and comparing it with 
 ## 11. Implementation Requirements
 
 ### Existing Documents to Update
-- `system/metadata-style.md` - Ensure it covers all metadata requirements
+- `system/metadata-style.md` - Updated with v0.4.1 version number
 - `tests/validate-metadata.py` - Update to validate new metadata requirements
 
 ### Documents to Create
@@ -200,7 +215,7 @@ After reviewing your repository structure from `tree.txt` and comparing it with 
 
 ## Comprehensive Action Plan
 
-Based on the above analysis, here's a prioritized action plan to optimize your repository:
+Based on the above analysis and incorporating insights from architectural-review.md, audit-v0.4.0.md, and v0.4.1-documentation.md, here's a prioritized action plan to optimize your repository:
 
 ### Phase 1: Core Framework Updates
 
@@ -372,4 +387,4 @@ For maximum efficiency before starting chats:
 4. Create the most critical missing prompts (`status-update.md`, `chart-analysis.md`)
 5. Update knowledge bases with insights from May 13 trading session
 
-This optimized plan provides a structured approach to updating your repository while minimizing the risk of hitting chat limits during implementation. By focusing on functional groups rather than individual files, and providing precise source-to-destination mappings, you can efficiently consolidate your WIP notes into proper system documentation.
+This optimized plan leverages the existing architectural strengths identified in the audit report (modularity, metadata enforcement, knowledge system) while enhancing the system with the new capabilities identified from your trading session feedback. The cognitive-deterministic separation pattern from architectural-review.md provides an excellent foundation for the new status tracking and moderator signal frameworks.

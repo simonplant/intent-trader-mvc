@@ -2,32 +2,12 @@
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
 ├── docs
-│   ├── architectural-review.md
-│   ├── audit-v0.4.0.md
 │   ├── requirements
-│   │   ├── requirements-github-issues.md
-│   │   ├── requirements.json
-│   │   ├── templates
-│   │   │   ├── enhanced-requirements-analysis.md
-│   │   │   ├── enhanced-requirements-csv.txt
-│   │   │   ├── github-import-csv.txt
-│   │   │   └── requirements.json
-│   │   └── wip
-│   │       ├── 20205-05-13 - eod-reflection.md
-│   │       ├── 2025-05-13 - backlog feedback intraday.md
-│   │       ├── 2025-05-13 - coaching-feedback.md
-│   │       ├── 2025-05-13 - consolidated-eod-requirements.md
-│   │       ├── 2025-05-13 - trading-session-review.md
-│   │       ├── claude-eod-analysis-unstructured.md
-│   │       ├── consolidated-trading-debrief.md
-│   │       ├── sop-intraday-feedback MORE.md
-│   │       └── sop-intraday-feedback.md
-│   ├── system-docs
-│   │   ├── architecture-overview.md
-│   │   ├── github-configs.md
-│   │   ├── github-setup-guide.md
-│   │   └── labels.json
-│   └── v0.4.1-documentation.md
+│   └── system-docs
+│       ├── architecture-overview.md
+│       ├── github-configs.md
+│       ├── github-setup-guide.md
+│       └── v0.4.1-documentation.md
 ├── intent-trader.code-workspace
 ├── js
 ├── knowledge
@@ -97,7 +77,26 @@
 │       └── sizing-rules.md
 ├── README.md
 ├── requirements
-│   └── sop-intraday-feedback.md
+│   ├── requirements-github-issues.md
+│   ├── sop-intraday-feedback.md
+│   ├── templates
+│   │   ├── enhanced-requirements-analysis.md
+│   │   ├── enhanced-requirements-csv.txt
+│   │   ├── github-import-csv.txt
+│   │   └── requirements.json
+│   ├── wip
+│   │   ├── 20205-05-13 - eod-reflection.md
+│   │   ├── 2025-05-13 - backlog feedback intraday.md
+│   │   ├── 2025-05-13 - coaching-feedback.md
+│   │   ├── 2025-05-13 - consolidated-eod-requirements.md
+│   │   ├── 2025-05-13 - trading-session-review.md
+│   │   ├── architectural-review.md
+│   │   ├── audit-v0.4.0.md
+│   │   ├── claude-eod-analysis-unstructured.md
+│   │   ├── consolidated-trading-debrief.md
+│   │   ├── sop-intraday-feedback MORE.md
+│   │   └── sop-intraday-feedback.md
+│   └── wip-consolidation plan.md
 ├── scripts
 │   ├── import-github-labels.json
 │   └── import-github-labels.sh
@@ -113,4 +112,4 @@
 │   └── verify-log-schema.py
 └── tree.txt
 
-27 directories, 87 files
+27 directories, 86 files
