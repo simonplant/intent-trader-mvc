@@ -10,11 +10,12 @@ style:
   tone: direct
   format: text/plain
 tags: [planning, architecture, optimization, roadmap]
-version: 0.2
+version: 0.2.2
 ---
+
 # Intent Trader Repository Analysis and Optimization Plan
 
-Based on your updated repository structure and the identified information categories, I'll provide a revised analysis of what exists, what needs updating, what should be created, and what might be archived.
+Based on your updated repository structure and the identified information categories, I'll provide a revised analysis of what exists, what needs updating, what should be created, and what might be archived. This plan incorporates critical feedback to ensure practical, effective implementation.
 
 ## 1. System Architecture Components
 
@@ -220,176 +221,139 @@ Based on your updated repository structure and the identified information catego
 
 ---
 
-## Comprehensive Action Plan
+## Revised Implementation Strategy
 
-Based on the above analysis, here's a prioritized action plan to optimize your repository:
+Based on critical feedback analysis, the implementation approach has been significantly revised to focus on functionality first and address key dependencies:
 
-### Phase 1: Core Framework Updates
+### Phase 0: Preparation (Day 1)
 
-1. **Update SOP**
-   - Merge `system/sop.md` with insights from `requirements/sop-intraday-feedback.md`
-   - Add Intraday Reorientation Protocol
-   - Add Enhanced Risk Management Protocols
-   - Add Status Tracking Framework overview
+1. **Create Directory Structure**
+   - Create all required directories (`system/status-tracking/`, `system/protocols/`, etc.)
+   - Validate directory permissions and access
 
-2. **Create Status Tracking Framework**
-   - Create `system/status-tracking/framework.md`
-   - Create `prompts/intraday/status-update.md`
-   - Add status transition rules to `system/status-tracking/transitions.md`
+2. **Metadata Templates**
+   - Create templates for each document type with standardized front matter
+   - Test front matter validation with existing scripts
 
-3. **Update Main Controller**
-   - Update `system/main-controller.md` with new routes
-   - Update `system/registry.yaml` with new command definitions
-   - Create missing prompts for key commands
+3. **Dependency Mapping**
+   - Create explicit dependency graph between components
+   - Reorder implementation based on dependencies
 
-### Phase 2: Knowledge Enhancement
+### Phase 1: Minimum Viable Components (Week 1)
 
-1. **Update Knowledge Bases**
-   - Enhance `knowledge/dp-insights.md` and `knowledge/mancini-insights.md`
-   - Create `knowledge/market-regimes.md`
-   - Update `knowledge/patterns-and-setups.md` with taxonomy
+1. **Status Update Prompt (MVP)**
+   - Create simplified `prompts/intraday/status-update.md` with core categories
+   - Update controller with route
+   - Create basic test case with sample trade ideas
 
-2. **Create Technical Framework**
-   - Update `system/chart-legend.md` with pattern taxonomy
-   - Create `system/technical-framework/pattern-recognition.md`
-   - Create `system/technical-framework/mancini-integration.md`
+2. **Intraday Reorientation Process (MVP)**
+   - Add minimal section to `system/sop.md` with core process
+   - Implement timer-based reminder system
+   - Create checklist template for reorientation
 
-3. **Develop Risk Framework**
-   - Create `system/risk-management/position-sizing.md`
-   - Update `prompts/system/sizing-rules.md`
-   - Create risk protocol documents
+3. **Trial Day Testing**
+   - Test MVP components in simulated trading day
+   - Document effectiveness and improvement areas
 
-### Phase 3: Workflow Optimization
+### Phase 2: Framework Documentation (Week 2)
 
-1. **Execution Optimization**
-   - Create `system/execution/plan-to-execution.md`
-   - Create `system/execution/cognitive-load.md`
-   - Create `prompts/intraday/cognitive-reset.md`
+1. **Status Tracking Framework**
+   - Create comprehensive `system/status-tracking/framework.md`
+   - Document transition rules based on MVP experience
+   - Expand status update prompt with technical context
 
-2. **Cognitive Enhancement**
-   - Update `knowledge/trade-psychology.md`
-   - Create cognitive tools documentation
-   - Create decision quality framework
+2. **Reorientation Protocol**
+   - Develop detailed `system/protocols/intraday-reorientation.md`
+   - Refine process based on trial day feedback
+   - Add chart context integration section
 
-3. **Daily Workflow**
-   - Create `system/workflows/morning-blueprint.md`
-   - Create `system/workflows/intraday-management.md`
-   - Create `system/workflows/learning-cycle.md`
+3. **Integration Checkpoint**
+   - Verify all components work together as expected
+   - Update controller and registry with final routes
 
-### Phase 4: Cleanup and Consolidation
+### Phase 3: Advanced Components (Weeks 3-4)
 
-1. **Archive WIP Documents**
-   - After extracting all valuable information, archive WIP documents
-   - Move processed WIP files to an `archive` directory
+1. **Moderator Signal Framework**
+   - Implement based on insights from initial trial days
+   - Start with simpler classification before adding weighting
+   - Integrate with status tracking system
 
-2. **Standardize Documentation**
-   - Ensure consistent formatting across all documents
-   - Validate front matter with updated test scripts
-   - Update JSON schemas for all data types
+2. **Technical Framework Integration**
+   - Update with focus on real-world pattern recognition
+   - Add Mancini level mapping based on verified effectiveness
+   - Create chart analysis prompt with practical focus
 
-3. **Update Development Roadmap**
-   - Create comprehensive `docs/roadmap.md`
-   - Define implementation priorities
-   - Create milestone definitions
+3. **Final Integration**
+   - Comprehensive testing of all components together
+   - Document integration patterns and dependencies
+   - Create user guide for daily workflow
 
----
+## Implementation Conversation Structure
 
-## Optimized Implementation Strategy
-
-For efficient implementation and to avoid chat length limits, use this advanced approach:
-
-### File Grouping by Function
-
-**Chat 1: Core Framework Updates**
-- `system/sop.md` + `system/status-tracking/framework.md` (combined request)
-- `system/main-controller.md` + `system/registry.yaml` (combined request)
-
-**Chat 2: Prompt Creation**
-- `prompts/intraday/status-update.md` + `prompts/intraday/chart-analysis.md` (combined request)
-- `prompts/intraday/midday-reset.md` + `prompts/system/sizing-rules.md` (combined request)
-
-**Chat 3: Knowledge & Workflow Updates**
-- `knowledge/trade-psychology.md` + `knowledge/mancini-insights.md` (combined request)
-- `system/risk-management/protocols.md` + `system/workflows/intraday-management.md` (combined request)
-
-### Enhanced Prompt Template for New Chats
+For each implementation phase, use this structured conversation format:
 
 ```
-I need help optimizing my Intent Trader trading system repository. I'll provide key files that need updating based on insights from my recent trading sessions.
+I need help implementing [Component Name] for my Intent Trader system.
 
-For this chat, we'll focus on GROUP_NAME updates. Please help me:
+## Background Context
+[2-3 sentences describing the problem this component solves]
 
-1. Update existing files with new content while maintaining their format structure
-2. Create critical new files based on my requirements
-3. Consolidate information from specific WIP notes into proper documentation
+## Key Source Documents
+1. [Document name] - [Specific sections to reference]
+2. [Document name] - [Specific sections to reference]
 
-## Source WIP Notes
-The information for these updates comes primarily from:
-- `requirements/wip/2025-05-13 - trading-session-review.md` (for status tracking)
-- `requirements/wip/sop-intraday-feedback.md` (for SOP updates)
-- [Add other specific source documents relevant to this group]
+## Files to Create/Update
+1. [File path] - [Brief description]
+2. [File path] - [Brief description]
 
-## Files to Update in This Chat
+## For [File 1]:
+[Any existing content or template with front matter]
 
-[File 1 contents]
----
-[File 2 contents]
----
+## Specific Requirements
+1. [Requirement 1]
+2. [Requirement 2]
+3. [Requirement 3]
 
-## Requested Updates
-
-For [File 1]:
-- [Specific change 1]
-- [Specific change 2]
-- [Etc.]
-
-For [File 2]:
-- [Specific change 1]
-- [Specific change 2]
-- [Etc.]
-
-Please provide ONLY the complete updated content for each file without explanations between files.
-If creating a new file, begin with "===NEW FILE: [filename]===" before the content.
-For existing file updates, simply provide the complete updated file content.
+Please implement these files following the standard Intent Trader documentation format with proper front matter. For new files, ensure they follow the directory structure conventions.
 ```
 
-### Pre-Processing Efficiency
+## Key Implementation Principles
 
-For maximum efficiency before starting chats:
-- Extract and compile only the relevant sections from WIP documents for each chat
-- Create "diff templates" highlighting exactly which sections need changes rather than sending entire files
-- Prepare skeleton templates for all new files with front matter already populated
+Based on critical analysis, these principles will guide all implementation work:
 
-### Implementation Strategy
+1. **Functionality Before Documentation**
+   - Create working components before extensive documentation
+   - Use real trading sessions to validate effectiveness
 
-1. **Bootstrap Chat** - Request only the absolutely essential framework files to get started
-2. **Parallel Work Chats** - Once core files are complete, run multiple parallel chats for independent components
-3. **Integration Chat** - Final chat to ensure cross-referencing and consistency
+2. **Incremental Complexity**
+   - Start with simplified MVP versions
+   - Add complexity based on validated needs
 
-### Specific Source-to-Destination Mapping
+3. **Integration-Focused Development**
+   - Test components together, not just individually
+   - Document integration patterns explicitly
 
-**Core Framework Updates**
-- `sop.md`: Source from `requirements/sop-intraday-feedback.md` and `requirements/wip/2025-05-13 - trading-session-review.md`
-- `status-tracking/framework.md`: Source from `requirements/wip/2025-05-13 - trading-session-review.md` and `requirements/wip/2025-05-13 - backlog feedback intraday.md`
-- `main-controller.md`: Source from existing routes and new requirements
-- `registry.yaml`: Mirror updates from main-controller.md
+4. **Balanced Technical-Cognitive Approach**
+   - Equal emphasis on mechanical and psychological aspects
+   - Create tools for both process and mental management
 
-**Prompt Creation**
-- `status-update.md`: Source from `requirements/wip/2025-05-13 - trading-session-review.md`
-- `chart-analysis.md`: Source from `requirements/sop-intraday-feedback.md`
-- `midday-reset.md`: Source from `system/sop.md` invalidation triggers
-- `sizing-rules.md`: Source from position sizing matrix in WIP notes
+5. **Clear Dependencies**
+   - Recognize and document component dependencies
+   - Order implementation based on these dependencies
 
-**Knowledge & Workflow Updates**
-- `trade-psychology.md`: Source from `requirements/wip/2025-05-13 - coaching-feedback.md`
-- `mancini-insights.md`: Source from `requirements/wip/2025-05-13 - trading-session-review.md` and `requirements/wip/20205-05-13 - eod-reflection.md`
-- `risk-management/protocols.md`: Source from risk protocols in `system/sop.md`
-- `workflows/intraday-management.md`: Source from `requirements/wip/2025-05-13 - trading-session-review.md`
+## Success Metrics
+
+Implementation success will be measured through:
+
+1. **Reorientation Time** - Target: 50% reduction in time needed to regain orientation
+2. **Missed Opportunity Rate** - Target: Eliminate instances of missed opportunities due to disorientation
+3. **Execution Quality** - Target: Improve execution quality metrics following periods of high cognitive load
+4. **Mode Recognition Time** - Target: Identify day character (Mode 1, etc.) within first 30 minutes of trading
 
 ## Immediate Next Steps
 
-1. Update `system/sop.md` with the Intraday Reorientation Protocol from feedback documents
-2. Create the Status Tracking Framework documentation
-3. Update the Main Controller with new routes
-4. Create the most critical missing prompts (`status-update.md`, `chart-analysis.md`)
-5. Update knowledge bases with insights from May 13 trading session
+1. Create directory structure for all new components
+2. Develop metadata templates for each document type
+3. Create the Status Update MVP prompt and update controller
+4. Add minimal Intraday Reorientation Process to SOP
+5. Schedule first trial day to test MVP components
