@@ -2,7 +2,6 @@
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
 ├── docs
-│   ├── requirements
 │   └── system-docs
 │       ├── architecture-overview.md
 │       ├── github-configs.md
@@ -112,4 +111,4 @@
 │   └── verify-log-schema.py
 └── tree.txt
 
-27 directories, 86 files
+26 directories, 86 files
