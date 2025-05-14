@@ -1,0 +1,111 @@
+.
+├── changelog.md
+├── config
+│   └── risk-rules.json
+├── docs
+│   ├── commands.md
+│   ├── developer-handbook.md
+│   ├── how-to
+│   │   ├── add-a-plugin.md
+│   │   ├── chatgpt-boot.md
+│   │   ├── create-a-prompt.md
+│   │   ├── respond-to-events.md
+│   │   ├── review-execution.md
+│   │   └── run-daily-session.md
+│   ├── MAINTENANCE_GUIDE.md
+│   ├── README.md
+│   ├── requirements.md
+│   └── system-architecture.md
+├── INSTALL.md
+├── intent-trader.code-workspace
+├── logs
+│   ├── mental-state.json
+│   ├── performance-summary.md
+│   ├── releases
+│   │   └── v0.5.0.md
+│   ├── test-session-output.json
+│   └── trade-log.json
+├── prompts
+│   ├── intraday
+│   │   ├── chart-analysis.md
+│   │   ├── cognitive-reset.md
+│   │   ├── midday-reset.md
+│   │   └── status-update.md
+│   ├── postmarket
+│   │   ├── compare-execution.md
+│   │   ├── mental-check.md
+│   │   ├── missed-trades.md
+│   │   └── trade-review.md
+│   ├── premarket
+│   │   └── morning-blueprint.md
+│   └── system
+│       ├── prompt-linter.md
+│       └── route-analyzer.md
+├── README_DEV.md
+├── README.md
+├── simulations
+│   ├── engine.md
+│   └── mock-logs
+│       └── README.md
+├── state
+│   └── session-manifest.json
+├── system
+│   ├── blueprints
+│   │   ├── adaptation.md
+│   │   ├── extraction-source-map.json
+│   │   ├── generation.md
+│   │   └── structure.md
+│   ├── chart-legend.md
+│   ├── cognitive
+│   │   ├── adaptation-matrix.md
+│   │   ├── load-calculation.md
+│   │   └── state-tracking.md
+│   ├── learning
+│   │   ├── improvement-feedback.md
+│   │   ├── replay-engine.md
+│   │   └── replay-runner.js
+│   ├── market-calendar.md
+│   ├── prompts
+│   │   └── new-prompt-checklist.md
+│   ├── protocols
+│   │   └── cognitive-reset.md
+│   ├── risk-profile.md
+│   ├── schemas
+│   │   └── trade-log.schema.json
+│   ├── status-tracking
+│   │   ├── framework.md
+│   │   ├── transitions.md
+│   │   └── visualization.md
+│   ├── systemops
+│   │   ├── api-contracts.md
+│   │   ├── command-map.md
+│   │   ├── entrypoint.md
+│   │   ├── plugin-dispatcher.js
+│   │   ├── plugin-registry.json
+│   │   ├── plugin-registry.md
+│   │   ├── runtime-agent.md
+│   │   ├── runtime-engine.md
+│   │   └── validator.md
+│   ├── technical-framework
+│   │   ├── level-significance.md
+│   │   ├── mancini-integration.md
+│   │   └── pattern-recognition.md
+│   ├── templates
+│   │   ├── front-matter-template.md
+│   │   └── prompt-scaffold.md
+│   └── workflows
+│       └── status-update-cycle.md
+├── tests
+│   ├── bootstrap-test.js
+│   ├── bootstrap-test.md
+│   ├── full-session-test.md
+│   ├── metrics-analyzer.js
+│   ├── README.md
+│   ├── schema-validator.js
+│   ├── test-blueprint.js
+│   ├── test-replay.js
+│   ├── test-session-complete.js
+│   └── validate-schema.js
+└── tree.txt
+
+27 directories, 82 files
