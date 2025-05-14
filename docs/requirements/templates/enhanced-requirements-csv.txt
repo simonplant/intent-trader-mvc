@@ -1,0 +1,265 @@
+title,body,labels,milestone,assignee
+"ORI-01: Status Update Framework","## Description
+Implement the 'Already Triggered/Invalidated/Ready Soon/Not Close' categorization system for tracking trade status during intraday execution.
+
+## Acceptance Criteria
+- [ ] Create standard definitions for each status category
+- [ ] Implement status transition logic
+- [ ] Design visual display for status categories
+- [ ] Create command to generate status updates
+- [ ] Document status update workflow in SOP
+
+## Priority
+High","component:intraday,type:feature,priority:high","Intraday Execution",
+"ORI-02: Scheduled Reorientation Protocol","## Description
+Create formal process for regular status updates at 60-90 minute intervals to prevent disorientation during active trading.
+
+## Acceptance Criteria
+- [ ] Implement timer-based reminder mechanism
+- [ ] Create standardized reorientation checklist
+- [ ] Design quick-view dashboard for current trade status
+- [ ] Document protocol in SOP with specific steps
+- [ ] Develop process for recording orientation quality
+
+## Priority
+High","component:intraday,type:feature,priority:high","Intraday Execution",
+"ORI-03: Cognitive Reset Mechanism","## Description
+Develop standardized process for recovery from disorientation during fast market moves or information overload.
+
+## Acceptance Criteria
+- [ ] Define triggers for cognitive reset (feeling lost, confused, overwhelmed)
+- [ ] Create step-by-step reset protocol for quick reorientation
+- [ ] Design physical and/or digital reset tools
+- [ ] Implement emotional state tracking before/after reset
+- [ ] Document success metrics for reset effectiveness
+
+## Priority
+Medium","component:behavioral,type:feature,priority:medium","Behavioral Management",
+"MOD-01: Market Mode Classification System","## Description
+Create explicit criteria for identifying different market modes (Mode 1 'always up', Mode 2 'choppy range', etc.) based on Mancini framework.
+
+## Acceptance Criteria
+- [ ] Document characteristics of each market mode
+- [ ] Create detection algorithm/checklist for mode identification
+- [ ] Implement visual indicators for current market mode
+- [ ] Design early warning system for potential mode development
+- [ ] Document historical examples of each mode
+
+## Priority
+High","component:analysis,type:feature,priority:high","Market Analysis",
+"MOD-02: Mode-Specific Execution Protocols","## Description
+Develop tailored execution approaches for each market mode to optimize trading strategy based on market character.
+
+## Acceptance Criteria
+- [ ] Create specific entry criteria for each market mode
+- [ ] Define appropriate position sizing by mode
+- [ ] Implement profit-taking strategies optimized by mode
+- [ ] Design stop-loss approaches calibrated to mode volatility
+- [ ] Document mode-specific risk management guidelines
+
+## Priority
+Medium","component:strategy,type:feature,priority:medium","Trading Strategy",
+"MOD-03: Mode Transition Detection","## Description
+Create triggers to identify shifts between market modes to ensure timely adaptation of trading approach.
+
+## Acceptance Criteria
+- [ ] Define specific indicators of mode transitions
+- [ ] Create alert system for potential mode shifts
+- [ ] Implement tracking of transition frequency and characteristics
+- [ ] Design verification process for confirming mode changes
+- [ ] Document historical examples of mode transitions
+
+## Priority
+Medium","component:analysis,type:feature,priority:medium","Market Analysis",
+"SIG-01: Moderator Signal Tracking System","## Description
+Standardized format for tracking and weighting moderator actions to optimize information processing during active trading.
+
+## Acceptance Criteria
+- [ ] Create taxonomy of moderator signal types
+- [ ] Implement standardized recording format with timestamps
+- [ ] Design weighting system for signal importance
+- [ ] Develop consensus detection algorithm
+- [ ] Create visual dashboard for moderator positioning
+
+## Priority
+High","component:information,type:feature,priority:high","Information Management",
+"SIG-02: Signal Hierarchy Framework","## Description
+Create formal ranking of information sources during conflicts to resolve contradictory signals effectively.
+
+## Acceptance Criteria
+- [ ] Define hierarchy of information source authority
+- [ ] Create decision tree for resolving conflicting signals
+- [ ] Implement context-specific hierarchy adjustments
+- [ ] Design documentation format for hierarchy reasoning
+- [ ] Create examples of conflict resolution in common scenarios
+
+## Priority
+Medium","component:information,type:feature,priority:medium","Information Management",
+"SIG-03: Signal Decay Mechanism","## Description
+Implement temporal relevance for aging out older signals to maintain focus on current market conditions.
+
+## Acceptance Criteria
+- [ ] Define decay rates for different signal types
+- [ ] Create visual indication of signal freshness
+- [ ] Implement automatic aging of signals based on time
+- [ ] Design archive system for historical signals
+- [ ] Create rules for signal revival under specific conditions
+
+## Priority
+Low","component:information,type:feature,priority:low","Information Management",
+"TECH-01: Chart Legend Integration","## Description
+Create formal mapping between chart patterns and trade plans to enhance technical analysis integration.
+
+## Acceptance Criteria
+- [ ] Document chart pattern taxonomy aligned with trading style
+- [ ] Create visual legend for pattern identification
+- [ ] Implement mapping between patterns and trade setups
+- [ ] Design integration with trading plan generation
+- [ ] Create reference system for historical pattern examples
+
+## Priority
+Medium","component:technical,type:feature,priority:medium","Technical Analysis",
+"TECH-02: MA Relationship Context","## Description
+Integrate moving average context into trade planning to enhance technical decision-making framework.
+
+## Acceptance Criteria
+- [ ] Define key MA relationships and their significance
+- [ ] Create visualization system for MA patterns
+- [ ] Implement MA context integration with level analysis
+- [ ] Design MA pattern tracking across watchlist
+- [ ] Document historical effectiveness of MA relationships
+
+## Priority
+Medium","component:technical,type:feature,priority:medium","Technical Analysis",
+"TECH-03: Technical Exhaustion Detection","## Description
+Create criteria for identifying extended market conditions to improve risk management during extreme moves.
+
+## Acceptance Criteria
+- [ ] Define technical exhaustion indicators
+- [ ] Create multi-timeframe confirmation process
+- [ ] Implement alert system for potential exhaustion conditions
+- [ ] Design risk management protocols for exhaustion periods
+- [ ] Document historical examples of exhaustion patterns
+
+## Priority
+Low","component:technical,type:feature,priority:low","Technical Analysis",
+"EXEC-01: Explicit Entry Trigger Definition","## Description
+Standardized format for defining non-ambiguous entry conditions to bridge planning and execution gap.
+
+## Acceptance Criteria
+- [ ] Create structured format for entry trigger definition
+- [ ] Implement validation system for trigger clarity
+- [ ] Design visual indication of trigger proximity
+- [ ] Create logging system for trigger effectiveness
+- [ ] Document examples of well-defined vs. ambiguous triggers
+
+## Priority
+High","component:execution,type:feature,priority:high","Execution Improvement",
+"EXEC-02: Decision Boundary Framework","## Description
+Clear go/no-go criteria for different trade types to improve execution discipline and consistency.
+
+## Acceptance Criteria
+- [ ] Define decision boundaries for each trade type
+- [ ] Create checklist format for go/no-go decisions
+- [ ] Implement validation against plan alignment
+- [ ] Design override protocol for exceptional conditions
+- [ ] Document decision boundary effectiveness metrics
+
+## Priority
+Medium","component:execution,type:feature,priority:medium","Execution Improvement",
+"EXEC-03: Execution Window Optimization","## Description
+Defined optimal periods for trade execution based on market rhythm and liquidity patterns.
+
+## Acceptance Criteria
+- [ ] Analyze historical execution quality by time period
+- [ ] Define optimal execution windows for different setups
+- [ ] Create scheduling system for planned executions
+- [ ] Implement warnings for suboptimal execution times
+- [ ] Document execution window effectiveness
+
+## Priority
+Low","component:execution,type:feature,priority:low","Execution Improvement",
+"PREP-01: Mancini Pre-Staging Workflow","## Description
+Develop process for analyzing Mancini's noon newsletter and creating pre-staged analysis for next day trading.
+
+## Acceptance Criteria
+- [ ] Create template for Mancini level extraction
+- [ ] Implement standardized mapping to chart framework
+- [ ] Design pre-configuration process for ThinkorSwim charts
+- [ ] Create overnight checklist for level validation
+- [ ] Document process for merging with morning DP analysis
+
+## Priority
+High","component:premarket,type:feature,priority:high","Premarket Preparation",
+"PREP-02: Chart Legend to Mancini Level Mapping","## Description
+Create standardized mapping between Mancini levels and chart patterns to enhance technical integration.
+
+## Acceptance Criteria
+- [ ] Define mapping process for Mancini levels to chart elements
+- [ ] Create visualization system for level hierarchy
+- [ ] Implement MA proximity tracking for key levels
+- [ ] Design reference documentation format
+- [ ] Create historical examples of successful mappings
+
+## Priority
+Medium","component:premarket,type:feature,priority:medium","Premarket Preparation",
+"PREP-03: Decision Point Pre-Visualization","## Description
+Pre-configure charts with Mancini levels and decision points to optimize morning preparation.
+
+## Acceptance Criteria
+- [ ] Create standard for decision point visualization
+- [ ] Implement drawing templates for ThinkorSwim
+- [ ] Design conditional format rules for price interaction
+- [ ] Create pre-drawn scenario paths based on Mancini tree
+- [ ] Document process for updating with overnight developments
+
+## Priority
+Medium","component:premarket,type:feature,priority:medium","Premarket Preparation",
+"PREP-04: Morning Validation Workflow","## Description
+Streamlined process to validate pre-staged analysis with DP insights to optimize morning preparation time.
+
+## Acceptance Criteria
+- [ ] Create quick validation checklist format
+- [ ] Implement template for merging Mancini and DP analysis
+- [ ] Design visual comparison of pre-staged vs. morning data
+- [ ] Create tracking for validation accuracy and time required
+- [ ] Document examples of validation discrepancies and resolutions
+
+## Priority
+High","component:premarket,type:feature,priority:high","Premarket Preparation",
+"FE-01: Enhanced Headline Defense Protocol","## Description
+Expand headline defense protocol to include mode-specific responses to headline events, improving resilience during volatile news cycles.
+
+## Acceptance Criteria
+- [ ] Define headline response protocols by market mode
+- [ ] Create mode-specific size reduction formulas 
+- [ ] Implement varying cooling periods based on mode
+- [ ] Design specialized alert system for headline+mode combinations
+- [ ] Document examples of effective headline management by mode
+
+## Priority
+Critical","enhancement,type:risk,priority:critical","Feature Enhancements",
+"FE-03: Comprehensive Moderator Influence Management","## Description
+Expand moderator influence management to include signal weighting, consensus detection, and sequence analysis.
+
+## Acceptance Criteria
+- [ ] Enhance moderator position tracking with weighting
+- [ ] Implement consensus detection algorithms
+- [ ] Create sequence analysis for moderator action patterns
+- [ ] Design visualization of moderator positioning heatmap
+- [ ] Document effectiveness metrics for following different moderators
+
+## Priority
+High","enhancement,type:social,priority:high","Feature Enhancements",
+"FE-04: Structured Mental Reset Scripts","## Description
+Formalize mental reset scripts with specific reorientation protocols and recovery measurements.
+
+## Acceptance Criteria
+- [ ] Create standardized reset phrases by scenario type
+- [ ] Implement structured physical reset routines
+- [ ] Design enhanced visualization techniques for reorientation
+- [ ] Create measurement system for reset effectiveness
+- [ ] Document examples of successful reset applications
+
+## Priority
+High","enhancement,type:behavioral,priority:high","Feature Enhancements"
