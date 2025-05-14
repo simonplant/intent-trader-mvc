@@ -1,0 +1,27 @@
+{
+  "sourceInputs": [
+    {
+      "source": "marketContext",
+      "mapsTo": "blueprint.marketContext"
+    },
+    {
+      "source": "overnightEvents",
+      "mapsTo": "blueprint.marketContext.keyEvents"
+    },
+    {
+      "source": "technicalLevels",
+      "mapsTo": "blueprint.levels"
+    },
+    {
+      "source": "preMarketVolume",
+      "mapsTo": "blueprint.marketContext"
+    },
+    {
+      "source": "cognitiveState",
+      "mapsTo": "blueprint.scenarios"
+    }
+  ],
+  "version": "1.0.0",
+  "created": "2025-05-14T05:06:19.454045Z",
+  "updated": "2025-05-14T05:06:19.454045Z"
+}

@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://intenttrader.ai/schema/trade-log.schema.json",
+  "title": "Intent Trader Trade Log",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "executed",
+          "missed"
+        ]
+      },
+      "setupId": {
+        "type": "string"
+      },
+      "symbol": {
+        "type": "string"
+      },
+      "entryPlan": {
+        "type": "number"
+      },
+      "actualEntry": {
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "plannedExit": {
+        "type": "number"
+      },
+      "actualExit": {
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "status": {
+        "type": "string"
+      },
+      "executionDeviation": {
+        "type": "object",
+        "properties": {
+          "entry": {
+            "type": "number"
+          },
+          "exit": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "entry",
+          "exit"
+        ]
+      },
+      "grade": {
+        "type": "string"
+      },
+      "comments": {
+        "type": "string"
+      },
+      "improvementActions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "reasonMissed": {
+        "type": "string"
+      },
+      "cognitiveState": {
+        "type": "object",
+        "properties": {
+          "load": {
+            "type": "number"
+          },
+          "decisionQuality": {
+            "type": "string",
+            "enum": [
+              "OPTIMAL",
+              "DEGRADED",
+              "COMPROMISED"
+            ]
+          },
+          "distractions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "load",
+          "decisionQuality"
+        ]
+      },
+      "timestamp": {
+        "type": "string",
+        "format": "date-time"
+      }
+    },
+    "required": [
+      "type",
+      "setupId",
+      "symbol",
+      "grade",
+      "cognitiveState",
+      "timestamp"
+    ]
+  }
+}

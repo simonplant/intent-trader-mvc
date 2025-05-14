@@ -1,0 +1,13 @@
+{
+  "phase": "postmarket",
+  "blueprintGenerated": true,
+  "statusUpdated": 3,
+  "resetTriggered": 1,
+  "missedTradesLogged": 1,
+  "executionLogged": 1,
+  "replayScoreAvg": 85,
+  "feedbackActions": [
+    "Simplify blueprint under high load",
+    "Improve timing confidence prompts"
+  ]
+}

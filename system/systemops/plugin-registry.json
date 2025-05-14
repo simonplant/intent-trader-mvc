@@ -1,0 +1,33 @@
+[
+  {
+    "id": "replay-engine",
+    "type": "analyzer",
+    "version": "1.0.0",
+    "entryPoint": "system/learning/replay-runner.js",
+    "phase": "postmarket",
+    "dependsOn": [
+      "logs/trade-log.json",
+      "system/schemas/blueprint.schema.json"
+    ]
+  },
+  {
+    "id": "chart-analysis",
+    "type": "analyzer",
+    "version": "1.0.0",
+    "entryPoint": "prompts/intraday/chart-analysis.md",
+    "phase": "intraday",
+    "dependsOn": [
+      "system/technical-framework/pattern-recognition.md"
+    ]
+  },
+  {
+    "id": "blueprint-engine",
+    "type": "transform",
+    "version": "1.0.0",
+    "entryPoint": "prompts/premarket/morning-blueprint.md",
+    "phase": "premarket",
+    "dependsOn": [
+      "system/blueprints/structure.md"
+    ]
+  }
+]

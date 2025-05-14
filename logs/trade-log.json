@@ -1,0 +1,54 @@
+[
+  {
+    "type": "executed",
+    "setupId": "gapFillLong",
+    "symbol": "SPX",
+    "entryPlan": 4495.5,
+    "actualEntry": 4498.0,
+    "plannedExit": 4510.75,
+    "actualExit": 4507.0,
+    "status": "COMPLETED",
+    "executionDeviation": {
+      "entry": 2.5,
+      "exit": -3.75
+    },
+    "grade": "B",
+    "comments": "Entry was late by 2.5 pts, exit was early due to fatigue.",
+    "improvementActions": [
+      "Practice tiered entry",
+      "Confirm confidence before trimming early"
+    ],
+    "cognitiveState": {
+      "load": 5.8,
+      "decisionQuality": "DEGRADED",
+      "distractions": []
+    },
+    "timestamp": "2025-05-13T20:00:00Z"
+  },
+  {
+    "type": "missed",
+    "setupId": "trendBreakShort",
+    "symbol": "SPX",
+    "entryPlan": 4475.0,
+    "actualEntry": null,
+    "plannedExit": 4450.0,
+    "actualExit": null,
+    "status": "INVALIDATED",
+    "reasonMissed": "cognitive overload",
+    "grade": "Missed A+ Setup",
+    "comments": "Focused on other trade, cognitive load high",
+    "improvementActions": [
+      "Mute Discord during active setup watch",
+      "Limit to one active trade at a time"
+    ],
+    "cognitiveState": {
+      "load": 8.4,
+      "decisionQuality": "COMPROMISED",
+      "distractions": [
+        "discord chat",
+        "other trade open"
+      ]
+    },
+    "timestamp": "2025-05-13T20:05:00Z"
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "sessionId": "intent-2025-05-13",
+  "date": "2025-05-13",
+  "phase": "postmarket",
+  "blueprintId": "blueprint-2025-05-13",
+  "activePlugins": [
+    "replay-engine",
+    "missed-trades",
+    "compare-execution"
+  ],
+  "cognitiveState": {
+    "load": 6.4,
+    "decisionQuality": "DEGRADED"
+  },
+  "statusSummary": {
+    "totalTracked": 4,
+    "active": 1,
+    "completed": 2,
+    "missed": 1
+  },
+  "promptStack": [
+    "morning-blueprint.md",
+    "status-update.md",
+    "cognitive-reset.md",
+    "compare-execution.md"
+  ]
+}
