@@ -2,7 +2,7 @@
 
 # === CONFIG ===
 REPO="simonplant/intent-trader"
-TOKEN="!!paste-my-PAT-token-in-here!!"
+TOKEN="${GITHUB_TOKEN:?Please export your GitHub token as GITHUB_TOKEN}"
 LABEL_FILE="import-github-labels.json"
 
 # === CHECKS ===
