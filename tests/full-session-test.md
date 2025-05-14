@@ -1,6 +1,6 @@
 ---
 id: full-session-test
-version: "1.0.0"
+version: v0.5.0
 type: test
 created: 2025-05-14T05:33:53.066362Z
 updated: 2025-05-14T05:33:53.066362Z
