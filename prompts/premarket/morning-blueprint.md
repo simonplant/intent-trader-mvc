@@ -8,11 +8,11 @@ cognitiveLoad: MEDIUM
 requiresConfirmation: true
 ---
 
-# ☀️ Morning Blueprint Generation Prompt
+# Morning Blueprint Generation Prompt
 
 This prompt generates the daily Intent Trader blueprint based on premarket context, technical levels, and trader state.
 
-## 🔢 Inputs
+## Inputs
 
 - **Market Context**
   - Previous day's close
@@ -25,7 +25,7 @@ This prompt generates the daily Intent Trader blueprint based on premarket conte
   - Load score
   - Focus areas and distractions
 
-## ⚙️ Processing Steps
+## Processing Steps
 
 1. Normalize and summarize market context.
 2. Rank technical levels by expected significance.
@@ -33,7 +33,7 @@ This prompt generates the daily Intent Trader blueprint based on premarket conte
 4. Assign confidence and scenarios (bullish, bearish, neutral).
 5. Return a validated `blueprint.schema.json` object.
 
-## 📤 Output Format
+## Output Format
 
 ```json
 {
@@ -66,7 +66,7 @@ This prompt generates the daily Intent Trader blueprint based on premarket conte
 }
 ```
 
-## 🧪 Test Vector
+## Test Vector
 
 **Input:**
 ```json
@@ -89,7 +89,7 @@ Returns a valid blueprint object with:
 - Ranked levels with significance field
 - At least 1-2 scenarios based on current structure
 
-## 📎 References
+## References
 
 - `system/blueprints/structure.md`
 - `system/blueprints/generation.md`

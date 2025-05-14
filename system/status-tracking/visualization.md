@@ -8,7 +8,7 @@ cognitiveLoad: LOW
 requiresConfirmation: false
 ---
 
-# 📊 Status Visualization Guidelines
+# Status Visualization Guidelines
 
 This guide defines how status categories are displayed visually for user comprehension and execution alignment.
 
@@ -22,10 +22,10 @@ This guide defines how status categories are displayed visually for user compreh
   - `INVALIDATED`: Red
 
 - **Icons**
-  - 👁️ for `WATCHING`
+  - 👁for `WATCHING`
   - ⏳ for `PENDING`
-  - ✅ for `ACTIVE`
-  - ✔️ for `COMPLETED`
+  - for `ACTIVE`
+  - ✔for `COMPLETED`
   - ❌ for `INVALIDATED`
 
 - **Layout Suggestions**

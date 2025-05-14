@@ -8,19 +8,19 @@ cognitiveLoad: LOW
 requiresConfirmation: false
 ---
 
-# 📊 Prompt Route Analyzer
+# Prompt Route Analyzer
 
 Scans all prompt frontmatter and summarizes route coverage by type and market mode.
 
-## 🔢 Input:
+## Input:
 - `prompt-registry.json` entries (array of objects)
 
-## ⚙️ Output:
+## Output:
 - Count of total prompts
 - Count by `marketMode`, `type`, and missing fields
 - Suggestions for prompt coverage by phase
 
-## 🧪 Test Input:
+## Test Input:
 ```json
 {
   "prompts": [
@@ -31,7 +31,7 @@ Scans all prompt frontmatter and summarizes route coverage by type and market mo
 }
 ```
 
-## ✅ Expected Output:
+## Expected Output:
 ```json
 {
   "total": 3,
@@ -46,6 +46,6 @@ Scans all prompt frontmatter and summarizes route coverage by type and market mo
 }
 ```
 
-## 📎 References
+## References
 - `system/registry/prompt-registry.json`
 - `system/schemas/metadata.schema.json`

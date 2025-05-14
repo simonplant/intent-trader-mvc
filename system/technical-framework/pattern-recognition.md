@@ -8,7 +8,7 @@ cognitiveLoad: LOW
 requiresConfirmation: false
 ---
 
-# 📊 Technical Pattern Recognition
+# Technical Pattern Recognition
 
 Defines recognized patterns and their use in blueprint generation and scenario modeling.
 

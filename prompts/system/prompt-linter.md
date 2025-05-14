@@ -8,19 +8,19 @@ cognitiveLoad: MEDIUM
 requiresConfirmation: true
 ---
 
-# 🧪 Prompt Metadata Linter
+# Prompt Metadata Linter
 
 Checks prompt files for missing required metadata and schema violations.
 
-## 🔢 Input:
+## Input:
 - Single prompt file's frontmatter
 - Path to file
 
-## ⚙️ Output:
+## Output:
 - List of missing fields
 - Validation errors if applicable
 
-## 🧪 Test Input:
+## Test Input:
 ```json
 {
   "file": "prompts/intraday/status-update.md",
@@ -32,7 +32,7 @@ Checks prompt files for missing required metadata and schema violations.
 }
 ```
 
-## ✅ Expected Output:
+## Expected Output:
 ```json
 {
   "file": "prompts/intraday/status-update.md",
@@ -45,5 +45,5 @@ Checks prompt files for missing required metadata and schema violations.
 }
 ```
 
-## 📎 References
+## References
 - `system/schemas/metadata.schema.json`

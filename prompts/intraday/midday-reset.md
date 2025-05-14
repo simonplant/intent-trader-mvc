@@ -8,11 +8,11 @@ cognitiveLoad: MEDIUM
 requiresConfirmation: true
 ---
 
-# 🔄 Midday Blueprint Reset Prompt
+# Midday Blueprint Reset Prompt
 
 This prompt reassesses trade plan and status near midday based on cognitive and market conditions.
 
-## 🔢 Inputs
+## Inputs
 
 - Time of day
 - Number of active or marginal setups
@@ -20,14 +20,14 @@ This prompt reassesses trade plan and status near midday based on cognitive and 
 - Current `cognitive-load.schema.json` state
 - Number of recent status changes
 
-## 🧭 Prompt Function
+## Prompt Function
 
 1. Summarize state of market and mental load
 2. Recommend simplifying blueprint or exiting marginal trades
 3. Perform midpoint self-check and reorientation
 4. Return blueprint simplification or exit actions
 
-## 🧪 Test Input:
+## Test Input:
 ```json
 {
   "time": "11:00",
@@ -38,7 +38,7 @@ This prompt reassesses trade plan and status near midday based on cognitive and 
 }
 ```
 
-## ✅ Expected Output:
+## Expected Output:
 ```json
 {
   "recommendations": [
@@ -51,7 +51,7 @@ This prompt reassesses trade plan and status near midday based on cognitive and 
 }
 ```
 
-## 📎 References
+## References
 
 - `system/cognitive/adaptation-matrix.md`
 - `system/cognitive/state-tracking.md`

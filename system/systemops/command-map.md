@@ -8,7 +8,7 @@ cognitiveLoad: LOW
 requiresConfirmation: false
 ---
 
-# 🧾 Runtime Command Map
+# Runtime Command Map
 
 Table of commands available to the Promptsmith Runtime Companion.
 

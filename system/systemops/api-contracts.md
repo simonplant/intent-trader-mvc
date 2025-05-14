@@ -8,11 +8,11 @@ cognitiveLoad: HIGH
 requiresConfirmation: false
 ---
 
-# 📡 API Contracts for Plugin Execution
+# API Contracts for Plugin Execution
 
 Defines input/output contracts for major plugin categories.
 
-## 🔁 Replay Engine
+## Replay Engine
 
 - **Input**: `logs/trade-log.json`
 - **Output**:
@@ -26,7 +26,7 @@ Defines input/output contracts for major plugin categories.
 ]
 ```
 
-## 📊 Chart Analyst
+## Chart Analyst
 
 - **Input**:
 ```json
@@ -46,17 +46,17 @@ Defines input/output contracts for major plugin categories.
 }
 ```
 
-## 🧠 Cognitive Reset Trigger
+## Cognitive Reset Trigger
 
 - **Input**: `cognitive-load.schema.json` object
-- **Output**: 
+- **Output**:
 ```json
 {
   "resetRecommended": true
 }
 ```
 
-## 🧩 Integration
+## Integration
 
 Each plugin must define:
 - `inputSchema`

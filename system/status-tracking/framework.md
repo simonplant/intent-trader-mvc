@@ -8,7 +8,7 @@ cognitiveLoad: LOW
 requiresConfirmation: false
 ---
 
-# 🔄 Status Tracking Framework
+# Status Tracking Framework
 
 This document defines the lifecycle categories and status logic for managing trade setups and active positions.
 

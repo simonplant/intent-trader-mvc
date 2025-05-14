@@ -1,17 +1,17 @@
-# 🧠 Intent Trader v0.5.0
+# Intent Trader v0.5.0
 
 Schema-first, plugin-enabled trading assistant powered by OpenAI + Promptsmith runtime.
 
-## 🧩 Core Features
+## Core Features
 
-- 🔄 Blueprint system for premarket plan generation
-- 📈 Status tracking and chart pattern recognition
-- 🧠 Cognitive load management and reset triggers
-- 📊 Postmarket analysis, execution review, and learning loop
-- 🔌 Modular plugin runtime architecture with dispatcher
-- ✅ Full lifecycle simulation and test scaffolding
+- Blueprint system for premarket plan generation
+- Status tracking and chart pattern recognition
+- Cognitive load management and reset triggers
+- Postmarket analysis, execution review, and learning loop
+- Modular plugin runtime architecture with dispatcher
+- Full lifecycle simulation and test scaffolding
 
-## 🗂 Directory Structure
+## Directory Structure
 
 ```
 system/
@@ -39,10 +39,10 @@ logs/
 └── test-session-output.json
 ```
 
-## 🚀 Quickstart
+## Quickstart
 
 See [INSTALL.md](INSTALL.md) for setup, simulation, and test run instructions.
 
-## 📄 License
+## License
 
 MIT (or insert preferred license)

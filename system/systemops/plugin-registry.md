@@ -8,7 +8,7 @@ cognitiveLoad: MEDIUM
 requiresConfirmation: false
 ---
 
-# 🔌 Plugin Registry Specification
+# Plugin Registry Specification
 
 Defines the modular plugin architecture for IntentOS-based execution of Intent Trader.
 

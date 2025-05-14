@@ -8,11 +8,11 @@ cognitiveLoad: MEDIUM
 requiresConfirmation: true
 ---
 
-# 📈 Chart Analysis Prompt
+# Chart Analysis Prompt
 
 This prompt analyzes real-time chart data to recognize patterns and evaluate trading implications based on blueprint levels and technical taxonomy.
 
-## 🔢 Inputs
+## Inputs
 
 - **Symbol**: (e.g., SPX)
 - **Timeframe**: (e.g., 2min, 15min)
@@ -20,14 +20,14 @@ This prompt analyzes real-time chart data to recognize patterns and evaluate tra
 - **Known Levels**: From blueprint + Mancini integration
 - **Mancini Annotations**: Gap, reclaim, trend break
 
-## ⚙️ Analysis Logic
+## Analysis Logic
 
 1. Match pattern structures from `pattern-recognition.md`
 2. Rank levels using `level-significance.md`
 3. Overlay Mancini annotations and reactions
 4. Return pattern match and decision support object
 
-## 📤 Output Format
+## Output Format
 
 ```json
 {
@@ -54,7 +54,7 @@ This prompt analyzes real-time chart data to recognize patterns and evaluate tra
 }
 ```
 
-## 🧪 Test Input:
+## Test Input:
 
 ```json
 {
@@ -70,7 +70,7 @@ This prompt analyzes real-time chart data to recognize patterns and evaluate tra
 }
 ```
 
-## 📎 References
+## References
 
 - `system/technical-framework/pattern-recognition.md`
 - `system/technical-framework/level-significance.md`

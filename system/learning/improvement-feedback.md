@@ -8,11 +8,11 @@ cognitiveLoad: HIGH
 requiresConfirmation: true
 ---
 
-# 🧠 Adaptive Feedback Mapping
+# Adaptive Feedback Mapping
 
 Uses replay engine output to adapt prompts, blueprints, and status protocols for better execution next session.
 
-## 🪄 Mappings
+## Mappings
 
 | Signal | Action |
 |--------|--------|
@@ -31,7 +31,7 @@ Uses replay engine output to adapt prompts, blueprints, and status protocols for
 }
 ```
 
-## 📎 References
+## References
 
 - `system/learning/replay-engine.md`
 - `system/cognitive/adaptation-matrix.md`

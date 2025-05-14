@@ -8,18 +8,18 @@ cognitiveLoad: HIGH
 requiresConfirmation: true
 ---
 
-# ❌ Missed Trade Logging Prompt
+# Missed Trade Logging Prompt
 
 Logs missed A+ setups, cognitive or execution reasons, and recommended changes.
 
-## 🔢 Inputs
+## Inputs
 
 - Setup ID and trigger
 - Was opportunity seen or not?
 - Reason missed
 - Cognitive state and distractions
 
-## 📤 Output Format
+## Output Format
 
 ```json
 {
@@ -33,7 +33,7 @@ Logs missed A+ setups, cognitive or execution reasons, and recommended changes.
 }
 ```
 
-## 🧪 Test Input:
+## Test Input:
 
 ```json
 {
@@ -49,7 +49,7 @@ Logs missed A+ setups, cognitive or execution reasons, and recommended changes.
 }
 ```
 
-## 📎 References
+## References
 
 - `system/blueprints/generation.md`
 - `system/cognitive/adaptation-matrix.md`

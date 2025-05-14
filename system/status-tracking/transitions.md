@@ -8,7 +8,7 @@ cognitiveLoad: MEDIUM
 requiresConfirmation: true
 ---
 
-# 🔁 Status Transition Rules
+# Status Transition Rules
 
 Defines valid transitions between trade statuses and associated triggers.
 

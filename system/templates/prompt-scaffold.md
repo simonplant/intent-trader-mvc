@@ -11,23 +11,23 @@ cognitiveLoad: MEDIUM         # LOW | MEDIUM | HIGH
 requiresConfirmation: true    # true if prompt affects state or action
 ---
 
-# 🧠 Prompt Title
+# Prompt Title
 
-## 🔢 Inputs
+## Inputs
 - List all required input values and types
 
-## ⚙️ Processing Logic
+## Processing Logic
 - What the prompt does with inputs
 - Decision rules, filters, etc.
 
-## 📤 Output Format
+## Output Format
 ```json
 {
   "exampleField": "value"
 }
 ```
 
-## 🧪 Test Vector
+## Test Vector
 ```json
 {
   "input1": "value",
@@ -35,13 +35,13 @@ requiresConfirmation: true    # true if prompt affects state or action
 }
 ```
 
-## ✅ Expected Output
+## Expected Output
 ```json
 {
   "output1": "result"
 }
 ```
 
-## 📎 References
+## References
 - system/schemas/your-schema.json
 - system/blueprints/structure.md

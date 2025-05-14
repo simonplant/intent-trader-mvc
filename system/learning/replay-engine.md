@@ -8,25 +8,25 @@ cognitiveLoad: MEDIUM
 requiresConfirmation: true
 ---
 
-# 🔁 AI Replay Engine
+# AI Replay Engine
 
 Reconstructs trading sessions using trade logs and compares actual execution with blueprint plan and cognitive state.
 
-## 🔢 Inputs
+## Inputs
 
 - `trade-log.json`
 - `blueprint-state.json` (from morning blueprint)
 - `status` transitions (during session)
 - `cognitiveState` snapshots (optional)
 
-## 🧭 Evaluation Metrics
+## Evaluation Metrics
 
 - **Entry Timing**: How close was actual entry to planned level?
 - **Exit Discipline**: Did trader exit early, late, or as planned?
 - **Missed Opportunity Index**: How many setups were valid but ignored?
 - **Cognitive Interference**: Was performance degraded during high load?
 
-## 🧠 Output
+## Output
 
 ```json
 {
@@ -41,7 +41,7 @@ Reconstructs trading sessions using trade logs and compares actual execution wit
 }
 ```
 
-## 📎 References
+## References
 - `logs/trade-log.json`
 - `system/schemas/blueprint.schema.json`
 - `system/cognitive/state-tracking.md`

@@ -8,11 +8,11 @@ cognitiveLoad: MEDIUM
 requiresConfirmation: true
 ---
 
-# 📍 Intraday Status Update Prompt
+# Intraday Status Update Prompt
 
 This prompt updates the current status of a tracked trade idea, integrating technical, cognitive, and position data.
 
-## 🔢 Inputs
+## Inputs
 
 - **Position Info**
   - setupId
@@ -28,7 +28,7 @@ This prompt updates the current status of a tracked trade idea, integrating tech
   - Cognitive load score
   - Confidence or clarity drop
 
-## ⚙️ Update Logic
+## Update Logic
 
 1. Match setupId from blueprint
 2. Evaluate technical trigger conditions
@@ -36,7 +36,7 @@ This prompt updates the current status of a tracked trade idea, integrating tech
 4. Transition to next valid state based on triggers
 5. Return valid `status.schema.json` object
 
-## 📤 Output Format
+## Output Format
 
 ```json
 {
@@ -54,7 +54,7 @@ This prompt updates the current status of a tracked trade idea, integrating tech
 }
 ```
 
-## 🧪 Test Vector
+## Test Vector
 
 **Input:**
 ```json
@@ -80,7 +80,7 @@ This prompt updates the current status of a tracked trade idea, integrating tech
 - Includes rationale for not entering yet
 - Lists specific next actions and focus areas
 
-## 📎 References
+## References
 
 - `system/status-tracking/framework.md`
 - `system/status-tracking/transitions.md`

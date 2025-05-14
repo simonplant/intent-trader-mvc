@@ -66,4 +66,4 @@ tradeLog.forEach((trade) => {
 // Output path
 const outputPath = path.resolve(__dirname, '../../logs/replay-summary.json');
 fs.writeFileSync(outputPath, JSON.stringify(replayOutput, null, 2));
-console.log('✅ Replay summary saved to:', outputPath);
+console.log('Replay summary saved to:', outputPath);

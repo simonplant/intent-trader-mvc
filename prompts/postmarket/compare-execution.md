@@ -8,18 +8,18 @@ cognitiveLoad: MEDIUM
 requiresConfirmation: true
 ---
 
-# 📊 Execution Review Prompt
+# Execution Review Prompt
 
 Compares actual trade performance vs. blueprint plan to surface discipline gaps and learning opportunities.
 
-## 🔢 Inputs
+## Inputs
 
 - Setup ID
 - Planned vs. actual entries/exits
 - Status outcome
 - Cognitive state at time of trade
 
-## 📤 Output Format
+## Output Format
 
 ```json
 {
@@ -33,7 +33,7 @@ Compares actual trade performance vs. blueprint plan to surface discipline gaps 
 }
 ```
 
-## 🧪 Test Input:
+## Test Input:
 
 ```json
 {
@@ -50,7 +50,7 @@ Compares actual trade performance vs. blueprint plan to surface discipline gaps 
 }
 ```
 
-## 📎 References
+## References
 
 - `prompts/intraday/status-update.md`
 - `system/blueprints/structure.md`

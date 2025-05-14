@@ -8,7 +8,7 @@ cognitiveLoad: MEDIUM
 requiresConfirmation: true
 ---
 
-# 🧠 Cognitive State Tracking
+# Cognitive State Tracking
 
 Tracks the trader's current cognitive state using quantifiable metrics.
 

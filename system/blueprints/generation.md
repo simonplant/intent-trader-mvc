@@ -8,7 +8,7 @@ cognitiveLoad: MEDIUM
 requiresConfirmation: true
 ---
 
-# ⚙️ Blueprint Generation Process
+# ⚙Blueprint Generation Process
 
 This component defines how a blueprint is constructed from daily inputs.
 

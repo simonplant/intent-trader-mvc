@@ -1,17 +1,17 @@
-# 🚀 INSTALL.md – Setup & Simulation
+# INSTALL.md – Setup & Simulation
 
 This guide explains how to install, run, and test Intent Trader v0.5.0.
 
 ---
 
-## ✅ Prerequisites
+## Prerequisites
 
 - Node.js (>=18)
 - Git (to clone your repo)
 
 ---
 
-## 📦 Installation
+## Installation
 
 ```bash
 git clone https://github.com/your-org/intent-trader.git
@@ -21,7 +21,7 @@ npm install
 
 ---
 
-## 🔁 Simulate a Full Day
+## Simulate a Full Day
 
 ```bash
 # Generate a session manifest
@@ -36,7 +36,7 @@ node system/systemops/plugin-dispatcher.js postmarket
 
 ---
 
-## 🧪 Run Tests
+## Run Tests
 
 ```bash
 # Validate schema compliance
@@ -51,7 +51,7 @@ less tests/full-session-test.md
 
 ---
 
-## 📎 Additional Commands
+## Additional Commands
 
 ```bash
 node system/systemops/plugin-dispatcher.js premarket

@@ -8,7 +8,7 @@ cognitiveLoad: HIGH
 requiresConfirmation: true
 ---
 
-# 🔧 Cognitive Adaptation Matrix
+# Cognitive Adaptation Matrix
 
 Maps cognitive load levels to recommended system adjustments.
 

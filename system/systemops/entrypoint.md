@@ -8,16 +8,16 @@ cognitiveLoad: LOW
 requiresConfirmation: false
 ---
 
-# 🚀 Promptsmith Runtime EntryPoint
+# Promptsmith Runtime EntryPoint
 
 This file bootstraps the session context for Promptsmith and loads all critical execution state from the manifest.
 
-## ✅ Load First:
+## Load First:
 - `state/session-manifest.json`
 - Determine current `phase`
 - Route to valid prompts or plugin stack
 
-## 🧩 Use Cases
+## Use Cases
 
 | Phase        | Triggered Components                              |
 |--------------|---------------------------------------------------|
@@ -25,9 +25,9 @@ This file bootstraps the session context for Promptsmith and loads all critical 
 | intraday     | `status-update`, `cognitive-reset`, `midday-reset`|
 | postmarket   | `compare-execution`, `missed-trades`, `replay`    |
 
-## ☁️ Session State Management
+## Session State Management
 
-Stored in: `state/session-manifest.json`  
+Stored in: `state/session-manifest.json`
 Use this to:
 - Validate blueprint alignment
 - Check number of active setups

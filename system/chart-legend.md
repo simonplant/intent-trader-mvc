@@ -8,7 +8,7 @@ cognitiveLoad: LOW
 requiresConfirmation: false
 ---
 
-# 🧾 Chart Legend and Annotation Guide
+# Chart Legend and Annotation Guide
 
 Reference legend for all visual annotations used in Intent Trader system charts.
 
@@ -20,7 +20,7 @@ Reference legend for all visual annotations used in Intent Trader system charts.
 - 🟢 = Active Long Setup
 - 🔻 = Active Short Setup
 - ⛔ = Invalidation
-- 📈 = Breakout Confirmed
+- = Breakout Confirmed
 - 📉 = Breakdown Confirmed
 
 ## Use Cases

@@ -9,7 +9,7 @@ const { exec } = require('child_process');
 
 const phase = process.argv[2]; // e.g. "postmarket"
 if (!phase) {
-  console.error("❌ Usage: node plugin-dispatcher.js <phase>");
+  console.error("Usage: node plugin-dispatcher.js <phase>");
   process.exit(1);
 }
 
@@ -19,7 +19,7 @@ const plugins = JSON.parse(fs.readFileSync(registryPath, 'utf8'));
 const matchingPlugins = plugins.filter(p => p.phase === phase);
 
 if (matchingPlugins.length === 0) {
-  console.log("⚠️ No plugins registered for phase:", phase);
+  console.log("No plugins registered for phase:", phase);
   process.exit(0);
 }
 
@@ -28,7 +28,7 @@ matchingPlugins.forEach((plugin) => {
   const isScript = entryPath.endsWith('.js');
 
   if (!fs.existsSync(entryPath)) {
-    console.warn(`❌ Entry point missing: ${plugin.entryPoint}`);
+    console.warn(`Entry point missing: ${plugin.entryPoint}`);
     return;
   }
 
@@ -37,14 +37,14 @@ matchingPlugins.forEach((plugin) => {
   if (isScript) {
     exec(`node ${entryPath}`, (error, stdout, stderr) => {
       if (error) {
-        console.error(`❌ ${plugin.id} failed:
+        console.error(`${plugin.id} failed:
 `, stderr);
       } else {
-        console.log(`✅ ${plugin.id} completed:
+        console.log(`${plugin.id} completed:
 `, stdout);
       }
     });
   } else {
-    console.log(`ℹ️ Skipping non-executable prompt: ${plugin.entryPoint}`);
+    console.log(`Skipping non-executable prompt: ${plugin.entryPoint}`);
   }
 });

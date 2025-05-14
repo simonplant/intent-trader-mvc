@@ -8,7 +8,7 @@ cognitiveLoad: HIGH
 requiresConfirmation: true
 ---
 
-# 📈 Cognitive Load Calculation
+# Cognitive Load Calculation
 
 Defines how the `load` score is calculated from various metrics.
 

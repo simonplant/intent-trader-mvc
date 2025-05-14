@@ -8,7 +8,7 @@ cognitiveLoad: HIGH
 requiresConfirmation: true
 ---
 
-# 🔁 Blueprint Adaptation Framework
+# Blueprint Adaptation Framework
 
 This file explains how a live blueprint adapts to real-time inputs.
 

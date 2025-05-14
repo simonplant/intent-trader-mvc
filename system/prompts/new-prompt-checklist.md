@@ -1,10 +1,10 @@
-# ✅ New Prompt Creation Checklist
+# New Prompt Creation Checklist
 
 This checklist ensures that any newly authored prompt aligns with Intent Trader standards.
 
 ---
 
-## 📄 Metadata
+## Metadata
 - [ ] `id` is unique and descriptive
 - [ ] `version` follows semantic versioning
 - [ ] `created` and `updated` timestamps in ISO format
@@ -14,7 +14,7 @@ This checklist ensures that any newly authored prompt aligns with Intent Trader 
 
 ---
 
-## 📦 Structure
+## Structure
 - [ ] Inputs clearly listed
 - [ ] Output format specified using valid JSON
 - [ ] Includes test vector and expected output
@@ -22,14 +22,14 @@ This checklist ensures that any newly authored prompt aligns with Intent Trader 
 
 ---
 
-## 🧠 Validation
+## Validation
 - [ ] Prompt is validated against `metadata.schema.json`
 - [ ] File is discoverable by `registry.js`
 - [ ] File is indexed in `prompt-registry.json` if deployed
 
 ---
 
-## 🧪 Testing
+## Testing
 - [ ] Manual test using sample inputs
 - [ ] Used in simulated prompt flow or replay engine
 

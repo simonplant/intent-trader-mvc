@@ -8,17 +8,17 @@ cognitiveLoad: HIGH
 requiresConfirmation: true
 ---
 
-# 🛠️ Intraday Cognitive Reset Prompt
+# Intraday Cognitive Reset Prompt
 
 This prompt is triggered when trader load exceeds threshold or cognitive degradation is detected.
 
-## 🔢 Inputs
+## Inputs
 
 - Full `cognitive-load.schema.json` state object
 - Current attention allocation and disruptions
 - Decision quality and fatigue indicators
 
-## 🧭 Prompt Function
+## Prompt Function
 
 1. Confirm overload or emotional distress
 2. Guide through reset protocol steps
@@ -26,7 +26,7 @@ This prompt is triggered when trader load exceeds threshold or cognitive degrada
 4. Recommend blueprint or trade changes
 5. Return updated `cognitive-load` object with post-reset metrics
 
-## 🧪 Test Input:
+## Test Input:
 ```json
 {
   "load": 8.2,
@@ -41,7 +41,7 @@ This prompt is triggered when trader load exceeds threshold or cognitive degrada
 }
 ```
 
-## ✅ Expected Output:
+## Expected Output:
 ```json
 {
   "resetRecommended": true,
@@ -61,7 +61,7 @@ This prompt is triggered when trader load exceeds threshold or cognitive degrada
 }
 ```
 
-## 📎 References
+## References
 
 - `system/protocols/cognitive-reset.md`
 - `system/cognitive/adaptation-matrix.md`
