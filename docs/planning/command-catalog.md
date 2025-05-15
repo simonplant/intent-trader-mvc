@@ -6,7 +6,7 @@ This catalog provides a comprehensive listing of all commands in the Intent Trad
 
 ### `/analyze-dp [transcript]`
 
-**Purpose:**  
+**Purpose:**
 Process DP morning call transcript comprehensively, extracting all key components and insights.
 
 **Parameters:**
@@ -29,7 +29,7 @@ Process DP morning call transcript comprehensively, extracting all key component
 
 ### `/analyze-mancini [newsletter]`
 
-**Purpose:**  
+**Purpose:**
 Process Mancini newsletter comprehensively, extracting levels, setups, and trade plan.
 
 **Parameters:**
@@ -54,7 +54,7 @@ ES/SPX continues to consolidate at highs. The coiled tight range over the last t
 
 ### `/extract-levels [source] [indices]`
 
-**Purpose:**  
+**Purpose:**
 Extract market levels from analyst source with precision and hierarchy.
 
 **Parameters:**
@@ -76,7 +76,7 @@ Extract market levels from analyst source with precision and hierarchy.
 
 ### `/extract-focus [source] [min_conviction]`
 
-**Purpose:**  
+**Purpose:**
 Extract high-conviction trade ideas from analyst commentary.
 
 **Parameters:**
@@ -98,15 +98,17 @@ Extract high-conviction trade ideas from analyst commentary.
 
 ### `/find-setups [type] [timeframe]`
 
-**Purpose:**  
+**Purpose:**
 Identify specific setup types from analyst commentary or technical analysis.
 
 **Parameters:**
+
 - `type` (required): "failed-breakdown", "dat", "character-change", etc.
 - `timeframe` (optional): "intraday", "daily", "swing" (default: intraday)
 - `min_quality` (optional): Minimum setup quality (default: medium)
 
 **Output:**
+
 - Structured setup opportunities
 - Complete parameters for each setup
 - Qualifying criteria status
@@ -114,21 +116,24 @@ Identify specific setup types from analyst commentary or technical analysis.
 - Management protocol
 
 **Usage Example:**
+
 ```
 /find-setups failed-breakdown intraday
 ```
 
 ### `/analyze-ic [message]`
 
-**Purpose:**  
+**Purpose:**
 Process Inner Circle commentary for actionable signals and context.
 
 **Parameters:**
+
 - `message` (required): Inner Circle message text
 - `focus` (optional): Specific aspect to analyze (default: all)
 - `priority` (optional): Minimum priority level (default: all)
 
 **Output:**
+
 - Extracted trade signals
 - Market context updates
 - Analyst sentiment assessment
@@ -142,15 +147,17 @@ Process Inner Circle commentary for actionable signals and context.
 
 ### `/analyze-regime`
 
-**Purpose:**  
+**Purpose:**
 Assess current market regime (buy dips vs. sell bounces) and mode classification.
 
 **Parameters:**
+
 - `lookback` (optional): Historical periods to consider (default: 10)
 - `source` (optional): Primary data source (default: combined)
 - `confidence` (optional): Minimum confidence threshold (default: medium)
 
 **Output:**
+
 - Current regime classification with confidence
 - Mode 1 vs. Mode 2 determination
 - Supporting evidence and duration
@@ -158,6 +165,7 @@ Assess current market regime (buy dips vs. sell bounces) and mode classification
 - Strategy recommendations based on regime
 
 **Usage Example:**
+
 ```
 /analyze-regime 20
 ```
@@ -166,15 +174,17 @@ Assess current market regime (buy dips vs. sell bounces) and mode classification
 
 ### `/create-plan`
 
-**Purpose:**  
+**Purpose:**
 Generate comprehensive unified trade plan integrating multiple analyst inputs.
 
 **Parameters:**
+
 - `sources` (optional): Which analysts to include (default: all)
 - `risk_level` (optional): Day-specific risk tolerance (1-5) (default: 3)
 - `focus` (optional): Specific aspects to emphasize (default: all)
 
 **Output:**
+
 - Complete trading plan with market context
 - Integrated level structure with consensus strength
 - Prioritized setups across analysts
@@ -183,21 +193,24 @@ Generate comprehensive unified trade plan integrating multiple analyst inputs.
 - Mode-specific guidelines
 
 **Usage Example:**
+
 ```
 /create-plan risk_level=4
 ```
 
 ### `/create-blueprint`
 
-**Purpose:**  
+**Purpose:**
 Generate morning blueprint focusing on day structure and key scenarios.
 
 **Parameters:**
+
 - `complexity` (optional): Detail level (basic/detailed) (default: detailed)
 - `focus` (optional): Specific aspects to emphasize (default: all)
 - `format` (optional): Output format (default: structured)
 
 **Output:**
+
 - Day structure expectations
 - Key timing windows and events
 - Primary price scenarios
@@ -206,21 +219,24 @@ Generate morning blueprint focusing on day structure and key scenarios.
 - Sector focus recommendations
 
 **Usage Example:**
+
 ```
 /create-blueprint complexity=basic
 ```
 
 ### `/run-preflight`
 
-**Purpose:**  
+**Purpose:**
 Execute pre-trading checklist to ensure readiness and plan completeness.
 
 **Parameters:**
+
 - `checklist` (optional): Specific checklist to use (default: standard)
 - `strictness` (optional): Validation strictness (1-5) (default: 3)
 - `areas` (optional): Specific areas to check (default: all)
 
 **Output:**
+
 - Readiness status for each checklist item
 - Missing elements highlighted
 - Last-minute adjustments
@@ -235,16 +251,18 @@ Execute pre-trading checklist to ensure readiness and plan completeness.
 
 ### `/update-plan [section]`
 
-**Purpose:**  
+**Purpose:**
 Update specific sections of the trade plan based on new information.
 
 **Parameters:**
+
 - `section` (required): Plan section to update
 - `content` (required): New information to incorporate
 - `reason` (optional): Justification for the update
 - `priority` (optional): Update urgency (default: normal)
 
 **Output:**
+
 - Confirmation of update
 - Before/after comparison
 - Impact assessment on other plan elements
@@ -258,15 +276,17 @@ Update specific sections of the trade plan based on new information.
 
 ### `/show-plan [section]`
 
-**Purpose:**  
+**Purpose:**
 Display the unified trade plan or specific sections in a structured, readable format.
 
 **Parameters:**
+
 - `section` (optional): Specific plan section to display (default: all)
 - `format` (optional): Output format (detailed/summary/visual) (default: detailed)
 - `focus` (optional): Specific elements to highlight (default: none)
 
 **Output:**
+
 - Formatted plan content
 - Visual elements for levels and scenarios
 - Status indicators for completion
@@ -280,15 +300,17 @@ Display the unified trade plan or specific sections in a structured, readable fo
 
 ### `/validate-plan`
 
-**Purpose:**  
+**Purpose:**
 Perform validation checks on the unified plan to ensure completeness, consistency, and alignment.
 
 **Parameters:**
+
 - `checks` (optional): Specific validation checks to perform (default: all)
 - `strictness` (optional): Validation strictness level (1-5) (default: 3)
 - `format` (optional): Output format (default: structured)
 
 **Output:**
+
 - Validation status (pass/fail/warnings)
 - Identified issues or inconsistencies
 - Completeness assessment
@@ -302,16 +324,18 @@ Perform validation checks on the unified plan to ensure completeness, consistenc
 
 ### `/manage-watchlist [action]`
 
-**Purpose:**  
+**Purpose:**
 Manage the active watchlist based on setups and focus ideas.
 
 **Parameters:**
+
 - `action` (required): "add", "remove", "prioritize", "clear", "show"
 - `tickers` (conditional): Specific symbols to affect (required for add/remove)
 - `setup` (conditional): Setup type (required for add)
 - `priority` (optional): Item priority (high/medium/low)
 
 **Output:**
+
 - Updated watchlist status
 - Priority ranking
 - Monitoring parameters
@@ -327,15 +351,17 @@ Manage the active watchlist based on setups and focus ideas.
 
 ### `/check-ticker [symbol]`
 
-**Purpose:**  
+**Purpose:**
 Perform comprehensive technical analysis on a specific ticker.
 
 **Parameters:**
+
 - `symbol` (required): Stock/instrument symbol
 - `timeframe` (optional): Analysis timeframe (default: daily)
 - `components` (optional): Specific components to analyze (default: all)
 
 **Output:**
+
 - Complete technical assessment
 - Key level identification
 - Moving average relationships
@@ -351,15 +377,17 @@ Perform comprehensive technical analysis on a specific ticker.
 
 ### `/check-character [symbol]`
 
-**Purpose:**  
+**Purpose:**
 Assess if price character has changed for a specific ticker.
 
 **Parameters:**
+
 - `symbol` (required): Stock/instrument symbol
 - `timeframe` (optional): Analysis timeframe (default: daily)
 - `lookback` (optional): Historical periods to analyze (default: 10)
 
 **Output:**
+
 - Character change signal (yes/no/pending)
 - Pattern breakdown
 - Volume confirmation
@@ -375,10 +403,11 @@ Assess if price character has changed for a specific ticker.
 
 ### `/check-ma [symbol]`
 
-**Purpose:**  
+**Purpose:**
 Analyze moving average relationships and interactions for a symbol.
 
 **Parameters:**
+
 - `symbol` (required): Stock/instrument symbol
 - `mas` (optional): Specific MAs to include (default: 8,10,21,50,100,200)
 - `format` (optional): Output format (default: detailed)
@@ -399,10 +428,11 @@ Analyze moving average relationships and interactions for a symbol.
 
 ### `/check-acceptance [level] [symbol]`
 
-**Purpose:**  
+**Purpose:**
 Verify if a price level shows acceptance based on Mancini's framework.
 
 **Parameters:**
+
 - `level` (required): Price level to check
 - `symbol` (required): Stock/instrument symbol
 - `type` (optional): Acceptance type to verify (default: all)
@@ -423,10 +453,11 @@ Verify if a price level shows acceptance based on Mancini's framework.
 
 ### `/analyze-levels [symbol] [direction]`
 
-**Purpose:**  
+**Purpose:**
 Identify and analyze key price levels for a specific symbol.
 
 **Parameters:**
+
 - `symbol` (required): Stock/instrument symbol
 - `direction` (optional): "support", "resistance", or "both" (default: both)
 - `significance` (optional): "major", "minor", or "all" (default: all)
@@ -447,10 +478,11 @@ Identify and analyze key price levels for a specific symbol.
 
 ### `/detect-mode`
 
-**Purpose:**  
+**Purpose:**
 Determine if the current market is in Mode 1 (trend) or Mode 2 (range/trap).
 
 **Parameters:**
+
 - `lookback` (optional): Historical periods to consider (default: 3)
 - `indices` (optional): Specific indices to analyze (default: ES)
 - `confidence` (optional): Minimum confidence threshold (default: medium)
@@ -473,7 +505,7 @@ Determine if the current market is in Mode 1 (trend) or Mode 2 (range/trap).
 
 ### `/add-position [symbol]`
 
-**Purpose:**  
+**Purpose:**
 Add a new trading position to tracking system.
 
 **Parameters:**
@@ -501,7 +533,7 @@ Add a new trading position to tracking system.
 
 ### `/update-position [symbol]`
 
-**Purpose:**  
+**Purpose:**
 Update an existing position with new information or parameters.
 
 **Parameters:**
@@ -526,7 +558,7 @@ Update an existing position with new information or parameters.
 
 ### `/close-position [symbol]`
 
-**Purpose:**  
+**Purpose:**
 Close a position and record the outcome.
 
 **Parameters:**
@@ -551,7 +583,7 @@ Close a position and record the outcome.
 
 ### `/list-positions`
 
-**Purpose:**  
+**Purpose:**
 Display all current positions with status and management information.
 
 **Parameters:**
@@ -574,7 +606,7 @@ Display all current positions with status and management information.
 
 ### `/manage-runner [symbol]`
 
-**Purpose:**  
+**Purpose:**
 Apply Mancini's runner management protocol to a position.
 
 **Parameters:**
@@ -597,7 +629,7 @@ Apply Mancini's runner management protocol to a position.
 
 ### `/set-alert [symbol]`
 
-**Purpose:**  
+**Purpose:**
 Configure price or condition-based alerts for a symbol.
 
 **Parameters:**
@@ -625,7 +657,7 @@ Configure price or condition-based alerts for a symbol.
 
 ### `/log-trade [symbol]`
 
-**Purpose:**  
+**Purpose:**
 Create a structured log entry for a completed trade.
 
 **Parameters:**
@@ -649,7 +681,7 @@ Create a structured log entry for a completed trade.
 
 ### `/add-journal [type]`
 
-**Purpose:**  
+**Purpose:**
 Add a structured entry to trading journal.
 
 **Parameters:**
@@ -672,7 +704,7 @@ Add a structured entry to trading journal.
 
 ### `/run-debrief`
 
-**Purpose:**  
+**Purpose:**
 Execute comprehensive end-of-day trading review.
 
 **Parameters:**
@@ -697,7 +729,7 @@ Execute comprehensive end-of-day trading review.
 
 ### `/compare-analysts`
 
-**Purpose:**  
+**Purpose:**
 Compare trading performance against multiple analyst recommendations.
 
 **Parameters:**
@@ -722,7 +754,7 @@ Compare trading performance against multiple analyst recommendations.
 
 ### `/analyze-patterns`
 
-**Purpose:**  
+**Purpose:**
 Identify recurring patterns in trading behavior and performance.
 
 **Parameters:**
@@ -749,7 +781,7 @@ Identify recurring patterns in trading behavior and performance.
 
 ### `/show-help [command]`
 
-**Purpose:**  
+**Purpose:**
 Display help information for available commands.
 
 **Parameters:**
@@ -772,7 +804,7 @@ Display help information for available commands.
 
 ### `/show-version`
 
-**Purpose:**  
+**Purpose:**
 Display system version and component information.
 
 **Parameters:**
@@ -794,7 +826,7 @@ Display system version and component information.
 
 ### `/backup-system [options]`
 
-**Purpose:**  
+**Purpose:**
 Create system backup of data and configurations.
 
 **Parameters:**
@@ -817,7 +849,7 @@ Create system backup of data and configurations.
 
 ### `/set-preferences [category]`
 
-**Purpose:**  
+**Purpose:**
 Configure user preferences for system behavior.
 
 **Parameters:**
@@ -840,7 +872,7 @@ Configure user preferences for system behavior.
 
 ### `/run-phase [phase]`
 
-**Purpose:**  
+**Purpose:**
 Execute all actions for a specific trading day phase.
 
 **Parameters:**
@@ -863,7 +895,7 @@ Execute all actions for a specific trading day phase.
 
 ### `/define-conviction`
 
-**Purpose:**  
+**Purpose:**
 Define and calibrate conviction level mapping for analyst language.
 
 **Parameters:**
