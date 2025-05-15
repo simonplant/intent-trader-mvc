@@ -41,7 +41,7 @@ From `/tests/`, load:
 
 ---
 
-## 🔄 Optional: Extensible Load Support
+## Optional: Extensible Load Support
 
 In addition to required paths, scan and log any of the following **if present**:
 
@@ -53,7 +53,7 @@ Use a fallback rule:
 
 ---
 
-## 🧹 Ignore These During Load
+## Ignore These During Load
 
 Exclude common artifacts from the loading process:
 - `.DS_Store`
@@ -62,7 +62,7 @@ Exclude common artifacts from the loading process:
 
 ---
 
-## 🚦 Runtime Activation
+## Runtime Activation
 
 Activate runtime and command routing via:
 
@@ -72,7 +72,7 @@ Activate runtime and command routing via:
 
 ---
 
-## 🧠 Runtime Enforcement
+## Runtime Enforcement
 
 - All commands **must** route via `runtime-agent.md`
 - Use only patterns defined in `command-map.md`
@@ -81,7 +81,7 @@ Activate runtime and command routing via:
 
 ---
 
-## ✅ Ready Check
+## Ready Check
 
 Once complete, return:
 ```
@@ -90,13 +90,13 @@ Runtime initialized. Awaiting next instruction.
 
 ---
 
-## 📌 Compatibility
+## Compatibility
 
 This protocol supports **Intent Trader v0.5.0+** and is extensible for new folders, formats, and test types without requiring hardcoded updates.
 
 ---
 
-## 📁 Directory Structure Overview
+## Directory Structure Overview
 
 - `/system/` – Core logic and operational agents
 - `/prompts/` – Trade idea generators and validation modules
@@ -107,7 +107,7 @@ This protocol supports **Intent Trader v0.5.0+** and is extensible for new folde
 
 ---
 
-## 🏁 Start Interacting
+## Start Interacting
 
 After successful runtime initialization, submit commands through the Runtime Agent interface (`system/systemops/runtime-agent.md`) using command structures defined in the Command Map (`system/systemops/command-map.md`).
 

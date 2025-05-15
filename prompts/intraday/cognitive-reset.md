@@ -27,6 +27,7 @@ This prompt is triggered when trader load exceeds threshold or cognitive degrada
 5. Return updated `cognitive-load` object with post-reset metrics
 
 ## Test Input:
+
 ```json
 {
   "load": 8.2,
@@ -42,6 +43,7 @@ This prompt is triggered when trader load exceeds threshold or cognitive degrada
 ```
 
 ## Expected Output:
+
 ```json
 {
   "resetRecommended": true,

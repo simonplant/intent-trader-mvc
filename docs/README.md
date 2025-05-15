@@ -25,6 +25,7 @@ Welcome to the documentation hub for the Intent Trader system.
 ## 🧭 Developer Playbooks
 
 See `/playbooks/` for:
+
 - `phase-map.md`
 - `plugin-system-quickstart.md`
 - `bootstrap-prompt.md`
