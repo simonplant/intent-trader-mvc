@@ -6,28 +6,34 @@ Use this sequence to initialize Intent Trader in any new chat environment. This 
 
 ## Required Load Sequence
 
-**Step 1 — Top-Level System Files (must exist)**
-Load these into memory:
+### Step 1 — Top-Level System Files (must exist)
+
+Parse into memory if present:
 
 - `README.md`
-- `INSTALL.md` (if present)
+- `INSTALL.md`
 - `state/session-manifest.json`
-- `changelog.md` (if present)
+- Any additional .md or .json files in root or /state/
 
-**Step 2 — Core System Markdown**
+### Step 2 — Core System Markdown
 
 Recursively load all `.md` files from:
+
 - `/system/`
 - `/prompts/`
 - `/docs/`
+- `/tests/`
+- Any other folders
 
-**Step 3 — Structured JSON**
+### Step 3 — Structured JSON
 
 Recursively load all `.json` files from:
+
+- `/config/`
 - `/logs/`
 - `/system/schemas/`
 
-**Step 4 — Tests**
+### Step 4 — Tests
 
 From `/tests/`, load:
 - All `.md` (test planning/specs)
@@ -72,6 +78,8 @@ Activate runtime and command routing via:
 - Use only patterns defined in `command-map.md`
 - **Never assume or synthesize paths**
 - Report any missing required files immediately
+- No emojis or decorative symbols are allowed in any user-facing text.
+
 
 ---
 
