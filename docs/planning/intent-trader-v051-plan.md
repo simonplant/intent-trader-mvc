@@ -5,575 +5,474 @@ This document outlines the plan to refactor Intent Trader v0.5.0 to v0.5.1, inco
 ## Primary Goals
 
 1. **Integrated Source Tracking**
-   - Integrate and track high-confidence trade plans from multiple sources (DP, Mancini)
+   - Integrate and track high-confidence trade plans from DP and Mancini
    - Identify and prioritize highest conviction trade ideas across sources
-   - Create unified view of trade plans, positions, and alerts
+   - Create unified view of trade plans and positions
 
-2. **Enhanced Position Management**
-   - Track moderator positions and conviction changes in real-time
-   - Monitor personal positions, orders, and P&L
-   - Create alerting for moderator actions (trims, adds, exits)
+2. **Dual Trading Style Support**
+   - Support both DP's institutional/swing approach and Mancini's technical level-to-level trading
+   - Implement simplified Mancini's Mode1/Mode2 market classification
+   - Create core position management for DP-style trades
 
-3. **Execution Analysis & Optimization**
-   - Track actual trade performance against plan
+3. **Position Management**
+   - Implement "trading around a core" position management for DP-style trades
+   - Create tiered position sizing system
+   - Track profit buffer and effective cost basis for ongoing positions
+
+4. **Performance Analysis**
+   - Track actual trade performance against theoretical optimal execution
    - Calculate theoretical maximum profit potential for each setup
    - Perform gap analysis between actual and optimal execution
    - Generate specific recommendations to close execution gaps
 
-4. **Comprehensive Dashboard**
-   - Integrate price/chart updates with position context
-   - Display real-time P&L with reference to planned targets
-   - Visualize execution quality metrics
-   - Provide at-a-glance view of active opportunities
+5. **Practical Implementation**
+   - Focus on simplicity and maintainability
+   - Prioritize DP's approach as primary style
+   - Emphasize post-market analysis for learning and improvement
 
-5. **Technical Foundation**
-   - Maintain the modular, schema-first approach
-   - Create extensible integration points for future data sources
-   - Support eventual VTF app integration and audio transcription
-
-## New Directory Structure
+## Streamlined Directory Structure
 
 ```
 intent-trader/
 ├── system/
-│   ├── trade-plans/           (formerly blueprints/)
-│   ├── setup-taxonomy/        (new folder for setup definitions)
-│   ├── market-context/        (new folder for regime classification)
-│   ├── risk-management/       (new folder for risk rules)
-│   ├── position-tracking/     (new folder for position management)
-│   ├── execution-analysis/    (new folder for performance analysis)
-│   ├── alerts/                (new folder for alert processing)
-│   ├── schemas/               (expanded for new data structures)
-│   ├── cognitive/             (retain existing cognitive system)
-│   └── systemops/             (retain existing system operations)
+│   ├── trade-plans/         (formerly blueprints/)
+│   ├── market-context/      (includes Mode1/Mode2 classification)
+│   ├── position-tracking/   (consolidated position management)
+│   ├── trade-analysis/      (simplified performance analysis)
+│   ├── schemas/             (core data structures)
+│   └── systemops/           (system operations)
 ├── prompts/
-│   ├── premarket/             (new folder for morning analysis)
-│   ├── intraday/              (retain with enhancements)
-│   ├── postmarket/            (retain with enhancements)
-│   └── utilities/             (renamed from system/ for clarity)
-├── integrations/              (new folder for external connections)
-│   ├── vtf/                   (future VTF application integration)
-│   ├── audio/                 (future audio transcription)
-│   └── broker/                (future broker API integration)
+│   ├── premarket/           (plan generation)
+│   ├── intraday/            (trade validation and updates)
+│   ├── postmarket/          (performance analysis)
+│   └── utilities/           (renamed from system/ for clarity)
 └── logs/
-    ├── trades/                (enhanced trade logging)
-    ├── positions/             (new folder for position tracking)
-    ├── performance/           (new folder for performance metrics)
-    ├── alerts/                (new folder for moderator alerts)
-    └── journal/               (retain existing journal structure)
+    ├── trades/              (trade records)
+    ├── positions/           (position tracking)
+    └── performance/         (performance metrics)
 ```
 
 ## Implementation Phases
 
-### Phase 1: Core Structure (1-2 hours)
+### Phase 1: Core Framework (2-3 hours)
 1. **Rename `/prompts/system/` to `/prompts/utilities/`**
    - Move all files to new directory
    - Update references in `command-map.md` and `runtime-agent.md`
 
-2. **Create New Folder Structure**
-   - Create directories for all components
-   - Set up placeholder files where needed
-
-3. **Create Core System Components**
-   - Implement `system/setup-taxonomy/setup-classification.md`
-   - Implement `system/risk-management/position-sizing.md`
-   - Create `system/market-context/regime-classifier.md` from `market-regimes.md`
-   - Implement `system/position-tracking/moderator-positions.md`
-   - Create `system/execution-analysis/performance-metrics.md`
-
-4. **Update Schemas**
-   - Create `system/schemas/unified-plan.schema.json`
-   - Create `system/schemas/position-tracker.schema.json`
-   - Create `system/schemas/market-context.schema.json`
-   - Create `system/schemas/execution-analysis.schema.json`
-   - Create `system/schemas/alert.schema.json`
-   - Update `system/schemas/trade-log.schema.json`
-
-### Phase 2: Integrated Source Tracking (2-3 hours)
-1. **Create Source Analysis Prompts**
-   - Create `prompts/premarket/dp-analyzer.md` from `dp-trade-analyzer.md`
-   - Create `prompts/premarket/mancini-analyzer.md`
-   - Create `prompts/premarket/technical-level-extractor.md`
-   - Implement `prompts/premarket/unified-plan-generator.md`
-
-2. **Create Cross-Source Integration**
-   - Implement `system/trade-plans/source-integration.md`
-   - Create conviction scoring algorithm
-   - Implement setup matching across sources
-   - Create priority ranking algorithm
-
-3. **Implement Alert Processing**
-   - Create `system/alerts/alert-processor.md`
-   - Implement moderator action detection (trims, adds)
-   - Create alert classification system
-   - Build alert-to-position linking
-
-### Phase 3: Enhanced Position Management (2-3 hours)
-1. **Implement Position Tracking System**
-   - Create `prompts/utilities/update-moderator-position.md`
-   - Create `prompts/utilities/update-personal-position.md`
-   - Create `prompts/utilities/show-positions.md`
-   - Implement `system/position-tracking/position-dashboard.md`
-
-2. **Create Position Management Logic**
-   - Implement position status tracking
-   - Create position update validation
-   - Add alignment detection between moderators
-   - Implement P&L tracking for positions
-
-3. **Create Position Visualization**
-   - Implement position summary formatting
-   - Create position context visualization
-   - Add position history tracking
-   - Create P&L visualization with targets
-
-### Phase 4: Execution Analysis & Optimization (2-3 hours)
-1. **Create Performance Analysis System**
-   - Implement `system/execution-analysis/theoretical-maximum.md`
-   - Create `system/execution-analysis/gap-analyzer.md`
-   - Implement `system/execution-analysis/optimization-engine.md`
-   - Create `prompts/postmarket/execution-analysis.md`
-
-2. **Implement Performance Metrics**
-   - Define execution quality metrics
-   - Create historical performance tracking
-   - Implement setup-specific performance analysis
-   - Build trend analysis for execution errors
-
-3. **Create Optimization Recommendations**
-   - Implement pattern recognition for execution mistakes
-   - Create specific improvement recommendations
-   - Build personalized execution checklists
-   - Implement progress tracking system
-
-### Phase 5: Dashboard & Integration Framework (1-2 hours)
-1. **Create Comprehensive Dashboard**
-   - Implement `prompts/utilities/show-dashboard.md`
-   - Create position and P&L visualization
-   - Build active opportunity display
-   - Implement execution quality metrics display
-
-2. **Set Up Integration Framework**
-   - Create `integrations/vtf/connector-spec.md`
-   - Implement `integrations/audio/transcription-spec.md`
-   - Build `integrations/broker/api-spec.md`
-   - Create placeholder integration points
-
-3. **Finalize Command Routing**
-   - Ensure all new commands are properly routed
-   - Validate command inputs and outputs
-   - Update help documentation
-   - Create quick reference guide
-
-## Key Files to Create
-
-### System Core Files
-
-1. **`system/trade-plans/unified-plan-structure.md`**
-   ```markdown
-   ---
-   id: unified-plan-structure
-   version: "1.0.0"
-   type: blueprint
-   created: 2025-05-14T12:00:00Z
-   updated: 2025-05-14T12:00:00Z
-   cognitiveLoad: MEDIUM
-   requiresConfirmation: true
-   ---
-
-   # Unified Trade Plan Structure
-
-   This document defines the standard structure for a unified trade plan that integrates multiple sources.
-
-   ## Sections
-
-   - `market_context`: Summary of market regime, levels, and events
-   - `trade_ideas`: Prioritized trade opportunities with conviction scoring
-   - `watchlist`: Secondary trade ideas to monitor
-   - `positions`: Current active positions (moderator and personal)
-   - `orders`: Pending and executed orders
-   - `alerts`: Recent moderator actions and alerts
-   - `performance`: Current P&L and execution metrics
-   - `risk_summary`: Overall portfolio risk assessment
-
-   Each section must conform to `unified-plan.schema.json` format.
-   ```
-
-2. **`system/setup-taxonomy/setup-classification.md`**
-   - Already created in draft form
-   - Defines setup types, classification tags, and scoring system
-
-3. **`system/market-context/regime-classifier.md`**
-   - Port from existing `market-regimes.md`
-   - Enhance with regime detection logic
-
-4. **`system/risk-management/position-sizing.md`**
-   - Already created in draft form
-   - Defines position sizing matrix and calculations
-
-5. **`system/position-tracking/moderator-positions.md`**
-   - Already created in draft form
-   - Defines moderator position tracking system
-
-6. **`system/execution-analysis/theoretical-maximum.md`**
-   ```markdown
-   ---
-   id: theoretical-maximum
-   version: "1.0.0"
-   type: analysis
-   created: 2025-05-14T14:00:00Z
-   updated: 2025-05-14T14:00:00Z
-   cognitiveLoad: HIGH
-   requiresConfirmation: false
-   ---
-
-   # Theoretical Maximum Performance Calculator
-
-   This component calculates the theoretical maximum profit potential for trade setups based on perfect execution.
-
-   ## Calculation Methods
-
-   ### Perfect Entry/Exit Method
-   - Uses the absolute low of the entry zone
-   - Uses the absolute high of the target zone
-   - Assumes perfect position sizing
-   - Assumes perfect timing
-
-   ### Realistic Optimal Method
-   - Uses the 10% level after the absolute low for entry
-   - Uses the 90% level before the absolute high for exit
-   - Accounts for slippage and realistic market mechanics
-   - Uses achievable position sizing
-
-   ### Conservative Method
-   - Uses the middle of the entry zone
-   - Uses the first target zone for exit
-   - Uses standard position sizing
-   - Assumes some time decay in execution
-
-   ## Performance Metrics
-   - Maximum percentage return
-   - Maximum dollar return
-   - Time to maximum return
-   - Risk-adjusted maximum return
-   - Opportunity cost of missed setups
-
-   ## Integration
-   This calculation is used in:
-   - Post-market execution analysis
-   - Gap analysis reports
-   - Performance optimization recommendations
-   ```
-
-7. **`system/execution-analysis/gap-analyzer.md`**
-   ```markdown
-   ---
-   id: gap-analyzer
-   version: "1.0.0"
-   type: analysis
-   created: 2025-05-14T15:00:00Z
-   updated: 2025-05-14T15:00:00Z
-   cognitiveLoad: HIGH
-   requiresConfirmation: false
-   ---
-
-   # Execution Gap Analyzer
-
-   This component analyzes the gap between actual trading execution and theoretical optimal execution.
-
-   ## Gap Categories
-
-   ### Entry Timing Gaps
-   - Late entry (missed optimal price)
-   - Hesitation (missed trigger)
-   - Premature entry (before confirmation)
-   - Incorrect entry zone
-
-   ### Exit Timing Gaps
-   - Early exit (left profit on table)
-   - Late exit (gave back profits)
-   - Partial exit issues (improper scaling)
-   - Missed target zones
-
-   ### Position Sizing Gaps
-   - Undersized relative to conviction
-   - Oversized relative to risk
-   - Improper scaling in/out
-   - Inconsistent position sizing
-
-   ### Behavioral Gaps
-   - Emotional decision-making
-   - Plan deviation
-   - FOMO/revenge trading
-   - Risk management failures
-
-   ## Gap Scoring
-   - Percentage of theoretical maximum achieved
-   - Dollar value left on table
-   - Frequency of gap type
-   - Severity ranking
-   - Improvement priority
-
-   ## Integration
-   This analysis is used in:
-   - Daily execution debrief
-   - Weekly performance reviews
-   - Personalized improvement recommendations
-   - Execution trend analysis
-   ```
-
-8. **`system/alerts/alert-processor.md`**
-   ```markdown
-   ---
-   id: alert-processor
-   version: "1.0.0"
-   type: processor
-   created: 2025-05-14T16:00:00Z
-   updated: 2025-05-14T16:00:00Z
-   cognitiveLoad: MEDIUM
-   requiresConfirmation: true
-   ---
-
-   # Moderator Alert Processor
-
-   This component processes alerts and updates from moderators, detecting actions and updating position context.
-
-   ## Alert Types
-
-   ### Position Actions
-   - ENTER: New position initiated
-   - ADD: Adding to existing position
-   - TRIM: Reducing position size
-   - EXIT: Completely exiting position
-   - ROLL: Moving to different strike/expiration
-
-   ### Context Updates
-   - SENTIMENT_SHIFT: Change in market view
-   - CONVICTION_CHANGE: Increased/decreased conviction
-   - LEVEL_BREAK: Key level violated
-   - TIMING_UPDATE: Change in trade timeframe
-
-   ### Priority Signals
-   - URGENT: Immediate action recommended
-   - FOCUS: Emphasis on specific setup
-   - CAUTION: Increased risk awareness
-   - OPPORTUNITY: Time-sensitive entry point
-
-   ## Processing Logic
-   - Pattern matching for action detection
-   - Position state linking and updates
-   - Conviction level adjustment
-   - Alert prioritization and routing
-
-   ## Integration
-   This processor is used with:
-   - VTF text alerts
-   - Moderator chat messages
-   - Audio transcription (future)
-   - Email/Slack notifications
-   ```
-
-### Prompt Files
-
-1. **`prompts/premarket/dp-analyzer.md`**
-   - Enhance from `dp-trade-analyzer.md`
-   - Add emphasis detection and position context
-
-2. **`prompts/premarket/mancini-analyzer.md`**
-   - Create based on references and requirements
-   - Implement FBD/FBO pattern recognition
-
-3. **`prompts/premarket/technical-level-extractor.md`**
-   - Combine existing level extractors
-   - Add level significance scoring
-
-4. **`prompts/premarket/unified-plan-generator.md`**
-   - Already created in draft form
-   - Generates comprehensive trade plan
-
-5. **`prompts/intraday/trade-validator.md`**
-   ```markdown
-   ---
-   id: trade-validator
-   version: "1.0.0"
-   type: prompt
-   created: 2025-05-14T14:00:00Z
-   updated: 2025-05-14T14:00:00Z
-   cognitiveLoad: MEDIUM
-   requiresConfirmation: true
-   ---
-
-   # Trade Validator
-
-   This prompt validates a potential trade against the unified trade plan, applying position sizing and risk rules.
-
-   ## Inputs
-   - Ticker symbol
-   - Direction (LONG/SHORT)
-   - Entry price
-   - Setup type
-   - Current market context
-   - Unified trade plan reference
-
-   ## Processing Logic
-   1. Match trade against planned setups
-   2. Validate entry price against defined zones
-   3. Apply position sizing rules
-   4. Check risk parameters and portfolio heat
-   5. Generate specific execution guidance
-   
-   ## Output Format
-   JSON validation result with execution recommendations
-   ```
-
-6. **`prompts/postmarket/execution-analysis.md`**
-   ```markdown
-   ---
-   id: execution-analysis
-   version: "1.0.0"
-   type: prompt
-   created: 2025-05-14T18:00:00Z
-   updated: 2025-05-14T18:00:00Z
-   cognitiveLoad: HIGH
-   requiresConfirmation: false
-   ---
-
-   # Execution Analysis
-
-   This prompt analyzes the day's trading performance against theoretical maximum potential, identifying execution gaps and generating improvement recommendations.
-
-   ## Inputs
-   - Trade log for the day
-   - Original trade plan
-   - Price data for trades
-   - Historical performance metrics
-
-   ## Processing Logic
-   1. Calculate theoretical maximum for each setup (perfect execution)
-   2. Compare actual execution to theoretical maximum
-   3. Identify execution gaps by category
-   4. Generate specific improvement recommendations
-   5. Track recurring patterns in execution errors
-   6. Calculate execution efficiency score
-
-   ## Output Format
-   ```json
-   {
-     "performance_summary": {
-       "actual_profit": "$1,245",
-       "theoretical_maximum": "$3,200",
-       "execution_efficiency": "38.9%",
-       "missed_opportunity": "$1,955",
-       "execution_score": 6.2
-     },
-     "gap_analysis": {
-       "primary_gaps": [
-         {
-           "type": "LATE_ENTRY",
-           "frequency": "High",
-           "impact": "$850",
-           "examples": ["AAPL trade at 10:15am", "MSFT trade at 2:30pm"],
-           "pattern": "Waiting for additional confirmation"
-         },
-         {
-           "type": "EARLY_EXIT",
-           "frequency": "Medium",
-           "impact": "$650",
-           "examples": ["QQQ trade at 11:45am"],
-           "pattern": "Taking profits at first target"
-         }
-       ],
-       "secondary_gaps": []
-     },
-     "improvement_recommendations": [
-       {
-         "focus_area": "Entry Timing",
-         "recommendation": "Use limit orders at planned entry points",
-         "expected_impact": "High",
-         "implementation_steps": ["Step 1", "Step 2"]
-       },
-       {
-         "focus_area": "Exit Strategy",
-         "recommendation": "Implement tiered exit with trailing stop",
-         "expected_impact": "Medium",
-         "implementation_steps": ["Step 1", "Step 2"]
-       }
-     ],
-     "progress_tracking": {
-       "trend_direction": "Improving",
-       "most_improved_area": "Position Sizing",
-       "focus_for_tomorrow": "Entry Timing"
-     }
-   }
-   ```
-   ```
-
-7. **`prompts/utilities/show-dashboard.md`**
-   ```markdown
-   ---
-   id: show-dashboard
-   version: "1.0.0"
-   type: prompt
-   created: 2025-05-14T19:00:00Z
-   updated: 2025-05-14T19:00:00Z
-   cognitiveLoad: MEDIUM
-   requiresConfirmation: false
-   ---
-
-   # Dashboard Display
-
-   This prompt generates a comprehensive dashboard view of the current trading session.
-
-   ## Inputs
-   - Current unified trade plan
-   - Active positions
-   - Recent alerts
-   - Performance metrics
-   - Market context
-
-   ## Processing Logic
-   1. Integrate all data sources into cohesive view
-   2. Prioritize information based on relevance and urgency
-   3. Format data for easy consumption
-   4. Highlight key metrics and status changes
-
-   ## Output Format
-
-   ```
-   # TRADING DASHBOARD — [DATE] [TIME]
-
-   ## MARKET STATUS
-   - SPX: 4585.75 +0.5% | QQQ: 434.25 +0.8% | VIX: 18.25 -3.2%
-   - REGIME: TRENDING_UP | SENTIMENT: BULLISH | VOLATILITY: MODERATE
-
-   ## ACTIVE POSITIONS
-   🟢 AAPL LONG: +2.4% ($790) | Entry: 185.75 | Current: 190.25 | Target: 195.00
-   🟡 MSFT LONG: +0.3% ($110) | Entry: 420.50 | Current: 421.75 | Target: 435.00
-   
-   ## OPEN ORDERS
-   🟡 QQQ LONG: Limit 430.50 (Filled: 0/100)
-   🟡 NVDA LONG: Stop-Limit 950 → 952 (Filled: 0/20)
-
-   ## HIGHEST CONVICTION SETUPS
-   🔥 FB-L-CF-HC META: Enter 485-490, Target 515
-   ⭐ TC-L-SW-HC AMZN: Enter 180-182, Target 195
-
-   ## RECENT ALERTS
-   - 10:45am: DP Trimming MSFT at 422 ⚠️
-   - 10:30am: Mancini "Watch 4585 resistance on SPX" 📊
-   - 10:15am: Kira adding to AAPL position 📈
-
-   ## EXECUTION QUALITY
-   - Today's Efficiency: 68% (↑12% from yesterday)
-   - Primary Gap: Entry Timing (-$280)
-   - Focus Area: Partial Exit Strategy
-
-   ## P&L SUMMARY
-   - Today: +$900 (0.9%) | Week: +$3,200 (3.2%)
-   - vs. Maximum Potential: $900/$1,450 (62%)
-   - Open P&L: +$900
-   ```
-   ```
+2. **Create simplified directory structure**
+   - Set up core folders as outlined
+   - Implement basic placeholder files
+
+3. **Implement market mode classification**
+   - Create `system/market-context/market-mode.md` (simplified Mode1/Mode2 framework)
+   - Implement basic detection for trending vs. choppy days
+   - Create mode-based setup compatibility matrix
+
+### Phase 2: Trade Planning & Tracking (3-4 hours)
+1. **Implement source analysis**
+   - Create `prompts/premarket/dp-analyzer.md` based on existing file
+   - Create `prompts/premarket/mancini-analyzer.md` for level-based analysis
+   - Create `prompts/premarket/unified-plan-generator.md` to combine sources
+
+2. **Build position tracking system**
+   - Create `system/position-tracking/position-manager.md` (consolidated tracking)
+   - Implement core position management for DP-style trades
+   - Create `prompts/utilities/show-positions.md` for position visualization
+
+3. **Implement trade validation**
+   - Create `prompts/intraday/trade-validator.md` for plan alignment check
+   - Implement simple position sizing recommendations
+   - Create basic risk management checks
+
+### Phase 3: Performance Analysis (3-4 hours)
+1. **Build trade analysis system**
+   - Create `system/trade-analysis/performance-analyzer.md`
+   - Implement theoretical vs. actual performance comparison
+   - Create gap analysis for execution quality
+
+2. **Create coaching framework**
+   - Create `prompts/postmarket/trade-review.md` for daily analysis
+   - Implement specific improvement recommendations
+   - Create visualization for performance metrics
+
+3. **Implement dashboard**
+   - Create `prompts/utilities/show-dashboard.md` for current trading status
+   - Implement active position tracking
+   - Create high-conviction setup display
+
+## Key Consolidated Components
+
+### 1. `system/market-context/market-mode.md`
+```markdown
+---
+id: market-mode
+version: "1.0.0"
+type: market-context
+created: 2025-05-15T12:00:00Z
+updated: 2025-05-15T12:00:00Z
+cognitiveLoad: MEDIUM
+requiresConfirmation: false
+---
+
+# Market Mode Classification
+
+This document defines a simplified framework for detecting and classifying market modes, with focus on Mancini's Mode1/Mode2 distinction.
+
+## Mode Types
+
+### Mode1: Strong Trend Days
+- **Characteristics**: 
+  - Large opening gaps (>0.5%)
+  - Strong directional volume
+  - Clear trending price action
+  - Follow-through on breakouts
+  - Wide intraday ranges
+
+- **Trading Approach**: 
+  - Major level to level moves
+  - Holding through noise
+  - Following momentum
+  - Swing-oriented setups
+
+- **Size & Risk Management**: 
+  - Full position sizing
+  - Wider stops
+  - Larger targets
+  - Tiered exits at key levels
+
+### Mode2: Choppy Range Days
+- **Characteristics**:
+  - Small gaps or inside days
+  - Narrow ranges
+  - Back-and-forth price action
+  - Failed breakouts
+  - Low directional conviction
+
+- **Trading Approach**:
+  - Range trading
+  - Quick scalps
+  - Fade extremes
+  - Avoid breakout attempts
+
+- **Size & Risk Management**:
+  - Reduced position sizing (50-75%)
+  - Tighter stops
+  - Smaller targets
+  - Faster exits
+
+## Classification Process
+1. Evaluate overnight action and gap
+2. Consider previous day's behavior
+3. Assess key technical indicators
+4. Make initial classification
+5. Re-evaluate if conditions change significantly
+
+## Setup Compatibility
+
+| Setup Type | Mode1 (Trending) | Mode2 (Choppy) |
+|------------|------------------|----------------|
+| Failed Breakdown | Strong | Moderate |
+| Range Reclaim | Moderate | Strong |
+| Trend Continuation | Strong | Weak |
+| Opening Range B/O | Strong | Weak |
+```
+
+### 2. `system/position-tracking/position-manager.md`
+```markdown
+---
+id: position-manager
+version: "1.0.0"
+type: position-tracking
+created: 2025-05-15T12:00:00Z
+updated: 2025-05-15T12:00:00Z
+cognitiveLoad: MEDIUM
+requiresConfirmation: true
+---
+
+# Position Management System
+
+This document defines a consolidated system for tracking positions and implementing DP's "trading around a core" approach.
+
+## Position Tracking
+
+### Moderator Positions
+- Track positions from DP, Mancini, and other moderators
+- Record entry price, size, and conviction level
+- Track position updates (adds, trims, exits)
+- Note supporting commentary and context
+
+### Personal Positions
+- Track active day and swing positions
+- Record entry price, size, and setup type
+- Link to original trade plan or setup
+- Calculate current P&L and status
+
+## Trading Around Core
+
+### Core Position Principles
+- Establish properly sized initial core position
+- Build profit buffer through partial exits
+- Lower effective cost basis through buffer
+- Add back on weakness when thesis remains intact
+- Hold core position for extended targets
+
+### Position States
+1. **Building Core**: Establishing tiered position
+2. **Profit Buffer**: Creating cushion through partial exits
+3. **Adjusted Basis**: Trading with "house money" effect
+4. **Core Extension**: Adding opportunistically on weakness
+5. **Target Achieving**: Scaling final exits
+
+### Buffer Calculation
+```
+Buffer = Sum of (Exit Price - Entry Price) * Units for all partial exits
+Effective Basis = (Original Basis - Buffer) / Remaining Units
+```
+
+## Position Sizing
+
+### Standard Sizing
+- **Full**: 100% of standard position allocation
+- **Half**: 50% of standard position
+- **Quarter**: 25% of standard position
+- **Tracer**: 5-10% for exploration
+
+### Tiered Entry
+- Use limit orders at predetermined levels
+- Standard 3-tier: 33/33/34% distribution
+- Front-loaded: More at higher levels
+- Back-loaded: More at lower levels
+
+### Size Adjustments
+- Increase for higher conviction setups
+- Reduce for Mode2 market conditions
+- Scale based on current performance
+- Adjust for setup compatibility with market mode
+```
+
+### 3. `system/trade-analysis/performance-analyzer.md`
+```markdown
+---
+id: performance-analyzer
+version: "1.0.0"
+type: trade-analysis
+created: 2025-05-15T12:00:00Z
+updated: 2025-05-15T12:00:00Z
+cognitiveLoad: HIGH
+requiresConfirmation: false
+---
+
+# Trade Performance Analysis
+
+This component analyzes trade performance against theoretical optimal execution to identify improvement opportunities.
+
+## Theoretical Performance Calculation
+
+### Perfect Execution Model
+- Best possible entry in the defined zone
+- Optimal position building sequence
+- Ideal exit at maximum profit point
+- Perfect position sizing for the setup
+
+### Realistic Benchmark
+- 90th percentile execution quality
+- Accounts for market mechanics
+- Assumes reasonable reaction time
+- Incorporates normal decision-making friction
+
+## Gap Analysis
+
+### Entry Timing Gaps
+- Late entry (missed optimal price)
+- Hesitation (missed trigger)
+- Premature entry (insufficient confirmation)
+- Wrong entry price level
+
+### Exit Timing Gaps
+- Early exit (left profit on table)
+- Late exit (gave back profits)
+- Poor scaling (improper partial exits)
+- Missed target opportunities
+
+### Position Sizing Gaps
+- Undersized relative to conviction
+- Oversized relative to risk
+- Improper scaling or tiering
+- Inconsistent sizing across similar setups
+
+## Improvement Framework
+
+### Pattern Recognition
+- Identify recurring execution issues
+- Track frequency and impact of gaps
+- Correlate with market conditions
+- Measure improvement over time
+
+### Recommendation Engine
+- Generate specific improvement actions
+- Create focused practice exercises
+- Suggest process adjustments
+- Provide execution checklists
+```
+
+### 4. `prompts/premarket/unified-plan-generator.md`
+```markdown
+---
+id: unified-plan-generator
+version: "1.0.0"
+type: prompt
+created: 2025-05-15T12:00:00Z
+updated: 2025-05-15T12:00:00Z
+cognitiveLoad: HIGH
+requiresConfirmation: true
+---
+
+# Unified Trade Plan Generator
+
+This prompt generates a comprehensive trade plan by synthesizing data from multiple sources including DP analysis, Mancini blueprint, and technical levels.
+
+## Inputs
+- DP Analysis JSON
+- Mancini Analysis JSON
+- Technical Levels
+- Market Mode Classification
+
+## Processing Logic
+1. Integrate trade ideas from all sources
+2. Prioritize based on conviction across sources
+3. Apply market mode compatibility filtering
+4. Generate unified watchlist with execution details
+5. Create summary of market context and key levels
+
+## Output Format
+
+```json
+{
+  "market_context": {
+    "date": "2025-05-15",
+    "mode": "MODE1",
+    "key_levels": {
+      "SPX": [4500, 4525, 4550],
+      "QQQ": [430, 435, 440]
+    },
+    "sentiment": "BULLISH",
+    "events": ["CPI Data 8:30am ET"]
+  },
+  "trade_ideas": [
+    {
+      "ticker": "AAPL",
+      "direction": "LONG",
+      "setup_type": "FB-L-CF-HC",
+      "conviction": 8,
+      "source": ["DP:HIGH", "MANCINI:SUPPORT"],
+      "levels": {
+        "entry": "185-190",
+        "stop": 183,
+        "targets": [195, 205]
+      },
+      "position_sizing": "FULL",
+      "execution_strategy": "Tiered entry with 3 levels"
+    }
+  ],
+  "watchlist": [],
+  "positions": {
+    "moderators": {},
+    "personal": {}
+  }
+}
+```
+
+## Example Command
+
+```
+/generate-plan
+DP: {DP analysis JSON}
+Mancini: {Mancini analysis JSON}
+Mode: "MODE1"
+```
+```
+
+### 5. `prompts/postmarket/trade-review.md`
+```markdown
+---
+id: trade-review
+version: "1.0.0"
+type: prompt
+created: 2025-05-15T12:00:00Z
+updated: 2025-05-15T12:00:00Z
+cognitiveLoad: MEDIUM
+requiresConfirmation: false
+---
+
+# Daily Trade Review
+
+This prompt analyzes the day's trading performance, compares actual execution to theoretical optimal execution, and provides specific improvement recommendations.
+
+## Inputs
+- Trade log for the day
+- Original trade plan
+- Price data for executed trades
+- Historical performance patterns
+
+## Processing Logic
+1. Calculate theoretical optimal performance for each trade
+2. Compare actual execution to optimal benchmark
+3. Identify execution gaps by category
+4. Detect recurring patterns in execution
+5. Generate specific improvement recommendations
+6. Track progress against previous days
+
+## Output Format
+
+```
+# DAILY TRADE REVIEW - [DATE]
+
+## MARKET SUMMARY
+- Mode: [MODE1/MODE2]
+- Overall Market Behavior: [DESCRIPTION]
+- Key Price Action: [SUMMARY]
+
+## PERFORMANCE METRICS
+- P&L: +$1,245 (+1.25%)
+- vs. Theoretical Max: $1,245/$3,200 (38.9%)
+- Execution Score: 6.2/10
+- Improvement: +0.4 from yesterday
+
+## TRADE ANALYSIS
+
+### AAPL LONG (FB-L-CF-HC)
+- Entry: $186.50 vs. Optimal $184.75 (-0.9%)
+- Exit: $192.25 vs. Optimal $195.50 (-1.7%)
+- Sizing: 75% of Plan
+- Execution Quality: 7.5/10
+- Key Gap: Early exit left $650 on table
+- Chart: [Trade visualization with entry/exit markers]
+
+### QQQ SHORT (RR-S-CF-MC)
+- Entry: $432.75 vs. Optimal $434.25 (-0.3%)
+- Exit: $430.50 vs. Optimal $428.75 (-0.4%)
+- Sizing: According to plan
+- Execution Quality: 8.2/10
+- Key Gap: Minor timing issues
+- Chart: [Trade visualization with entry/exit markers]
+
+## IMPROVEMENT AREAS
+1. **Early Exits** (-$700 impact)
+   - Pattern: Exiting at first target despite trend strength
+   - Fix: Use partial exits and trailing stops for remainder
+   - Exercise: Practice identifying trend continuation signals
+
+2. **Position Sizing** (-$350 impact)
+   - Pattern: Undersized on highest conviction trades
+   - Fix: Commit to full size on plan-aligned setups
+   - Exercise: Pre-determine size before setup triggers
+
+## FOCUS FOR TOMORROW
+1. Use tiered exits (33% at T1, 33% at T2, trail remainder)
+2. Commit to full planned size on DP focus ideas
+3. Pre-set all orders according to plan before entries trigger
+```
+```
 
 ### Schema Files
 
@@ -671,7 +570,7 @@ intent-trader/
    }
    ```
 
-## Command Updates
+## Command Map Updates
 
 Update `system/systemops/command-map.md` to include:
 
@@ -680,93 +579,44 @@ Update `system/systemops/command-map.md` to include:
 | `/analyze-dp` | Process DP Morning Call transcript | premarket | Transcript text |
 | `/analyze-mancini` | Process Mancini Blueprint | premarket | Mancini content |
 | `/extract-levels` | Get technical levels and SMAs | premarket | Tickers list |
-| `/generate-trade-plan` | Create unified plan | premarket | Source references |
+| `/classify-mode` | Determine market mode | premarket | Market data |
+| `/generate-plan` | Create unified trade plan | premarket | Source references |
 | `/validate-trade` | Validate potential trade | intraday | Trade details |
 | `/update-position` | Update position status | intraday | Position details |
 | `/show-positions` | Display current positions | any | None |
-| `/log-alert` | Log moderator alert | intraday | Alert details |
 | `/show-dashboard` | Display trading dashboard | any | None |
-| `/analyze-execution` | Analyze execution vs potential | postmarket | Trade log |
-| `/show-gap-analysis` | Display execution gap analysis | postmarket | None |
-| `/generate-recommendations` | Generate improvement recommendations | postmarket | None |
+| `/analyze-trades` | Review day's performance | postmarket | Trade log |
+| `/trade-review` | Get improvement suggestions | postmarket | None |
 
-## Integration Framework
+## Core Schema Updates
 
-The system should be designed with integration points for future enhancements:
+Create or update these schemas:
 
-### VTF Application Integration
-```
-integrations/vtf/connector-spec.md:
-- Real-time alert parsing
-- Chat message extraction
-- Position updates
-- Price data integration
-```
+1. **`system/schemas/unified-plan.schema.json`**
+   - Define structure for trade plans with sources, conviction, and levels
+   - Include position sizing recommendations
+   - Add execution strategy templates
 
-### Audio Transcription
-```
-integrations/audio/transcription-spec.md:
-- Moderator voice recognition
-- Real-time transcription
-- Alert extraction from audio
-- Sentiment analysis from tone
-```
+2. **`system/schemas/position-tracker.schema.json`**
+   - Track moderator and personal positions
+   - Record position state and history
+   - Calculate profit buffer and effective cost basis
 
-### Broker API Integration
-```
-integrations/broker/api-spec.md:
-- Order execution integration
-- Position status tracking
-- P&L reconciliation
-- Real-time price updates
-```
+3. **`system/schemas/trade-analysis.schema.json`**
+   - Define structure for performance analysis
+   - Track execution gaps and recommendations
+   - Store historical performance data
 
-## Migration Strategy
+## Implementation Timeline
 
-1. Start with folder structure changes
-2. Port existing content with minimal modifications
-3. Create new components in logical order:
-   - Setup classification system
-   - Position tracking components
-   - Trade plan integration
-   - Execution analysis tools
-4. Test components as they're completed
-5. Update command routing as components are added
+This implementation plan can be completed in approximately 8-10 hours:
 
-## Execution Analysis Framework
+1. **Day 1 (4-5 hours)**
+   - Core components and folder structure
+   - DP analysis and position tracking
 
-The execution analysis framework will provide:
+2. **Day 2 (4-5 hours)**
+   - Mancini analysis and plan generation
+   - Performance analysis and review system
 
-1. **Theoretical Maximum Calculation**
-   - Perfect entry/exit prices based on day's price action
-   - Optimal position sizing based on conviction
-   - Realistic market mechanics (slippage, etc.)
-
-2. **Gap Analysis Categories**
-   - Entry timing gaps (late, premature, hesitation)
-   - Exit timing gaps (early, late, improper scaling)
-   - Position sizing gaps (undersized, oversized)
-   - Behavioral gaps (emotional decisions, FOMO)
-
-3. **Improvement Recommendations**
-   - Specific actionable suggestions
-   - Implementation steps
-   - Expected impact
-   - Progress tracking
-
-4. **Visualization**
-   - Performance metrics dashboard
-   - Execution efficiency trends
-   - Gap analysis charts
-   - Progress tracking visualization
-
-## Testing Strategy
-
-For each component:
-1. Validate schema compliance
-2. Test with sample inputs
-3. Verify integration with other components
-4. Test command routing
-5. Validate performance analysis accuracy
-
-## Total Estimated Implementation Time: 8-12 hours
+The simplified approach focuses on practical implementation with reduced complexity while maintaining the core functionality needed to support both trading styles and provide valuable performance analysis.
