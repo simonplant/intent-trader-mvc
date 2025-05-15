@@ -4,34 +4,38 @@ Use this sequence to initialize Intent Trader in any new chat environment. This 
 
 ---
 
-## 🗂 Required Load Sequence
+## Required Load Sequence
 
 **Step 1 — Top-Level System Files (must exist)**
 Load these into memory:
+
 - `README.md`
 - `INSTALL.md` (if present)
 - `state/session-manifest.json`
 - `changelog.md` (if present)
 
 **Step 2 — Core System Markdown**
+
 Recursively load all `.md` files from:
 - `/system/`
 - `/prompts/`
 - `/docs/`
 
 **Step 3 — Structured JSON**
+
 Recursively load all `.json` files from:
 - `/logs/`
 - `/system/schemas/`
 
 **Step 4 — Tests**
+
 From `/tests/`, load:
 - All `.md` (test planning/specs)
 - All `.js` (test execution logic)
 
 ---
 
-## 🔄 Optional: Extensible Load Support
+## Optional: Extensible Load Support
 
 In addition to required paths, scan and log any of the following **if present**:
 
@@ -43,7 +47,7 @@ Use a fallback rule:
 
 ---
 
-## 🧹 Ignore These During Load
+## Ignore These During Load
 
 Exclude common artifacts from the loading process:
 - `.DS_Store`
@@ -52,7 +56,7 @@ Exclude common artifacts from the loading process:
 
 ---
 
-## 🚦 Runtime Activation
+## Runtime Activation
 
 Activate runtime and command routing via:
 
@@ -62,7 +66,7 @@ Activate runtime and command routing via:
 
 ---
 
-## 🧠 Runtime Enforcement
+## Runtime Enforcement
 
 - All commands **must** route via `runtime-agent.md`
 - Use only patterns defined in `command-map.md`
@@ -71,7 +75,7 @@ Activate runtime and command routing via:
 
 ---
 
-## ✅ Ready Check
+## Ready Check
 
 Once complete, return:
 ```
@@ -80,6 +84,6 @@ Runtime initialized. Awaiting next instruction.
 
 ---
 
-## 📌 Compatibility
+## Compatibility
 
 This protocol supports **Intent Trader v0.5.0+** and is extensible for new folders, formats, and test types without requiring hardcoded updates.
