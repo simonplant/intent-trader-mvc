@@ -1,0 +1,284 @@
+{
+  "processorVersion": "1.0.0",
+  "processedAt": "2025-05-15T23:33:41.359990Z",
+  "marketContext": {
+    "futures": {
+      "status": "lower",
+      "catalysts": [
+        "DOJ criminal probe into UnitedHealth",
+        "earnings reports",
+        "Foot Locker acquisition",
+        "CoreWeave earnings reaction"
+      ]
+    },
+    "indices": {
+      "dow": {
+        "direction": "down",
+        "change": "over 200 points"
+      },
+      "nasdaq": {
+        "direction": "down",
+        "change": "110 to 120 points"
+      }
+    },
+    "keyMovers": [
+      {
+        "ticker": "UNH",
+        "direction": "down",
+        "magnitude": "20 points",
+        "reason": "DOJ criminal investigation"
+      },
+      {
+        "ticker": "FL",
+        "direction": "up",
+        "magnitude": "80%",
+        "reason": "Acquisition by Dick’s Sporting Goods"
+      },
+      {
+        "ticker": "CRWV",
+        "direction": "down",
+        "magnitude": "10 points",
+        "reason": "Post-earnings reversal due to modest guidance"
+      },
+      {
+        "ticker": "BABA",
+        "direction": "down",
+        "magnitude": "5%",
+        "reason": "Missed on both top and bottom line"
+      },
+      {
+        "ticker": "CSCO",
+        "direction": "up",
+        "magnitude": "2 points",
+        "reason": "Earnings beat and raised guidance"
+      }
+    ],
+    "sentiment": "cautious, near-term bearish"
+  },
+  "focusIdeas": [
+    {
+      "ticker": "TEM",
+      "direction": "long",
+      "conviction": {
+        "level": "focus-trade",
+        "phrases": ["excited to buy between 60 and 62 today"]
+      },
+      "entryParameters": {
+        "zone": {"min": 60, "max": 62},
+        "condition": "8 and 10 day moving averages aligned"
+      },
+      "exitParameters": {
+        "stopLoss": null,
+        "target": null
+      },
+      "rationale": "DP started buying yesterday and would be excited to buy more today at support",
+      "isDayAfterTrade": false,
+      "tradeDuration": "swing",
+      "frequency": 1,
+      "isFavorite": true
+    },
+    {
+      "ticker": "BABA",
+      "direction": "short",
+      "conviction": {
+        "level": "high",
+        "phrases": ["DAT to the downside bottom line"]
+      },
+      "entryParameters": {
+        "zone": {"min": 121, "max": 121},
+        "condition": "approaching 21-day moving average"
+      },
+      "exitParameters": {
+        "stopLoss": null,
+        "target": null
+      },
+      "rationale": "Post-earnings day-after-trade setup to the downside",
+      "isDayAfterTrade": true,
+      "tradeDuration": "day",
+      "frequency": 1,
+      "isFavorite": false
+    },
+    {
+      "ticker": "CRWV",
+      "direction": "long",
+      "conviction": {
+        "level": "medium",
+        "phrases": ["some of my favorites if we pull back"]
+      },
+      "entryParameters": {
+        "zone": {"min": null, "max": null},
+        "condition": "on pullback after earnings reversal"
+      },
+      "exitParameters": {
+        "stopLoss": null,
+        "target": null
+      },
+      "rationale": "Strong earnings beat, weak guide; CEO possibly low-balling to keep expectations beatable",
+      "isDayAfterTrade": true,
+      "tradeDuration": "swing",
+      "frequency": 1,
+      "isFavorite": false
+    },
+    {
+      "ticker": "HOOD",
+      "direction": "long",
+      "conviction": {
+        "level": "medium",
+        "phrases": ["would certainly buy back at 56", "still long", "would like to add"]
+      },
+      "entryParameters": {
+        "zone": {"min": 56, "max": 56},
+        "condition": "8-day moving average"
+      },
+      "exitParameters": {
+        "stopLoss": null,
+        "target": null
+      },
+      "rationale": "DP still long and looking to add on pullback to support",
+      "isDayAfterTrade": false,
+      "tradeDuration": "swing",
+      "frequency": 1,
+      "isFavorite": false
+    },
+    {
+      "ticker": "AMD",
+      "direction": "long",
+      "conviction": {
+        "level": "medium",
+        "phrases": ["kind of interesting maybe for some calls"]
+      },
+      "entryParameters": {
+        "zone": {"min": 115, "max": 115},
+        "condition": "previous support and bounce level"
+      },
+      "exitParameters": {
+        "stopLoss": null,
+        "target": null
+      },
+      "rationale": "Insider buying, buyback, prior support level; not a strong quarter but better than usual",
+      "isDayAfterTrade": false,
+      "tradeDuration": "swing",
+      "frequency": 1,
+      "isFavorite": false
+    },
+    {
+      "ticker": "TSLA",
+      "direction": "long",
+      "conviction": {
+        "level": "low",
+        "phrases": ["only interesting near 309"]
+      },
+      "entryParameters": {
+        "zone": {"min": 309, "max": 309},
+        "condition": "8-day moving average"
+      },
+      "exitParameters": {
+        "stopLoss": null,
+        "target": null
+      },
+      "rationale": "Too extended for now; DP prefers entry near 8-day MA at 309",
+      "isDayAfterTrade": false,
+      "tradeDuration": "swing",
+      "frequency": 1,
+      "isFavorite": false
+    },
+    {
+      "ticker": "HIMS",
+      "direction": "long",
+      "conviction": {
+        "level": "medium",
+        "phrases": ["probably would get bought aggressively at 55"]
+      },
+      "entryParameters": {
+        "zone": {"min": 55, "max": 55},
+        "condition": "8-day moving average"
+      },
+      "exitParameters": {
+        "stopLoss": null,
+        "target": null
+      },
+      "rationale": "Buy zone at 8-day MA; volatile but favored",
+      "isDayAfterTrade": false,
+      "tradeDuration": "swing",
+      "frequency": 1,
+      "isFavorite": false
+    }
+  ],
+  "levels": {
+    "indices": {
+      "qqq": {
+        "support": [
+          {
+            "value": 508,
+            "notes": "main pivot zone"
+          },
+          {
+            "value": 510,
+            "notes": "bounce zone"
+          }
+        ],
+        "resistance": []
+      },
+      "spy": {
+        "support": [
+          {
+            "value": 582,
+            "notes": "buyable zone"
+          },
+          {
+            "value": 584,
+            "notes": "buyable zone"
+          }
+        ],
+        "resistance": []
+      }
+    },
+    "stocks": [
+      {
+        "ticker": "TEM",
+        "levels": {},
+        "movingAverages": {
+          "ma8": 60,
+          "ma10": 62
+        }
+      },
+      {
+        "ticker": "HOOD",
+        "levels": {},
+        "movingAverages": {
+          "ma8": 56
+        }
+      },
+      {
+        "ticker": "HIMS",
+        "levels": {},
+        "movingAverages": {
+          "ma8": 55
+        }
+      },
+      {
+        "ticker": "TSLA",
+        "levels": {},
+        "movingAverages": {
+          "ma8": 309
+        }
+      },
+      {
+        "ticker": "BABA",
+        "levels": {},
+        "movingAverages": {
+          "ma21": 121
+        }
+      }
+    ]
+  },
+  "processingMetadata": {
+    "confidenceScore": 0.9,
+    "sectionsCaptured": [
+      "market context",
+      "focus ideas",
+      "technical levels"
+    ],
+    "missingSections": []
+  }
+}

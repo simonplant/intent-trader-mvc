@@ -1,4 +1,55 @@
----
+### 14. Historical Context Recognition
+
+The processor identifies references to how similar setups have performed in the past:
+- Explicit historical references: "Last time this setup worked well"
+- Prior results: "This worked for us last week"
+- Performance patterns: "These typically follow through within 2-3 days"
+- Previous mentions: "We've traded this one before with success"
+- Comparative setups: "Similar to the AMD trade from last month"
+- Learning from past trades: "Last time we entered too early"
+- Success rate indicators: "These setups have been about 70% successful recently"### 10. Position Sizing Identification
+
+The processor extracts explicit or implied position sizing recommendations based on:
+- Direct sizing statements: "full position," "small position," "half size"
+- Conviction-based inference: Focus trades typically warrant full positions
+- Risk-based cues: Mentions of risk or volatility that impact sizing
+- Duration-based context: Longer-term trades may have different sizing than day trades
+- Directional confidence: Stronger directness often implies larger sizing
+- Comparative language: "bigger than usual," "smaller than I'd typically take"
+- Personal position disclosure: "I'm in with a full position"
+
+### 11. Exit Strategy Extraction
+
+The processor identifies exit strategies beyond basic price targets:
+- Scaling approaches: "Taking profits in thirds," "75/15/10 rule"
+- Time-based exits: "Holding through earnings," "End of day exit"
+- Conditional exits: "Exit if volume doesn't confirm"
+- Trailing mechanisms: "Trail stops behind support levels"
+- Target hierarchies: "First target X, then Y if momentum continues"
+- Partial exit structures: "Take half off at first target"
+- Character change exits: "Exit on character change"
+
+### 12. Risk Assessment
+
+The processor evaluates the risk level of each trade idea based on:
+- Explicit risk mentions: "High risk trade," "Lower risk entry"
+- Catalyst uncertainty: Events with unknown outcomes
+- Technical context: Distance to stop, key level proximity
+- Conditional language frequency: More conditions often signal higher risk
+- Timeframe: Shorter timeframes may have different risk profiles
+- Volatility mentions: References to stock volatility
+- Comparative cautions: "Be more careful here than usual"
+
+### 13. Correlation and Theme Identification
+
+The processor identifies related trades and sector themes by:
+- Explicit grouping: "Similar setup to X"
+- Sector references: "Tech sector looks strong"
+- Causal relationships: "If X moves, Y will likely follow"
+- Comparative analysis: Multiple stocks mentioned in the same context
+- Thematic grouping: Trades driven by the same catalyst
+- Paired trades: Long one stock, short another in the same sector
+- Basket references: "AI names," "China stocks"---
 id: analyze-dp
 title: Morning Call Processor
 description: Analyzes DP morning call transcripts to extract actionable trading information
@@ -67,7 +118,7 @@ The command produces a structured object with the following sections:
       "ticker": "string",
       "direction": "long/short",
       "conviction": {
-        "level": "big-idea/high/medium/low/negative",
+        "level": "focus-trade/high/medium/low/negative",
         "phrases": ["string"]
       },
       "entryParameters": {
@@ -81,7 +132,8 @@ The command produces a structured object with the following sections:
       "rationale": "string",
       "isDayAfterTrade": "boolean",
       "tradeDuration": "cashflow/day/swing/long-term",
-      "frequency": "number" // how many times mentioned in call
+      "frequency": "number", // how many times mentioned in call
+      "isFavorite": "boolean" // indicates if it's DP's favorite trade of the day
     }
   ],
   "levels": {
@@ -125,6 +177,7 @@ The Morning Call Processor follows this analysis approach:
 - Handle special characters and abbreviations
 - Divide text into logical sections based on content patterns
 - Create a ticker mention count to track frequency throughout the call
+- Initialize a sector and theme tracking system
 
 ### 2. Section Identification
 
@@ -149,11 +202,15 @@ The Morning Call Processor follows this analysis approach:
 - Classify conviction level using language patterns and emotional cues
 - Identify trade duration (cashflow/day, swing, long-term)
 - Extract entry parameters (price levels or conditions)
-- Extract exit parameters where available
+- Extract exit parameters and strategies (targets, stops, scaling approaches)
 - Count frequency of mentions throughout the call
 - Identify day-after-trade opportunities
 - Capture trading rationale
-- Identify any sizing recommendations
+- Identify if the idea is a "favorite" or top priority trade
+- Extract position sizing recommendations (full, half, small, etc.)
+- Assess risk level based on context and language
+- Identify correlated trade ideas or sector themes
+- Extract any historical context about similar setups
 
 ### 5. Technical Level Extraction
 
@@ -167,14 +224,15 @@ The Morning Call Processor follows this analysis approach:
 
 The processor uses a sophisticated framework to classify conviction levels based on DP's language patterns, emotional cues, and contextual signals:
 
-**Big Idea (Highest Conviction)**:
-- Emotional language: "love it," "home run," "killing it," "slam dunk," "must-have"
-- Excitement indicators: "huge opportunity," "can't miss this one"
-- Focus designation: "focus idea for the day," "focus trade"
-- Multiple mentions of the same ticker throughout the call
-- Clear thesis with immediate catalyst
-- High emotion and certainty in language
-- "this is the one" or similar exclusivity phrases
+**Focus Trade (Highest Conviction)**:
+- Explicit designation: "focus idea," "focus trade," "this is one to watch today"
+- Emotional language: "love it," "really like this one"
+- Clear priority indicators: "one of my top ideas," "one to watch closely"
+- Strong confidence in entry/exit parameters
+- Multiple mentions throughout the call
+- Personal position disclosure: "I'm in this," "I own this," "I'm adding to my position"
+- Clear thesis with specific catalysts or technical setups
+- Detailed discussion with specific levels and management approach
 
 **High Conviction**:
 - "very viable"
@@ -183,9 +241,9 @@ The processor uses a sophisticated framework to classify conviction levels based
 - "excited about this"
 - Clear price levels or targets with conviction
 - "strong setup"
-- "high conviction"
-- "looking good here"
-- Strong directional bias without extreme emotional cues
+- "looks good here"
+- Strong directional bias without the priority designation of focus trades
+- Specific entry parameters
 
 **Medium Conviction**:
 - "viable"
@@ -226,6 +284,7 @@ The processor also considers:
 - **Position context**: Mentions of personal position ("I'm in this," "I own this") often indicate higher conviction
 - **Duration markers**: References to trade timeframe (day trade, swing trade, long-term) provide additional context
 - **Sizing cues**: Any explicit references to position sizing can signal conviction level
+- **Relative emphasis**: How much time/detail is spent on each idea compared to others in the call
 
 ### 7. Day-After-Trade (DAT) Detection
 
@@ -299,7 +358,7 @@ Looking at levels, ES support is around 5900, which has trapped several times no
       "ticker": "TEM",
       "direction": "long",
       "conviction": {
-        "level": "big-idea",
+        "level": "focus-trade",
         "phrases": ["love TEM right now"]
       },
       "entryParameters": {
@@ -308,18 +367,30 @@ Looking at levels, ES support is around 5900, which has trapped several times no
       },
       "exitParameters": {
         "stopLoss": null,
-        "target": null
+        "target": null,
+        "strategy": "Swing trade - likely hold for multiple days"
       },
       "rationale": "great entry point for a swing trade",
       "isDayAfterTrade": false,
       "tradeDuration": "swing",
-      "frequency": 1
+      "frequency": 1,
+      "isFavorite": true,
+      "positionSizing": {
+        "recommendation": "full position",
+        "reasoning": "High conviction swing trade in current range"
+      },
+      "risk": {
+        "level": "medium",
+        "factors": ["No specified stop loss", "Focus trade with clear entry zone"]
+      },
+      "relatedIdeas": [],
+      "historicalContext": null
     },
     {
       "ticker": "HOOD",
       "direction": "long",
       "conviction": {
-        "level": "high",
+        "level": "focus-trade",
         "phrases": ["looking to add more", "remain very bullish"]
       },
       "entryParameters": {
@@ -328,12 +399,24 @@ Looking at levels, ES support is around 5900, which has trapped several times no
       },
       "exitParameters": {
         "stopLoss": null,
-        "target": null
+        "target": null,
+        "strategy": "Add to existing position on pullback"
       },
       "rationale": "remain very bullish on this name",
       "isDayAfterTrade": false,
       "tradeDuration": "swing",
-      "frequency": 1
+      "frequency": 1,
+      "isFavorite": false,
+      "positionSizing": {
+        "recommendation": "add to existing position",
+        "reasoning": "Adding to an already established position on pullback"
+      },
+      "risk": {
+        "level": "medium",
+        "factors": ["Adding to existing position", "Specific entry level"]
+      },
+      "relatedIdeas": [],
+      "historicalContext": "DP has mentioned prior positions in HOOD"
     },
     {
       "ticker": "BABA",
@@ -348,12 +431,24 @@ Looking at levels, ES support is around 5900, which has trapped several times no
       },
       "exitParameters": {
         "stopLoss": null,
-        "target": null
+        "target": null,
+        "strategy": "Day trade - likely same-day exit"
       },
       "rationale": "day-after-trade opportunity",
       "isDayAfterTrade": true,
       "tradeDuration": "day",
-      "frequency": 1
+      "frequency": 1,
+      "isFavorite": false,
+      "positionSizing": {
+        "recommendation": "speculative sizing",
+        "reasoning": "Medium conviction DAT with speculative nature"
+      },
+      "risk": {
+        "level": "high",
+        "factors": ["Speculative short", "DAT strategy", "No defined stop"]
+      },
+      "relatedIdeas": [],
+      "historicalContext": null
     },
     {
       "ticker": "CRWV",
@@ -368,12 +463,24 @@ Looking at levels, ES support is around 5900, which has trapped several times no
       },
       "exitParameters": {
         "stopLoss": null,
-        "target": null
+        "target": null,
+        "strategy": "Swing trade entry on pullback"
       },
       "rationale": "viable swing trade opportunity",
       "isDayAfterTrade": false,
       "tradeDuration": "swing",
-      "frequency": 1
+      "frequency": 1,
+      "isFavorite": false,
+      "positionSizing": {
+        "recommendation": "half position",
+        "reasoning": "Medium conviction with undefined entry level"
+      },
+      "risk": {
+        "level": "medium",
+        "factors": ["Undefined entry zone", "Medium conviction"]
+      },
+      "relatedIdeas": [],
+      "historicalContext": null
     },
     {
       "ticker": "AMD",
@@ -388,12 +495,24 @@ Looking at levels, ES support is around 5900, which has trapped several times no
       },
       "exitParameters": {
         "stopLoss": null,
-        "target": null
+        "target": null,
+        "strategy": "Options trade - calls rather than shares"
       },
       "rationale": "worth trying some calls",
       "isDayAfterTrade": false,
       "tradeDuration": "day",
-      "frequency": 1
+      "frequency": 1,
+      "isFavorite": false,
+      "positionSizing": {
+        "recommendation": "small options position",
+        "reasoning": "Medium conviction with options suggestion"
+      },
+      "risk": {
+        "level": "high",
+        "factors": ["Options trade", "Medium conviction", "No defined target"]
+      },
+      "relatedIdeas": [],
+      "historicalContext": null
     },
     {
       "ticker": "TSLA",
@@ -408,12 +527,24 @@ Looking at levels, ES support is around 5900, which has trapped several times no
       },
       "exitParameters": {
         "stopLoss": null,
-        "target": null
+        "target": null,
+        "strategy": "Only enter at specific technical level"
       },
       "rationale": "only interesting near the 8-day MA",
       "isDayAfterTrade": false,
       "tradeDuration": "day",
-      "frequency": 1
+      "frequency": 1,
+      "isFavorite": false,
+      "positionSizing": {
+        "recommendation": "small position",
+        "reasoning": "Low conviction with highly conditional entry"
+      },
+      "risk": {
+        "level": "high",
+        "factors": ["Low conviction", "Specific technical entry only", "Would not chase"]
+      },
+      "relatedIdeas": [],
+      "historicalContext": null
     }
   ],
   "levels": {
@@ -491,6 +622,18 @@ The processor handles these common challenges:
 4. **Partial Transcripts**: Can process incomplete transcripts, but will note missing sections in the metadata.
 
 5. **Mixed Sentiment**: When market sentiment contains both positive and negative elements, the processor indicates this mixed nature.
+
+6. **Multiple Focus Trades**: When DP mentions several focus trades, the processor identifies all of them, using context clues to determine if one is his favorite.
+
+7. **Evolving Conviction**: When DP's conviction on a trade changes during the call, the processor captures the most recent/final conviction level.
+
+8. **Implied Position Sizing**: When sizing recommendations aren't explicit, the processor makes reasonable inferences based on conviction, risk, and trade duration.
+
+9. **Incomplete Exit Strategies**: When exit strategies aren't fully specified, the processor extracts what's available while leaving other parameters null.
+
+10. **Correlated Ideas Without Explicit Linkage**: When related ideas aren't explicitly connected, the processor may use sector or thematic analysis to identify potential correlations.
+
+11. **Ambiguous Risk Levels**: When risk isn't explicitly discussed, the processor assesses risk based on conviction, specificity of parameters, and nature of the trade (e.g., options vs. shares).
 
 ## Related Components
 
