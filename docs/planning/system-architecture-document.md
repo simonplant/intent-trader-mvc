@@ -1,5 +1,7 @@
 # Intent Trader System Architecture Document (Updated)
 
+This document outlines the comprehensive architecture of the Intent Trader system, organized around a hybrid structure that combines temporal trading sessions with the cognitive workflow (Plan → Focus → Execute → Manage → Review).
+
 ## 1. System Purpose and Vision
 
 Intent Trader is an AI-integrated trading assistant designed to streamline the workflow of active day and swing traders who follow specific trading methodologies and analysts. The system provides structured command-based access to analyst insights (primarily DP and Mancini), technical analysis, trade planning, position management, and performance tracking.
@@ -11,207 +13,178 @@ The core vision is to create a cohesive trading companion that:
 - Facilitates structured performance review
 - Captures knowledge and insights for continuous improvement
 
-## 2. Domain Model
+## 2. Hybrid Organizational Framework
 
-### 2.1 Analyst Sources
-**Purpose**: Track specific analyst inputs and commentary
+### 2.1 Temporal Sessions
+
+The system is organized around the natural temporal boundaries of a trading day:
+
+- **Pre-Market Session** (Before Market Open)
+  - Analysis of morning calls and newsletters
+  - Development of trade plan and blueprint
+  - Setup identification and prioritization
+  - Risk allocation and scenario planning
+
+- **Open Market Session** (Trading Hours)
+  - Trade validation and execution
+  - Position management and adjustment
+  - Real-time analysis and adaptation
+  - Technical level monitoring
+
+- **Post-Market Session** (After Close)
+  - Performance analysis and review
+  - Trade logging and documentation
+  - Pattern recognition and learning
+  - Preparation for next trading session
+
+### 2.2 Cognitive Workflow
+
+Within each temporal session, the system organizes functionality according to the trader's cognitive workflow:
+
+- **PLAN**: Establish market framework and potential opportunities
+- **FOCUS**: Prioritize specific trade opportunities 
+- **EXECUTE**: Enter positions based on prepared plans
+- **MANAGE**: Handle active positions toward optimal outcomes
+- **REVIEW**: Analyze performance for continuous improvement
+
+This dual structure provides both temporal organization and cognitive process alignment, supporting the trader throughout the complete trading cycle.
+
+## 3. Domain Model
+
+### 3.1 PLAN Domain _(Pre-Market)_
+**Purpose**: Establish market framework and potential opportunities
 
 **Key Entities**:
-- **DP Morning Call**: Dark Pool commentary and trade plan
-  - Market Context: Futures status, indices, catalysts
-  - Earnings Analysis: Beat/miss, guidance, reactions
-  - Analyst Actions: Upgrades, downgrades, price targets
-  - Focus Trade Ideas: High-conviction opportunities
-  - Day-After-Trades: Post-event opportunities
-  - Technical Levels: Key price points and MAs
-  - Market Philosophy: Strategic context and approach
-  
-- **Mancini Newsletter**: Daily market analysis and trading levels
-  - Publication Metadata: Date, title, key theme
-  - Market Context: Recent activity, market mode
-  - Level Framework: Precise support/resistance with major/minor classification
-  - Failed Breakdown Analysis: Core setup identification
-  - Bull/Bear Case Scenarios: Conditional market projections
-  - Trade Plan: Specific levels and action framework
-  - Runner Management: Systematic position handling
-  - Level-to-Level Methodology: Educational component
+- **Market Regime**: Overall market behavior framework _(MVP FUTURE)_
+- **Mode Classification**: Day structure assessment _(MVP FUTURE)_
+- **Level Structure**: Price level framework _(MVP CORE)_
+- **Scenario Planning**: Conditional outcomes
+- **Risk Allocation**: Capital distribution rules _(MVP CORE)_
+- **Market Context**: Broader market environment _(MVP CORE)_
 
+### 3.2 FOCUS Domain _(Pre-Market)_
+**Purpose**: Prioritize specific trade opportunities
+
+**Key Entities**:
+- **Setup Prioritization**: Opportunity ranking _(MVP CORE)_
+- **Conviction Classification**: Confidence measurement _(MVP CORE)_
+- **Watchlist Management**: Attention allocation
+- **Alert Configuration**: Trigger notification
+- **Opportunity Filtering**: Attention optimization
+
+### 3.3 EXECUTE Domain _(Open Market)_
+**Purpose**: Enter positions based on prepared plans
+
+**Key Entities**:
+- **Entry Trigger**: Action signals
+- **Position Sizing**: Risk calibration _(MVP CORE)_
+- **Order Management**: Execution framework
+- **Entry Timing**: Execution optimization
+- **Execution Quality**: Implementation measurement
+
+### 3.4 MANAGE Domain _(Open Market)_
+**Purpose**: Handle active positions toward optimal outcomes
+
+**Key Entities**:
+- **Core Position Management**: Base position handling _(MVP CORE)_
+- **Trimming Protocol**: Profit taking framework _(MVP STRETCH)_
+- **Adding Protocol**: Position building framework
+- **Stop Adjustment**: Risk control evolution _(MVP STRETCH)_
+- **Runner Management**: Extended position handling _(MVP STRETCH)_
+- **Risk Tolerance Framework**: Market vs. money trading approach
+
+### 3.5 REVIEW Domain _(Post-Market)_
+**Purpose**: Analyze performance for continuous improvement
+
+**Key Entities**:
+- **Trade Logging**: Structured record keeping _(MVP STRETCH)_
+- **Performance Metrics**: Result measurement
+- **Plan Adherence**: Discipline tracking
+- **Pattern Recognition**: Behavior analysis
+- **Knowledge Extraction**: Insight development
+- **Coaching**: Self-improvement framework _(future, not MVP)_
+
+### 3.6 ANALYST SOURCES Domain
+**Purpose**: Track and process expert commentary
+
+**Key Entities**:
+- **DP Morning Call**: Dark Pool commentary and trade plan _(MVP CORE)_
+- **Mancini Newsletter**: Daily market analysis and trading levels _(MVP FUTURE)_
 - **Inner Circle Commentary**: Trading room discussions
 - **VTF Commentary**: Additional analyst insights
-- **Analyst Track Record**: Historical performance data
 
-### 2.2 Market Context
-**Purpose**: Establish broader market environment
-
-**Key Entities**:
-- **Market Regime**: Overall behavior framework (buy dips vs. sell bounces)
-- **Market Mode**: Day structure classification (Mode 1 trend vs. Mode 2 range)
-- **Market Internals**: Technical health indicators (breadth, TICK, VIX)
-- **Key Index Levels**: Major index technical structure
-- **Economic Calendar**: Scheduled market-moving events
-- **Global Market Influence**: International factors
-
-### 2.3 Technical Analysis
-**Purpose**: Analyze price action and patterns
+### 3.7 SYSTEM MANAGEMENT Domain
+**Purpose**: Maintain and optimize the trading system
 
 **Key Entities**:
-- **Moving Average Framework**: Price vs. MA relationships
-  - 8/10/21-day short-term MAs
-  - 50/100/200-day long-term MAs
-  - Crossover status and direction
-  - Price-MA relationship classification
-
-- **Character Change Analysis**: Price behavior shifts
-  - Character state assessment
-  - Transition indicators
-  - Confirmation signals
-  - Historical pattern comparison
-
-- **Level Structure**: Support/resistance framework
-  - Major/minor classification
-  - Historical significance
-  - Recent interactions
-  - Consensus strength
-
-- **Pattern Recognition**: Technical formations
-  - Failed Breakdown identification
-  - Acceptance classification
-  - Chart pattern detection
-  - Momentum assessment
-
-### 2.4 Trade Planning
-**Purpose**: Organize trading approach for the session
-
-**Key Entities**:
-- **Unified Trade Plan**: Integrated trading framework
-  - Market Framework: Bias, mode, catalysts, sector landscape
-  - Level Framework: Consensus levels with significance
-  - Priority Trade Ideas: Ranked opportunities with parameters
-  - Scenario Planning: Conditional market responses
-  - Execution Framework: Operation sequence and management
-  - Preparation Checklist: Pre-trading verification
-
-- **Morning Blueprint**: Pre-market framework
-  - Day structure expectations
-  - Key times and events
-  - Primary scenarios
-  - Risk allocation
-
-- **Watchlist Management**: Prioritized tickers with setups
-
-### 2.5 Position Management
-**Purpose**: Track and manage active trades
-
-**Key Entities**:
-- **Active Position**: Currently open trade details
-  - Entry execution and parameters
-  - Current status and P&L
-  - Stop and target framework
-  - Management protocol
-
-- **Position Management Protocol**: Active trade handling
-  - 75/15/10 profit-taking rule
-  - Runner management approach
-  - Stop adjustment methodology
-  - Scale-in/scale-out framework
-
-- **Trade Alerts**: Signal notifications
-- **Position Risk Tracker**: Exposure monitoring
-
-### 2.6 Performance Assessment
-**Purpose**: Evaluate trading results
-
-**Key Entities**:
-- **Trade Journal**: Record of completed trades
-- **Analyst Comparison**: Performance vs. analysts
-- **Session Debrief**: End-of-day review
-- **Pattern Recognition**: Trading behavior analysis
-- **Knowledge Capture**: Structured learning
-
-### 2.7 System Management
-**Purpose**: Maintain the trading system
-
-**Key Entities**:
-- **Command Registry**: Available system commands
-- **Session State**: Trading day context
+- **Command Registry**: Available system commands _(MVP CORE)_
+- **Session State**: Trading day context _(MVP CORE)_
 - **User Preferences**: Customized settings
-- **Data Archive**: Historical information
+- **Data Archive**: Historical information storage
 
-## 3. Command Framework
+## 4. Command Framework
 
-### 3.1 Design Principles
+### 4.1 Command Organization
 
-Intent Trader uses a consistent command framework built on:
+Commands are organized according to the hybrid structure, with both temporal session and cognitive workflow groupings:
 
-1. **Verb-Noun Structure**: Commands follow a verb-noun pattern
-2. **Consistent Formatting**: Hyphenation used consistently
-3. **Clear Parameters**: Input requirements explicitly indicated
-4. **Functional Grouping**: Commands grouped by primary function
-5. **Intuitive Shortcuts**: Common actions have sensible shortcuts
+#### Pre-Market Session Commands
 
-### 3.2 Command Catalog
+**PLAN Phase**
+- `/analyze-dp [transcript]` _(MVP CORE)_
+- `/analyze-mancini [newsletter]` _(MVP FUTURE)_
+- `/analyze-regime`
+- `/detect-mode`
+- `/create-plan` _(MVP CORE)_
+- `/create-blueprint`
 
-#### Analyst Input Commands
-```
-/analyze-dp [transcript]   - Process DP morning call transcript
-/analyze-mancini [letter]  - Process Mancini newsletter
-/extract-levels [source]   - Extract market levels from source
-/extract-focus [source]    - Extract high-conviction trade ideas
-/find-setups [type]        - Identify specific setup types
-/analyze-ic [message]      - Process Inner Circle commentary
-/analyze-regime            - Assess market regime and mode
-```
+**FOCUS Phase**
+- `/extract-focus [source] [min_conviction]` _(MVP CORE)_
+- `/extract-levels [source] [indices]` _(MVP CORE)_
+- `/find-setups [type] [timeframe]`
+- `/manage-watchlist [action]`
+- `/set-alert [symbol]`
+- `/run-preflight`
 
-#### Trade Planning Commands
-```
-/create-plan               - Generate unified trade plan
-/create-blueprint          - Generate morning blueprint
-/run-preflight             - Execute pre-market checklist
-/update-plan [section]     - Update plan with new information
-/show-plan [section]       - Display plan or specific section
-/validate-plan             - Check plan consistency and completeness
-/manage-watchlist [action] - Manage active watchlist
-```
+#### Open Market Session Commands
 
-#### Technical Analysis Commands
-```
-/check-ticker [symbol]     - Analyze ticker comprehensively
-/check-character [symbol]  - Assess character change status
-/check-ma [symbol]         - Analyze moving average relationships
-/check-acceptance [level]  - Verify level acceptance
-/analyze-levels [symbol]   - Identify key price levels
-/detect-mode               - Determine market mode
-```
+**EXECUTE Phase**
+- `/validate-trade [symbol]`
+- `/check-ticker [symbol]`
+- `/analyze-levels [symbol] [direction]` _(MVP CORE)_
+- `/size-position [symbol]`
+- `/add-position [symbol]` _(MVP CORE)_
 
-#### Position Management Commands
-```
-/add-position [symbol]     - Add new position to tracking
-/update-position [symbol]  - Update existing position
-/close-position [symbol]   - Close position and log results
-/list-positions            - Show current positions
-/manage-runner [symbol]    - Apply runner management protocol
-/set-alert [symbol]        - Configure price/condition alerts
-```
+**MANAGE Phase**
+- `/list-positions` _(MVP CORE)_
+- `/update-position [symbol]` _(MVP CORE)_
+- `/close-position [symbol]` _(MVP CORE)_
+- `/adjust-stop [symbol]`
+- `/trim-position [symbol]`
+- `/manage-runner [symbol]` _(MVP STRETCH)_
+- `/check-character [symbol]`
+- `/check-ma [symbol]`
+- `/check-acceptance [level] [symbol]`
 
-#### Performance Commands
-```
-/log-trade [symbol]        - Create trade log entry
-/add-journal [type]        - Add journal entry
-/run-debrief               - Execute session review
-/compare-analysts          - Compare vs. analyst performance
-/analyze-patterns          - Identify behavioral patterns
-```
+#### Post-Market Session Commands
+
+**REVIEW Phase**
+- `/log-trade [symbol]` _(MVP STRETCH)_
+- `/run-debrief` _(MVP STRETCH)_
+- `/compare-analysts`
+- `/analyze-patterns`
+- `/add-journal [type]`
+- `/extract-lessons`
 
 #### System Management Commands
-```
-/show-help [command]       - Display help information
-/show-version              - Show system version
-/backup-system [options]   - Create system backup
-/set-preferences [cat]     - Configure user preferences
-/run-phase [phase]         - Execute phase actions
-```
+- `/show-help [command]` _(MVP CORE)_
+- `/show-version`
+- `/backup-system [options]`
+- `/set-preferences [category]`
+- `/run-phase [phase]`
+- `/define-conviction`
 
-### 3.3 Command Implementation
+### 4.2 Command Implementation
 
 Each command is implemented as a structured prompt with:
 
@@ -223,181 +196,223 @@ Each command is implemented as a structured prompt with:
 6. **Response Templates**: Output formatting
 7. **Examples**: Usage examples
 
-## 4. System Architecture
+## 5. Component Architecture
 
-### 4.1 Component Model
+### 5.1 Processing Engines
 
-#### Processing Engines
-- **Morning Call Processor**: Analyzes DP transcripts
-- **Newsletter Processor**: Analyzes Mancini letters
-- **Technical Framework**: Handles price analysis
-- **Integration Engine**: Combines inputs from multiple sources
+#### Analyst Input Processors
+- **Morning Call Processor**: Analyzes DP transcripts _(MVP CORE)_
+  - Section Identifier
+  - Focus Idea Extractor
+  - Level Extractor
+  - Conviction Classifier
+  - Market Context Extractor
+  - Character Change Detector
+  - DAT Opportunity Detector
 
-#### Core Services
-- **Command Router**: Processes and routes commands
+- **Newsletter Processor**: Analyzes Mancini letters _(MVP FUTURE)_
+  - Level Framework Extractor
+  - Mode Classifier
+  - Failed Breakdown Detector
+  - Bull/Bear Case Extractor
+  - Runner Management Extractor
+
+#### Technical Analysis Engine
+- **Moving Average Framework**: MA relationships and interactions
+- **Character Analysis System**: Price behavior analysis
+- **Level Analysis System**: Support/resistance identification
+- **Pattern Recognition System**: Technical pattern detection
+- **Indicator Analysis System**: Technical indicator processing
+
+#### Plan Generation Engine
+- **Integrated Plan Generator**: Creates unified trade plans
+- **Blueprint Generator**: Creates structured morning blueprints
+- **Level Concordance Engine**: Integrates levels from multiple sources
+- **Setup Integration System**: Combines setups from multiple sources
+- **Risk Allocation System**: Determines capital distribution
+
+#### Position Management Engine
+- **Position Tracker**: Manages active positions
+- **Risk Calculator**: Computes risk metrics
+- **Trimming System**: Implements profit-taking rules
+- **Stop Management System**: Handles stop adjustments
+- **Runner Management System**: Handles extended positions
+
+#### Performance Analysis Engine
+- **Trade Logger**: Records completed trades
+- **Performance Calculator**: Computes result metrics
+- **Pattern Detector**: Identifies behavior patterns
+- **Knowledge Extractor**: Derives insights from trading
+- **Debrief Generator**: Creates session summaries
+
+### 5.2 Core Services
+
+- **Command Router**: Processes and routes commands _(MVP CORE)_
 - **Entity Store**: Manages entity persistence
 - **Schema Validator**: Ensures data integrity
 - **State Manager**: Maintains session context
 
-#### User Interface
-- **Command Parser**: Interprets user commands
-- **Response Formatter**: Standardizes outputs
+### 5.3 User Interface
+
+- **Command Parser**: Interprets user commands _(MVP CORE)_
+- **Response Formatter**: Standardizes outputs _(MVP CORE)_
 - **Visualization Engine**: Creates visual elements
 - **Alert System**: Manages notifications
 
-### 4.2 Data Flow Architecture
+## 6. Data Flow Architecture
 
 ```
-[Analyst Inputs] --> [Processing Engines] --> [Integration Engine]
+[Analyst Inputs] --> [Input Processors] --> [Technical Validation]
        │                    │                        │
        v                    v                        v
-[Technical Data] --> [Technical Framework] --> [Trade Plan Generator]
-                             │                        │
-                             v                        v
-                   [Position Manager] <--> [Risk Controller]
-                             │                        │
-                             v                        v
-                   [Performance Analytics] <--> [Knowledge System]
+[PLAN Phase Engines] --> [FOCUS Phase Engines] --> [Unified Trade Plan]
+       │                         │                        │
+       v                         v                        v
+[EXECUTE Phase Engines] <--> [Active Positions] <--> [MANAGE Phase Engines]
+       │                         │                        │
+       v                         v                        v
+[Trade Records] --> [REVIEW Phase Engines] --> [Knowledge Base]
+       │                         │                        │
+       v                         v                        v
+[Historical Data] <--> [System State Manager] <--> [User Preferences]
 ```
 
-### 4.3 State Management
+## 7. Workflow Integration
 
-Intent Trader maintains state through:
+### 7.1 Daily Trading Workflow
 
-1. **Session Manifest**: Tracks current state
-2. **Entity Storage**: Persists entity data
-3. **Command History**: Records executed commands
-4. **User Preferences**: Stores settings
-5. **Cache Management**: Handles temporary data
+The Intent Trader system integrates seamlessly with the trader's daily workflow:
 
-## 5. Workflow Integration
-
-### 5.1 Trading Day Phases
-
-#### Pre-Market Phase (Before 9:30 AM ET)
-1. Process analyst inputs (DP call, Mancini newsletter)
-2. Generate unified trade plan
-3. Create watchlist and alerts
-4. Run preflight checklist
-
-#### Intraday Phase (9:30 AM - 4:00 PM ET)
-1. Monitor positions and market conditions
-2. Validate potential trades
-3. Manage entries and exits
-4. Track analyst commentary
-
-#### Post-Market Phase (After 4:00 PM ET)
-1. Review trading performance
-2. Compare to analyst performance
-3. Journal insights and lessons
-4. Prepare for next session
-
-### 5.2 Key Workflows
-
-#### 1. Morning Preparation Workflow
-1. Process analyst inputs
-2. Create unified trade plan
-3. Build prioritized watchlist
-4. Set up alerts and monitors
-5. Execute preflight checklist
-
-#### 2. Trade Execution Workflow
-1. Validate setup against plan
-2. Determine position size and risk
-3. Execute entry with proper order type
-4. Set initial stops and targets
-5. Document trade rationale
-
-#### 3. Position Management Workflow
-1. Monitor price vs. key levels
-2. Apply 75/15/10 scaling rule at targets
-3. Adjust stops according to protocol
-4. Manage runner portion for extended moves
-5. Document management decisions
-
-#### 4. Performance Review Workflow
-1. Log completed trades
-2. Assess plan adherence
-3. Compare to analyst performance
-4. Identify patterns and lessons
-5. Update knowledge base
-
-## 6. Integration Methodology
-
-### 6.1 Level Integration
-
+#### 1. Pre-Market Workflow
 ```
-1. Extract Mancini's precise numerical levels with major/minor classification
-2. Extract DP's key levels with conviction assessment
-3. Identify overlapping levels and calculate consensus strength
-4. Create unified level structure with combined significance ranking
-5. Apply Mode classification context from Mancini
-6. Incorporate character change detection from DP
-7. Generate integrated level visualization
+1. Process morning call with `/analyze-dp`
+2. Extract high-conviction ideas with `/extract-focus`
+3. Extract key levels with `/extract-levels`
+4. Generate unified plan with `/create-plan`
+5. Prepare watchlist and alerts
+6. Run preflight checklist before market open
 ```
 
-### 6.2 Setup Integration
-
+#### 2. Open Market Workflow
 ```
-1. Extract Failed Breakdown setups from Mancini with precise criteria
-2. Extract focus ideas from DP with conviction assessment
-3. Identify complementary and conflicting setups
-4. Prioritize setups based on conviction and analyst historical accuracy
-5. Apply Mode context to setup evaluation
-6. Incorporate character change signals for entry timing
-7. Create unified setup monitoring dashboard
+1. Validate potential trades against plan
+2. Enter positions with `/add-position`
+3. Monitor active positions with `/list-positions`
+4. Update positions as needed with `/update-position`
+5. Apply trimming and stop adjustment protocols
+6. Close completed trades with `/close-position`
 ```
 
-### 6.3 Position Management Integration
-
+#### 3. Post-Market Workflow
 ```
-1. Apply Mancini's systematic position management protocol (75/15/10 rule)
-2. Incorporate DP's character change signals for exit modification
-3. Apply Mode-specific risk parameters
-4. Utilize consensus levels for target setting
-5. Implement runner management for trending moves
-6. Apply day-after-trade management for event-driven positions
-7. Create unified position management dashboard
+1. Log completed trades with `/log-trade`
+2. Run session debrief with `/run-debrief`
+3. Compare performance to plan
+4. Extract lessons and patterns
+5. Prepare for next trading day
 ```
 
-## 7. Implementation Strategy
+### 7.2 Cognitive Process Alignment
 
-### 7.1 Phase 1: Core Analysis Engines
-- Morning Call Processor
-- Newsletter Processor
-- Technical Framework
-- Integration Engine
+The system's organization aligns with the trader's cognitive processes:
 
-### 7.2 Phase 2: Planning and Position Management
-- Unified Plan Generator
-- Watchlist Manager
-- Position Tracker
-- Alert System
+#### 1. PLAN Phase
+```
+- Assess market regime and conditions
+- Determine day structure and characteristics
+- Identify key levels and scenarios
+- Allocate risk capital appropriately
+```
 
-### 7.3 Phase 3: Performance and Knowledge
-- Trade Logger
-- Performance Analyzer
-- Pattern Recognition
-- Knowledge Extractor
+#### 2. FOCUS Phase
+```
+- Prioritize setups by quality and conviction
+- Organize watchlist by priority
+- Configure alerts for key levels
+- Filter opportunities to match capacity
+```
 
-### 7.4 Phase 4: UI and Integration
-- Command Interface Refinement
-- Visualization Components
-- External System Integration
-- User Experience Optimization
+#### 3. EXECUTE Phase
+```
+- Confirm entry signals
+- Validate against plan
+- Size positions appropriately
+- Execute with optimal timing
+```
 
-## 8. Next Steps
+#### 4. MANAGE Phase
+```
+- Monitor active positions
+- Apply systematic profit-taking
+- Adjust stops based on price action
+- Manage runners for extended trades
+```
 
-### 8.1 Immediate Actions
-1. Finalize processor specifications
-2. Create JSON schemas for all entities
-3. Implement core command infrastructure
-4. Develop test datasets and validation framework
+#### 5. REVIEW Phase
+```
+- Log and analyze completed trades
+- Assess plan adherence
+- Identify patterns and lessons
+- Apply insights to improve
+```
 
-### 8.2 Development Roadmap
-1. Core Framework Development (Weeks 1-4)
-2. Integration Components (Weeks 5-8)
-3. Position Management System (Weeks 9-12)
-4. Performance Analytics (Weeks 13-16)
+## 8. MVP Implementation Strategy
 
-This architecture document provides a comprehensive blueprint for the Intent Trader system, integrating the strengths of both DP and Mancini methodologies into a cohesive trading assistant.
+### 8.1 MVP Focus Areas
+
+The v0.5.1 MVP focuses on the core functionality needed for immediate trading value:
+
+#### Phase 1: PLAN & FOCUS (Highest Priority)
+- **Analyst Processing**: Extract high-conviction trade ideas from DP
+- **Level Extraction**: Identify key technical levels
+- **Plan Generation**: Create unified trading plan
+- **Setup Prioritization**: Rank opportunities by conviction
+
+#### Phase 2: EXECUTE & MANAGE (High Priority)
+- **Position Management**: Track active positions
+- **Position Updates**: Update, modify, and close positions
+- **Position Monitoring**: View current trades and status
+- **Basic Profit Taking**: Simple implementation of trimming protocol
+
+#### Phase 3: REVIEW (Stretch Goal)
+- **Trade Logging**: Record completed trades
+- **Session Debrief**: Analyze trading session
+- **Basic Pattern Recognition**: Identify simple patterns
+
+### 8.2 Post-MVP Enhancement Path
+
+After the MVP is successfully implemented, future enhancements will focus on:
+
+1. **Advanced MANAGE Phase Features**
+   - Enhanced 75/15/10 implementation
+   - Sophisticated stop management
+   - Comprehensive runner protocols
+
+2. **Mancini Integration**
+   - Newsletter processing
+   - Failed Breakdown pattern detection
+   - Mode-based strategy adaptation
+
+3. **Advanced Technical Analysis**
+   - Character change detection
+   - Mode determination
+   - Advanced pattern recognition
+
+4. **Knowledge System Development**
+   - Enhanced pattern recognition
+   - Rule extraction and refinement
+   - Continuous improvement framework
+
+## 9. Architecture Design Principles
+
+The Intent Trader architecture is built on these key principles:
+
+1. **Cognitive Alignment**: Functions organized according to trader's mental process
+2. **Temporal Integration**: Seamless support throughout trading day
+3. **Modularity**: Components can be developed and enhanced independently
+4. **Progressive Implementation**: MVP first, then enhance incrementally
+5. **Template-Based Output**: Consistent, structured information presentation
+6. **Command-Driven Interface**: Intuitive, consistent command structure
+7. **Knowledge Accumulation**: System captures and applies trading insights
+
+This architecture provides a comprehensive framework for the Intent Trader system, with clear organization around both temporal sessions and cognitive workflow, and explicit MVP priorities to guide implementation.

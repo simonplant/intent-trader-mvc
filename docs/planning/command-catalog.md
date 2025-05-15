@@ -1,10 +1,10 @@
-# Intent Trader: Command Catalog
+# Intent Trader: Comprehensive Command Catalog
 
 This catalog provides a comprehensive listing of all commands in the Intent Trader system, organized by functional category with detailed specifications.
 
 ## 1. Analyst Input Commands
 
-### `/analyze-dp [transcript]`
+### `/analyze-dp [transcript]` _(MVP CORE)_
 
 **Purpose:**
 Process DP morning call transcript comprehensively, extracting all key components and insights.
@@ -22,12 +22,18 @@ Process DP morning call transcript comprehensively, extracting all key component
 - Analyst actions summary
 - Market philosophy assessment
 
+**MVP Implementation:**
+- Focus on extracting high-conviction trade ideas
+- Extract key levels for indices and focus stocks
+- Basic market context (futures, sentiment)
+- Simple conviction classification
+
 **Usage Example:**
 ```
 /analyze-dp "Futures are a bit lower as we await this morning's CPI. The Dow is leading to the downside after UNH suspends guidance for 2025..."
 ```
 
-### `/analyze-mancini [newsletter]`
+### `/analyze-mancini [newsletter]` _(MVP FUTURE)_
 
 **Purpose:**
 Process Mancini newsletter comprehensively, extracting levels, setups, and trade plan.
@@ -52,7 +58,7 @@ Process Mancini newsletter comprehensively, extracting levels, setups, and trade
 ES/SPX continues to consolidate at highs. The coiled tight range over the last two days..."
 ```
 
-### `/extract-levels [source] [indices]`
+### `/extract-levels [source] [indices]` _(MVP CORE)_
 
 **Purpose:**
 Extract market levels from analyst source with precision and hierarchy.
@@ -69,12 +75,17 @@ Extract market levels from analyst source with precision and hierarchy.
 - Level clusters identification
 - Visual representation of levels
 
+**MVP Implementation:**
+- Focus on extracting DP levels
+- Basic significance classification
+- Simple hierarchical structure
+
 **Usage Example:**
 ```
-/extract-levels mancini ES,SPX
+/extract-levels dp ES,SPX
 ```
 
-### `/extract-focus [source] [min_conviction]`
+### `/extract-focus [source] [min_conviction]` _(MVP CORE)_
 
 **Purpose:**
 Extract high-conviction trade ideas from analyst commentary.
@@ -90,6 +101,11 @@ Extract high-conviction trade ideas from analyst commentary.
 - Supporting technical context
 - Trade management guidelines
 - Relevant timeframes
+
+**MVP Implementation:**
+- Extract DP's high-conviction ideas
+- Simple conviction classification (high/medium/low)
+- Basic entry/exit parameters
 
 **Usage Example:**
 ```
@@ -172,7 +188,7 @@ Assess current market regime (buy dips vs. sell bounces) and mode classification
 
 ## 2. Trade Planning Commands
 
-### `/create-plan`
+### `/create-plan` _(MVP CORE)_
 
 **Purpose:**
 Generate comprehensive unified trade plan integrating multiple analyst inputs.
@@ -191,6 +207,12 @@ Generate comprehensive unified trade plan integrating multiple analyst inputs.
 - Risk allocation framework
 - Conditional scenario planning
 - Mode-specific guidelines
+
+**MVP Implementation:**
+- Focus on DP insights
+- Prioritized trade ideas
+- Basic market context
+- Key levels for trading decisions
 
 **Usage Example:**
 
@@ -274,7 +296,7 @@ Update specific sections of the trade plan based on new information.
 /update-plan market_context "ES now showing strength after CPI came in below expectations"
 ```
 
-### `/show-plan [section]`
+### `/show-plan [section]` _(MVP CORE)_
 
 **Purpose:**
 Display the unified trade plan or specific sections in a structured, readable format.
@@ -292,6 +314,12 @@ Display the unified trade plan or specific sections in a structured, readable fo
 - Status indicators for completion
 - Time-sensitive elements highlighted
 - Key action items emphasized
+
+**MVP Implementation:**
+- Basic plan display
+- Prioritized trade list
+- Key level summary
+- Simple formatting
 
 **Usage Example:**
 ```
@@ -451,7 +479,7 @@ Verify if a price level shows acceptance based on Mancini's framework.
 /check-acceptance 5900 ES
 ```
 
-### `/analyze-levels [symbol] [direction]`
+### `/analyze-levels [symbol] [direction]` _(MVP CORE)_
 
 **Purpose:**
 Identify and analyze key price levels for a specific symbol.
@@ -470,6 +498,11 @@ Identify and analyze key price levels for a specific symbol.
 - Gap areas and significance
 - Volume profile at levels
 - Historical reliability statistics
+
+**MVP Implementation:**
+- Basic level identification
+- Simple classification
+- Current price relationship
 
 **Usage Example:**
 ```
@@ -503,7 +536,7 @@ Determine if the current market is in Mode 1 (trend) or Mode 2 (range/trap).
 
 ## 4. Position Management Commands
 
-### `/add-position [symbol]`
+### `/add-position [symbol]` _(MVP CORE)_
 
 **Purpose:**
 Add a new trading position to tracking system.
@@ -526,12 +559,17 @@ Add a new trading position to tracking system.
 - Visual position representation
 - Level interaction analysis
 
+**MVP Implementation:**
+- Basic position tracking
+- Simple risk calculation
+- Stop and target recording
+
 **Usage Example:**
 ```
 /add-position AAPL long entry=225.50 size=100 stop=223.80 targets=227.50,229.00,232.00 setup=bull-flag
 ```
 
-### `/update-position [symbol]`
+### `/update-position [symbol]` _(MVP CORE)_
 
 **Purpose:**
 Update an existing position with new information or parameters.
@@ -551,12 +589,17 @@ Update an existing position with new information or parameters.
 - Visual position update
 - Level alignment verification
 
+**MVP Implementation:**
+- Basic update functionality
+- Simple partial exit handling
+- Stop level adjustment
+
 **Usage Example:**
 ```
 /update-position AAPL move-stop value=224.50 notes="Moving stop to breakeven after first target hit"
 ```
 
-### `/close-position [symbol]`
+### `/close-position [symbol]` _(MVP CORE)_
 
 **Purpose:**
 Close a position and record the outcome.
@@ -576,12 +619,17 @@ Close a position and record the outcome.
 - Next steps recommendations
 - Visual trade summary
 
+**MVP Implementation:**
+- Basic position closing
+- Simple performance calculation
+- Trade record creation
+
 **Usage Example:**
 ```
 /close-position AAPL exit_price=227.50 reason="Target reached"
 ```
 
-### `/list-positions`
+### `/list-positions` _(MVP CORE)_
 
 **Purpose:**
 Display all current positions with status and management information.
@@ -599,12 +647,17 @@ Display all current positions with status and management information.
 - Management priorities
 - Visual position dashboard
 
+**MVP Implementation:**
+- Basic position listing
+- Simple P&L calculation
+- Status indicators
+
 **Usage Example:**
 ```
 /list-positions status=active format=summary
 ```
 
-### `/manage-runner [symbol]`
+### `/manage-runner [symbol]` _(MVP STRETCH)_
 
 **Purpose:**
 Apply Mancini's runner management protocol to a position.
@@ -621,6 +674,11 @@ Apply Mancini's runner management protocol to a position.
 - Time-based considerations
 - Risk management protocol
 - Visual runner tracking
+
+**MVP Implementation:**
+- Basic runner tracking
+- Simple trailing stop logic
+- Status updates
 
 **Usage Example:**
 ```
@@ -655,7 +713,7 @@ Configure price or condition-based alerts for a symbol.
 
 ## 5. Performance Commands
 
-### `/log-trade [symbol]`
+### `/log-trade [symbol]` _(MVP STRETCH)_
 
 **Purpose:**
 Create a structured log entry for a completed trade.
@@ -673,6 +731,11 @@ Create a structured log entry for a completed trade.
 - Setup outcome evaluation
 - Learning opportunities
 - Visual trade analysis
+
+**MVP Implementation:**
+- Basic trade logging
+- Simple performance metrics
+- Plan comparison
 
 **Usage Example:**
 ```
@@ -702,7 +765,7 @@ Add a structured entry to trading journal.
 /add-journal lesson "Failed Breakdowns work best when there are multiple tests of the same level" tags=failed-breakdown,support importance=4
 ```
 
-### `/run-debrief`
+### `/run-debrief` _(MVP STRETCH)_
 
 **Purpose:**
 Execute comprehensive end-of-day trading review.
@@ -721,6 +784,11 @@ Execute comprehensive end-of-day trading review.
 - Mode classification accuracy
 - Level utilization effectiveness
 - Next day preparation guidance
+
+**MVP Implementation:**
+- Simple session summary
+- Basic performance metrics
+- Key patterns identified
 
 **Usage Example:**
 ```
@@ -779,7 +847,7 @@ Identify recurring patterns in trading behavior and performance.
 
 ## 6. System Management Commands
 
-### `/show-help [command]`
+### `/show-help [command]` _(MVP CORE)_
 
 **Purpose:**
 Display help information for available commands.
@@ -796,6 +864,11 @@ Display help information for available commands.
 - Related commands
 - Common patterns
 - Best practices
+
+**MVP Implementation:**
+- Basic help functionality
+- Command description
+- Parameter explanation
 
 **Usage Example:**
 ```
@@ -916,4 +989,4 @@ Define and calibrate conviction level mapping for analyst language.
 /define-conviction dp samples=20
 ```
 
-This command catalog provides a comprehensive reference for all available commands in the Intent Trader system, with detailed specifications, parameters, outputs, and usage examples.
+This command catalog provides a comprehensive reference for all available commands in the Intent Trader system, with detailed specifications, parameters, outputs, and usage examples. Commands marked with _(MVP CORE)_ are the highest priority for implementation, while those with _(MVP STRETCH)_ are secondary priorities for the minimum viable product.
