@@ -2,102 +2,147 @@
 
 ## Goal: Implement MVP for tomorrow's trading session
 
-This implementation plan follows the cognitive workflow structure (Plan → Focus → Execute → Manage → Review) to deliver a complete trading assistant MVP by tomorrow.
+This implementation plan follows the cognitive workflow structure (Plan → Focus → Execute → Manage → Review) to deliver a complete trading assistant MVP by tomorrow. It serves as our state manager throughout the implementation process.
+
+## Current State
+- **Status**: In Progress
+- **Current Phase**: Setting up implementation plan
+- **Next Task**: Implement Morning Call Processor
+- **Completed Components**: None
 
 ## Timeline
 1. **Today (May 15)**: Implement core functionality
 2. **Tonight**: Test with sample data
 3. **Tomorrow (May 16)**: Use in live trading
 
-## Implementation Priority by Cognitive Phase
+## Implementation Tasks by Cognitive Phase
 
 ### 1. PLAN Phase Implementation (3 hours)
-- [ ] Implement `/analyze-dp [transcript]` command
-  - Parse DP morning call for market context
-  - Extract focus trade ideas with direction
-  - Identify key technical levels
-  - Determine market sentiment
-- [ ] Implement conviction classification
-  - Pattern matching for high/medium/low confidence
-  - Phrase detection for "love it", "viable", etc.
-  - Standardized conviction framework
-- [ ] Implement `/create-plan` command
-  - Generate unified trade plan from morning call analysis
-  - Format plan with market overview section
-  - Create prioritized trade ideas table
-  - Include key levels section
-  - Add moving average summary
+
+#### 1.1 Morning Call Processor [`/analyze-dp`]
+- [ ] **Status**: Not Started
+- **Priority**: Highest
+- **Estimated Time**: 1.5 hours
+- **Implementation Path**: 
+  - Use Prompt Template: [Morning Call Processor Implementation](master-prompt-instructions.md#1-morning-call-processor-implementation)
+  - Generate artifact: `prompts/premarket/analyze-dp.md`
+- **Input**: DP morning call transcript
+- **Output**: Structured market context, focus ideas, and levels
+
+#### 1.2 Conviction Classification System
+- [ ] **Status**: Not Started
+- **Priority**: High
+- **Estimated Time**: 45 minutes
+- **Implementation Path**:
+  - Use Prompt Template: [Conviction Classification Implementation](master-prompt-instructions.md#2-conviction-classification-implementation)
+  - Generate artifact: `system/focus/conviction-classifier.md`
+- **Dependencies**: None
+- **Used by**: Morning Call Processor
+
+#### 1.3 Unified Trade Plan Generator [`/create-plan`]
+- [ ] **Status**: Not Started
+- **Priority**: High
+- **Estimated Time**: 45 minutes
+- **Implementation Path**:
+  - Use Prompt Template: [Unified Trade Plan Generator Implementation](master-prompt-instructions.md#3-unified-trade-plan-generator-implementation)
+  - Generate artifact: `prompts/premarket/create-plan.md`
+- **Dependencies**: Morning Call Processor output
+- **Output**: Formatted trade plan with prioritized ideas and levels
 
 ### 2. FOCUS Phase Implementation (2 hours)
-- [ ] Implement `/extract-focus [source] [min_conviction]` command
-  - Extract high-conviction trade ideas
-  - Filter by minimum conviction level
-  - Include complete setup parameters
-- [ ] Implement `/extract-levels [source] [indices]` command
-  - Extract key price levels for indices
-  - Classify as support/resistance
-  - Include context and significance
-- [ ] Create setup prioritization system
-  - Rank opportunities by conviction
-  - Include risk/reward assessment
-  - Order by execution priority
+
+#### 2.1 Trade Idea Extractor [`/extract-focus`]
+- [ ] **Status**: Not Started
+- **Priority**: High
+- **Estimated Time**: 1 hour
+- **Implementation Path**:
+  - Use Prompt Template: [Trade Idea Extractor Implementation](master-prompt-instructions.md#4-trade-idea-extractor-implementation)
+  - Generate artifact: `prompts/premarket/extract-focus.md`
+- **Dependencies**: Morning Call Processor output
+- **Output**: Prioritized list of trade ideas by conviction
+
+#### 2.2 Level Extractor [`/extract-levels`]
+- [ ] **Status**: Not Started
+- **Priority**: Medium
+- **Estimated Time**: 1 hour
+- **Implementation Path**:
+  - Use Prompt Template: [Level Extractor Implementation](master-prompt-instructions.md#5-level-extractor-implementation)
+  - Generate artifact: `prompts/premarket/extract-levels.md`
+- **Dependencies**: Morning Call Processor output
+- **Output**: Structured level framework for indices and stocks
 
 ### 3. EXECUTE Phase Implementation (1.5 hours)
-- [ ] Implement `/add-position [symbol]` command
-  - Capture entry details (price, time)
-  - Record position size
-  - Track stop and target levels
-  - Link to setup type
-- [ ] Implement basic position sizing
-  - Calculate appropriate size based on risk
-  - Factor in conviction level
-  - Apply maximum risk constraints
-- [ ] Implement `/analyze-levels [symbol]` command
-  - Identify key levels for specific symbols
-  - Show current price relationship
-  - Highlight potential entry/exit zones
+
+#### 3.1 Position Manager
+- [ ] **Status**: Not Started
+- **Priority**: High
+- **Estimated Time**: 1 hour
+- **Implementation Path**:
+  - Use Prompt Template: [Position Manager Implementation](master-prompt-instructions.md#6-position-manager-implementation)
+  - Generate artifacts:
+    - `prompts/intraday/add-position.md`
+    - `prompts/intraday/list-positions.md`
+    - `prompts/intraday/update-position.md`
+    - `prompts/intraday/close-position.md`
+- **Dependencies**: None
+- **Output**: Position tracking and management commands
+
+#### 3.2 Position Sizing [`/size-position`]
+- [ ] **Status**: Not Started
+- **Priority**: Medium
+- **Estimated Time**: 30 minutes
+- **Implementation Path**:
+  - Use Prompt Template: [Position Sizing Implementation](master-prompt-instructions.md#7-position-sizing-implementation)
+  - Generate artifact: `prompts/intraday/size-position.md`
+- **Dependencies**: None
+- **Output**: Position sizing recommendations based on risk parameters
 
 ### 4. MANAGE Phase Implementation (1.5 hours)
-- [ ] Implement `/list-positions` command
-  - Show all active positions
-  - Display current P&L
-  - Include status indicators
-  - Show management priorities
-- [ ] Implement `/update-position [symbol]` command
-  - Support stop adjustments
-  - Handle partial exits
-  - Track position modifications
-- [ ] Implement `/close-position [symbol]` command
-  - Record exit details
-  - Calculate final P&L
-  - Create trade summary
-  - Prepare for logging
+
+#### 4.1 Runner Management [`/manage-runner`]
+- [ ] **Status**: Not Started
+- **Priority**: Low (Stretch Goal)
+- **Estimated Time**: 1.5 hours
+- **Implementation Path**:
+  - Use Prompt Template: [Runner Management Implementation](master-prompt-instructions.md#8-runner-management-implementation)
+  - Generate artifact: `prompts/intraday/manage-runner.md`
+- **Dependencies**: Position Manager
+- **Output**: Runner management guidance and trailing stop recommendations
 
 ### 5. REVIEW Phase Implementation (1 hour - stretch goal)
-- [ ] Implement `/log-trade [symbol]` command
-  - Create structured trade record
-  - Include performance metrics
-  - Assess plan adherence
-  - Capture key learnings
-- [ ] Implement `/run-debrief` command
-  - Generate session summary
-  - Calculate day performance
-  - Identify patterns
-  - Suggest improvements
 
-## Integration Testing (1 hour)
-- [ ] Test end-to-end workflow
-  - Process sample morning call
-  - Generate unified plan
-  - Add sample positions
-  - Update and close positions
-  - Create session debrief
-- [ ] Fix critical issues
-  - Ensure consistent data flow
-  - Verify command parameters
-  - Check output formatting
+#### 5.1 Trade Logger [`/log-trade`]
+- [ ] **Status**: Not Started
+- **Priority**: Low (Stretch Goal)
+- **Estimated Time**: 30 minutes
+- **Implementation Path**:
+  - Use Prompt Template: [Trade Logger Implementation](master-prompt-instructions.md#9-trade-logger-implementation)
+  - Generate artifact: `prompts/postmarket/log-trade.md`
+- **Dependencies**: Position Manager
+- **Output**: Structured trade log entries with performance metrics
 
-## Core Output Templates to Create
+#### 5.2 Session Debrief [`/run-debrief`]
+- [ ] **Status**: Not Started
+- **Priority**: Low (Stretch Goal)
+- **Estimated Time**: 30 minutes
+- **Implementation Path**:
+  - Use Prompt Template: [Session Debrief Implementation](master-prompt-instructions.md#10-session-debrief-implementation)
+  - Generate artifact: `prompts/postmarket/run-debrief.md`
+- **Dependencies**: Trade Logger
+- **Output**: Comprehensive session analysis with insights and recommendations
+
+### 6. Integration Testing (1 hour)
+- [ ] **Status**: Not Started
+- **Priority**: High
+- **Estimated Time**: 1 hour
+- **Implementation Path**:
+  - Test end-to-end workflow manually
+  - Create test data and expected outputs
+  - Verify correct data flow between components
+- **Dependencies**: All core components
+- **Output**: Working, integrated system
+
+## Output Templates
 
 ### 1. Morning Call Analysis Template (PLAN Phase)
 ```json
@@ -202,21 +247,51 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - **Directional Bias**: [long/short/neutral]
 ```
 
-## Readiness Checklist
-- [ ] PLAN Phase commands implemented
-- [ ] FOCUS Phase commands implemented
-- [ ] EXECUTE Phase commands implemented
-- [ ] MANAGE Phase commands implemented
-- [ ] REVIEW Phase commands implemented (stretch)
-- [ ] All templates created
-- [ ] End-to-end workflow tested
-- [ ] Ready for live trading tomorrow
+### 4. Trade Log Template (REVIEW Phase)
+```markdown
+# Trade Log — [DATE]
 
-## Implementation Notes
-- Focus on functionality over completeness
-- Use template-based approach for outputs
-- Prioritize accurate analysis of high-conviction trade ideas
-- Accept manual overrides where needed
-- Start with the PLAN and FOCUS phases as they are most critical for tomorrow
+| Ticker | Direction | Entry   | Exit    | P&L     | Hold Time | Setup     | Adherence |
+|--------|-----------|---------|---------|---------|-----------|-----------|-----------|
+| TICK   | Long      | 000.00  | 000.00  | +0.0%   | 0h 00m    | [type]    | [rating]  |
+| TICK   | Short     | 000.00  | 000.00  | -0.0%   | 0h 00m    | [type]    | [rating]  |
+
+## Trade Details
+
+### TICK (Long)
+- **Entry**: 000.00 at 00:00 [condition]
+- **Exit**: 000.00 at 00:00 [reason]
+- **Result**: +/-0.0% ($ amount)
+- **Plan Adherence**: [assessment]
+- **Management**: [assessment]
+- **Lessons**: [key takeaways]
+```
+
+## Implementation Progress Tracking
+
+| Component                      | Status      | Completed | Location                         |
+|--------------------------------|-------------|-----------|----------------------------------|
+| Morning Call Processor         | Not Started | [ ]       | `prompts/premarket/analyze-dp.md` |
+| Conviction Classification      | Not Started | [ ]       | `system/focus/conviction-classifier.md` |
+| Unified Trade Plan Generator   | Not Started | [ ]       | `prompts/premarket/create-plan.md` |
+| Trade Idea Extractor           | Not Started | [ ]       | `prompts/premarket/extract-focus.md` |
+| Level Extractor                | Not Started | [ ]       | `prompts/premarket/extract-levels.md` |
+| Position Manager - Add         | Not Started | [ ]       | `prompts/intraday/add-position.md` |
+| Position Manager - List        | Not Started | [ ]       | `prompts/intraday/list-positions.md` |
+| Position Manager - Update      | Not Started | [ ]       | `prompts/intraday/update-position.md` |
+| Position Manager - Close       | Not Started | [ ]       | `prompts/intraday/close-position.md` |
+| Position Sizing                | Not Started | [ ]       | `prompts/intraday/size-position.md` |
+| Runner Management              | Not Started | [ ]       | `prompts/intraday/manage-runner.md` |
+| Trade Logger                   | Not Started | [ ]       | `prompts/postmarket/log-trade.md` |
+| Session Debrief                | Not Started | [ ]       | `prompts/postmarket/run-debrief.md` |
+| Integration Testing            | Not Started | [ ]       | N/A |
+
+## Next Steps
+
+1. Start implementing the Morning Call Processor using its implementation prompt
+2. Update this state document after each component is completed
+3. Track dependencies and ensure they are completed before dependent components
+4. Focus on PLAN and FOCUS phases first as they are highest priority
+5. Test components as they are completed
 
 Remember: The goal is a working MVP that helps make money tomorrow, not a perfect system!
