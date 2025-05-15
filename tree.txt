@@ -19,8 +19,6 @@
 ├── INSTALL.md
 ├── intent-trader.code-workspace
 ├── logs
-│   ├── mental-state.json
-│   ├── performance-summary.md
 │   ├── releases
 │   │   └── v0.5.0.md
 │   ├── test-session-output.json
@@ -33,9 +31,7 @@
 │   │   └── status-update.md
 │   ├── postmarket
 │   │   ├── compare-execution.md
-│   │   ├── mental-check.md
-│   │   ├── missed-trades.md
-│   │   └── trade-review.md
+│   │   └── missed-trades.md
 │   ├── premarket
 │   │   └── morning-blueprint.md
 │   └── system
@@ -43,10 +39,6 @@
 │       └── route-analyzer.md
 ├── README_DEV.md
 ├── README.md
-├── simulations
-│   ├── engine.md
-│   └── mock-logs
-│       └── README.md
 ├── state
 │   └── session-manifest.json
 ├── system
@@ -64,12 +56,10 @@
 │   │   ├── improvement-feedback.md
 │   │   ├── replay-engine.md
 │   │   └── replay-runner.js
-│   ├── market-calendar.md
 │   ├── prompts
 │   │   └── new-prompt-checklist.md
 │   ├── protocols
 │   │   └── cognitive-reset.md
-│   ├── risk-profile.md
 │   ├── schemas
 │   │   └── trade-log.schema.json
 │   ├── status-tracking
@@ -108,4 +98,4 @@
 │   └── validate-schema.js
 └── tree.txt
 
-27 directories, 82 files
+25 directories, 74 files
