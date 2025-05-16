@@ -3,7 +3,7 @@ id: analyze-dp
 title: Morning Call Processor
 description: Analyzes DP morning call transcripts to extract actionable trading information
 author: Intent Trader Team
-version: 0.1.0
+version: 0.2.0
 release: 0.5.1
 created: 2025-05-15
 updated: 2025-05-15
