@@ -3,7 +3,7 @@ id: command-map
 title: Intent Trader Command Map
 description: Mapping of command routes to execution handlers
 author: Intent Trader Team
-version: 0.1.3
+version: 0.1.4
 release: 0.5.1
 created: 2025-05-16
 updated: 2025-05-16
@@ -34,35 +34,16 @@ This file defines the routing and execution logic for all Intent Trader commands
 | `/extract-focus`     | Extract high-conviction trade ideas               | focus        | Source (dp), min_conviction           | prompts/focus/extract-focus.md |
 | `/extract-levels`    | Extract key technical levels                      | focus        | Source (dp), indices                  | prompts/focus/extract-levels.md|
 | **EXECUTE PHASE**                                                                                                           |
-| `/add-position`      | Track new position                                | execute      | Symbol and position details           | prompts/manage/add-position.md |
 | `/size-position`     | Calculate position size                           | execute      | Symbol, entry, stop                   | prompts/execute/size-position.md|
-| `/list-positions`    | Show current positions                            | execute      | Optional filters                      | prompts/manage/list-positions.md|
+| `/add-position`      | Track new position                                | execute      | Symbol and position details           | prompts/manage/add-position.md |
 | **MANAGE PHASE**                                                                                                            |
 | `/update-position`   | Update position details                           | manage       | Symbol and updated metrics            | prompts/manage/update-position.md|
 | `/close-position`    | Close position and record outcome                 | manage       | Symbol and exit details               | prompts/manage/close-position.md|
+| `/list-positions`    | Show current positions                            | manage       | Optional filters                      | prompts/manage/list-positions.md|
 | **REVIEW PHASE**                                                                                                            |
-| `/log-session`       | Record complete session data                      | review       | Date, conditions                      | prompts/execute/log-session.md |
+| `/log-session`       | Record complete session data                      | review       | Date, conditions                      | prompts/review/log-session.md  |
+| **UTILITIES**                                                                                                               |
+| `/analyze-chart`     | Analyze chart patterns and levels                 | utility      | Chart image, optional parameters      | prompts/utilities/analyze-chart.md|
 | **SYSTEM COMMANDS**                                                                                                         |
 | `/help`              | Show available commands                           | system       | Optional command name                 | system/commands.md             |
 | `/status`            | Show current trading session state                | system       | None                                  | system/runtime/entrypoint.md   |
-
-## Phase Triggers
-
-| Phase        | Command                | Triggered Components                              |
-|--------------|------------------------|---------------------------------------------------|
-| premarket    | `/run-phase premarket` | `analyze-dp`, `analyze-mancini`                   |
-| focus        | `/run-phase focus`     | `create-plan`, `extract-focus`, `extract-levels`  |
-| intraday     | `/run-phase intraday`  | Position management commands                      |
-| postmarket   | `/run-phase postmarket`| `log-session`                                     |
-
-## Reserved for v0.5.2
-
-The following commands are planned for v0.5.2 but not yet fully implemented:
-
-| Command              | Description                                       | Phase        | Status                             |
-|----------------------|---------------------------------------------------|--------------|-----------------------------------|
-| `/adjust-stop`       | Modify stop loss level                            | manage       | Planned for v0.5.2                |
-| `/trim-position`     | Execute partial exit                              | manage       | Planned for v0.5.2                |
-| `/manage-runner`     | Apply runner management protocol                  | manage       | Planned for v0.5.2                |
-| `/run-debrief`       | Comprehensive session analysis                    | review       | Planned for v0.5.2                |
-| `/mode-detect`       | Determine market mode                             | plan         | Planned for v0.5.2                |
