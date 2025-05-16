@@ -3,7 +3,7 @@ id: plugin-registry
 title: Plugin Registry Documentation
 description: Documentation for the plugin architecture of Intent Trader
 author: Intent Trader Team
-version: 0.1.2
+version: 0.2.0
 release: 0.5.1
 created: 2025-05-16
 updated: 2025-05-16

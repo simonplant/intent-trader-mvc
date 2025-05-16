@@ -3,7 +3,7 @@ id: command-map
 title: Intent Trader Command Map
 description: Mapping of command routes to execution handlers
 author: Intent Trader Team
-version: 0.1.4
+version: 0.2.0
 release: 0.5.1
 created: 2025-05-16
 updated: 2025-05-16
@@ -47,3 +47,4 @@ This file defines the routing and execution logic for all Intent Trader commands
 | **SYSTEM COMMANDS**                                                                                                         |
 | `/help`              | Show available commands                           | system       | Optional command name                 | system/commands.md             |
 | `/status`            | Show current trading session state                | system       | None                                  | system/runtime/entrypoint.md   |
+|----------------------|---------------------------------------------------|--------------|--------------------------------------|--------------------------------|
