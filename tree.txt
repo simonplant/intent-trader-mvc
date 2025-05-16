@@ -1,71 +1,63 @@
 .
 ├── changelog.md
 ├── config
-│   └── risk-rules.json
+├── data
+│   └── domain-model.md
 ├── docs
 │   ├── commands.md
-│   ├── developer-handbook.md
-│   ├── how-to
-│   │   ├── add-a-plugin.md
-│   │   ├── chatgpt-boot.md
-│   │   ├── create-a-prompt.md
-│   │   ├── respond-to-events.md
-│   │   ├── review-execution.md
-│   │   └── run-daily-session.md
-│   ├── MAINTENANCE_GUIDE.md
 │   ├── README.md
 │   ├── requirements.md
+│   ├── system-architecture-document.md
 │   └── system-architecture.md
 ├── INSTALL.md
 ├── intent-trader.code-workspace
 ├── logs
+│   ├── 2025-05-15-dp-analyzer.json
+│   ├── 2025-05-15-dp-trade-plan.md
+│   ├── 2025-05-15-unified-plan.md
 │   ├── releases
 │   │   └── v0.5.0.md
 │   ├── test-session-output.json
 │   └── trade-log.json
+├── planning
+│   ├── implementation-log.md
+│   ├── intent-trader-v051-plan.md
+│   ├── kick-off-prompt.md
+│   ├── master-prompt-instructions.md
+│   ├── plan-for-today.md
+│   ├── project-tracker.md
+│   ├── qa-review-prompt.md
+│   └── README.md
 ├── prompts
-│   ├── intraday
-│   │   ├── chart-analysis.md
-│   │   ├── cognitive-reset.md
-│   │   ├── midday-reset.md
-│   │   └── status-update.md
-│   ├── postmarket
-│   │   ├── compare-execution.md
-│   │   └── missed-trades.md
-│   ├── premarket
-│   │   └── morning-blueprint.md
-│   └── system
-│       ├── prompt-linter.md
-│       └── route-analyzer.md
+│   ├── execute
+│   │   ├── log-session.md
+│   │   └── size-position.md
+│   ├── focus
+│   │   ├── conviction-classifier.md
+│   │   ├── create-plan.md
+│   │   ├── extract-focus.md
+│   │   ├── extract-levels.md
+│   │   ├── market-regimes.md
+│   │   └── risk-rules.json
+│   ├── manage
+│   │   ├── add-position.md
+│   │   ├── close-position.md
+│   │   ├── list-positions.md
+│   │   └── update-position.md
+│   ├── plan
+│   │   └── analyze-dp.md
+│   ├── review
+│   └── utilities
+│       └── chart-analysis.md
 ├── README_DEV.md
 ├── README.md
 ├── state
-│   └── session-manifest.json
+│   ├── moderator-positions.json
+│   ├── my-positions.json
+│   ├── session-manifest.json
+│   └── trade-plan-state.json
 ├── system
-│   ├── blueprints
-│   │   ├── adaptation.md
-│   │   ├── extraction-source-map.json
-│   │   ├── generation.md
-│   │   └── structure.md
-│   ├── chart-legend.md
-│   ├── cognitive
-│   │   ├── adaptation-matrix.md
-│   │   ├── load-calculation.md
-│   │   └── state-tracking.md
-│   ├── learning
-│   │   ├── improvement-feedback.md
-│   │   ├── replay-engine.md
-│   │   └── replay-runner.js
-│   ├── prompts
-│   │   └── new-prompt-checklist.md
-│   ├── protocols
-│   │   └── cognitive-reset.md
-│   ├── schemas
-│   │   └── trade-log.schema.json
-│   ├── status-tracking
-│   │   ├── framework.md
-│   │   ├── transitions.md
-│   │   └── visualization.md
+│   ├── sop.md
 │   ├── systemops
 │   │   ├── api-contracts.md
 │   │   ├── command-map.md
@@ -74,28 +66,11 @@
 │   │   ├── plugin-registry.json
 │   │   ├── plugin-registry.md
 │   │   ├── runtime-agent.md
-│   │   ├── runtime-engine.md
 │   │   └── validator.md
-│   ├── technical-framework
-│   │   ├── level-significance.md
-│   │   ├── mancini-integration.md
-│   │   └── pattern-recognition.md
-│   ├── templates
-│   │   ├── front-matter-template.md
-│   │   └── prompt-scaffold.md
-│   └── workflows
-│       └── status-update-cycle.md
+│   └── templates
+│       └── front-matter-template.md
 ├── tests
-│   ├── bootstrap-test.js
-│   ├── bootstrap-test.md
-│   ├── full-session-test.md
-│   ├── metrics-analyzer.js
-│   ├── README.md
-│   ├── schema-validator.js
-│   ├── test-blueprint.js
-│   ├── test-replay.js
-│   ├── test-session-complete.js
-│   └── validate-schema.js
-└── tree.txt
+├── tree.txt
+└── wip
 
-25 directories, 74 files
+20 directories, 54 files
