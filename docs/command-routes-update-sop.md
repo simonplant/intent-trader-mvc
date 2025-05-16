@@ -24,8 +24,8 @@ ai_enabled: false
 When updating the command system, these are the key files that must be kept in sync:
 
 1. **Documentation Files**:
-   - `docs/command-reference-comprehensive.md` - Complete command reference with current and future commands
-   - `system/commands.md` - Simplified reference for current commands only
+   - `docs/command-reference.md` - Complete command reference
+   - `system/commands.md` - Canonical command list reference
 
 2. **Routing Files**:
    - `system/runtime/command-map.md` - Command routing table
@@ -41,6 +41,7 @@ When updating the command system, these are the key files that must be kept in s
      - `prompts/execute/[command-name].md`
      - `prompts/manage/[command-name].md`
      - `prompts/review/[command-name].md`
+     - `prompts/utilities/[command-name].md`
 
 4. **State Files** (as needed):
    - `state/my-positions.json`
@@ -59,8 +60,8 @@ This Standard Operating Procedure (SOP) outlines the process for maintaining, up
 The Intent Trader command system consists of several interconnected components that must remain synchronized:
 
 1. **Documentation**:
-   - `docs/command-reference-comprehensive.md` - Complete command reference (current + future)
-   - `system/commands.md` - Simplified reference for current commands
+   - `docs/command-reference.md` - Complete command reference
+   - `system/commands.md` - Canonical command list reference
 
 2. **Routing System**:
    - `system/runtime/command-map.md` - Command routing table
@@ -79,15 +80,16 @@ When adding a new command to Intent Trader, follow these steps in order:
 
 ### 1.1 Documentation Update
 
-1. **Update Comprehensive Reference**:
-   - Add the new command to `docs/command-reference-comprehensive.md`
+1. **Update Command Reference**:
+   - Add the new command to `docs/command-reference.md`
    - Include full details: purpose, parameters, outputs, examples
-   - Mark with appropriate status (MVP CORE, MVP STRETCH, or FUTURE)
+   - Mark with appropriate status (CORE)
    - Specify planned release version
 
-2. **Update Simplified Reference** (if immediately available):
-   - Add to `system/commands.md` only if implementing now
-   - If future, add to "Future Commands" section with expected version
+2. **Update Canonical Reference**:
+   - Add to `system/commands.md` with complete details
+   - Ensure proper phase categorization (PFEMRC)
+   - Include all parameters, outputs, and examples
 
 ### 1.2 Implementation Creation
 
@@ -111,9 +113,10 @@ When adding a new command to Intent Trader, follow these steps in order:
    - Add entry to `system/runtime/plugin-registry.json`
    - Include id, type, version, entryPoint, phase, dependencies
 
-3. **Update Runtime Agent** (if needed):
-   - Modify `system/runtime/runtime-agent.md` if command requires special handling
+3. **Update Runtime Agent**:
+   - Modify `system/runtime/runtime-agent.md` to include the new command
    - Update validation rules in `system/runtime/validator.md`
+   - Update `system/runtime/entrypoint.md` if needed
 
 ### 1.4 Testing
 
@@ -160,12 +163,12 @@ When modifying an existing command, follow these steps:
 
 ### 2.2 Documentation Update
 
-1. **Update Comprehensive Reference**:
-   - Modify command details in `docs/command-reference-comprehensive.md`
+1. **Update Command Reference**:
+   - Modify command details in `docs/command-reference.md`
    - Update parameters, outputs, examples as needed
    - Mark with "UPDATED" tag and new version
 
-2. **Update Simplified Reference**:
+2. **Update Canonical Reference**:
    - Update `system/commands.md` with changes
    - Highlight significant changes for users
 
@@ -225,7 +228,7 @@ When removing or deprecating a command, follow these steps:
 ### 3.2 Deprecation Phase
 
 1. **Mark as Deprecated**:
-   - Update `docs/command-reference-comprehensive.md` with DEPRECATED tag
+   - Update `docs/command-reference.md` with DEPRECATED tag
    - Add deprecation notice to `system/commands.md`
    - Add deprecation warning to command output
 
@@ -242,8 +245,8 @@ When removing or deprecating a command, follow these steps:
 ### 3.3 Removal Phase
 
 1. **Documentation Update**:
-   - Move command to "Deprecated/Removed" section in comprehensive reference
-   - Remove from simplified reference
+   - Move command to "Deprecated/Removed" section in reference
+   - Remove from canonical reference
    - Update all usage examples
 
 2. **Routing Cleanup**:
@@ -282,9 +285,9 @@ Follow semantic versioning for command changes:
 
 Commands progress through these statuses:
 
-1. **FUTURE**: Planned but not yet implemented
-2. **MVP STRETCH**: Partially implemented with basic functionality
-3. **MVP CORE**: Fully implemented core functionality
+1. **PLANNED**: Planned but not yet implemented
+2. **DEVELOPMENT**: In active development
+3. **CORE**: Fully implemented core functionality
 4. **STABLE**: Mature, fully tested implementation
 5. **ENHANCED**: Extended with additional capabilities
 6. **DEPRECATED**: Scheduled for removal
@@ -305,12 +308,13 @@ For each command version update:
 
 When making any command system changes, verify these documents are in sync:
 
-- [ ] `docs/command-reference-comprehensive.md`
+- [ ] `docs/command-reference.md`
 - [ ] `system/commands.md`
 - [ ] `system/runtime/command-map.md`
 - [ ] `system/runtime/plugin-registry.json`
 - [ ] `system/runtime/runtime-agent.md`
 - [ ] `system/runtime/validator.md`
+- [ ] `system/runtime/entrypoint.md`
 - [ ] Command implementation files
 - [ ] Release notes
 
@@ -358,6 +362,7 @@ All commands must align with the cognitive workflow:
 3. **Execute Phase**: Trade entry and position creation
 4. **Manage Phase**: Active position management
 5. **Review Phase**: Performance analysis and reflection
+6. **Utilities**: Cross-phase utility commands
 
 When adding or modifying commands, maintain this alignment to preserve intuitive user experience.
 
@@ -414,10 +419,10 @@ Include these details in release notes:
 
 ### 8.1 New Command Template
 
-When adding a new command to the comprehensive reference:
+When adding a new command to the reference:
 
 ```markdown
-#### `/command-name [required_param]` ✅ MVP CORE
+#### `/command-name [required_param]` CORE
 
 **Purpose:** Brief description of command purpose and primary use case.
 
@@ -434,9 +439,7 @@ When adding a new command to the comprehensive reference:
 * `prompts/phase/command-name.md`
 
 **Example:**
-```
 /command-name required_param optional_param=value
-```
 ```
 
 ### 8.2 Command Map Entry Template
@@ -458,12 +461,5 @@ When adding a command to the plugin registry:
   "version": "0.1.0",
   "entryPoint": "prompts/phase/command-name.md",
   "phase": "phase-name",
-  "dependsOn": ["dependency-command"]
+  "dependsOn": []
 }
-```
-
-## Conclusion
-
-Following this SOP ensures that the Intent Trader command system remains consistent, well-documented, and maintainable as it evolves. It preserves both the immediate functionality needs of the MVP and the long-term vision of the complete system.
-
-By maintaining both comprehensive and simplified documentation, the system remains approachable for current users while preserving the roadmap for future development. This dual approach balances immediate practicality with long-term vision.
