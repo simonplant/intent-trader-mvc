@@ -8,16 +8,20 @@
     "dependsOn": []
   },
   {
+    "id": "analyze-mancini-preprocessor",
+    "type": "analyzer",
+    "version": "0.5.1",
+    "entryPoint": "prompts/plan/analyze-mancini-preprocessor.md",
+    "phase": "plan",
+    "dependsOn": []
+  },
+  {
     "id": "analyze-mancini",
     "type": "analyzer",
-    "version": "0.5.2-preview",
+    "version": "0.5.1",
     "entryPoint": "prompts/plan/analyze-mancini.md",
     "phase": "plan",
-    "dependsOn": [
-      "market-regimes",
-      "extract-levels",
-      "conviction-classifier"
-    ]
+    "dependsOn": []
   },
   {
     "id": "create-plan",
@@ -25,9 +29,7 @@
     "version": "0.5.1",
     "entryPoint": "prompts/focus/create-plan.md",
     "phase": "focus",
-    "dependsOn": [
-      "analyze-dp"
-    ]
+    "dependsOn": []
   },
   {
     "id": "extract-focus",
@@ -35,9 +37,7 @@
     "version": "0.5.1",
     "entryPoint": "prompts/focus/extract-focus.md",
     "phase": "focus",
-    "dependsOn": [
-      "analyze-dp"
-    ]
+    "dependsOn": []
   },
   {
     "id": "extract-levels",
@@ -45,16 +45,6 @@
     "version": "0.5.1",
     "entryPoint": "prompts/focus/extract-levels.md",
     "phase": "focus",
-    "dependsOn": [
-      "analyze-dp"
-    ]
-  },
-  {
-    "id": "add-position",
-    "type": "action",
-    "version": "0.5.1",
-    "entryPoint": "prompts/manage/add-position.md",
-    "phase": "execute",
     "dependsOn": []
   },
   {
@@ -66,10 +56,10 @@
     "dependsOn": []
   },
   {
-    "id": "list-positions",
-    "type": "report",
+    "id": "add-position",
+    "type": "action",
     "version": "0.5.1",
-    "entryPoint": "prompts/manage/list-positions.md",
+    "entryPoint": "prompts/execute/add-position.md",
     "phase": "execute",
     "dependsOn": []
   },
@@ -79,9 +69,7 @@
     "version": "0.5.1",
     "entryPoint": "prompts/manage/update-position.md",
     "phase": "manage",
-    "dependsOn": [
-      "add-position"
-    ]
+    "dependsOn": []
   },
   {
     "id": "close-position",
@@ -89,32 +77,30 @@
     "version": "0.5.1",
     "entryPoint": "prompts/manage/close-position.md",
     "phase": "manage",
-    "dependsOn": [
-      "add-position"
-    ]
+    "dependsOn": []
+  },
+  {
+    "id": "list-positions",
+    "type": "report",
+    "version": "0.5.1",
+    "entryPoint": "prompts/manage/list-positions.md",
+    "phase": "manage",
+    "dependsOn": []
   },
   {
     "id": "log-session",
     "type": "analyzer",
     "version": "0.5.1",
-    "entryPoint": "prompts/execute/log-session.md",
+    "entryPoint": "prompts/review/log-session.md",
     "phase": "review",
     "dependsOn": []
   },
   {
-    "id": "help",
-    "type": "system",
+    "id": "analyze-chart",
+    "type": "analyzer",
     "version": "0.5.1",
-    "entryPoint": "system/commands.md",
-    "phase": "any",
-    "dependsOn": []
-  },
-  {
-    "id": "status",
-    "type": "system",
-    "version": "0.5.1",
-    "entryPoint": "system/runtime/entrypoint.md",
-    "phase": "any",
+    "entryPoint": "prompts/utilities/chart-analysis.md",
+    "phase": "utilities",
     "dependsOn": []
   }
 ]
