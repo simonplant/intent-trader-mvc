@@ -4,10 +4,10 @@
 ├── data
 │   └── domain-model.md
 ├── docs
-│   ├── commands.md
+│   ├── command-reference.md
+│   ├── command-routes-update-sop.md
 │   ├── README.md
 │   ├── requirements.md
-│   ├── system-architecture-document.md
 │   └── system-architecture.md
 ├── INSTALL.md
 ├── intent-trader.code-workspace
@@ -26,9 +26,9 @@
 │   ├── master-prompt-instructions.md
 │   ├── plan-for-today.md
 │   ├── project-tracker.md
-│   ├── qa-review-prompt.md
-│   └── README.md
+│   └── qa-review-prompt.md
 ├── prompts
+│   ├── coach
 │   ├── execute
 │   │   ├── log-session.md
 │   │   └── size-position.md
@@ -49,7 +49,6 @@
 │   ├── review
 │   └── utilities
 │       └── chart-analysis.md
-├── README_DEV.md
 ├── README.md
 ├── state
 │   ├── moderator-positions.json
@@ -57,8 +56,8 @@
 │   ├── session-manifest.json
 │   └── trade-plan-state.json
 ├── system
-│   ├── sop.md
-│   ├── systemops
+│   ├── commands.md
+│   ├── runtime
 │   │   ├── api-contracts.md
 │   │   ├── command-map.md
 │   │   ├── entrypoint.md
@@ -67,10 +66,12 @@
 │   │   ├── plugin-registry.md
 │   │   ├── runtime-agent.md
 │   │   └── validator.md
+│   ├── sop.md
 │   └── templates
 │       └── front-matter-template.md
 ├── tests
 ├── tree.txt
 └── wip
+    └── commands.md
 
-20 directories, 54 files
+21 directories, 54 files

@@ -1,33 +1,108 @@
 [
   {
-    "id": "replay-engine",
+    "id": "analyze-dp",
     "type": "analyzer",
-    "version": "1.0.0",
-    "entryPoint": "system/learning/replay-runner.js",
-    "phase": "postmarket",
-    "dependsOn": [
-      "logs/trade-log.json",
-      "system/schemas/blueprint.schema.json"
-    ]
+    "version": "0.5.1",
+    "entryPoint": "prompts/plan/analyze-dp.md",
+    "phase": "premarket",
+    "dependsOn": []
   },
   {
-    "id": "chart-analysis",
-    "type": "analyzer",
-    "version": "1.0.0",
-    "entryPoint": "prompts/intraday/chart-analysis.md",
-    "phase": "intraday",
-    "dependsOn": [
-      "system/technical-framework/pattern-recognition.md"
-    ]
-  },
-  {
-    "id": "blueprint-engine",
+    "id": "create-plan",
     "type": "transform",
-    "version": "1.0.0",
-    "entryPoint": "prompts/premarket/morning-blueprint.md",
+    "version": "0.5.1",
+    "entryPoint": "prompts/focus/create-plan.md",
     "phase": "premarket",
     "dependsOn": [
-      "system/blueprints/structure.md"
+      "analyze-dp"
     ]
+  },
+  {
+    "id": "extract-focus",
+    "type": "analyzer",
+    "version": "0.5.1",
+    "entryPoint": "prompts/focus/extract-focus.md",
+    "phase": "premarket",
+    "dependsOn": [
+      "analyze-dp"
+    ]
+  },
+  {
+    "id": "extract-levels",
+    "type": "analyzer",
+    "version": "0.5.1",
+    "entryPoint": "prompts/focus/extract-levels.md",
+    "phase": "premarket",
+    "dependsOn": [
+      "analyze-dp"
+    ]
+  },
+  {
+    "id": "add-position",
+    "type": "action",
+    "version": "0.5.1",
+    "entryPoint": "prompts/manage/add-position.md",
+    "phase": "intraday",
+    "dependsOn": []
+  },
+  {
+    "id": "size-position",
+    "type": "calculator",
+    "version": "0.5.1",
+    "entryPoint": "prompts/execute/size-position.md",
+    "phase": "intraday",
+    "dependsOn": []
+  },
+  {
+    "id": "list-positions",
+    "type": "report",
+    "version": "0.5.1",
+    "entryPoint": "prompts/manage/list-positions.md",
+    "phase": "intraday",
+    "dependsOn": []
+  },
+  {
+    "id": "update-position",
+    "type": "action",
+    "version": "0.5.1",
+    "entryPoint": "prompts/manage/update-position.md",
+    "phase": "intraday",
+    "dependsOn": [
+      "add-position"
+    ]
+  },
+  {
+    "id": "close-position",
+    "type": "action",
+    "version": "0.5.1",
+    "entryPoint": "prompts/manage/close-position.md",
+    "phase": "intraday",
+    "dependsOn": [
+      "add-position"
+    ]
+  },
+  {
+    "id": "log-session",
+    "type": "analyzer",
+    "version": "0.5.1",
+    "entryPoint": "prompts/execute/log-session.md",
+    "phase": "postmarket",
+    "dependsOn": []
+  },
+  {
+    "id": "help",
+    "type": "system",
+    "version": "0.5.1",
+    "entryPoint": "system/commands.md",
+    "phase": "any",
+    "dependsOn": []
+  },
+  {
+    "id": "status",
+    "type": "system",
+    "version": "0.5.1",
+    "entryPoint": "system/runtime/entrypoint.md",
+    "phase": "any",
+    "dependsOn": []
   }
 ]
