@@ -29,14 +29,14 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - **Priority**: Highest
 - **Implementation Path**:
   - Used Morning Call Processor Implementation template
-  - Generated artifact: `prompts/premarket/analyze-dp.md`
+  - Generated artifact: `prompts/plan/analyze-dp.md`
 - **Features**:
   - Extracts market context, focus trades, and key levels
   - Classifies trade ideas by conviction level
   - Identifies entry parameters and basic exit strategies
   - Optimized for MVP with essential trading information
 - **Next Steps**:
-  - ✓ Save to `prompts/premarket/analyze-dp.md`
+  - ✓ Save to `prompts/plan/analyze-dp.md`
   - ✓ Implement Conviction Classification System
 
 #### 1.2 Conviction Classification System
@@ -44,7 +44,7 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - **Priority**: High
 - **Implementation Path**:
   - Used Prompt Template: [Conviction Classification Implementation](master-prompt-instructions.md#2-conviction-classification-implementation)
-  - Generated artifact: `system/focus/conviction-classifier.md`
+  - Generated artifact: `prompts/focus/conviction-classifier.md`
 - **Dependencies**: None
 - **Used by**: Morning Call Processor
 
@@ -53,7 +53,7 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - **Priority**: High
 - **Implementation Path**:
   - Used Prompt Template: [Unified Trade Plan Generator Implementation](master-prompt-instructions.md#3-unified-trade-plan-generator-implementation)
-  - Generated artifact: `prompts/premarket/create-plan.md`
+  - Generated artifact: `prompts/focus/create-plan.md`
 - **Dependencies**: Morning Call Processor output
 - **Output**: Formatted trade plan with prioritized ideas and levels
 - **Features**:
@@ -71,7 +71,7 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - **Priority**: High
 - **Implementation Path**:
   - Used Prompt Template: [Trade Idea Extractor Implementation](master-prompt-instructions.md#4-trade-idea-extractor-implementation)
-  - Generated artifact: `prompts/premarket/extract-focus.md`
+  - Generated artifact: `prompts/focus/extract-focus.md`
 - **Dependencies**: Morning Call Processor output
 - **Output**: Prioritized list of trade ideas by conviction
 - **Features**:
@@ -87,7 +87,7 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - **Priority**: Medium
 - **Implementation Path**:
   - Used Prompt Template: [Level Extractor Implementation](master-prompt-instructions.md#5-level-extractor-implementation)
-  - Generated artifact: `prompts/premarket/extract-levels.md`
+  - Generated artifact: `prompts/focus/extract-levels.md`
 - **Dependencies**: Morning Call Processor output
 - **Output**: Structured level framework for indices and stocks
 - **Features**:
@@ -107,10 +107,10 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - **Implementation Path**:
   - Use Prompt Template: [Position Manager Implementation](master-prompt-instructions.md#6-position-manager-implementation)
   - Generate artifacts:
-    - `prompts/intraday/add-position.md`
-    - `prompts/intraday/list-positions.md`
-    - `prompts/intraday/update-position.md`
-    - `prompts/intraday/close-position.md`
+    - `prompts/execute/add-position.md`
+    - `prompts/execute/list-positions.md`
+    - `prompts/execute/update-position.md`
+    - `prompts/execute/close-position.md`
 - **Dependencies**: None
 - **Output**: Position tracking and management commands
 
@@ -120,7 +120,7 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - **Estimated Time**: 30 minutes
 - **Implementation Path**:
   - Use Prompt Template: [Position Sizing Implementation](master-prompt-instructions.md#7-position-sizing-implementation)
-  - Generate artifact: `prompts/intraday/size-position.md`
+  - Generate artifact: `prompts/execute/size-position.md`
 - **Dependencies**: None
 - **Output**: Position sizing recommendations based on risk parameters
 
@@ -132,7 +132,7 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - **Estimated Time**: 1.5 hours
 - **Implementation Path**:
   - Use Prompt Template: [Runner Management Implementation](master-prompt-instructions.md#8-runner-management-implementation)
-  - Generate artifact: `prompts/intraday/manage-runner.md`
+  - Generate artifact: `prompts/execute/manage-runner.md`
 - **Dependencies**: Position Manager
 - **Output**: Runner management guidance and trailing stop recommendations
 
@@ -144,7 +144,7 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - **Estimated Time**: 30 minutes
 - **Implementation Path**:
   - Use Prompt Template: [Trade Logger Implementation](master-prompt-instructions.md#9-trade-logger-implementation)
-  - Generate artifact: `prompts/postmarket/log-trade.md`
+  - Generate artifact: `prompts/review/log-trade.md`
 - **Dependencies**: Position Manager
 - **Output**: Structured trade log entries with performance metrics
 
@@ -154,7 +154,7 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - **Estimated Time**: 30 minutes
 - **Implementation Path**:
   - Use Prompt Template: [Session Debrief Implementation](master-prompt-instructions.md#10-session-debrief-implementation)
-  - Generate artifact: `prompts/postmarket/run-debrief.md`
+  - Generate artifact: `prompts/review/run-debrief.md`
 - **Dependencies**: Trade Logger
 - **Output**: Comprehensive session analysis with insights and recommendations
 
@@ -168,32 +168,3 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
   - Verify correct data flow between components
 - **Dependencies**: All core components
 - **Output**: Working, integrated system
-
-## Output Templates
-
-### 1. Morning Call Analysis Template (PLAN Phase)
-```json
-{
-  "marketContext": {
-    "futures": {"status": "string", "catalysts": ["string"]},
-    "indices": {"dow": {"direction": "string", "change": "string"}, "nasdaq": {"direction": "string", "change": "string"}},
-    "keyMovers": [{"ticker": "string", "direction": "string", "magnitude": "string", "reason": "string"}],
-    "sentiment": "string"
-  },
-  "focusIdeas": [
-    {
-      "ticker": "string",
-      "direction": "long/short",
-      "conviction": {"level": "high/medium/low", "phrases": ["string"]},
-      "entryParameters": {"zone": {"min": "number", "max": "number"}, "condition": "string"},
-      "exitParameters": {"stopLoss": "number", "target": "number"},
-      "rationale": "string"
-    }
-  ],
-  "levels": {
-    "indices": {
-      "es": {"support": [{"value": "number"}], "resistance": [{"value": "number"}]},
-      "spx": {"support": [{"value": "number"}], "resistance": [{"value": "number"}]}
-    }
-  }
-}
