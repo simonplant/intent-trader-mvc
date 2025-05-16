@@ -74,11 +74,5 @@
 ├── tests
 ├── tree.txt
 └── wip
-    ├── analyze-mancini-preprocessor.md
-    ├── command-reference.md
-    ├── commands-backup.md
-    ├── mancini-analyzer.md
-    ├── mancini-integration-update-plan.md
-    └── mancini-refactor-implementation-guide.md
 
-21 directories, 61 files
+21 directories, 55 files
