@@ -3,7 +3,7 @@ id: analyze-dp
 title: Morning Call Processor
 description: Analyzes DP morning call transcripts to extract actionable trading information
 author: Intent Trader Team
-version: 1.0.0
+version: 0.1.0
 release: 0.5.1
 created: 2025-05-15
 updated: 2025-05-15
@@ -35,8 +35,17 @@ The structured output enables downstream components to prioritize opportunities,
 ## Input Parameters
 
 - `transcript` (required): The text of DP's morning call
+  - Must be a non-empty string
+  - Minimum length: 100 characters (typical paragraph)
+  - Should contain recognizable market commentary and/or ticker mentions
 - `includeRaw` (optional): Whether to include raw text in the output (default: false)
 - `minConfidence` (optional): Minimum confidence threshold for extraction (default: 0.7)
+  - Range: 0.0-1.0
+  - Recommended: 0.5-0.8
+- `requireSections` (optional): Array of required sections that must be found (default: [])
+  - If specified and sections not found, returns error
+- `partialResults` (optional): Whether to return partial results if processing fails (default: true)
+  - If true, returns successfully processed sections even if others fail
 
 ## Output Format
 
@@ -108,9 +117,100 @@ The command produces a structured object with the following sections:
     ]
   },
   "processingMetadata": {
+    "status": "success|partial_success|failure",
     "confidenceScore": "number",
     "sectionsCaptured": ["string"],
-    "missingSections": ["string"]
+    "missingSections": ["string"],
+    "warnings": ["string"],
+    "errorMessages": ["string"],
+    "processingStats": {
+      "transcriptLength": "number",
+      "tickersIdentified": "number",
+      "processingTimeMs": "number"
+    },
+    "fallbacksUsed": ["string"] // indicates if any fallback strategies were employed
+  }
+}
+```
+
+## Error Handling
+
+The processor handles various error conditions and edge cases:
+
+### Input Validation Errors
+- **Empty or Missing Transcript**: Returns error with status "failure" and appropriate message
+- **Transcript Too Short**: Returns error if below minimum length with guidance
+- **Invalid Parameters**: Returns warning and applies default values
+
+```json
+{
+  "processorVersion": "1.0.0",
+  "processedAt": "2025-05-15T10:00:00Z",
+  "processingMetadata": {
+    "status": "failure",
+    "errorMessages": ["Transcript validation failed: Must be at least 100 characters"],
+    "processingStats": {
+      "transcriptLength": 45,
+      "tickersIdentified": 0,
+      "processingTimeMs": 12
+    },
+    "suggestions": [
+      "Ensure transcript includes complete morning call content",
+      "Check for truncation in source material",
+      "Consider using preformatted transcript if available"
+    ]
+  }
+}
+```
+
+### Processing Errors
+- **Section Identification Failure**: Returns partial results for identified sections with warnings
+- **Ticker Extraction Failure**: Attempts fallback extraction or returns available tickers with warning
+- **Level Parsing Errors**: Validates numerical ranges and returns valid levels with warnings for invalid ones
+
+### Critical Section Missing
+- **No Market Context**: Attempts alternative patterns to extract basic context, adds warning
+- **No Focus Ideas**: Searches for any ticker mentions with surrounding context, adds warning
+- **Both Critical Sections Missing**: Returns failure unless `partialResults` is true
+
+### Conviction Classifier Failure
+- **Classifier Unavailable**: Uses simplified internal classification based on pattern matching
+- **Classification Errors**: Returns ideas with lower confidence scores and appropriate warnings
+- **No Classification Possible**: Assigns "low" conviction with indication of fallback use
+
+### Value Validation
+- **Unrealistic Price Levels**: Validates levels against reasonable ranges for the ticker
+- **Inconsistent Levels**: Ensures support < resistance, fixes ordering if needed with warning
+- **Missing Numerical Values**: Sets to null rather than guessing with explanation
+
+## Example Error Response with Partial Results
+
+```json
+{
+  "processorVersion": "1.0.0",
+  "processedAt": "2025-05-15T10:00:00Z",
+  "marketContext": {
+    "futures": {"status": "lower", "catalysts": ["awaiting CPI"]},
+    "indices": {
+      "dow": {"direction": "down", "change": "over 200 points"}
+    },
+    "sentiment": "cautious"
+  },
+  "focusIdeas": [],
+  "levels": {},
+  "processingMetadata": {
+    "status": "partial_success",
+    "confidenceScore": 0.45,
+    "sectionsCaptured": ["market context"],
+    "missingSections": ["focus ideas", "technical levels"],
+    "warnings": ["Unable to identify focus ideas section", "Conviction classifier unavailable"],
+    "errorMessages": ["Focus idea extraction failed: No ticker symbols identified"],
+    "processingStats": {
+      "transcriptLength": 520,
+      "tickersIdentified": 0,
+      "processingTimeMs": 87
+    },
+    "fallbacksUsed": ["simplified market context extraction"]
   }
 }
 ```
@@ -119,7 +219,14 @@ The command produces a structured object with the following sections:
 
 The Morning Call Processor follows this analysis approach:
 
-### 1. Preprocessing
+### 1. Input Validation
+
+- Verify transcript is provided and is non-empty
+- Check minimum transcript length (100 characters)
+- Validate optional parameters are in correct format
+- Return appropriate error if validation fails with guidance on requirements
+
+### 2. Preprocessing
 
 - Normalize whitespace and formatting
 - Standardize ticker symbols (uppercase without $ prefix)
@@ -128,27 +235,31 @@ The Morning Call Processor follows this analysis approach:
 - Create a ticker mention count to track frequency throughout the call
 - Initialize a sector and theme tracking system
 
-### 2. Section Identification
+### 3. Section Identification
 
 - **Market Context Section**: Usually appears at the beginning discussing futures, indices
 - **Analyst Actions Section**: Contains "upgrade," "downgrade," "price target" language
 - **Focus Ideas Section**: Includes ticker symbols with conviction language
 - **Technical Levels Section**: Contains numerical values for support/resistance
 - **Market Philosophy Section**: General trading approach and broader context
+- **If critical sections not found**: Apply fallback extraction strategies using broader patterns
+- **Minimum viable section requirement**: At least one of Market Context or Focus Ideas must be identifiable
 
-### 3. Market Context Extraction
+### 4. Market Context Extraction
 
 - Identify futures status and direction
 - Extract index movements with magnitude
 - Identify key movers with reasons
 - Determine overall market sentiment
 - Identify important catalysts or events
+- **Error handling**: If parsing fails, provide partial results with appropriate status indicators
 
-### 4. Focus Ideas Extraction
+### 5. Focus Ideas Extraction
 
 - Identify ticker symbols in focus
 - Determine directional bias (long/short)
 - Use `conviction-classifier.md` to determine conviction level
+- **Fallback handling**: If conviction classifier fails, use simplified internal classification
 - Identify trade duration (cashflow/day, swing, long-term)
 - Extract entry parameters (price levels or conditions)
 - Extract exit parameters and strategies (targets, stops, scaling approaches)
@@ -161,15 +272,17 @@ The Morning Call Processor follows this analysis approach:
 - Identify correlated trade ideas or sector themes
 - Extract any historical context about similar setups
 
-### 5. Technical Level Extraction
+### 6. Technical Level Extraction
 
 - Identify index levels (ES, SPX, etc.)
 - Classify levels as support or resistance
 - Extract moving average values
 - Extract context or notes about levels
 - Calculate relative significance of levels
+- **Validation**: Apply reasonable bounds checking to extracted values
+- **Consistency checking**: Ensure support < resistance where both are provided
 
-### 6. Day-After-Trade (DAT) Detection
+### 7. Day-After-Trade (DAT) Detection
 
 The processor identifies DAT opportunities by looking for:
 - Explicit "DAT" or "day after trade" mentions
@@ -177,12 +290,14 @@ The processor identifies DAT opportunities by looking for:
 - News events with expected follow-through
 - Specific price action predictions after events
 
-### 7. Post-Processing
+### 8. Post-Processing
 
 - Validate extracted data for consistency
 - Assign confidence scores to extractions
 - Identify missing sections or gaps
 - Format output according to schema
+- Add processing metadata with status information
+- Include any warnings or error messages for partial successes
 
 ## Example Usage
 
@@ -492,31 +607,86 @@ The implementation focuses on:
 
 5. **Confidence Scoring**: Provides metadata about the extraction quality to inform downstream consumers.
 
-## Limitations and Edge Cases
+6. **Robust Error Handling**: Includes comprehensive validation and fallback strategies to handle various failure modes.
 
-The processor handles these common challenges:
+7. **Graceful Degradation**: Returns partial results when complete processing isn't possible, rather than failing entirely.
 
-1. **Ambiguous Language**: When DP uses ambiguous or mixed conviction language, the processor errs on the side of lower conviction.
+## Robust Extraction Strategies
 
-2. **Missing Parameters**: When stop loss or target levels aren't specified, they're set to null rather than guessed.
+### Ticker Symbol Identification
+The processor uses multiple approaches to identify ticker symbols:
 
-3. **Complex Levels**: When level discussions include ranges or multiple conditions, the processor captures the primary numeric value and notes the context.
+1. **Pattern-Based Recognition**:
+   - Standard uppercase 1-5 character patterns (e.g., AAPL, MSFT, SPX)
+   - Common index patterns (ES, NQ, RTY, SPX, QQQ)
+   - Dollar-prefixed patterns ($AAPL, $ES)
 
-4. **Partial Transcripts**: Can process incomplete transcripts, but will note missing sections in the metadata.
+2. **Context-Based Extraction**:
+   - Recognition of phrases like "looking at", "trading in", "focus on" before tickers
+   - Identification of price discussions associated with potential tickers
+   - Pattern matching for common stock discussion formats
 
-5. **Mixed Sentiment**: When market sentiment contains both positive and negative elements, the processor indicates this mixed nature.
+3. **Fallback Methods**:
+   - If standard recognition fails, apply broader pattern matching
+   - Extract capitalized words near price values
+   - Identify words frequently referenced in typical stock discussion contexts
 
-6. **Multiple Focus Trades**: When DP mentions several focus trades, the processor identifies all of them, using context clues to determine if one is his favorite.
+### Handling Ambiguous Section Boundaries
 
-7. **Evolving Conviction**: When DP's conviction on a trade changes during the call, the processor captures the most recent/final conviction level.
+When section boundaries are unclear:
 
-8. **Implied Position Sizing**: When sizing recommendations aren't explicit, the processor makes reasonable inferences based on conviction, risk, and trade duration.
+1. **Overlapping Windows Analysis**:
+   - Scan text using overlapping windows to identify section markers
+   - Calculate confidence scores for potential section boundaries
+   - Use context clues to disambiguate
 
-9. **Incomplete Exit Strategies**: When exit strategies aren't fully specified, the processor extracts what's available while leaving other parameters null.
+2. **Marker-Based Fallbacks**:
+   - Use key phrase markers as section anchors (e.g., "looking at levels", "for ideas")
+   - Identify paragraph breaks as potential section transitions
+   - Look for changes in discussion topic as section indicators
 
-10. **Correlated Ideas Without Explicit Linkage**: When related ideas aren't explicitly connected, the processor may use sector or thematic analysis to identify potential correlations.
+3. **Fuzzy Matching**:
+   - Apply fuzzy matching for section identification when clear markers aren't present
+   - Use keyword density analysis to identify topic clusters
+   - Employ sentence structure analysis to identify shifts in discourse
 
-11. **Ambiguous Risk Levels**: When risk isn't explicitly discussed, the processor assesses risk based on conviction, specificity of parameters, and nature of the trade (e.g., options vs. shares).
+## Minimum Viable Processing Requirements
+
+For the processor to function effectively, at minimum it needs:
+
+1. **Basic Text Requirements**:
+   - At least 100 characters of coherent text
+   - At least one identifiable market reference or ticker symbol
+   - Some form of sentiment or directional indication
+
+2. **Critical Content Elements**:
+   - Either market context OR focus ideas must be identifiable
+   - Some indication of directional bias (bullish/bearish/neutral)
+   - For ticker-specific analysis, at least one recognizable ticker
+
+3. **Quality Thresholds**:
+   - Minimum confidence score of 0.4 for inclusion in results
+   - At least 30% of the transcript must be parseable
+   - Must contain at least one complete analytical thought or idea
+
+## Integration with Conviction Classifier
+
+The processor integrates with the conviction classifier as follows:
+
+1. **Primary Integration Path**:
+   - Extract ticker-specific text with surrounding context
+   - Pass to conviction classifier with appropriate parameters
+   - Incorporate classification results into focus idea structure
+
+2. **Fallback Integration**:
+   - If conviction classifier unavailable: Use simplified internal classification
+   - If classification fails: Assign default "low" conviction with warning
+   - If partial classification: Use available results and note missing elements
+
+3. **Error Handling**:
+   - Catch and log classification errors
+   - Apply fallback classification when needed
+   - Include classifier status in processing metadata
 
 ## Related Components
 
@@ -525,3 +695,5 @@ This processor works closely with:
 - `prompts/premarket/create-plan.md` - Consumes the output to generate a unified plan
 - `prompts/premarket/extract-focus.md` - Uses the focus ideas for prioritization
 - `prompts/premarket/extract-levels.md` - Leverages the level data for technical analysis
+
+When the conviction classifier is unavailable, the processor can still operate with reduced functionality through its internal fallback classification mechanisms.
