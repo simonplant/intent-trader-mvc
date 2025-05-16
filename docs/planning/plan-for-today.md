@@ -6,8 +6,8 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 
 ## Current State
 - **Status**: In Progress
-- **Current Phase**: Moving to Position Sizing Implementation
-- **Next Task**: Implement Position Sizing command
+- **Current Phase**: Moving to Integration Testing
+- **Next Task**: Begin Integration Testing
 - **Completed Components**:
   - Morning Call Processor [`/analyze-dp`]
   - Conviction Classification System
@@ -16,9 +16,10 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
   - Level Extractor [`/extract-levels`]
   - Position Manager [`/add-position`, `/list-positions`, `/update-position`, `/close-position`]
   - Position State Storage [`state/my-positions.json`, `state/ic-moderator-positions.json`]
+  - Position Sizing [`/size-position`]
 
 ## Timeline
-1. **Today (May 15)**: Implement core functionality
+1. **Today (May 15)**: Implement core functionality ✅
 2. **Tonight**: Test with sample data
 3. **Tomorrow (May 16)**: Use in live trading
 
@@ -124,24 +125,34 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
   - Supports full position lifecycle from creation to closure
 
 #### 3.2 Position Sizing [`/size-position`]
-- [ ] **Status**: Not Started
+- [x] **Status**: Completed
 - **Priority**: Medium
-- **Estimated Time**: 30 minutes
 - **Implementation Path**:
-  - Use Prompt Template: [Position Sizing Implementation](master-prompt-instructions.md#7-position-sizing-implementation)
-  - Generate artifact: `prompts/execute/size-position.md`
+  - Used Prompt Template: [Position Sizing Implementation](master-prompt-instructions.md#7-position-sizing-implementation)
+  - Generated artifact: `prompts/execute/size-position.md`
 - **Dependencies**: None
 - **Output**: Position sizing recommendations based on risk parameters
+- **Features**:
+  - Calculates optimal position size based on risk parameters
+  - Applies different sizing rules based on setup type
+  - Incorporates conviction levels for size scaling
+  - Enforces maximum risk limits
+  - Provides alternative sizing options (conservative/aggressive)
+  - Integrates with the 75/15/10 rule for position management
+  - References Trading Capital Profile and Trading Charter
 
 ### 4. MANAGE Phase Implementation (1.5 hours)
 
 #### 4.1 Runner Management [`/manage-runner`]
-- [ ] **Status**: Not Started
-- **Priority**: Low (Stretch Goal)
-- **Estimated Time**: 1.5 hours
+- [x] **Status**: Deferred to v0.5.2
+- **Priority**: Low (Removed from MVP)
+- **Rationale for Deferral**:
+  - Mancini-specific functionality
+  - Not critical for initial MVP focused on DP
+  - Will be prioritized in v0.5.2 release
 - **Implementation Path**:
-  - Use Prompt Template: [Runner Management Implementation](master-prompt-instructions.md#8-runner-management-implementation)
-  - Generate artifact: `prompts/execute/manage-runner.md`
+  - Will use Prompt Template: [Runner Management Implementation](master-prompt-instructions.md#8-runner-management-implementation)
+  - Target artifact: `prompts/execute/manage-runner.md`
 - **Dependencies**: Position Manager
 - **Output**: Runner management guidance and trailing stop recommendations
 
@@ -181,7 +192,7 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 ## Implementation Progress
 - Plan Phase: 100% complete
 - Focus Phase: 100% complete
-- Execute Phase: 67% complete (Position Manager done, Position Sizing pending)
-- Manage Phase: 25% complete (Position Management done, Runner Management pending)
+- Execute Phase: 100% complete
+- Manage Phase: 50% complete (Position Management done, Runner Management deferred to v0.5.2)
 - Review Phase: 0% complete
-- Overall MVP Progress: 72% complete
+- Overall MVP Progress: 85% complete
