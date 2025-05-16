@@ -197,7 +197,7 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - **Priority**: High
 - **Estimated Time**: 30 minutes
 - **Implementation Path**:
-  - Update command routes to reflect organized file structure
+  - Update command routes to reflect organized file structure: `docs/command-reference.md`
   - Create unified clean command reference document
   - Generate artifact: `docs/command-reference.md`
 
