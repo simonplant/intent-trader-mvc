@@ -206,9 +206,11 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - **Priority**: Medium
 - **Estimated Time**: 45 minutes
 - **Implementation Path**:
-  - Create framework for Mancini newsletter analysis
-  - Define integration points with existing components
-  - Generate artifact: `docs/mancini-integration-plan.md`
+  - Create framework for Mancini ES Futures newsletter analysis
+  - Command is /analyze-mancini
+  - Define integration points with existing components, routes, commands
+  - Generate artifact: `prompts/plan//analyze-mancini.md`
+  - Generate documentation: `docs/mancini-integration-plan.md`
 
 #### 6.3 Folder Structure and File Organization
 - [ ] **Status**: Planned
