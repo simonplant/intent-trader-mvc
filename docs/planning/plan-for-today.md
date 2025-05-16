@@ -1,13 +1,13 @@
-# Implementation Plan: May 15-16, 2025
+# Implementation Plan: May 15-16, 2025 (Updated)
 
 ## Goal: Implement MVP for tomorrow's trading session
 
 This implementation plan follows the cognitive workflow structure (Plan → Focus → Execute → Manage → Review) to deliver a complete trading assistant MVP by tomorrow. It serves as our state manager throughout the implementation process.
 
 ## Current State
-- **Status**: In Progress
-- **Current Phase**: Moving to Review and Integration
-- **Next Task**: Implement Trade Logger and Session Debrief
+- **Status**: System Finalization Phase
+- **Current Phase**: Moving to System Finalization
+- **Next Task**: Update command routes and folder organization
 - **Completed Components**:
   - Morning Call Processor [`/analyze-dp`]
   - Conviction Classification System
@@ -17,10 +17,11 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
   - Position Manager [`/add-position`, `/list-positions`, `/update-position`, `/close-position`]
   - Position State Storage [`state/my-positions.json`, `state/ic-moderator-positions.json`]
   - Position Sizing [`/size-position`]
+  - Session Logger [`/log-session`]
 
 ## Timeline
 1. **Today (May 15)**: Implement core functionality ✅
-2. **Tonight**: Complete Review Phase & File Organization
+2. **Tonight**: Complete File Organization and System Finalization
 3. **Tomorrow (May 16)**: Use in live trading
 
 ### Implementation Tasks by Cognitive Phase
@@ -156,15 +157,14 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - **Dependencies**: Position Manager
 - **Output**: Runner management guidance and trailing stop recommendations
 
-### 5. REVIEW Phase Implementation (1 hour - Current Focus)
+### 5. REVIEW Phase Implementation (1 hour)
 
-#### 5.1 Trading Session Logger [`/log-session`]
-- [ ] **Status**: In Progress
+#### 5.1 Session Logger [`/log-session`]
+- [x] **Status**: Completed
 - **Priority**: Medium (Core for MVP)
-- **Estimated Time**: 30 minutes
 - **Implementation Path**:
-  - Expanding from Trade Logger Implementation template
-  - Generate artifact: `prompts/review/log-session.md`
+  - Used Trade Logger Implementation template with expanded scope
+  - Generated artifact: `prompts/review/log-session.md`
 - **Dependencies**: Position Manager
 - **Output**: Comprehensive session log with trades, performance metrics, and observations
 - **Features**:
@@ -173,18 +173,24 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
   - Tracks plan adherence and execution quality
   - Identifies strengths and areas for improvement
   - Supports pattern recognition across sessions
+  - Compares personal execution with moderator trades
+  - Analyzes time-of-day performance patterns
+  - Provides psychological and cognitive state assessment
 
 #### 5.2 Session Debrief [`/run-debrief`]
-- [ ] **Status**: Planned
-- **Priority**: Medium (Core for MVP)
-- **Estimated Time**: 30 minutes
+- [x] **Status**: Deferred to v0.5.2
+- **Priority**: Low (Removed from MVP)
+- **Rationale for Deferral**:
+  - Session Logger provides sufficient review functionality for MVP
+  - Focus on system finalization for immediate trading value
+  - It's 11pm and we need to prioritize completing the MVP
 - **Implementation Path**:
-  - Use Prompt Template: [Session Debrief Implementation](master-prompt-instructions.md#10-session-debrief-implementation)
-  - Generate artifact: `prompts/review/run-debrief.md`
-- **Dependencies**: Trading Session Logger
+  - Will use Prompt Template: [Session Debrief Implementation](master-prompt-instructions.md#10-session-debrief-implementation)
+  - Target artifact: `prompts/review/run-debrief.md`
+- **Dependencies**: Session Logger
 - **Output**: Comprehensive session analysis with insights and recommendations
 
-### 6. System Finalization (2 hours)
+### 6. System Finalization (2 hours - Current Focus)
 
 #### 6.1 Command Route Updates
 - [ ] **Status**: Planned
@@ -192,7 +198,7 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - **Estimated Time**: 30 minutes
 - **Implementation Path**:
   - Update command routes to reflect organized file structure
-  - Create unified command reference document
+  - Create unified clean command reference document
   - Generate artifact: `docs/command-reference.md`
 
 #### 6.2 Mancini Analysis Integration (Preliminary)
@@ -243,9 +249,9 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - Focus Phase: 100% complete
 - Execute Phase: 100% complete
 - Manage Phase: 50% complete (Position Management done, Runner Management deferred to v0.5.2)
-- Review Phase: 0% complete (In Progress)
-- System Finalization: 0% complete (Planned)
-- Overall MVP Progress: 85% complete
+- Review Phase: 50% complete (Session Logger done, Session Debrief deferred to v0.5.2)
+- System Finalization: 0% complete (In Progress)
+- Overall MVP Progress: 90% complete
 
 ## Next Steps
 
@@ -256,11 +262,10 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 5. ✓ Complete Level Extractor
 6. ✓ Complete Position Manager
 7. ✓ Complete Position Sizing
-8. → Implement Trading Session Logger
-9. → Implement Session Debrief
-10. → Update command routes and organization
-11. → Create preliminary Mancini integration plan
-12. → Finalize folder structure and documentation
-13. → Create system architecture document
+8. ✓ Implement Session Logger
+9. → Update command routes and organization
+10. → Create preliminary Mancini integration plan
+11. → Finalize folder structure and documentation
+12. → Create system architecture document
 
 Remember: The goal is a working MVP that helps make money tomorrow, not a perfect system!

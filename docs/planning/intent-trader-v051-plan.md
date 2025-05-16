@@ -1,5 +1,5 @@
 ---
-id: intent-trader-v051-plan-update2
+id: intent-trader-v051-plan-update3
 version: "0.5.1"
 type: plan
 created: 2025-05-15
@@ -90,13 +90,15 @@ This framework supports the end-to-end trading workflow while prioritizing the c
 ### 3. Post-Market Session
 
 #### REVIEW Phase (MVP CORE)
-- **Trading Session Logging**: Record session details _(IN PROGRESS)_
+- **Session Logging**: Record session details ✅
   - Trade entry/exit details
   - Performance metrics
   - Plan adherence assessment
   - Market context capture
   - Trading behavior patterns
-- **Session Debrief**: Analyze trading performance _(PLANNED)_
+  - Moderator trade comparison
+  - Psychological state analysis
+- **Session Debrief**: Analyze trading performance _(MOVED TO v0.5.2)_
   - Day summary creation
   - Performance metric calculation
   - Pattern identification
@@ -104,25 +106,25 @@ This framework supports the end-to-end trading workflow while prioritizing the c
 
 ### 4. System Finalization
 
-#### SYSTEM ORGANIZATION (MVP CORE)
-- **Command Route Updates**: Standardize command interfaces _(PLANNED)_
+#### SYSTEM ORGANIZATION (MVP CORE - CURRENT FOCUS)
+- **Command Route Updates**: Standardize command interfaces _(IN PROGRESS)_
   - Update command patterns
   - Create command reference document
   - Standardize parameter handling
   - Document command relationships
-- **Folder Structure**: Organize by cognitive phase _(PLANNED)_
+- **Folder Structure**: Organize by cognitive phase _(IN PROGRESS)_
   - Restructure files by phase
   - Create consistent naming conventions
   - Implement proper cross-linking
   - Document organization schema
-- **System Architecture Documentation**: Define system design _(PLANNED)_
+- **System Architecture Documentation**: Define system design _(IN PROGRESS)_
   - Document component relationships
   - Define data flows
   - Diagram system architecture
   - Create component registry
 
 #### FUTURE INTEGRATION (PRELIMINARY)
-- **Mancini Analysis Integration**: Plan for v0.5.2 _(PLANNED)_
+- **Mancini Analysis Integration**: Plan for v0.5.2 _(IN PROGRESS)_
   - Define integration points
   - Identify required components
   - Create transition plan
@@ -152,9 +154,9 @@ This framework supports the end-to-end trading workflow while prioritizing the c
      - `/list-positions`
    - Create position sizing functionality with `/size-position`
 
-4. **Evening (1 hour)**: Begin REVIEW Phase _(IN PROGRESS)_
+4. **Evening (1 hour)**: Begin REVIEW Phase ✅
    - Implement `/log-session` for session tracking
-   - Create `/run-debrief` for session analysis
+   - ~~Create `/run-debrief` for session analysis~~ (Deferred to v0.5.2)
    - Start system organization
 
 ### Day 2 (Next Trading Day): MVP FINALIZATION
@@ -176,7 +178,7 @@ This framework supports the end-to-end trading workflow while prioritizing the c
 
 4. **Post-Market (1 hour)**: Review Session Performance
    - Log complete trading session
-   - Run session debrief
+   - ~~Run session debrief~~ (Will use Session Logger for now)
    - Identify improvement areas for v0.5.2
 
 ---
@@ -203,8 +205,8 @@ This framework supports the end-to-end trading workflow while prioritizing the c
 - `/list-positions` - Show current positions ✅
 
 #### REVIEW Phase
-- `/log-session` - Record trading session data _(IN PROGRESS)_
-- `/run-debrief` - Analyze trading session _(PLANNED)_
+- `/log-session [date]` - Record complete session data ✅
+- ~~`/run-debrief` - Analyze trading session~~ _(MOVED TO v0.5.2)_
 
 ### v0.5.2 Commands (DEFERRED)
 
@@ -212,6 +214,9 @@ This framework supports the end-to-end trading workflow while prioritizing the c
 - `/adjust-stop [symbol]` - Modify stop loss level _(MOVED TO v0.5.2)_
 - `/trim-position [symbol]` - Execute partial exit _(MOVED TO v0.5.2)_
 - `/manage-runner [symbol]` - Apply runner management protocol _(MOVED TO v0.5.2)_
+
+#### REVIEW Phase
+- `/run-debrief` - Comprehensive session analysis _(MOVED TO v0.5.2)_
 
 #### PLAN Phase
 - `/analyze-mancini [newsletter]` - Process Mancini newsletter _(MOVED TO v0.5.2)_
@@ -239,14 +244,14 @@ intent-trader/
 │   │   └── [future: manage-runner.md]
 │   └── review/
 │       ├── log-session.md
-│       └── run-debrief.md
+│       └── [future: run-debrief.md]
 ├── state/
 │   ├── my-positions.json
 │   └── ic-moderator-positions.json
 └── docs/
-├── system-architecture.md
-├── command-reference.md
-└── mancini-integration-plan.md
+    ├── system-architecture.md
+    ├── command-reference.md
+    └── mancini-integration-plan.md
 ---
 
 ## MVP Success Criteria
@@ -257,8 +262,8 @@ The MVP will be considered successful if:
 2. It generates a clear, prioritized trade plan with entry/exit points (PLAN) ✅
 3. It helps prioritize the highest conviction setups (FOCUS) ✅
 4. It tracks positions accurately during the trading day (EXECUTE/MANAGE) ✅
-5. It supports logging and analysis of trading performance (REVIEW) _(IN PROGRESS)_
-6. It provides a clean, organized system architecture (SYSTEM) _(PLANNED)_
+5. It supports logging and analysis of trading performance (REVIEW) ✅
+6. It provides a clean, organized system architecture (SYSTEM) _(IN PROGRESS)_
 7. It supports profitable decision making during tomorrow's trading session
 
 This MVP focuses on delivering immediate trading value while establishing the core architecture for future enhancements.
@@ -291,6 +296,7 @@ This MVP focuses on delivering immediate trading value while establishing the co
    - Track test coverage metrics
 
 4. Enhanced review capabilities
+   - Implement `/run-debrief` command
    - Improve trade logging and analytics
    - Enhance pattern recognition algorithms
    - Create knowledge extraction framework
