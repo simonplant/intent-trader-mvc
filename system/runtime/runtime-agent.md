@@ -41,11 +41,10 @@ The Intent Trader system processes commands using a cognitive workflow structure
 When a command is received:
 
 1. **Validation**: Verify command exists in `command-map.md`
-2. **Phase Check**: Confirm command is appropriate for current phase in `session-manifest.json`
-3. **Parameter Validation**: Validate parameters using `validator.md` rules
-4. **Dispatch**: Route to appropriate prompt handler using `plugin-registry.json`
-5. **Execution**: Process command and return results
-6. **State Update**: Update relevant state files if command modifies system state
+2. **Parameter Validation**: Validate parameters using `validator.md` rules
+3. **Dispatch**: Route to appropriate prompt handler using `plugin-registry.json`
+4. **Execution**: Process command and return results
+5. **State Update**: Update relevant state files if command modifies system state
 
 ## Supported Commands by Phase
 
