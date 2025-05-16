@@ -6,11 +6,14 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 
 ## Current State
 - **Status**: In Progress
-- **Current Phase**: Implementing Trade Plan Generator
-- **Next Task**: Implement Unified Trade Plan Generator
+- **Current Phase**: Implementing Position Manager
+- **Next Task**: Implement Position Manager commands
 - **Completed Components**:
   - Morning Call Processor [`/analyze-dp`]
   - Conviction Classification System
+  - Unified Trade Plan Generator [`/create-plan`]
+  - Trade Idea Extractor [`/extract-focus`]
+  - Level Extractor [`/extract-levels`]
 
 ## Timeline
 1. **Today (May 15)**: Implement core functionality
@@ -64,29 +67,41 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 ### 2. FOCUS Phase Implementation (2 hours)
 
 #### 2.1 Trade Idea Extractor [`/extract-focus`]
-- [ ] **Status**: Not Started
+- [x] **Status**: Completed
 - **Priority**: High
-- **Estimated Time**: 1 hour
 - **Implementation Path**:
-  - Use Prompt Template: [Trade Idea Extractor Implementation](master-prompt-instructions.md#4-trade-idea-extractor-implementation)
-  - Generate artifact: `prompts/premarket/extract-focus.md`
+  - Used Prompt Template: [Trade Idea Extractor Implementation](master-prompt-instructions.md#4-trade-idea-extractor-implementation)
+  - Generated artifact: `prompts/premarket/extract-focus.md`
 - **Dependencies**: Morning Call Processor output
 - **Output**: Prioritized list of trade ideas by conviction
+- **Features**:
+  - Extracts and filters trade ideas based on conviction
+  - Prioritizes opportunities using multi-factor scoring
+  - Enhances ideas with technical context and setup classification
+  - Calculates risk/reward metrics
+  - Provides summary statistics and breakdown by conviction level
+  - Organizes ideas into actionable categories
 
 #### 2.2 Level Extractor [`/extract-levels`]
-- [ ] **Status**: Not Started
+- [x] **Status**: Completed
 - **Priority**: Medium
-- **Estimated Time**: 1 hour
 - **Implementation Path**:
-  - Use Prompt Template: [Level Extractor Implementation](master-prompt-instructions.md#5-level-extractor-implementation)
-  - Generate artifact: `prompts/premarket/extract-levels.md`
+  - Used Prompt Template: [Level Extractor Implementation](master-prompt-instructions.md#5-level-extractor-implementation)
+  - Generated artifact: `prompts/premarket/extract-levels.md`
 - **Dependencies**: Morning Call Processor output
 - **Output**: Structured level framework for indices and stocks
+- **Features**:
+  - Extracts and classifies price levels by significance
+  - Organizes levels hierarchically by type and importance
+  - Identifies key decision zones and confluent levels
+  - Integrates moving average relationships
+  - Provides context for each level's importance
+  - Generates concise summary of most significant levels
 
 ### 3. EXECUTE Phase Implementation (1.5 hours)
 
 #### 3.1 Position Manager
-- [ ] **Status**: Not Started
+- [ ] **Status**: In Progress
 - **Priority**: High
 - **Estimated Time**: 1 hour
 - **Implementation Path**:
@@ -182,130 +197,3 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
     }
   }
 }
-```
-
-### 2. Unified Trade Plan Template (PLAN/FOCUS Phases)
-```markdown
-# Unified Daily Trade Plan — [DATE]
-
-## Market Overview
-- **Futures**: [status]
-- **Sentiment**: [assessment]
-- **Key Context**: [important information]
-
----
-
-## DP Trade Ideas (Sorted by Conviction)
-
-| # | Ticker | Level(s)     | Action              | Conviction | Sizing       | Duration | Sentiment |
-|---|--------|--------------|---------------------|------------|--------------|----------|-----------|
-| 1 | TICK   | 00–00        | [action]            | High       | [size]       | [time]   | [sent]    |
-| 2 | TICK   | 00           | [action]            | High       | [size]       | [time]   | [sent]    |
-| 3 | TICK   | 00 (00d MA)  | [action]            | Med-High   | [size]       | [time]   | [sent]    |
-
----
-
-## Key Levels
-
-### Support Zones
-
-| Level | Type     | Notes                                    |
-|-------|----------|------------------------------------------|
-| 0000  | Major    | [significance]                           |
-| 0000  | Minor    | [context]                                |
-
----
-
-## Moving Averages (Levels-Check Summary)
-
-| Ticker | 8d MA | 21d MA | Price     | Notes                         |
-|--------|-------|--------|-----------|-------------------------------|
-| SPX    | ~0000 | ~0000  | 0000.00   | [relationship]                |
-| TICK   | ~000  | ~000   | 000.00    | [relationship]                |
-
----
-
-## Execution Notes
-
-- [key focus points]
-- [risk notes]
-- [management protocol]
-```
-
-### 3. Position Tracker Template (EXECUTE/MANAGE Phases)
-```markdown
-# Active Positions — [DATE]
-
-| Ticker | Direction | Entry   | Current | P&L     | Stop    | Target  | Status    |
-|--------|-----------|---------|---------|---------|---------|---------|-----------|
-| TICK   | Long      | 000.00  | 000.00  | +0.0%   | 000.00  | 000.00  | Active    |
-| TICK   | Short     | 000.00  | 000.00  | -0.0%   | 000.00  | 000.00  | Active    |
-
-## Position Details
-
-### TICK (Long)
-- **Entry**: 000.00 at 00:00
-- **Current**: 000.00 (+/-0.0%)
-- **Stop**: 000.00 (-0.0%)
-- **Targets**:
-  - T1 (75%): 000.00 (+0.0%)
-  - T2 (15%): 000.00 (+0.0%)
-  - T3 (10%): 000.00 (+0.0%)
-- **Setup**: [type]
-- **Notes**: [context]
-
-## Aggregate Risk
-- **Total Exposure**: 0.0% of capital
-- **Directional Bias**: [long/short/neutral]
-```
-
-### 4. Trade Log Template (REVIEW Phase)
-```markdown
-# Trade Log — [DATE]
-
-| Ticker | Direction | Entry   | Exit    | P&L     | Hold Time | Setup     | Adherence |
-|--------|-----------|---------|---------|---------|-----------|-----------|-----------|
-| TICK   | Long      | 000.00  | 000.00  | +0.0%   | 0h 00m    | [type]    | [rating]  |
-| TICK   | Short     | 000.00  | 000.00  | -0.0%   | 0h 00m    | [type]    | [rating]  |
-
-## Trade Details
-
-### TICK (Long)
-- **Entry**: 000.00 at 00:00 [condition]
-- **Exit**: 000.00 at 00:00 [reason]
-- **Result**: +/-0.0% ($ amount)
-- **Plan Adherence**: [assessment]
-- **Management**: [assessment]
-- **Lessons**: [key takeaways]
-```
-
-## Implementation Progress Tracking
-
-| Component                      | Status      | Completed | Location                         |
-|--------------------------------|-------------|-----------|----------------------------------|
-| Morning Call Processor         | Completed   | [x]       | `prompts/premarket/analyze-dp.md` |
-| Conviction Classification      | Completed   | [x]       | `system/focus/conviction-classifier.md` |
-| Unified Trade Plan Generator   | Not Started | [ ]       | `prompts/premarket/create-plan.md` |
-| Trade Idea Extractor           | Not Started | [ ]       | `prompts/premarket/extract-focus.md` |
-| Level Extractor                | Not Started | [ ]       | `prompts/premarket/extract-levels.md` |
-| Position Manager - Add         | Not Started | [ ]       | `prompts/intraday/add-position.md` |
-| Position Manager - List        | Not Started | [ ]       | `prompts/intraday/list-positions.md` |
-| Position Manager - Update      | Not Started | [ ]       | `prompts/intraday/update-position.md` |
-| Position Manager - Close       | Not Started | [ ]       | `prompts/intraday/close-position.md` |
-| Position Sizing                | Not Started | [ ]       | `prompts/intraday/size-position.md` |
-| Runner Management              | Not Started | [ ]       | `prompts/intraday/manage-runner.md` |
-| Trade Logger                   | Not Started | [ ]       | `prompts/postmarket/log-trade.md` |
-| Session Debrief                | Not Started | [ ]       | `prompts/postmarket/run-debrief.md` |
-| Integration Testing            | Not Started | [ ]       | N/A |
-
-## Next Steps
-
-1. ✓ Complete Morning Call Processor implementation
-2. ✓ Complete Conviction Classification System
-3. Start implementing Unified Trade Plan Generator
-4. Update this state document after each component is completed
-5. Track dependencies and ensure they are completed before dependent components
-6. Focus on remaining PLAN and FOCUS phases next as they are highest priority
-7. Test components as they are completed
-
-Remember: The goal is a working MVP that helps make money tomorrow, not a perfect system!
