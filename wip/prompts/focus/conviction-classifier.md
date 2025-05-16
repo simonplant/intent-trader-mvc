@@ -195,16 +195,16 @@ The system loads these externalized pattern maps at initialization time and can 
 // Pattern loading mechanism
 function loadPatternMaps() {
   const patterns = {};
-  
+
   try {
     // Load analyst-specific patterns
     patterns.dp = require('./patterns/dp-patterns.json');
     patterns.mancini = require('./patterns/mancini-patterns.json');
     patterns.generic = require('./patterns/generic-patterns.json');
-    
+
     // Validate pattern maps
     validatePatternMaps(patterns);
-    
+
     return patterns;
   } catch (error) {
     console.error(`Error loading pattern maps: ${error.message}`);
@@ -220,7 +220,7 @@ function validatePatternMaps(patterns) {
     if (!patternMap.version) {
       throw new Error(`Pattern map for ${analyst} is missing version information`);
     }
-    
+
     // Check required conviction levels
     const requiredLevels = ['focusTrade', 'high', 'medium', 'low', 'negative'];
     for (const level of requiredLevels) {
@@ -228,19 +228,19 @@ function validatePatternMaps(patterns) {
         throw new Error(`Pattern map for ${analyst} is missing the ${level} conviction level`);
       }
     }
-    
+
     // Check pattern structure
     for (const [level, categories] of Object.entries(patternMap.convictionLevels)) {
       for (const [category, patterns] of Object.entries(categories)) {
         if (!Array.isArray(patterns)) {
           throw new Error(`Pattern category ${category} in ${level} level for ${analyst} is not an array`);
         }
-        
+
         for (const pattern of patterns) {
           if (!pattern.pattern || typeof pattern.weight !== 'number') {
             throw new Error(`Invalid pattern in ${category} of ${level} level for ${analyst}`);
           }
-          
+
           if (pattern.weight < 0 || pattern.weight > 1) {
             throw new Error(`Pattern weight out of range in ${category} of ${level} level for ${analyst}`);
           }
@@ -439,7 +439,7 @@ To integrate the Conviction Classification System into another component:
 module.exports = {
   // Primary classification function
   classify: function(text, options = {}) {
-    /* 
+    /*
      * @param {string} text - The text to analyze for conviction
      * @param {Object} options - Configuration options
      * @param {string} options.analyst - The analyst source (default: "dp")
@@ -450,7 +450,7 @@ module.exports = {
      */
     // Implementation...
   },
-  
+
   // Load new pattern definitions
   loadPatterns: function(patternSource) {
     /*
@@ -459,7 +459,7 @@ module.exports = {
      */
     // Implementation...
   },
-  
+
   // Get available analysts
   getAvailableAnalysts: function() {
     /*
@@ -467,7 +467,7 @@ module.exports = {
      */
     // Implementation...
   },
-  
+
   // Get pattern version information
   getPatternVersions: function() {
     /*
@@ -475,7 +475,7 @@ module.exports = {
      */
     // Implementation...
   },
-  
+
   // Event emitter for observability
   events: new EventEmitter()
 };
@@ -556,7 +556,7 @@ const argv = yargs
 
 async function main() {
   let text;
-  
+
   if (argv.file) {
     text = fs.readFileSync(path.resolve(argv.file), 'utf8');
   } else if (argv._.length > 0) {
@@ -565,7 +565,7 @@ async function main() {
     console.error('Error: No input text provided. Use --file or provide text as arguments.');
     process.exit(1);
   }
-  
+
   try {
     // Enable verbose output
     if (argv.verbose) {
@@ -573,12 +573,12 @@ async function main() {
         console.log(`[${eventType}]`, JSON.stringify(data, null, 2));
       });
     }
-    
+
     const result = classifier.classify(text, {
       analyst: argv.analyst,
       minConfidence: argv.minConfidence
     });
-    
+
     if (argv.output) {
       fs.writeFileSync(path.resolve(argv.output), JSON.stringify(result, null, 2));
       console.log(`Results written to ${argv.output}`);
@@ -640,53 +640,53 @@ describe('Conviction Classifier', () => {
       expect(result.processingMetadata.status).to.equal('failure');
       expect(result.processingMetadata.errorMessage).to.include('empty');
     });
-    
+
     it('should reject inputs below minimum length', () => {
       const result = classifier.classify('ABC');
       expect(result.level).to.be.null;
       expect(result.processingMetadata.status).to.equal('failure');
       expect(result.processingMetadata.errorMessage).to.include('at least 10 characters');
     });
-    
+
     it('should handle invalid analyst parameter', () => {
       const result = classifier.classify('This is a test with AAPL mentioned.', { analyst: 'unknown_analyst' });
       expect(result.processingMetadata.status).to.not.equal('failure');
       expect(result.processingMetadata.warnings).to.include.members(['Invalid analyst specified']);
     });
   });
-  
+
   describe('Ticker Symbol Recognition', () => {
     it('should identify standard ticker formats', () => {
       const result = classifier.classify('AAPL looks interesting here.');
       expect(result.processingMetadata.inputStats.tickersFound).to.equal(1);
     });
-    
+
     it('should identify dollar-prefixed tickers', () => {
       const result = classifier.classify('$MSFT might be worth a look.');
       expect(result.processingMetadata.inputStats.tickersFound).to.equal(1);
     });
-    
+
     it('should identify tickers in contextual phrases', () => {
       const result = classifier.classify('I am looking at NVDA for a potential entry.');
       expect(result.processingMetadata.inputStats.tickersFound).to.equal(1);
     });
-    
+
     it('should identify tickers near price references', () => {
       const result = classifier.classify('TSLA around $240 seems like a good level.');
       expect(result.processingMetadata.inputStats.tickersFound).to.equal(1);
     });
-    
+
     it('should identify multiple tickers in the same text', () => {
       const result = classifier.classify('I like AAPL here, but MSFT looks even better.');
       expect(result.processingMetadata.inputStats.tickersFound).to.equal(2);
     });
-    
+
     it('should not identify common words as tickers', () => {
       const result = classifier.classify('THE MARKET looks oversold.');
       expect(result.processingMetadata.inputStats.tickersFound).to.equal(0);
     });
   });
-  
+
   describe('Focus Trade Level Classification', () => {
     it('should correctly identify love pattern', () => {
       const result = classifier.classify('I love AAPL here, looks perfect for a breakout.');
@@ -694,21 +694,21 @@ describe('Conviction Classifier', () => {
       expect(result.confidence).to.be.above(0.8);
       expect(result.phrases).to.include.members(['love AAPL here']);
     });
-    
+
     it('should correctly identify focus idea pattern', () => {
       const result = classifier.classify('MSFT is my focus trade for today, looking to buy aggressively.');
       expect(result.level).to.equal('focus-trade');
       expect(result.confidence).to.be.above(0.8);
       expect(result.phrases).to.include.members(['focus trade']);
     });
-    
+
     it('should correctly identify emotional language pattern', () => {
       const result = classifier.classify('NVDA is crushing it, definitely a buy on any pullback.');
       expect(result.level).to.equal('focus-trade');
       expect(result.confidence).to.be.above(0.7);
       expect(result.phrases).to.include.members(['crushing it']);
     });
-    
+
     it('should correctly identify position disclosure pattern', () => {
       const result = classifier.classify('I own this AMZN position and looking to add more.');
       expect(result.level).to.equal('focus-trade');
@@ -716,7 +716,7 @@ describe('Conviction Classifier', () => {
       expect(result.phrases).to.include.members(['own this']);
     });
   });
-  
+
   describe('High Conviction Level Classification', () => {
     it('should correctly identify very bullish pattern', () => {
       const result = classifier.classify('I\'m very bullish on AMD, great setup forming.');
@@ -724,14 +724,14 @@ describe('Conviction Classifier', () => {
       expect(result.confidence).to.be.above(0.7);
       expect(result.phrases).to.include.members(['very bullish']);
     });
-    
+
     it('should correctly identify great entry pattern', () => {
       const result = classifier.classify('META is a very viable long, looking strong on all timeframes.');
       expect(result.level).to.equal('high');
       expect(result.confidence).to.be.above(0.7);
       expect(result.phrases).to.include.members(['very viable']);
     });
-    
+
     it('should correctly identify strong commitment pattern', () => {
       const result = classifier.classify('I am absolutely a buyer of TSLA at these levels.');
       expect(result.level).to.be.above('medium');
@@ -739,7 +739,7 @@ describe('Conviction Classifier', () => {
       expect(result.phrases).to.include.members(['absolutely a buyer']);
     });
   });
-  
+
   describe('Medium Conviction Level Classification', () => {
     it('should correctly identify interesting pattern', () => {
       const result = classifier.classify('INTC is interesting here, worth a look on a pullback.');
@@ -747,21 +747,21 @@ describe('Conviction Classifier', () => {
       expect(result.confidence).to.be.above(0.6);
       expect(result.phrases).to.include.members(['interesting', 'worth a look']);
     });
-    
+
     it('should correctly identify viable pattern', () => {
       const result = classifier.classify('AMZN is viable for a swing trade if it holds this level.');
       expect(result.level).to.equal('medium');
       expect(result.confidence).to.be.above(0.6);
       expect(result.phrases).to.include.members(['viable']);
     });
-    
+
     it('should correctly identify watching pattern', () => {
       const result = classifier.classify('I\'m watching GOOG, could be a decent setup.');
       expect(result.level).to.equal('medium');
       expect(result.confidence).to.be.above(0.6);
       expect(result.phrases).to.include.members(['watching', 'decent setup']);
     });
-    
+
     it('should correctly identify conditional entry pattern', () => {
       const result = classifier.classify('ORCL makes sense here if it breaks above resistance.');
       expect(result.level).to.equal('medium');
@@ -769,7 +769,7 @@ describe('Conviction Classifier', () => {
       expect(result.phrases).to.include.members(['makes sense']);
     });
   });
-  
+
   describe('Low Conviction Level Classification', () => {
     it('should correctly identify might work pattern', () => {
       const result = classifier.classify('CSCO might work if it gets back above the 8-day MA.');
@@ -777,21 +777,21 @@ describe('Conviction Classifier', () => {
       expect(result.confidence).to.be.above(0.5);
       expect(result.phrases).to.include.members(['might work']);
     });
-    
+
     it('should correctly identify could be okay pattern', () => {
       const result = classifier.classify('QCOM could be okay on a deeper pullback.');
       expect(result.level).to.equal('low');
       expect(result.confidence).to.be.above(0.5);
       expect(result.phrases).to.include.members(['could be okay']);
     });
-    
+
     it('should correctly identify possibly pattern', () => {
       const result = classifier.classify('Possibly look at NFLX if it consolidates for a few days.');
       expect(result.level).to.equal('low');
       expect(result.confidence).to.be.above(0.5);
       expect(result.phrases).to.include.members(['Possibly']);
     });
-    
+
     it('should correctly identify multiple conditions pattern', () => {
       const result = classifier.classify('Maybe consider PYPL, but only with tight stops.');
       expect(result.level).to.equal('low');
@@ -799,7 +799,7 @@ describe('Conviction Classifier', () => {
       expect(result.phrases).to.include.members(['Maybe', 'only with']);
     });
   });
-  
+
   describe('Negative Conviction Level Classification', () => {
     it('should correctly identify avoid pattern', () => {
       const result = classifier.classify('I would avoid GME, too much risk.');
@@ -807,21 +807,21 @@ describe('Conviction Classifier', () => {
       expect(result.confidence).to.be.above(0.7);
       expect(result.phrases).to.include.members(['avoid']);
     });
-    
+
     it('should correctly identify not interested pattern', () => {
       const result = classifier.classify('Not interested in BBBY at all.');
       expect(result.level).to.equal('negative');
       expect(result.confidence).to.be.above(0.7);
       expect(result.phrases).to.include.members(['Not interested']);
     });
-    
+
     it('should correctly identify staying away pattern', () => {
       const result = classifier.classify('Staying away from PLTR at these levels.');
       expect(result.level).to.equal('negative');
       expect(result.confidence).to.be.above(0.7);
       expect(result.phrases).to.include.members(['Staying away']);
     });
-    
+
     it('should correctly identify warning pattern', () => {
       const result = classifier.classify('Be careful with BABA here, wouldn\'t touch it.');
       expect(result.level).to.equal('negative');
@@ -829,92 +829,92 @@ describe('Conviction Classifier', () => {
       expect(result.phrases).to.include.members(['Be careful', 'wouldn\'t touch']);
     });
   });
-  
+
   describe('Mixed Signal Classification', () => {
     it('should handle positive with negative qualifier', () => {
       const result = classifier.classify('I like NFLX but not at these elevated levels.');
       expect(result.level).to.not.equal('high');
       expect(result.analysis.warnings).to.include.members(['Mixed signals detected']);
     });
-    
+
     it('should prioritize negative signals over positive', () => {
       const result = classifier.classify('AMZN would be interesting on a pullback, but I would avoid it right now.');
       expect(result.level).to.equal('negative');
       expect(result.analysis.warnings).to.include.members(['Mixed signals detected']);
     });
-    
+
     it('should handle changing conviction', () => {
       const result = classifier.classify('I was bullish on MSFT yesterday but now I'm waiting for a better setup.');
       expect(result.level).to.not.equal('high');
       expect(result.analysis.warnings).to.include.members(['Changing conviction detected']);
     });
   });
-  
+
   describe('Contextual Enhancement', () => {
     it('should enhance confidence with specific price levels', () => {
       const baseResult = classifier.classify('I like AAPL here.');
       const enhancedResult = classifier.classify('I like AAPL at the 175-180 level.');
       expect(enhancedResult.confidence).to.be.above(baseResult.confidence);
     });
-    
+
     it('should enhance confidence with position disclosure', () => {
       const baseResult = classifier.classify('MSFT looks good.');
       const enhancedResult = classifier.classify('MSFT looks good, I bought some yesterday.');
       expect(enhancedResult.confidence).to.be.above(baseResult.confidence);
     });
-    
+
     it('should enhance confidence with detailed rationale', () => {
       const baseResult = classifier.classify('AMZN is interesting.');
       const enhancedResult = classifier.classify('AMZN is interesting because it's holding the 50-day MA with increasing volume and closing near the highs.');
       expect(enhancedResult.confidence).to.be.above(baseResult.confidence);
     });
   });
-  
+
   describe('Default Pattern Handling', () => {
     it('should handle ticker with minimal context', () => {
       const result = classifier.classify('Looking at AAPL today.');
       expect(result.level).to.not.be.null;
       expect(result.analysis.defaultAssignment).to.be.true;
     });
-    
+
     it('should detect directional bias with limited conviction', () => {
       const result = classifier.classify('NVDA higher today.');
       expect(result.level).to.not.be.null;
       expect(result.analysis.defaultAssignment).to.be.true;
     });
   });
-  
+
   describe('Real-world Examples', () => {
     it('should properly classify focus trade example', () => {
       const result = classifier.classify('I love TEM right now, in the 60-62 range, this looks like a great entry point for a swing trade.');
       expect(result.level).to.equal('focus-trade');
       expect(result.confidence).to.be.above(0.9);
     });
-    
+
     it('should properly classify high conviction example', () => {
       const result = classifier.classify('I\'m looking to add more to my HOOD position if it gets to 56, I remain very bullish on this name.');
       expect(result.level).to.equal('high');
       expect(result.confidence).to.be.above(0.7);
     });
-    
+
     it('should properly classify medium conviction example', () => {
       const result = classifier.classify('For a short idea, BABA could be a decent day-after-trade if it gets to its 21-day MA around 121, might be worth a speculative short.');
       expect(result.level).to.equal('medium');
       expect(result.confidence).to.be.above(0.6);
     });
-    
+
     it('should properly classify another medium conviction example', () => {
       const result = classifier.classify('CRWV is also interesting on any pullback, viable swing trade opportunity there.');
       expect(result.level).to.equal('medium');
       expect(result.confidence).to.be.above(0.6);
     });
-    
+
     it('should properly classify yet another medium conviction example', () => {
       const result = classifier.classify('AMD could work around 115, might be worth trying some calls.');
       expect(result.level).to.equal('medium');
       expect(result.confidence).to.be.above(0.5);
     });
-    
+
     it('should properly classify low conviction example', () => {
       const result = classifier.classify('TSLA is only interesting to me near the 8-day MA, which is around 309, would not chase.');
       expect(result.level).to.equal('low');
@@ -950,6 +950,6 @@ The classifier handles these common challenges:
 
 The Conviction Classification System works closely with:
 
-- `prompts/premarket/analyze-dp.md` - For processing morning call transcripts
-- `prompts/premarket/extract-focus.md` - For prioritizing trade ideas
-- `prompts/premarket/create-plan.md` - For incorporating conviction into trade planning
+- `prompts/plan/analyze-dp.md` - For processing morning call transcripts
+- `prompts/focus/extract-focus.md` - For prioritizing trade ideas
+- `prompts/focus/create-plan.md` - For incorporating conviction into trade planning

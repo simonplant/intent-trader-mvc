@@ -1,0 +1,418 @@
+{
+  "positions": [
+    {
+      "id": "RICKMAN-HYFM-20250515-001",
+      "symbol": "HYFM",
+      "direction": "long",
+      "entry": {
+        "price": 0.95,
+        "time": "2025-05-15T09:45:00Z"
+      },
+      "current": {
+        "price": 0.97,
+        "pnl": 20.00
+      },
+      "risk": {
+        "stop": 0.85
+      },
+      "targets": [
+        {"price": 1.15, "status": "pending"},
+        {"price": 1.30, "status": "pending"}
+      ],
+      "size": {
+        "initial": 1000,
+        "current": 1000,
+        "unit": "shares"
+      },
+      "status": "active",
+      "setup": "moderator-call",
+      "strategy": "dp",
+      "trade_type": "day",
+      "owner": "moderator",
+      "moderator": "Rickman",
+      "notes": "Moderator position from opening positions"
+    },
+    {
+      "id": "RICKMAN-TLRY-20250515-001",
+      "symbol": "TLRY",
+      "direction": "long",
+      "entry": {
+        "price": 1.88,
+        "time": "2025-05-15T09:40:00Z"
+      },
+      "current": {
+        "price": 1.92,
+        "pnl": 400.00
+      },
+      "risk": {
+        "stop": 1.78
+      },
+      "targets": [
+        {"price": 2.05, "status": "pending"},
+        {"price": 2.25, "status": "pending"}
+      ],
+      "size": {
+        "initial": 10000,
+        "current": 10000,
+        "unit": "shares"
+      },
+      "status": "active",
+      "setup": "moderator-call",
+      "strategy": "dp",
+      "trade_type": "day",
+      "owner": "moderator",
+      "moderator": "Rickman",
+      "notes": "Moderator position from opening positions"
+    },
+    {
+      "id": "RICKMAN-IMNM-20250515-001",
+      "symbol": "IMNM",
+      "direction": "long",
+      "entry": {
+        "price": 23.28,
+        "time": "2025-05-15T09:35:00Z"
+      },
+      "current": {
+        "price": 24.15,
+        "pnl": 870.00
+      },
+      "risk": {
+        "stop": 22.00
+      },
+      "targets": [
+        {"price": 25.00, "status": "pending"},
+        {"price": 27.50, "status": "pending"}
+      ],
+      "size": {
+        "initial": 1000,
+        "current": 1000,
+        "unit": "shares"
+      },
+      "status": "active",
+      "setup": "moderator-call",
+      "strategy": "dp",
+      "trade_type": "day",
+      "owner": "moderator",
+      "moderator": "Rickman",
+      "notes": "Moderator position from opening positions"
+    },
+    {
+      "id": "RICKMAN-BABA-20250515-001",
+      "symbol": "BABA",
+      "direction": "short",
+      "entry": {
+        "price": 78.85,
+        "time": "2025-05-15T09:50:00Z"
+      },
+      "current": {
+        "price": 77.90,
+        "pnl": 633.33
+      },
+      "risk": {
+        "stop": 80.50
+      },
+      "targets": [
+        {"price": 76.50, "status": "pending"},
+        {"price": 74.00, "status": "pending"}
+      ],
+      "size": {
+        "initial": 1500,
+        "current": 1000,
+        "unit": "shares"
+      },
+      "status": "partial",
+      "setup": "moderator-call",
+      "strategy": "dp",
+      "trade_type": "day",
+      "owner": "moderator",
+      "moderator": "Rickman",
+      "notes": "Moderator position - reduced to 2/3 of original position during the day",
+      "history": [
+        {
+          "action": "created",
+          "time": "2025-05-15T09:50:00Z",
+          "details": "Position created - short BABA"
+        },
+        {
+          "action": "partial-exit",
+          "time": "2025-05-15T11:30:00Z",
+          "details": "Covered 500 shares at 77.90, 1000 shares remaining (2/3 of original position)"
+        }
+      ]
+    },
+    {
+      "id": "RICKMAN-HOOD-CALL-20250515-001",
+      "symbol": "HOOD 5/23 65c",
+      "direction": "long",
+      "entry": {
+        "price": 1.42,
+        "time": "2025-05-15T09:55:00Z"
+      },
+      "current": {
+        "price": 1.88,
+        "pnl": 690.00
+      },
+      "risk": {
+        "stop": 0.71
+      },
+      "targets": [
+        {"price": 2.50, "status": "pending"},
+        {"price": 3.50, "status": "pending"}
+      ],
+      "size": {
+        "initial": 10,
+        "current": 15,
+        "unit": "contracts"
+      },
+      "status": "scaling",
+      "setup": "moderator-call",
+      "strategy": "dp",
+      "trade_type": "swing",
+      "owner": "moderator",
+      "moderator": "Rickman",
+      "notes": "HOOD call options position - increased during the day",
+      "history": [
+        {
+          "action": "created",
+          "time": "2025-05-15T09:55:00Z",
+          "details": "Position created - 10 HOOD 5/23 65 call contracts"
+        },
+        {
+          "action": "scale-in",
+          "time": "2025-05-15T11:45:00Z",
+          "details": "Added 5 more contracts at 1.65"
+        }
+      ]
+    },
+    {
+      "id": "DP-SQQQ-20250515-001",
+      "symbol": "SQQQ",
+      "direction": "long",
+      "entry": {
+        "price": 11.15,
+        "time": "2025-05-15T09:40:00Z"
+      },
+      "current": {
+        "price": 11.08,
+        "pnl": -140.00
+      },
+      "risk": {
+        "stop": 10.90
+      },
+      "targets": [
+        {"price": 11.50, "status": "pending"},
+        {"price": 12.00, "status": "pending"}
+      ],
+      "size": {
+        "initial": 2000,
+        "current": 500,
+        "unit": "shares"
+      },
+      "status": "partial",
+      "setup": "moderator-call",
+      "strategy": "dp",
+      "trade_type": "day",
+      "owner": "moderator",
+      "moderator": "DP",
+      "notes": "DP position - multiple trims and one add, significantly reduced",
+      "history": [
+        {
+          "action": "created",
+          "time": "2025-05-15T09:40:00Z",
+          "details": "Position created - long SQQQ"
+        },
+        {
+          "action": "partial-exit",
+          "time": "2025-05-15T10:15:00Z",
+          "details": "Trimmed 500 shares at 11.25"
+        },
+        {
+          "action": "scale-in",
+          "time": "2025-05-15T11:10:00Z",
+          "details": "Added 200 shares at 11.05"
+        },
+        {
+          "action": "partial-exit",
+          "time": "2025-05-15T13:30:00Z",
+          "details": "Trimmed 1200 shares at 11.08, 500 shares remaining"
+        }
+      ]
+    },
+    {
+      "id": "DP-HOOD-20250515-001",
+      "symbol": "HOOD",
+      "direction": "long",
+      "entry": {
+        "price": 65.85,
+        "time": "2025-05-15T10:10:00Z"
+      },
+      "current": {
+        "price": 67.22,
+        "pnl": 548.50
+      },
+      "risk": {
+        "stop": 64.00
+      },
+      "targets": [
+        {"price": 68.50, "status": "pending"},
+        {"price": 70.00, "status": "pending"}
+      ],
+      "size": {
+        "initial": 300,
+        "current": 250,
+        "unit": "shares"
+      },
+      "status": "partial",
+      "setup": "moderator-call",
+      "strategy": "dp",
+      "trade_type": "day",
+      "owner": "moderator",
+      "moderator": "DP",
+      "notes": "DP position - added then trimmed",
+      "history": [
+        {
+          "action": "created",
+          "time": "2025-05-15T10:10:00Z",
+          "details": "Position created - long HOOD 200 shares"
+        },
+        {
+          "action": "scale-in",
+          "time": "2025-05-15T11:25:00Z",
+          "details": "Added 100 shares at 66.50"
+        },
+        {
+          "action": "partial-exit",
+          "time": "2025-05-15T14:00:00Z",
+          "details": "Trimmed 50 shares at 67.22, 250 shares remaining"
+        }
+      ]
+    },
+    {
+      "id": "KIRA-AMZN-20250515-001",
+      "symbol": "AMZN",
+      "direction": "long",
+      "entry": {
+        "price": 185.15,
+        "time": "2025-05-15T09:35:00Z"
+      },
+      "current": {
+        "price": 187.45,
+        "pnl": 1150.00
+      },
+      "risk": {
+        "stop": 182.50
+      },
+      "targets": [
+        {"price": 188.00, "status": "pending"},
+        {"price": 190.00, "status": "pending"}
+      ],
+      "size": {
+        "initial": 500,
+        "current": 500,
+        "unit": "shares"
+      },
+      "status": "active",
+      "setup": "moderator-call",
+      "strategy": "dp",
+      "trade_type": "day",
+      "owner": "moderator",
+      "moderator": "Kira",
+      "notes": "Kira position from opening positions"
+    },
+    {
+      "id": "KIRA-RKLB-20250515-001",
+      "symbol": "RKLB",
+      "direction": "long",
+      "entry": {
+        "price": 4.22,
+        "time": "2025-05-15T09:45:00Z"
+      },
+      "current": {
+        "price": 4.35,
+        "pnl": 520.00
+      },
+      "risk": {
+        "stop": 4.05
+      },
+      "targets": [
+        {"price": 4.50, "status": "pending"},
+        {"price": 4.75, "status": "pending"}
+      ],
+      "size": {
+        "initial": 4000,
+        "current": 2667,
+        "unit": "shares"
+      },
+      "status": "partial",
+      "setup": "moderator-call",
+      "strategy": "dp",
+      "trade_type": "day",
+      "owner": "moderator",
+      "moderator": "Kira",
+      "notes": "Kira position - trimmed 1/3",
+      "history": [
+        {
+          "action": "created",
+          "time": "2025-05-15T09:45:00Z",
+          "details": "Position created - long RKLB"
+        },
+        {
+          "action": "partial-exit",
+          "time": "2025-05-15T11:50:00Z",
+          "details": "Trimmed 1333 shares (1/3) at 4.35, 2667 shares remaining"
+        }
+      ]
+    },
+    {
+      "id": "KIRA-TEM-CALL-20250515-001",
+      "symbol": "TEM 5/30 65c",
+      "direction": "long",
+      "entry": {
+        "price": 2.15,
+        "time": "2025-05-15T09:50:00Z"
+      },
+      "current": {
+        "price": 2.48,
+        "pnl": 220.00
+      },
+      "risk": {
+        "stop": 1.50
+      },
+      "targets": [
+        {"price": 3.00, "status": "pending"},
+        {"price": 4.00, "status": "pending"}
+      ],
+      "size": {
+        "initial": 15,
+        "current": 10,
+        "unit": "contracts"
+      },
+      "status": "partial",
+      "setup": "moderator-call",
+      "strategy": "dp",
+      "trade_type": "swing",
+      "owner": "moderator",
+      "moderator": "Kira",
+      "notes": "Kira position - trimmed 1/3 of option contracts",
+      "history": [
+        {
+          "action": "created",
+          "time": "2025-05-15T09:50:00Z",
+          "details": "Position created - 15 TEM 5/30 65 call contracts"
+        },
+        {
+          "action": "partial-exit",
+          "time": "2025-05-15T13:15:00Z",
+          "details": "Sold 5 contracts (1/3) at 2.48, 10 contracts remaining"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "last_updated": "2025-05-15T15:45:00Z",
+    "active_count": 10,
+    "total_positions": 10,
+    "total_risk": 8732.13,
+    "daily_pnl": 4191.83
+  }
+}

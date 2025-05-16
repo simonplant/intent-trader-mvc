@@ -10,7 +10,7 @@ updated: 2025-05-15
 category: focus
 status: stable
 tags: [focus, trade-ideas, filtering, prioritization, conviction]
-requires: [prompts/premarket/analyze-dp.md, system/focus/conviction-classifier.md]
+requires: [prompts/plan/analyze-dp.md, prompts/focus/conviction-classifier.md]
 outputs: [prioritizedTradeIdeas]
 input_format: json
 output_format: json
@@ -63,7 +63,7 @@ The component produces a structured list of prioritized trade ideas:
       "ticker": "string",
       "direction": "long/short",
       "conviction": {
-        "level": "focus-trade/high/medium/low", 
+        "level": "focus-trade/high/medium/low",
         "phrases": ["string"],
         "confidence": "number"
       },
@@ -108,7 +108,7 @@ The component produces a structured list of prioritized trade ideas:
     "filterCriteria": {
       "minConviction": "string",
       "minConfidence": "number",
-      "direction": "string", 
+      "direction": "string",
       "maxIdeas": "number",
       "includeTechnical": "boolean"
     }
@@ -130,7 +130,7 @@ function validateInput(input) {
   if (!input || !input.analyzerOutput || !input.analyzerOutput.focusIdeas) {
     throw new Error("Missing required input: analyzerOutput.focusIdeas");
   }
-  
+
   // Extract and normalize parameters
   const {
     analyzerOutput,
@@ -141,13 +141,13 @@ function validateInput(input) {
     direction = "both", // "long", "short", or "both"
     analyst = analyzerOutput.analyst || "dp" // Extract analyst or default to "dp"
   } = input;
-  
+
   // Validate minConviction
   const validConvictionLevels = ["focus-trade", "high", "medium", "low", "negative"];
   if (!validConvictionLevels.includes(minConviction)) {
     throw new Error(`Invalid conviction level: ${minConviction}. Must be one of: focus-trade, high, medium, low, negative`);
   }
-  
+
   // Validate maxIdeas
   if (maxIdeas !== undefined && (!Number.isInteger(maxIdeas) || maxIdeas <= 0)) {
     throw new Error(`Invalid maxIdeas: ${maxIdeas}. Must be a positive integer`);
@@ -157,12 +157,12 @@ function validateInput(input) {
   if (minConfidence !== undefined && (typeof minConfidence !== 'number' || minConfidence < 0 || minConfidence > 1)) {
     throw new Error(`Invalid minConfidence: ${minConfidence}. Must be a number between 0 and 1`);
   }
-  
+
   // Validate direction
   if (!["long", "short", "both"].includes(direction)) {
     throw new Error(`Invalid direction: ${direction}. Must be one of: long, short, both`);
   }
-  
+
   return {
     focusIdeas: analyzerOutput.focusIdeas,
     minConviction,
@@ -190,15 +190,15 @@ function filterByConviction(ideas, minConviction, minConfidence) {
     "low": 1,
     "negative": 0
   };
-  
+
   // First filter out any negative conviction ideas unless explicitly requested
   if (minConviction !== "negative") {
     ideas = ideas.filter(idea => idea.conviction.level !== "negative");
   }
-  
+
   // Get minimum conviction level value
   const minConvictionValue = convictionLevels[minConviction];
-  
+
   // Filter ideas by conviction level and confidence
   return ideas.filter(idea => {
     // Check conviction level
@@ -206,7 +206,7 @@ function filterByConviction(ideas, minConviction, minConfidence) {
     if (ideaConvictionValue < minConvictionValue) {
       return false;
     }
-    
+
     // Check confidence level
     const confidence = idea.conviction.confidence || 0;
     return confidence >= minConfidence;
@@ -227,16 +227,16 @@ function prioritizeIdeas(ideas) {
     try {
       // Start with base priority based on conviction
       let priority = getBaseConvictionScore(idea.conviction.level, idea.conviction.confidence || 0.7);
-      
+
       // Adjust for completeness of parameters
       priority += getCompletenessScore(idea);
-      
+
       // Adjust for risk/reward ratio if available
       priority += getRiskRewardScore(idea);
-      
+
       // Adjust for setup-specific factors
       priority += getSetupSpecificScore(idea);
-      
+
       // Return idea with priority
       return {
         ...idea,
@@ -263,17 +263,17 @@ function getBaseConvictionScore(level, confidence) {
     "low": 40,
     "negative": 0
   };
-  
+
   // Use the confidence score to adjust the base priority
   const baseScore = scores[level] || 40;
   const confidenceAdjustment = Math.round((confidence - 0.7) * 20); // Adjust by ±20 based on confidence
-  
+
   return baseScore + confidenceAdjustment;
 }
 
 function getCompletenessScore(idea) {
   let score = 0;
-  
+
   try {
     // Check entry parameters
     if (idea.entryParameters) {
@@ -286,31 +286,31 @@ function getCompletenessScore(idea) {
           score += 5;
         }
       }
-      
+
       // Entry condition specified
       if (idea.entryParameters.condition) {
         score += 5;
       }
     }
-    
+
     // Check exit parameters
     if (idea.exitParameters) {
       // Stop loss specified
       if (idea.exitParameters.stopLoss !== null && idea.exitParameters.stopLoss !== undefined) {
         score += 5;
       }
-      
+
       // Target specified
       if (idea.exitParameters.target !== null && idea.exitParameters.target !== undefined) {
         score += 5;
       }
     }
-    
+
     // Check rationale
     if (idea.rationale) {
       score += 5;
     }
-    
+
     return score;
   } catch (error) {
     console.error(`Error calculating completeness score for ${idea.ticker}:`, error);
@@ -323,23 +323,23 @@ function getRiskRewardScore(idea) {
     // Calculate risk/reward ratio if possible
     if (idea.riskReward && typeof idea.riskReward.ratio === 'number') {
       const ratio = idea.riskReward.ratio;
-      
+
       // Award points based on R/R ratio
       if (ratio >= 3) return 15;
       if (ratio >= 2) return 10;
       if (ratio >= 1.5) return 5;
       return 0;
     }
-    
+
     // If risk/reward not already calculated, try to calculate it now
-    if (idea.exitParameters && 
-        idea.exitParameters.stopLoss !== null && 
+    if (idea.exitParameters &&
+        idea.exitParameters.stopLoss !== null &&
         idea.exitParameters.stopLoss !== undefined &&
-        idea.exitParameters.target !== null && 
+        idea.exitParameters.target !== null &&
         idea.exitParameters.target !== undefined &&
-        idea.entryParameters && 
+        idea.entryParameters &&
         idea.entryParameters.zone) {
-      
+
       // Calculate approx entry price (midpoint of zone or single value)
       let entryPrice;
       if (idea.entryParameters.zone.min !== null && idea.entryParameters.zone.min !== undefined &&
@@ -350,14 +350,14 @@ function getRiskRewardScore(idea) {
       } else if (idea.entryParameters.zone.max !== null && idea.entryParameters.zone.max !== undefined) {
         entryPrice = idea.entryParameters.zone.max;
       }
-      
+
       if (entryPrice) {
         const risk = Math.abs(entryPrice - idea.exitParameters.stopLoss);
         const reward = Math.abs(idea.exitParameters.target - entryPrice);
-        
+
         if (risk > 0) {
           const ratio = reward / risk;
-          
+
           // Award points based on R/R ratio
           if (ratio >= 3) return 15;
           if (ratio >= 2) return 10;
@@ -368,7 +368,7 @@ function getRiskRewardScore(idea) {
   } catch (error) {
     console.error(`Error calculating risk/reward score for ${idea.ticker}:`, error);
   }
-  
+
   return 0;
 }
 
@@ -378,7 +378,7 @@ function getSetupSpecificScore(idea) {
     if (!idea.setup || !idea.setup.type) {
       return 0;
     }
-    
+
     // Define setup-specific scores
     const setupScores = {
       "day-after-trade": 5,  // Higher priority for time-sensitive setups
@@ -396,10 +396,10 @@ function getSetupSpecificScore(idea) {
       "head-and-shoulders": 3,
       "unknown": 0
     };
-    
+
     // Get score for this setup type
     const baseSetupScore = setupScores[idea.setup.type] || 0;
-    
+
     // Adjust based on setup stage
     let stageMultiplier = 1.0;
     if (idea.setup.stage === "confirmed") {
@@ -407,7 +407,7 @@ function getSetupSpecificScore(idea) {
     } else if (idea.setup.stage === "mature") {
       stageMultiplier = 1.2;
     }
-    
+
     return Math.round(baseSetupScore * stageMultiplier);
   } catch (error) {
     console.error(`Error calculating setup-specific score for ${idea.ticker}:`, error);
@@ -449,20 +449,20 @@ function enhanceIdeas(ideas, analyzerOutput, includeTechnical) {
     try {
       // Create a copy of the idea to enhance
       const enhancedIdea = { ...idea };
-      
+
       // Determine setup type and timeframe based on rationale
       enhancedIdea.setup = determineSetupType(idea);
-      
+
       // Add risk/reward calculation if possible
       if (canCalculateRiskReward(idea)) {
         enhancedIdea.riskReward = calculateRiskReward(idea);
       }
-      
+
       // Add technical context if requested
       if (includeTechnical) {
         enhancedIdea.technicalContext = extractTechnicalContext(idea, analyzerOutput);
       }
-      
+
       return enhancedIdea;
     } catch (error) {
       // Log error but don't fail the whole process
@@ -478,40 +478,40 @@ function determineSetupType(idea) {
     stage: "developing",
     timeframe: "intraday"
   };
-  
+
   // Check rationale text for clues
   const rationale = (idea.rationale || "").toLowerCase();
-  
+
   // Determine setup type using pattern map
   Object.entries(SETUP_TYPE_PATTERNS).forEach(([type, patterns]) => {
     if (patterns.some(pattern => rationale.includes(pattern))) {
       setup.type = type;
     }
   });
-  
+
   // Determine timeframe using pattern map
   Object.entries(TIMEFRAME_PATTERNS).forEach(([timeframe, patterns]) => {
     if (patterns.some(pattern => rationale.includes(pattern))) {
       setup.timeframe = timeframe;
     }
   });
-  
+
   // Determine stage based on parameter completeness
   if (hasCompleteParameters(idea)) {
     setup.stage = "confirmed";
   } else if (hasPartialParameters(idea)) {
     setup.stage = "mature";
   }
-  
+
   return setup;
 }
 
 function canCalculateRiskReward(idea) {
   return (
-    idea.entryParameters && 
+    idea.entryParameters &&
     (idea.entryParameters.zone?.min !== null || idea.entryParameters.zone?.max !== null) &&
-    idea.exitParameters && 
-    idea.exitParameters.stopLoss !== null && 
+    idea.exitParameters &&
+    idea.exitParameters.stopLoss !== null &&
     idea.exitParameters.target !== null
   );
 }
@@ -526,10 +526,10 @@ function calculateRiskReward(idea) {
     } else {
       entryPrice = idea.entryParameters.zone?.min || idea.entryParameters.zone?.max;
     }
-    
+
     const risk = Math.abs(entryPrice - idea.exitParameters.stopLoss);
     const reward = Math.abs(idea.exitParameters.target - entryPrice);
-    
+
     // Validate results
     if (isNaN(risk) || !isFinite(risk) || risk <= 0 ||
         isNaN(reward) || !isFinite(reward) || reward <= 0) {
@@ -540,9 +540,9 @@ function calculateRiskReward(idea) {
         potentialReward: 1
       };
     }
-    
+
     const ratio = reward / risk;
-    
+
     // Validate ratio
     if (isNaN(ratio) || !isFinite(ratio) || ratio <= 0) {
       console.warn(`Invalid risk/reward ratio calculated for ${idea.ticker}: ${ratio}`);
@@ -552,7 +552,7 @@ function calculateRiskReward(idea) {
         potentialReward: reward || 1
       };
     }
-    
+
     return {
       ratio,
       initialRisk: risk,
@@ -566,19 +566,19 @@ function calculateRiskReward(idea) {
 
 function hasCompleteParameters(idea) {
   return (
-    idea.entryParameters && 
-    idea.entryParameters.zone && 
+    idea.entryParameters &&
+    idea.entryParameters.zone &&
     (idea.entryParameters.zone.min !== null || idea.entryParameters.zone.max !== null) &&
-    idea.exitParameters && 
-    idea.exitParameters.stopLoss !== null && 
+    idea.exitParameters &&
+    idea.exitParameters.stopLoss !== null &&
     idea.exitParameters.target !== null
   );
 }
 
 function hasPartialParameters(idea) {
   return (
-    idea.entryParameters && 
-    idea.entryParameters.zone && 
+    idea.entryParameters &&
+    idea.entryParameters.zone &&
     (idea.entryParameters.zone.min !== null || idea.entryParameters.zone.max !== null)
   );
 }
@@ -589,7 +589,7 @@ function extractTechnicalContext(idea, analyzerOutput) {
     movingAverages: {},
     patterns: []
   };
-  
+
   try {
     // Extract from analyzer output if available
     if (analyzerOutput.levels && analyzerOutput.levels.stocks) {
@@ -599,7 +599,7 @@ function extractTechnicalContext(idea, analyzerOutput) {
         if (stockInfo.movingAverages) {
           technicalContext.movingAverages = stockInfo.movingAverages;
         }
-        
+
         // Extract levels
         if (stockInfo.levels) {
           if (stockInfo.levels.support) {
@@ -617,10 +617,10 @@ function extractTechnicalContext(idea, analyzerOutput) {
         }
       }
     }
-    
+
     // Extract patterns from rationale
     const rationale = (idea.rationale || "").toLowerCase();
-    
+
     // Use the setup type patterns to identify chart patterns
     Object.entries(SETUP_TYPE_PATTERNS).forEach(([pattern, keywords]) => {
       if (keywords.some(keyword => rationale.includes(keyword))) {
@@ -629,7 +629,7 @@ function extractTechnicalContext(idea, analyzerOutput) {
         }
       }
     });
-    
+
     return technicalContext;
   } catch (error) {
     console.error(`Error extracting technical context for ${idea.ticker}:`, error);
@@ -646,24 +646,24 @@ Finally, the component generates the structured output with detailed metadata:
 function generateResult(ideas, originalCount, minConviction, maxIdeas, filterParams) {
   // Sort ideas by priority (descending)
   const sortedIdeas = [...ideas].sort((a, b) => b.priority - a.priority);
-  
+
   // Apply maxIdeas limit
   const limitedIdeas = sortedIdeas.slice(0, maxIdeas);
-  
+
   // Generate conviction breakdown
   const convictionBreakdown = limitedIdeas.reduce((counts, idea) => {
     const level = idea.conviction.level;
     counts[level] = (counts[level] || 0) + 1;
     return counts;
   }, {});
-  
+
   // Generate direction breakdown
   const directionBreakdown = limitedIdeas.reduce((counts, idea) => {
     const direction = idea.direction;
     counts[direction] = (counts[direction] || 0) + 1;
     return counts;
   }, {});
-  
+
   return {
     filteredIdeas: limitedIdeas,
     summary: {
@@ -698,37 +698,37 @@ const convictionClassifier = require('../../system/focus/conviction-classifier')
 function extractFocus(input) {
   try {
     // Validate input
-    const { 
-      focusIdeas, 
-      minConviction, 
-      maxIdeas, 
-      includeTechnical, 
+    const {
+      focusIdeas,
+      minConviction,
+      maxIdeas,
+      includeTechnical,
       minConfidence,
       direction,
       analyst,
-      analyzerOutput 
+      analyzerOutput
     } = validateInput(input);
-    
+
     // Track original count
     const originalCount = focusIdeas.length;
-    
+
     // Process any ideas that might need conviction assessment
     const processedIdeas = focusIdeas.map(idea => {
       // Validate and sanitize idea structure
       idea = validateIdeaStructure(idea);
-      
+
       // If idea lacks conviction assessment, use the classifier
       if (!idea.conviction || !idea.conviction.level) {
         // Check if we have rationale text to analyze
         if (idea.rationale) {
           const text = `${idea.ticker} ${idea.rationale}`;
-          
+
           // Use the conviction classifier
           const convictionResult = convictionClassifier.classify(text, {
             analyst,
             minConfidence: 0.5
           });
-          
+
           // Update the idea with the classification result
           return {
             ...idea,
@@ -746,24 +746,24 @@ function extractFocus(input) {
           };
         }
       }
-      
+
       return idea;
     });
-    
+
     // Filter ideas by conviction and confidence
     let filteredIdeas = filterByConviction(processedIdeas, minConviction, minConfidence);
-    
+
     // Filter by direction if needed
     if (direction !== "both") {
       filteredIdeas = filteredIdeas.filter(idea => idea.direction === direction);
     }
-    
+
     // Enhance ideas with additional context
     const enhancedIdeas = enhanceIdeas(filteredIdeas, analyzerOutput, includeTechnical);
-    
+
     // Prioritize ideas
     const prioritizedIdeas = prioritizeIdeas(enhancedIdeas);
-    
+
     // Generate final result
     return generateResult(prioritizedIdeas, originalCount, minConviction, maxIdeas, {
       minConfidence,
@@ -794,7 +794,7 @@ function extractFocus(input) {
 function validateIdeaStructure(idea) {
   // Create a copy to avoid modifying the original
   const validatedIdea = { ...idea };
-  
+
   // Ensure conviction object exists and has required properties
   if (!validatedIdea.conviction || typeof validatedIdea.conviction !== 'object') {
     console.warn(`Idea for ${validatedIdea.ticker} missing conviction object`);
@@ -805,27 +805,27 @@ function validateIdeaStructure(idea) {
       console.warn(`Idea for ${validatedIdea.ticker} has conviction object missing level`);
       validatedIdea.conviction.level = "low";
     }
-    
+
     // Ensure phrases array exists
     if (!Array.isArray(validatedIdea.conviction.phrases)) {
       validatedIdea.conviction.phrases = [];
     }
-    
+
     // Ensure confidence is a valid number
-    if (typeof validatedIdea.conviction.confidence !== 'number' || 
-        validatedIdea.conviction.confidence < 0 || 
+    if (typeof validatedIdea.conviction.confidence !== 'number' ||
+        validatedIdea.conviction.confidence < 0 ||
         validatedIdea.conviction.confidence > 1) {
       console.warn(`Idea for ${validatedIdea.ticker} has invalid confidence value`);
       validatedIdea.conviction.confidence = 0.6;
     }
   }
-  
+
   // Ensure direction is valid
   if (!validatedIdea.direction || !["long", "short"].includes(validatedIdea.direction)) {
     console.warn(`Idea for ${validatedIdea.ticker} has invalid direction: ${validatedIdea.direction}`);
     validatedIdea.direction = "long"; // Default to long if direction is invalid
   }
-  
+
   return validatedIdea;
 }
 ```
@@ -1268,7 +1268,7 @@ const result = extractFocus({
 ## Related Components
 
 The Trade Idea Extractor works closely with:
-- `prompts/premarket/analyze-dp.md` - Source of focus ideas
+- `prompts/plam/analyze-dp.md` - Source of focus ideas
 - `system/focus/conviction-classifier.md` - For standardized conviction assessment
-- `prompts/premarket/create-plan.md` - Consumer of filtered ideas
-- `prompts/premarket/extract-levels.md` - Provider of technical context
+- `prompts/focus/create-plan.md` - Consumer of filtered ideas
+- `prompts/focus/extract-levels.md` - Provider of technical context

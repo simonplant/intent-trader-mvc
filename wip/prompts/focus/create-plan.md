@@ -10,7 +10,7 @@ updated: 2025-05-15
 category: premarket
 status: stable
 tags: [premarket, plan, integration, unified-plan, trade-ideas]
-requires: [prompts/premarket/analyze-dp.md, system/focus/conviction-classifier.md]
+requires: [prompts/plan/analyze-dp.md, prompts/focus/conviction-classifier.md]
 outputs: [tradePlan]
 input_format: json
 output_format: markdown
@@ -523,7 +523,7 @@ The system implements the standardized 75/15/10 management rule:
 #### 1. TEM LONG - Swing Trade (High Conviction)
 - **Entry Parameters**: Buy between 60-62 (current range)
 - **Stop Placement**: 58 (-6.5% from entry midpoint)
-- **Targets**: 
+- **Targets**:
   - T1 (75%): 65 (+5.7% from entry midpoint)
   - T2 (15%): 68 (+9.7% from entry midpoint)
   - T3 (10%): Trail from 68
@@ -535,7 +535,7 @@ The system implements the standardized 75/15/10 management rule:
 #### 2. HOOD LONG - Swing Trade (High Conviction)
 - **Entry Parameters**: Buy at 56 (pullback to support)
 - **Stop Placement**: 53 (-5.4% from entry)
-- **Targets**: 
+- **Targets**:
   - T1 (75%): 59 (+5.4% from entry)
   - T2 (15%): 62 (+10.7% from entry)
   - T3 (10%): Trail from 62
@@ -549,7 +549,7 @@ The system implements the standardized 75/15/10 management rule:
 #### 3. BABA SHORT - Day-After-Trade (Medium Conviction)
 - **Entry Parameters**: Short at 121 (approaching 21-day MA)
 - **Stop Placement**: 124 (+2.5% from entry)
-- **Targets**: 
+- **Targets**:
   - T1 (75%): 118 (-2.5% from entry)
   - T2 (15%): 115 (-5.0% from entry)
   - T3 (10%): Trail from 115
@@ -561,7 +561,7 @@ The system implements the standardized 75/15/10 management rule:
 #### 4. AMD LONG - Options Trade (Medium Conviction)
 - **Entry Parameters**: Buy calls with price around 115
 - **Stop Placement**: 112 (-2.6% from entry)
-- **Targets**: 
+- **Targets**:
   - T1 (75%): 117.5 (+2.2% from entry)
   - T2 (15%): 120 (+4.3% from entry)
   - T3 (10%): Trail from 120
@@ -591,7 +591,7 @@ The system implements the standardized 75/15/10 management rule:
 - **Description**: Market continues to consolidate in the 5900-5926 range (ES)
 - **Trigger Conditions**: Failed breakouts/breakdowns at range extremes
 - **Expected Outcome**: Multiple tests of range boundaries with eventual resolution
-- **Strategic Response**: 
+- **Strategic Response**:
   - Focus on range extremes for reversal trades
   - Prioritize TEM and HOOD as non-index trades
   - Use smaller position sizes due to Mode 2 conditions
@@ -601,7 +601,7 @@ The system implements the standardized 75/15/10 management rule:
 - **Description**: ES breaks and holds below 5900 support
 - **Trigger Conditions**: Decisive break below 5900 with follow-through
 - **Expected Outcome**: Test of 5850 major support level
-- **Strategic Response**: 
+- **Strategic Response**:
   - Add to BABA short position on confirmation
   - Reduce size or exit TEM and HOOD longs
   - Look for short entries on index tests of 5900 from below
@@ -611,7 +611,7 @@ The system implements the standardized 75/15/10 management rule:
 - **Description**: ES breaks above 5926 bull flag resistance
 - **Trigger Conditions**: Strong volume breakout above 5926 with acceptance
 - **Expected Outcome**: Measured move toward 5970 target
-- **Strategic Response**: 
+- **Strategic Response**:
   - Hold TEM and HOOD longs with wider targets
   - Exit or avoid BABA short
   - Look for entries in AMD on strength
@@ -623,7 +623,7 @@ The system implements the standardized 75/15/10 management rule:
 
 ### Risk Management
 - **Daily Risk Budget**: 1% of account ($1,000)
-- **Primary Opportunity Allocation**: 
+- **Primary Opportunity Allocation**:
   - TEM: Up to $400 risk (0.4% account)
   - HOOD: Up to $300 risk (0.3% account)
 - **Secondary Opportunity Allocation**:
@@ -637,13 +637,13 @@ The system implements the standardized 75/15/10 management rule:
   - Volume confirmation when applicable
   - Pattern completion (if pattern-based)
   - Mode-appropriate timing
-  
+
 - **Standard Management Protocol (75/15/10 Rule)**:
   1. Exit 75% of position at first target (T1)
   2. Move stop to breakeven after T1 is reached
   3. Exit 15% of position at second target (T2)
   4. Trail stop for remaining 10% runner portion
-  
+
 - **Mode 2 Adjustments**:
   - Consider taking profits more aggressively (80/20/0 split)
   - Use tighter trailing stops for runners
@@ -708,28 +708,28 @@ The risk allocation framework follows this methodology:
 function calculateRiskAllocation(focusIdeas, maxRiskPercent, accountSize) {
   // Total risk budget
   const totalRiskBudget = accountSize * (maxRiskPercent / 100);
-  
+
   // Segregate ideas by conviction
   const highConvictionIdeas = focusIdeas.filter(idea => idea.conviction.level === 'high');
   const mediumConvictionIdeas = focusIdeas.filter(idea => idea.conviction.level === 'medium');
   const lowConvictionIdeas = focusIdeas.filter(idea => idea.conviction.level === 'low');
-  
+
   // Allocate risk by conviction tier
   const highConvictionBudget = totalRiskBudget * 0.6;
   const mediumConvictionBudget = totalRiskBudget * 0.3;
   const lowConvictionBudget = totalRiskBudget * 0.1;
-  
+
   // Calculate per-idea allocations
-  const highAllocation = highConvictionIdeas.length > 0 ? 
+  const highAllocation = highConvictionIdeas.length > 0 ?
     highConvictionBudget / highConvictionIdeas.length : 0;
-  const mediumAllocation = mediumConvictionIdeas.length > 0 ? 
+  const mediumAllocation = mediumConvictionIdeas.length > 0 ?
     mediumConvictionBudget / mediumConvictionIdeas.length : 0;
-  const lowAllocation = lowConvictionIdeas.length > 0 ? 
+  const lowAllocation = lowConvictionIdeas.length > 0 ?
     lowConvictionBudget / lowConvictionIdeas.length : 0;
-  
+
   // Create allocation map
   const allocationMap = {};
-  
+
   highConvictionIdeas.forEach(idea => {
     allocationMap[idea.ticker] = {
       maxRiskAmount: highAllocation,
@@ -737,7 +737,7 @@ function calculateRiskAllocation(focusIdeas, maxRiskPercent, accountSize) {
       ratioBasis: 1.0
     };
   });
-  
+
   mediumConvictionIdeas.forEach(idea => {
     allocationMap[idea.ticker] = {
       maxRiskAmount: mediumAllocation,
@@ -745,7 +745,7 @@ function calculateRiskAllocation(focusIdeas, maxRiskPercent, accountSize) {
       ratioBasis: 0.75
     };
   });
-  
+
   lowConvictionIdeas.forEach(idea => {
     allocationMap[idea.ticker] = {
       maxRiskAmount: lowAllocation,
@@ -753,7 +753,7 @@ function calculateRiskAllocation(focusIdeas, maxRiskPercent, accountSize) {
       ratioBasis: 0.5
     };
   });
-  
+
   return {
     totalRiskBudget,
     allocationMap,
@@ -772,12 +772,12 @@ function calculateRiskAllocation(focusIdeas, maxRiskPercent, accountSize) {
 ## Related Components
 
 The Unified Trade Plan Generator works closely with:
-- `prompts/premarket/analyze-dp.md` - For processing morning call transcripts
-- `system/focus/conviction-classifier.md` - For standardized conviction assessment
-- `prompts/premarket/extract-focus.md` - For isolating high-conviction opportunities
-- `prompts/premarket/extract-levels.md` - For detailed level analysis
+- `prompts/plan/analyze-dp.md` - For processing morning call transcripts
+- `prompts/focus/conviction-classifier.md` - For standardized conviction assessment
+- `prompts/focus/extract-focus.md` - For isolating high-conviction opportunities
+- `prompts/focus/extract-levels.md` - For detailed level analysis
 
 It provides input to:
-- `prompts/intraday/add-position.md` - For executing the plan
-- `prompts/intraday/list-positions.md` - For tracking positions against the plan
-- `prompts/postmarket/compare-execution.md` - For evaluating plan adherence
+- `prompts/manage/add-position.md` - For executing the plan
+- `prompts/manage/list-positions.md` - For tracking positions against the plan
+- `prompts/review/compare-execution.md` - For evaluating plan adherence

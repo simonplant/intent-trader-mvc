@@ -10,7 +10,7 @@ updated: 2025-05-15
 category: focus
 status: stable
 tags: [focus, technical-levels, support, resistance, moving-averages]
-requires: [prompts/premarket/analyze-dp.md]
+requires: [prompts/plan/analyze-dp.md]
 outputs: [levelFramework]
 input_format: json
 output_format: json
@@ -1682,7 +1682,7 @@ Planned enhancements for future versions include:
 ## Related Components
 
 The Level Extractor works closely with:
-- `prompts/premarket/analyze-dp.md` - Source of level data
-- `prompts/premarket/create-plan.md` - Consumer of processed level framework
-- `prompts/premarket/extract-focus.md` - Uses levels for trade idea validation
-- `prompts/intraday/chart-analysis.md` - Uses levels for real-time analysis
+- `prompts/plam/analyze-dp.md` - Source of level data
+- `prompts/focus/create-plan.md` - Consumer of processed level framework
+- `prompts/focus/extract-focus.md` - Uses levels for trade idea validation
+- `prompts/utilities/chart-analysis.md` - Uses levels for real-time analysis

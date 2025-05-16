@@ -1,0 +1,55 @@
+{
+  "positions": [
+    {
+      "id": "QQQ-20250515-001",
+      "symbol": "QQQ 16-May-25 475P",
+      "direction": "long",
+      "entry": {
+        "price": 6.41,
+        "time": "2025-05-14T09:32:00Z"
+      },
+      "current": {
+        "price": 0.025,
+        "pnl": -638.50
+      },
+      "risk": {
+        "stop": 0.00
+      },
+      "targets": [
+        {"price": 10.00, "status": "missed"},
+        {"price": 15.00, "status": "missed"},
+        {"price": 20.00, "status": "missed"}
+      ],
+      "size": {
+        "initial": 1,
+        "current": 1,
+        "unit": "contracts"
+      },
+      "status": "active",
+      "setup": "put-option",
+      "strategy": "dp",
+      "trade_type": "day",
+      "owner": "me",
+      "notes": "QQQ May 16 put option, premium paid was $5.76 plus $0.65 commission",
+      "history": [
+        {
+          "action": "created",
+          "time": "2025-05-14T09:32:00Z",
+          "details": "Position created - put option purchase"
+        },
+        {
+          "action": "price_update",
+          "time": "2025-05-15T15:30:00Z",
+          "details": "Updated price to 0.025 - significant loss of value"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "last_updated": "2025-05-15T15:30:00Z",
+    "active_count": 1,
+    "total_positions": 1,
+    "total_risk": 0.00,
+    "daily_pnl": -638.50
+  }
+}

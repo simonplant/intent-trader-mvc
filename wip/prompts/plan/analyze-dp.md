@@ -692,8 +692,8 @@ The processor integrates with the conviction classifier as follows:
 
 This processor works closely with:
 - `prompts/focus/conviction-classifier.md` - For standardized conviction classification
-- `prompts/premarket/create-plan.md` - Consumes the output to generate a unified plan
-- `prompts/premarket/extract-focus.md` - Uses the focus ideas for prioritization
-- `prompts/premarket/extract-levels.md` - Leverages the level data for technical analysis
+- `prompts/focus/create-plan.md` - Consumes the output to generate a unified plan
+- `prompts/focus/extract-focus.md` - Uses the focus ideas for prioritization
+- `prompts/focus/extract-levels.md` - Leverages the level data for technical analysis
 
 When the conviction classifier is unavailable, the processor can still operate with reduced functionality through its internal fallback classification mechanisms.
