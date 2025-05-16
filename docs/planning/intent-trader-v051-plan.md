@@ -317,10 +317,10 @@ This framework supports the end-to-end trading workflow while prioritizing the c
 - Conservative: 000 shares ($000.00 risk)
 - Aggressive: 000 shares ($000.00 risk)
 
-## 75/15/10 Scaling Components
-- Initial Position (75%): 000 shares
-- First Target Position (15%): 000 shares
-- Runner Position (10%): 000 shares
+## Position Management Considerations
+- Total Position: 000 shares
+- Traditional Core Position: 000 shares (50% for scaling in/out)
+- Options/Higher-Priced Instruments: Consider whole-unit increments
 
 ## Sizing Notes
 - [key sizing considerations]

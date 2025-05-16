@@ -245,10 +245,7 @@ function calculatePositionSize(params) {
   const aggressiveRiskAmount = aggressiveSize * riskPerShare;
   const aggressiveRiskPercent = (aggressiveRiskAmount / account_size) * 100;
   
-  // Calculate 75/15/10 components
-  const component1Shares = Math.floor(adjustedSize * 0.75);
-  const component2Shares = Math.floor(adjustedSize * 0.15);
-  const component3Shares = adjustedSize - component1Shares - component2Shares;
+const traditionalCoreSize = Math.floor(adjustedSize * 0.5);
   
   // Generate notes
   const notes = [];
@@ -273,7 +270,11 @@ function calculatePositionSize(params) {
     notes.push(`Position size was capped due to maximum position value limit (5% of account).`);
   }
   
-  notes.push(`Position following the 75/15/10 rule: hold 75% (${component1Shares} shares) to first target, 15% (${component2Shares} shares) to second target, and 10% (${component3Shares} shares) as a runner.`);
+  notes.push(`For traditional position management with DP methodology, consider a core position of ${traditionalCoreSize} shares (50% of total) that you can build around.`);
+  
+  if (adjustedSize <= 4) {
+    notes.push(`WARNING: Total position size is very small (${adjustedSize} shares/contracts). Consider using a more practical position unit for this trade.`);
+  }
   
   if (actualRiskPercent > max_risk_percent) {
     notes.push(`WARNING: Actual risk (${actualRiskPercent.toFixed(2)}%) exceeds maximum risk percentage (${max_risk_percent}%).`);
@@ -307,10 +308,8 @@ function calculatePositionSize(params) {
           riskPercent: aggressiveRiskPercent
         }
       ],
-      scaling: {
-        component1: { percent: "75%", shares: component1Shares },
-        component2: { percent: "15%", shares: component2Shares },
-        component3: { percent: "10%", shares: component3Shares }
+      traditionalCore: {
+        size: traditionalCoreSize
       }
     },
     adjustments: {
@@ -355,10 +354,8 @@ function calculatePositionSize(params) {
         "riskPercent": {{sizing.alternatives[1].riskPercent}}
       }
     ],
-    "scaling": {
-      "component1": {"percent": "75%", "shares": {{sizing.scaling.component1.shares}}},
-      "component2": {"percent": "15%", "shares": {{sizing.scaling.component2.shares}}},
-      "component3": {"percent": "10%", "shares": {{sizing.scaling.component3.shares}}}
+    "traditionalCore": {
+      "size": {{Math.floor(sizing.recommended.size * 0.5)}}
     }
   },
   "adjustments": {
@@ -395,10 +392,10 @@ function calculatePositionSize(params) {
 - Conservative: {{sizing.alternatives[0].size}} shares (${{sizing.alternatives[0].riskAmount.toFixed(2)}} risk)
 - Aggressive: {{sizing.alternatives[1].size}} shares (${{sizing.alternatives[1].riskAmount.toFixed(2)}} risk)
 
-## 75/15/10 Scaling Components
-- Initial Position (75%): {{sizing.scaling.component1.shares}} shares
-- First Target Position (15%): {{sizing.scaling.component2.shares}} shares
-- Runner Position (10%): {{sizing.scaling.component3.shares}} shares
+## Position Management Considerations
+- **Total Position**: {{sizing.recommended.size}} shares
+- **Traditional Core Position**: {{Math.floor(sizing.recommended.size * 0.5)}} shares (50% for scaling in/out)
+- **Options/Higher-Priced Instruments**: Consider whole-unit increments for appropriate scaling
 
 ## Sizing Notes
 {{#each notes}}
@@ -433,15 +430,16 @@ function calculatePositionSize(params) {
 - Conservative: 235 shares ($399.50 risk)
 - Aggressive: 588 shares ($999.60 risk)
 
-## 75/15/10 Scaling Components
-- Initial Position (75%): 352 shares
-- First Target Position (15%): 70 shares
-- Runner Position (10%): 48 shares
+## Position Management Considerations
+- **Total Position**: 470 shares
+- **Traditional Core Position**: 235 shares (50% for scaling in/out)
+- **Options/Higher-Priced Instruments**: Consider whole-unit increments for appropriate scaling
 
 ## Sizing Notes
 - Using full size due to high conviction in the setup.
 - Medium-probability setup type (bull-flag) receives 80% sizing allocation.
-- Position following the 75/15/10 rule: hold 75% (352 shares) to first target, 15% (70 shares) to second target, and 10% (48 shares) as a runner.
+- For traditional position management with DP methodology, consider a core position of 235 shares (50% of total) that you can build around.
+
 ```
 
 ## Test Vector
@@ -461,7 +459,7 @@ This command is designed to be used in conjunction with:
 1. **Trade Plan** (`/create-plan`): Use position sizing after identifying high-conviction setups
 2. **Position Management** (`/add-position`): Apply sizing recommendations when entering new positions
 3. **Risk Management**: Ensure positions respect overall risk allocation rules
-4. **75/15/10 Rule**: Facilitate the standard position management protocol
+4. **DP Trading Methodology**: Support for building around a core position
 
 ## Advanced Considerations
 

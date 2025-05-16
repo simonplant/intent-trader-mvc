@@ -138,7 +138,7 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
   - Incorporates conviction levels for size scaling
   - Enforces maximum risk limits
   - Provides alternative sizing options (conservative/aggressive)
-  - Integrates with the 75/15/10 rule for position management
+  - Supports DP's "trading around a core" methodology
   - References Trading Capital Profile and Trading Charter
 
 ### 4. MANAGE Phase Implementation (1.5 hours)
