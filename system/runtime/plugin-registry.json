@@ -103,4 +103,12 @@
     "phase": "utilities",
     "dependsOn": []
   }
+  {
+  "id": "reload-active-logic",
+  "type": "system-command",
+  "version": "0.5.1",
+  "entryPoint": "prompts/system/reload-active-logic.md",
+  "phase": "system",
+  "dependsOn": ["system/runtime/command-map.md", "system/runtime/runtime-agent.md"]
+}
 ]

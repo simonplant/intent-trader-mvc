@@ -47,4 +47,5 @@ This file defines the routing and execution logic for all Intent Trader commands
 | **SYSTEM COMMANDS**                                                                                                         |
 | `/help`              | Show available commands                           | system       | Optional command name                 | system/commands.md             |
 | `/status`            | Show current trading session state                | system       | None                                  | system/runtime/entrypoint.md   |
+| `/reload-active-logic` | Flush context and reload runtime logic     | system       | none                                   | prompts/system/reload-active-logic.md |
 |----------------------|---------------------------------------------------|--------------|--------------------------------------|--------------------------------|

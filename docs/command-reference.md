@@ -479,6 +479,36 @@ Commands are marked with their implementation status:
 
 ---
 
+### SYSTEM Commands
+
+#### `/reload-active-logic`
+
+**Purpose:** Flush all stale execution context and rebuild the runtime environment from uploaded authoritative files.
+
+**Parameters:**
+* None
+
+**Output:**
+* `systemReport` summarizing:
+  * Commands loaded and parsed
+  * Prompts validated and resolved
+  * Dependency issues (missing requires/outputs)
+  * Memory/context flushed
+
+**Implementation:**
+* Flushes in-memory context from previous ZIPs or chat history
+* Re-parses `command-map.md` as canonical routing table
+* Re-evaluates all declared `requires` fields and prompt metadata
+* Disables inference or fallback behavior
+
+**File Location:**
+* `prompts/system/reload-active-logic.md`
+
+**Example:**
+/reload-active-logic
+
+---
+
 ## Command Flow Examples
 
 ### Morning Preparation Flow

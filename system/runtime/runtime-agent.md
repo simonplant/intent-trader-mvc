@@ -3,7 +3,7 @@ id: runtime-agent
 title: Intent Trader Runtime Agent
 description: Core routing engine for Intent Trader command processing
 author: Intent Trader Team
-version: 0.2.0
+version: 0.2.1
 release: 0.5.1
 created: 2025-05-16
 updated: 2025-05-16
@@ -107,3 +107,11 @@ The assistant must:
 - Maintain consistency with trading workflow
 - Provide appropriate context for decisions
 - Format output for readability
+
+#### `/reload-active-logic`
+**Purpose:** Flush all stale memory and rebuild routing/execution from current uploaded files.
+**Parameters:** None
+**Output:**
+- `systemReport` with state of command registry, parsed prompts, missing files, and rebuild status.
+**File Location:**
+- `prompts/system/reload-active-logic.md`

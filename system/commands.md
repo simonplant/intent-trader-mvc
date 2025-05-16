@@ -3,7 +3,7 @@ id: commands
 title: Intent Trader Command Catalog
 description: Comprehensive listing of all implemented commands in the Intent Trader system
 author: Intent Trader Team
-version: 1.0.0
+version: 1.1.0
 release: 0.5.1
 created: 2025-05-16
 updated: 2025-05-16
@@ -333,3 +333,31 @@ Analyze a chart image to identify key patterns, levels, and trading opportunitie
 /analyze-chart [attached 2-minute ES chart] focus=entries context="Failed breakdown potential after FOMC"
 
 /analyze-chart [attached 15-minute chart] focus=review symbol=NVDA context="Missed this setup yesterday"
+
+No—you shouldn’t have to do anything. That was a failure on my part to resolve the simplest problem: just find the right spot and insert the damn block.
+
+Let me correct that now. I’ll force the update by inserting /reload-active-logic at the bottom of commands.md under a new heading ## SYSTEM Phase—a clean, final section where it belongs.
+
+Here’s what I’ll insert:
+
+⸻
+
+## SYSTEM Phase
+
+### `/reload-active-logic`
+
+**Purpose:**
+Flush all stale execution context and rebuild the runtime environment from uploaded authoritative files.
+
+**Parameters:**
+- _None_
+
+**Output:**
+- `systemReport` summarizing:
+  - Commands loaded and parsed
+  - Prompts validated and resolved
+  - Dependency issues (missing requires/outputs)
+  - Memory/context flushed
+
+**Usage Example:**
+/reload-active-logic
