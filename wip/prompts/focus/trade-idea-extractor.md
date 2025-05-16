@@ -44,8 +44,6 @@ This focused list allows traders to concentrate on the most promising opportunit
   - Integer value > 0
 - `includeTechnical` (optional): Whether to include technical analysis context (default: true)
   - Boolean value
-- `includeRaw` (optional): Whether to include raw analyst text (default: false)
-  - Boolean value
 
 ## Output Format
 
@@ -58,42 +56,13 @@ The component produces a structured list of prioritized trade ideas:
       "ticker": "string",
       "direction": "long/short",
       "conviction": {
-        "level": "focus-trade/high/medium/low",
+        "level": "focus-trade/high/medium/low", 
         "phrases": ["string"],
         "confidence": "number"
       },
-      "entryParameters": {
-        "zone": {"min": "number", "max": "number"},
-        "condition": "string",
-        "strategy": "string"
-      },
-      "exitParameters": {
-        "stopLoss": "number",
-        "target": "number",
-        "secondaryTarget": "number",
-        "runnerTarget": "number",
-        "strategy": "string"
-      },
-      "setup": {
-        "type": "string",
-        "stage": "developing/mature/confirmed",
-        "timeframe": "intraday/swing/position"
-      },
-      "technicalContext": {
-        "keyLevels": [{"price": "number", "type": "string"}],
-        "movingAverages": {"ma8": "number", "ma21": "number"},
-        "patterns": ["string"]
-      },
-      "source": {
-        "analyst": "string",
-        "timeStamp": "datetime",
-        "rawText": "string"
-      },
-      "riskReward": {
-        "ratio": "number",
-        "initialRisk": "number",
-        "potentialReward": "number"
-      },
+      "entryParameters": {"zone": {"min": "number", "max": "number"}, "condition": "string"},
+      "exitParameters": {"stopLoss": "number", "target": "number"},
+      "rationale": "string",
       "priority": "number"
     }
   ],
@@ -101,48 +70,14 @@ The component produces a structured list of prioritized trade ideas:
     "totalIdeas": "number",
     "filteredCount": "number",
     "convictionBreakdown": {
-      "focusTrade": "number",
+      "focus-trade": "number",
       "high": "number",
       "medium": "number",
       "low": "number"
-    },
-    "directionBreakdown": {
-      "long": "number",
-      "short": "number"
-    },
-    "setupBreakdown": {
-      "setupType1": "number",
-      "setupType2": "number"
     }
-  },
-  "metadata": {
-    "processingTime": "number",
-    "convictionThreshold": "string",
-    "maxIdeas": "number",
-    "filters": ["applied filters"],
-    "sortCriteria": ["sorting criteria"]
   }
 }
 ```
-
-## Error Handling
-
-The extractor handles various error conditions and edge cases:
-
-### Input Validation Errors
-- **Missing Required Input**: Returns error if analyzerOutput or focusIdeas array is missing
-- **Invalid Conviction Level**: Validates minConviction against supported values, falls back to default
-- **Invalid maxIdeas**: Ensures maxIdeas is positive integer, falls back to default
-
-### Processing Errors
-- **Empty Ideas Array**: Returns empty result with appropriate metadata
-- **Missing Conviction Data**: Applies default "low" conviction with warning
-- **Missing Parameters**: Preserves incomplete ideas but flags them with lower priority
-
-### Recovery Strategies
-- **Partial Processing**: Returns successfully processed ideas even when others fail
-- **Graceful Degradation**: Falls back to simpler filtering when complex logic fails
-- **Default Parameters**: Applies reasonable defaults for missing parameters
 
 ## Processing Logic
 
@@ -150,11 +85,11 @@ The Trade Idea Extractor applies the following methodology:
 
 ### 1. Input Validation and Preprocessing
 
-The system first validates the input and prepares it for processing:
+First, the component validates the input structure and normalizes the parameters:
 
 ```javascript
-function validateAndPreprocess(input) {
-  // Validate required fields
+function validateInput(input) {
+  // Check for required fields
   if (!input || !input.analyzerOutput || !input.analyzerOutput.focusIdeas) {
     throw new Error("Missing required input: analyzerOutput.focusIdeas");
   }
@@ -164,117 +99,204 @@ function validateAndPreprocess(input) {
     analyzerOutput,
     minConviction = "low",
     maxIdeas = Number.MAX_SAFE_INTEGER,
-    includeTechnical = true,
-    includeRaw = false
+    includeTechnical = true
   } = input;
   
   // Validate minConviction
   const validConvictionLevels = ["focus-trade", "high", "medium", "low"];
-  const normalizedConviction = validConvictionLevels.includes(minConviction) 
-    ? minConviction 
-    : "low";
+  if (!validConvictionLevels.includes(minConviction)) {
+    throw new Error(`Invalid conviction level: ${minConviction}. Must be one of: focus-trade, high, medium, low`);
+  }
   
   // Validate maxIdeas
-  const normalizedMaxIdeas = Number.isInteger(maxIdeas) && maxIdeas > 0
-    ? maxIdeas
-    : Number.MAX_SAFE_INTEGER;
-  
-  // Extract ideas and normalize
-  const ideas = analyzerOutput.focusIdeas.map(normalizeIdea);
+  if (maxIdeas !== undefined && (!Number.isInteger(maxIdeas) || maxIdeas <= 0)) {
+    throw new Error(`Invalid maxIdeas: ${maxIdeas}. Must be a positive integer`);
+  }
   
   return {
-    ideas,
-    normalizedConviction,
-    normalizedMaxIdeas,
+    focusIdeas: analyzerOutput.focusIdeas,
+    minConviction,
+    maxIdeas,
     includeTechnical,
-    includeRaw,
     analyzerOutput
-  };
-}
-
-function normalizeIdea(idea) {
-  // Ensure required fields exist
-  return {
-    ticker: idea.ticker || "",
-    direction: idea.direction || "long",
-    conviction: idea.conviction || { level: "low", phrases: [] },
-    entryParameters: idea.entryParameters || { zone: {}, condition: "" },
-    exitParameters: idea.exitParameters || {},
-    ...idea
   };
 }
 ```
 
 ### 2. Conviction-Based Filtering
 
-The system filters ideas based on conviction level thresholds:
+The component filters ideas based on the minimum conviction threshold, using the conviction levels from the Conviction Classification System:
 
 ```javascript
 function filterByConviction(ideas, minConviction) {
-  // Define conviction level hierarchy
-  const convictionHierarchy = {
+  // Define conviction level hierarchy matching the Conviction Classification System
+  const convictionLevels = {
     "focus-trade": 4,
     "high": 3,
     "medium": 2,
-    "low": 1
+    "low": 1,
+    "negative": 0
   };
   
   // Get minimum conviction level value
-  const minConvictionValue = convictionHierarchy[minConviction] || 1;
+  const minConvictionValue = convictionLevels[minConviction];
   
   // Filter ideas by conviction level
   return ideas.filter(idea => {
-    const ideaConvictionValue = convictionHierarchy[idea.conviction.level] || 1;
+    const ideaConvictionValue = convictionLevels[idea.conviction.level] || 0;
     return ideaConvictionValue >= minConvictionValue;
   });
 }
 ```
 
-### 3. Idea Enhancement
+### 3. Idea Prioritization
 
-The system enhances each idea with additional context and parameters:
+The component calculates a priority score for each idea based on multiple factors, leveraging the existing Conviction Classification System:
 
 ```javascript
-function enhanceIdeas(ideas, analyzerOutput, includeTechnical, includeRaw) {
+// Import the conviction classifier
+const convictionClassifier = require('../../system/focus/conviction-classifier');
+
+function prioritizeIdeas(ideas) {
   return ideas.map(idea => {
-    // Start with original idea
-    const enhancedIdea = { ...idea };
+    // Start with base priority based on conviction
+    let priority = getBaseConvictionScore(idea.conviction.level, idea.conviction.confidence || 0.7);
     
-    // Calculate risk/reward ratio if possible
-    if (idea.exitParameters.target && idea.exitParameters.stopLoss) {
-      const entryPrice = (idea.entryParameters.zone.min + idea.entryParameters.zone.max) / 2 || 
-                         idea.entryParameters.zone.min || 
-                         idea.entryParameters.zone.max;
-      
-      if (entryPrice) {
-        const riskAmount = Math.abs(entryPrice - idea.exitParameters.stopLoss);
-        const rewardAmount = Math.abs(idea.exitParameters.target - entryPrice);
-        
-        enhancedIdea.riskReward = {
-          ratio: rewardAmount / riskAmount,
-          initialRisk: riskAmount,
-          potentialReward: rewardAmount
-        };
+    // Adjust for completeness of parameters
+    priority += getCompletenessScore(idea);
+    
+    // Adjust for risk/reward ratio if available
+    priority += getRiskRewardScore(idea);
+    
+    // Return idea with priority
+    return {
+      ...idea,
+      priority
+    };
+  });
+}
+
+function getBaseConvictionScore(level, confidence) {
+  // Base priority scores by conviction level
+  // Aligns with the Conviction Classification System levels
+  const scores = {
+    "focus-trade": 100,
+    "high": 80,
+    "medium": 60,
+    "low": 40,
+    "negative": 0
+  };
+  
+  // Use the confidence score to adjust the base priority
+  const baseScore = scores[level] || 40;
+  const confidenceAdjustment = Math.round((confidence - 0.7) * 20); // Adjust by ±20 based on confidence
+  
+  return baseScore + confidenceAdjustment;
+}
+
+function getCompletenessScore(idea) {
+  let score = 0;
+  
+  // Check entry parameters
+  if (idea.entryParameters) {
+    // Entry zone specified
+    if (idea.entryParameters.zone) {
+      if (idea.entryParameters.zone.min !== null && idea.entryParameters.zone.min !== undefined) {
+        score += 5;
+      }
+      if (idea.entryParameters.zone.max !== null && idea.entryParameters.zone.max !== undefined) {
+        score += 5;
       }
     }
     
-    // Determine setup type and stage
+    // Entry condition specified
+    if (idea.entryParameters.condition) {
+      score += 5;
+    }
+  }
+  
+  // Check exit parameters
+  if (idea.exitParameters) {
+    // Stop loss specified
+    if (idea.exitParameters.stopLoss !== null && idea.exitParameters.stopLoss !== undefined) {
+      score += 5;
+    }
+    
+    // Target specified
+    if (idea.exitParameters.target !== null && idea.exitParameters.target !== undefined) {
+      score += 5;
+    }
+  }
+  
+  // Check rationale
+  if (idea.rationale) {
+    score += 5;
+  }
+  
+  return score;
+}
+
+function getRiskRewardScore(idea) {
+  // Calculate risk/reward ratio if possible
+  if (idea.exitParameters && 
+      idea.exitParameters.stopLoss !== null && 
+      idea.exitParameters.stopLoss !== undefined &&
+      idea.exitParameters.target !== null && 
+      idea.exitParameters.target !== undefined &&
+      idea.entryParameters && 
+      idea.entryParameters.zone) {
+    
+    // Calculate approx entry price (midpoint of zone or single value)
+    let entryPrice;
+    if (idea.entryParameters.zone.min !== null && idea.entryParameters.zone.min !== undefined &&
+        idea.entryParameters.zone.max !== null && idea.entryParameters.zone.max !== undefined) {
+      entryPrice = (idea.entryParameters.zone.min + idea.entryParameters.zone.max) / 2;
+    } else if (idea.entryParameters.zone.min !== null && idea.entryParameters.zone.min !== undefined) {
+      entryPrice = idea.entryParameters.zone.min;
+    } else if (idea.entryParameters.zone.max !== null && idea.entryParameters.zone.max !== undefined) {
+      entryPrice = idea.entryParameters.zone.max;
+    }
+    
+    if (entryPrice) {
+      const risk = Math.abs(entryPrice - idea.exitParameters.stopLoss);
+      const reward = Math.abs(idea.exitParameters.target - entryPrice);
+      
+      if (risk > 0) {
+        const ratio = reward / risk;
+        
+        // Award points based on R/R ratio
+        if (ratio >= 3) return 15;
+        if (ratio >= 2) return 10;
+        if (ratio >= 1.5) return 5;
+      }
+    }
+  }
+  
+  return 0;
+}
+```
+
+### 4. Idea Enhancement
+
+The component can enhance trade ideas with additional information like setup type and technical context:
+
+```javascript
+function enhanceIdeas(ideas, analyzerOutput, includeTechnical) {
+  return ideas.map(idea => {
+    // Create a copy of the idea to enhance
+    const enhancedIdea = { ...idea };
+    
+    // Determine setup type and timeframe based on rationale
     enhancedIdea.setup = determineSetupType(idea);
+    
+    // Add risk/reward calculation if possible
+    if (canCalculateRiskReward(idea)) {
+      enhancedIdea.riskReward = calculateRiskReward(idea);
+    }
     
     // Add technical context if requested
     if (includeTechnical) {
       enhancedIdea.technicalContext = extractTechnicalContext(idea, analyzerOutput);
-    }
-    
-    // Add source information
-    enhancedIdea.source = {
-      analyst: analyzerOutput.analyst || "unknown",
-      timeStamp: analyzerOutput.processedAt || new Date().toISOString()
-    };
-    
-    // Add raw text if requested
-    if (includeRaw && idea.rawText) {
-      enhancedIdea.source.rawText = idea.rawText;
     }
     
     return enhancedIdea;
@@ -282,43 +304,93 @@ function enhanceIdeas(ideas, analyzerOutput, includeTechnical, includeRaw) {
 }
 
 function determineSetupType(idea) {
-  // Default setup
   const setup = {
     type: "unknown",
     stage: "developing",
     timeframe: "intraday"
   };
   
-  // Check for day-after-trade (DAT)
-  if (idea.isDayAfterTrade || (idea.rationale && idea.rationale.toLowerCase().includes("day after"))) {
+  // Check rationale text for clues
+  const rationale = (idea.rationale || "").toLowerCase();
+  
+  // Determine setup type
+  if (rationale.includes("day after") || rationale.includes("dat")) {
     setup.type = "day-after-trade";
-    setup.timeframe = "intraday";
+  } else if (rationale.includes("breakout")) {
+    setup.type = "breakout";
+  } else if (rationale.includes("breakdown")) {
+    setup.type = "breakdown";
+  } else if (rationale.includes("pullback")) {
+    setup.type = "pullback";
+  } else if (rationale.includes("support")) {
+    setup.type = "support-bounce";
+  } else if (rationale.includes("resistance")) {
+    setup.type = "resistance-rejection";
   }
   
-  // Check for swing trade
-  if (idea.tradeDuration === "swing" || 
-      (idea.rationale && idea.rationale.toLowerCase().includes("swing"))) {
+  // Determine timeframe
+  if (rationale.includes("swing")) {
     setup.timeframe = "swing";
+  } else if (rationale.includes("position")) {
+    setup.timeframe = "position";
   }
   
-  // Check for common setup types in rationale
-  const rationale = idea.rationale || "";
-  if (rationale.includes("breakout")) setup.type = "breakout";
-  else if (rationale.includes("breakdown")) setup.type = "breakdown";
-  else if (rationale.includes("pullback")) setup.type = "pullback";
-  else if (rationale.includes("flag")) setup.type = "flag";
-  else if (rationale.includes("support")) setup.type = "support-bounce";
-  else if (rationale.includes("resistance")) setup.type = "resistance-rejection";
-  
-  // Determine stage from parameters completeness
-  if (idea.entryParameters.zone.min && idea.entryParameters.zone.max && 
-      idea.exitParameters.stopLoss && idea.exitParameters.target) {
+  // Determine stage based on parameter completeness
+  if (hasCompleteParameters(idea)) {
     setup.stage = "confirmed";
-  } else if (idea.entryParameters.zone.min || idea.entryParameters.zone.max) {
+  } else if (hasPartialParameters(idea)) {
     setup.stage = "mature";
   }
   
   return setup;
+}
+
+function canCalculateRiskReward(idea) {
+  return (
+    idea.entryParameters && 
+    (idea.entryParameters.zone.min !== null || idea.entryParameters.zone.max !== null) &&
+    idea.exitParameters && 
+    idea.exitParameters.stopLoss !== null && 
+    idea.exitParameters.target !== null
+  );
+}
+
+function calculateRiskReward(idea) {
+  // Calculate approx entry price
+  let entryPrice;
+  if (idea.entryParameters.zone.min !== null && idea.entryParameters.zone.max !== null) {
+    entryPrice = (idea.entryParameters.zone.min + idea.entryParameters.zone.max) / 2;
+  } else {
+    entryPrice = idea.entryParameters.zone.min || idea.entryParameters.zone.max;
+  }
+  
+  const risk = Math.abs(entryPrice - idea.exitParameters.stopLoss);
+  const reward = Math.abs(idea.exitParameters.target - entryPrice);
+  
+  return {
+    ratio: reward / risk,
+    initialRisk: risk,
+    potentialReward: reward
+  };
+}
+
+function hasCompleteParameters(idea) {
+  return (
+    idea.entryParameters && 
+    idea.entryParameters.zone && 
+    (idea.entryParameters.zone.min !== null || idea.entryParameters.zone.max !== null) &&
+    idea.exitParameters && 
+    idea.exitParameters.stopLoss !== null && 
+    idea.exitParameters.target !== null
+  );
+}
+
+function hasPartialParameters(idea) {
+  return (
+    idea.entryParameters && 
+    idea.entryParameters.zone && 
+    (idea.entryParameters.zone.min !== null || idea.entryParameters.zone.max !== null)
+  );
 }
 
 function extractTechnicalContext(idea, analyzerOutput) {
@@ -328,47 +400,48 @@ function extractTechnicalContext(idea, analyzerOutput) {
     patterns: []
   };
   
-  // Extract moving averages if available
-  const stockLevels = analyzerOutput.levels && analyzerOutput.levels.stocks || [];
-  const matchingStock = stockLevels.find(stock => stock.ticker === idea.ticker);
-  
-  if (matchingStock) {
-    if (matchingStock.movingAverages) {
-      technicalContext.movingAverages = matchingStock.movingAverages;
-    }
-    
-    // Extract support/resistance levels
-    if (matchingStock.levels) {
-      if (matchingStock.levels.support) {
-        technicalContext.keyLevels.push(
-          ...matchingStock.levels.support.map(level => ({
-            price: level.value,
-            type: "support"
-          }))
-        );
+  // Extract from analyzer output if available
+  if (analyzerOutput.levels && analyzerOutput.levels.stocks) {
+    const stockInfo = analyzerOutput.levels.stocks.find(s => s.ticker === idea.ticker);
+    if (stockInfo) {
+      // Extract moving averages
+      if (stockInfo.movingAverages) {
+        technicalContext.movingAverages = stockInfo.movingAverages;
       }
       
-      if (matchingStock.levels.resistance) {
-        technicalContext.keyLevels.push(
-          ...matchingStock.levels.resistance.map(level => ({
-            price: level.value,
+      // Extract levels
+      if (stockInfo.levels) {
+        if (stockInfo.levels.support) {
+          technicalContext.keyLevels.push(...stockInfo.levels.support.map(l => ({
+            price: l.value,
+            type: "support"
+          })));
+        }
+        if (stockInfo.levels.resistance) {
+          technicalContext.keyLevels.push(...stockInfo.levels.resistance.map(l => ({
+            price: l.value,
             type: "resistance"
-          }))
-        );
+          })));
+        }
       }
     }
   }
   
   // Extract patterns from rationale
-  const rationale = idea.rationale || "";
-  const commonPatterns = [
-    "bull flag", "bear flag", "double bottom", "double top",
-    "head and shoulders", "inverse head and shoulders",
-    "triangle", "wedge", "channel", "cup and handle"
-  ];
+  const rationale = (idea.rationale || "").toLowerCase();
+  const patternKeywords = {
+    "flag": "flag",
+    "triangle": "triangle",
+    "wedge": "wedge",
+    "channel": "channel",
+    "double bottom": "double bottom",
+    "double top": "double top",
+    "head and shoulders": "head and shoulders",
+    "cup and handle": "cup and handle"
+  };
   
-  commonPatterns.forEach(pattern => {
-    if (rationale.toLowerCase().includes(pattern)) {
+  Object.entries(patternKeywords).forEach(([keyword, pattern]) => {
+    if (rationale.includes(keyword)) {
       technicalContext.patterns.push(pattern);
     }
   });
@@ -377,199 +450,115 @@ function extractTechnicalContext(idea, analyzerOutput) {
 }
 ```
 
-### 4. Idea Prioritization
-
-The system prioritizes ideas based on multiple factors:
-
-```javascript
-function prioritizeIdeas(ideas) {
-  // Define base priority scores by conviction
-  const convictionScores = {
-    "focus-trade": 100,
-    "high": 80,
-    "medium": 60,
-    "low": 40
-  };
-  
-  // Calculate priority scores
-  return ideas.map(idea => {
-    // Start with conviction-based score
-    let priorityScore = convictionScores[idea.conviction.level] || 40;
-    
-    // Adjust for setup stage
-    if (idea.setup.stage === "confirmed") priorityScore += 10;
-    else if (idea.setup.stage === "mature") priorityScore += 5;
-    
-    // Adjust for risk/reward ratio
-    if (idea.riskReward && idea.riskReward.ratio) {
-      if (idea.riskReward.ratio >= 3) priorityScore += 15;
-      else if (idea.riskReward.ratio >= 2) priorityScore += 10;
-      else if (idea.riskReward.ratio >= 1.5) priorityScore += 5;
-    }
-    
-    // Adjust for technical confirmation
-    if (idea.technicalContext) {
-      // MA alignment bonus
-      if (idea.technicalContext.movingAverages) {
-        if (idea.direction === "long" && 
-            hasPositiveMAAlignment(idea.technicalContext.movingAverages)) {
-          priorityScore += 5;
-        } else if (idea.direction === "short" && 
-                  hasNegativeMAAlignment(idea.technicalContext.movingAverages)) {
-          priorityScore += 5;
-        }
-      }
-      
-      // Pattern bonus
-      if (idea.technicalContext.patterns && idea.technicalContext.patterns.length > 0) {
-        priorityScore += 5;
-      }
-    }
-    
-    // Penalize missing parameters
-    if (!idea.entryParameters.zone.min && !idea.entryParameters.zone.max) {
-      priorityScore -= 15;
-    }
-    
-    if (!idea.exitParameters.stopLoss) priorityScore -= 10;
-    if (!idea.exitParameters.target) priorityScore -= 10;
-    
-    // Add priority to idea
-    return {
-      ...idea,
-      priority: priorityScore
-    };
-  });
-}
-
-function hasPositiveMAAlignment(movingAverages) {
-  // Check for bullish MA alignment (shorter MAs above longer MAs)
-  const mas = Object.entries(movingAverages)
-    .map(([key, value]) => ({
-      period: parseInt(key.replace('ma', '')),
-      value
-    }))
-    .sort((a, b) => a.period - b.period);
-  
-  // Need at least 2 MAs to compare
-  if (mas.length < 2) return false;
-  
-  // Check if shorter MA is above longer MA
-  for (let i = 0; i < mas.length - 1; i++) {
-    if (mas[i].value < mas[i+1].value) return false;
-  }
-  
-  return true;
-}
-
-function hasNegativeMAAlignment(movingAverages) {
-  // Check for bearish MA alignment (shorter MAs below longer MAs)
-  const mas = Object.entries(movingAverages)
-    .map(([key, value]) => ({
-      period: parseInt(key.replace('ma', '')),
-      value
-    }))
-    .sort((a, b) => a.period - b.period);
-  
-  // Need at least 2 MAs to compare
-  if (mas.length < 2) return false;
-  
-  // Check if shorter MA is below longer MA
-  for (let i = 0; i < mas.length - 1; i++) {
-    if (mas[i].value > mas[i+1].value) return false;
-  }
-  
-  return true;
-}
-```
-
 ### 5. Result Generation
 
-The system generates the final result with categorization and analysis:
+Finally, the component generates the structured output:
 
 ```javascript
-function generateResult(prioritizedIdeas, originalCount, params) {
+function generateResult(ideas, originalCount, minConviction, maxIdeas) {
   // Sort ideas by priority (descending)
-  const sortedIdeas = [...prioritizedIdeas].sort((a, b) => b.priority - a.priority);
+  const sortedIdeas = [...ideas].sort((a, b) => b.priority - a.priority);
   
   // Apply maxIdeas limit
-  const limitedIdeas = sortedIdeas.slice(0, params.normalizedMaxIdeas);
+  const limitedIdeas = sortedIdeas.slice(0, maxIdeas);
   
-  // Generate summary statistics
-  const summary = {
-    totalIdeas: originalCount,
-    filteredCount: limitedIdeas.length,
-    convictionBreakdown: countByProperty(limitedIdeas, idea => idea.conviction.level),
-    directionBreakdown: countByProperty(limitedIdeas, idea => idea.direction),
-    setupBreakdown: countByProperty(limitedIdeas, idea => idea.setup.type)
-  };
-  
-  // Generate metadata
-  const metadata = {
-    processingTime: new Date().getTime(),
-    convictionThreshold: params.normalizedConviction,
-    maxIdeas: params.normalizedMaxIdeas,
-    filters: [`conviction >= ${params.normalizedConviction}`],
-    sortCriteria: ["priority"]
-  };
+  // Generate conviction breakdown
+  const convictionBreakdown = limitedIdeas.reduce((counts, idea) => {
+    const level = idea.conviction.level;
+    counts[level] = (counts[level] || 0) + 1;
+    return counts;
+  }, {});
   
   return {
     filteredIdeas: limitedIdeas,
-    summary,
-    metadata
+    summary: {
+      totalIdeas: originalCount,
+      filteredCount: limitedIdeas.length,
+      convictionBreakdown
+    }
   };
-}
-
-function countByProperty(array, propertyAccessor) {
-  return array.reduce((counts, item) => {
-    const value = propertyAccessor(item);
-    counts[value] = (counts[value] || 0) + 1;
-    return counts;
-  }, {});
 }
 ```
 
 ### 6. Main Processing Function
 
-The main function orchestrates the entire extraction process:
+The main function orchestrates the entire extraction process, leveraging the Conviction Classification System when needed:
 
 ```javascript
+// Import the conviction classifier
+const convictionClassifier = require('../../system/focus/conviction-classifier');
+
 function extractFocus(input) {
   try {
-    // Validate and preprocess input
-    const params = validateAndPreprocess(input);
-    const { ideas, normalizedConviction, analyzerOutput, includeTechnical, includeRaw } = params;
+    // Validate input
+    const { focusIdeas, minConviction, maxIdeas, includeTechnical, analyzerOutput } = validateInput(input);
     
     // Track original count
-    const originalCount = ideas.length;
+    const originalCount = focusIdeas.length;
+    
+    // Process any ideas that might need conviction assessment
+    const processedIdeas = focusIdeas.map(idea => {
+      // If idea lacks conviction assessment, use the classifier
+      if (!idea.conviction || !idea.conviction.level) {
+        // Check if we have rationale text to analyze
+        if (idea.rationale) {
+          const text = `${idea.ticker} ${idea.rationale}`;
+          const analyst = analyzerOutput.analyst || "dp";
+          
+          // Use the conviction classifier
+          const convictionResult = convictionClassifier.classify(text, {
+            analyst,
+            minConfidence: 0.5
+          });
+          
+          // Update the idea with the classification result
+          return {
+            ...idea,
+            conviction: convictionResult
+          };
+        } else {
+          // No rationale to analyze, assign default low conviction
+          return {
+            ...idea,
+            conviction: {
+              level: "low",
+              phrases: [],
+              confidence: 0.5
+            }
+          };
+        }
+      }
+      
+      // Ensure confidence exists
+      if (!idea.conviction.confidence) {
+        idea.conviction.confidence = 0.7; // Default confidence
+      }
+      
+      return idea;
+    });
     
     // Filter ideas by conviction
-    const filteredIdeas = filterByConviction(ideas, normalizedConviction);
+    const filteredIdeas = filterByConviction(processedIdeas, minConviction);
     
     // Enhance ideas with additional context
-    const enhancedIdeas = enhanceIdeas(filteredIdeas, analyzerOutput, includeTechnical, includeRaw);
+    const enhancedIdeas = enhanceIdeas(filteredIdeas, analyzerOutput, includeTechnical);
     
     // Prioritize ideas
     const prioritizedIdeas = prioritizeIdeas(enhancedIdeas);
     
     // Generate final result
-    return generateResult(prioritizedIdeas, originalCount, params);
+    return generateResult(prioritizedIdeas, originalCount, minConviction, maxIdeas);
   } catch (error) {
     // Handle errors
+    console.error("Error extracting focus ideas:", error);
     return {
       filteredIdeas: [],
       summary: {
         totalIdeas: 0,
         filteredCount: 0,
-        convictionBreakdown: {},
-        directionBreakdown: {},
-        setupBreakdown: {}
+        convictionBreakdown: {}
       },
-      metadata: {
-        processingTime: new Date().getTime(),
-        error: error.message,
-        status: "error"
-      }
+      error: error.message
     };
   }
 }
@@ -577,7 +566,7 @@ function extractFocus(input) {
 
 ## Conviction Level Hierarchy
 
-The Trade Idea Extractor uses a standardized conviction level hierarchy:
+The Trade Idea Extractor uses the standardized conviction level hierarchy from the Conviction Classification System:
 
 1. **Focus Trade**: Highest conviction level
    - Explicit focus designation from analyst
@@ -600,38 +589,67 @@ The Trade Idea Extractor uses a standardized conviction level hierarchy:
    - Often missing some parameters
    - Represents watchlist candidates
 
-## Example Output Categories
-
-The Trade Idea Extractor organizes ideas into these useful categories:
-
-### A-Grade Setups (95+ priority)
-- High conviction with complete parameters
-- Strong technical alignment
-- Favorable risk/reward (2R+)
-- Clear entry and exit conditions
-
-### B-Grade Setups (75-94 priority)
-- Medium-high conviction with good parameters
-- Decent technical alignment
-- Reasonable risk/reward (1.5R+)
-- Defined entry conditions
-
-### C-Grade Setups (50-74 priority)
-- Medium conviction or incomplete parameters
-- Limited technical confirmation
-- Undefined or unfavorable risk/reward
-- Conditional entry requirements
-
-### Watchlist Candidates (<50 priority)
-- Low conviction or significantly incomplete
-- Missing key parameters
-- Requiring further development
-- Early-stage pattern formation
-
 ## Example Usage
 
 ```
-/extract-focus --analyzerOutput=<output from analyze-dp> --minConviction=medium --maxIdeas=5 --includeTechnical=true
+/extract-focus
+Input:
+{
+  "analyzerOutput": {
+    "focusIdeas": [
+      {
+        "ticker": "TEM",
+        "direction": "long",
+        "conviction": {"level": "high", "phrases": ["love TEM right now"], "confidence": 0.95},
+        "entryParameters": {"zone": {"min": 60, "max": 62}, "condition": "current range"},
+        "exitParameters": {"stopLoss": 58, "target": 68},
+        "rationale": "great entry point for a swing trade"
+      },
+      {
+        "ticker": "HOOD",
+        "direction": "long",
+        "conviction": {"level": "high", "phrases": ["looking to add more", "remain very bullish"], "confidence": 0.85},
+        "entryParameters": {"zone": {"min": 56, "max": 56}, "condition": "if it gets to 56"},
+        "exitParameters": {"stopLoss": 53, "target": 62},
+        "rationale": "remain very bullish on this name"
+      },
+      {
+        "ticker": "BABA",
+        "direction": "short",
+        "conviction": {"level": "medium", "phrases": ["could be a decent day-after-trade", "might be worth a speculative short"], "confidence": 0.75},
+        "entryParameters": {"zone": {"min": 121, "max": 121}, "condition": "if it gets to its 21-day MA around 121"},
+        "exitParameters": {"stopLoss": 124, "target": 115},
+        "rationale": "day-after-trade opportunity"
+      },
+      {
+        "ticker": "CRWV",
+        "direction": "long",
+        "conviction": {"level": "medium", "phrases": ["interesting on any pullback", "viable swing trade"], "confidence": 0.7},
+        "entryParameters": {"zone": {"min": null, "max": null}, "condition": "on any pullback"},
+        "exitParameters": {"stopLoss": null, "target": null},
+        "rationale": "viable swing trade opportunity"
+      },
+      {
+        "ticker": "AMD",
+        "direction": "long",
+        "conviction": {"level": "medium", "phrases": ["could work", "might be worth trying some calls"], "confidence": 0.65},
+        "entryParameters": {"zone": {"min": 115, "max": 115}, "condition": "around 115"},
+        "exitParameters": {"stopLoss": 112, "target": 120},
+        "rationale": "worth trying some calls"
+      },
+      {
+        "ticker": "TSLA",
+        "direction": "long",
+        "conviction": {"level": "low", "phrases": ["only interesting near the 8-day MA", "would not chase"], "confidence": 0.6},
+        "entryParameters": {"zone": {"min": 309, "max": 309}, "condition": "near the 8-day MA"},
+        "exitParameters": {"stopLoss": 305, "target": 315},
+        "rationale": "only interesting near the 8-day MA"
+      }
+    ],
+    "analyst": "dp"
+  },
+  "minConviction": "medium"
+}
 ```
 
 ## Test Vector
@@ -640,19 +658,11 @@ The Trade Idea Extractor organizes ideas into these useful categories:
 ```json
 {
   "analyzerOutput": {
-    "marketContext": {
-      "futures": {"status": "slightly lower", "catalysts": ["awaiting CPI"]},
-      "indices": {
-        "dow": {"direction": "down", "change": "over 200 points"},
-        "nasdaq": {"direction": "down", "change": "10-15 points"}
-      },
-      "sentiment": "mixed, cautious ahead of CPI"
-    },
     "focusIdeas": [
       {
         "ticker": "TEM",
         "direction": "long",
-        "conviction": {"level": "high", "phrases": ["love TEM right now"]},
+        "conviction": {"level": "high", "phrases": ["love TEM right now"], "confidence": 0.95},
         "entryParameters": {"zone": {"min": 60, "max": 62}, "condition": "current range"},
         "exitParameters": {"stopLoss": 58, "target": 68},
         "rationale": "great entry point for a swing trade"
@@ -660,7 +670,7 @@ The Trade Idea Extractor organizes ideas into these useful categories:
       {
         "ticker": "HOOD",
         "direction": "long",
-        "conviction": {"level": "high", "phrases": ["looking to add more", "remain very bullish"]},
+        "conviction": {"level": "high", "phrases": ["looking to add more", "remain very bullish"], "confidence": 0.85},
         "entryParameters": {"zone": {"min": 56, "max": 56}, "condition": "if it gets to 56"},
         "exitParameters": {"stopLoss": 53, "target": 62},
         "rationale": "remain very bullish on this name"
@@ -668,7 +678,7 @@ The Trade Idea Extractor organizes ideas into these useful categories:
       {
         "ticker": "BABA",
         "direction": "short",
-        "conviction": {"level": "medium", "phrases": ["could be a decent day-after-trade", "might be worth a speculative short"]},
+        "conviction": {"level": "medium", "phrases": ["could be a decent day-after-trade", "might be worth a speculative short"], "confidence": 0.75},
         "entryParameters": {"zone": {"min": 121, "max": 121}, "condition": "if it gets to its 21-day MA around 121"},
         "exitParameters": {"stopLoss": 124, "target": 115},
         "rationale": "day-after-trade opportunity"
@@ -676,7 +686,7 @@ The Trade Idea Extractor organizes ideas into these useful categories:
       {
         "ticker": "CRWV",
         "direction": "long",
-        "conviction": {"level": "medium", "phrases": ["interesting on any pullback", "viable swing trade"]},
+        "conviction": {"level": "medium", "phrases": ["interesting on any pullback", "viable swing trade"], "confidence": 0.7},
         "entryParameters": {"zone": {"min": null, "max": null}, "condition": "on any pullback"},
         "exitParameters": {"stopLoss": null, "target": null},
         "rationale": "viable swing trade opportunity"
@@ -684,7 +694,7 @@ The Trade Idea Extractor organizes ideas into these useful categories:
       {
         "ticker": "AMD",
         "direction": "long",
-        "conviction": {"level": "medium", "phrases": ["could work", "might be worth trying some calls"]},
+        "conviction": {"level": "medium", "phrases": ["could work", "might be worth trying some calls"], "confidence": 0.65},
         "entryParameters": {"zone": {"min": 115, "max": 115}, "condition": "around 115"},
         "exitParameters": {"stopLoss": 112, "target": 120},
         "rationale": "worth trying some calls"
@@ -692,7 +702,7 @@ The Trade Idea Extractor organizes ideas into these useful categories:
       {
         "ticker": "TSLA",
         "direction": "long",
-        "conviction": {"level": "low", "phrases": ["only interesting near the 8-day MA", "would not chase"]},
+        "conviction": {"level": "low", "phrases": ["only interesting near the 8-day MA", "would not chase"], "confidence": 0.6},
         "entryParameters": {"zone": {"min": 309, "max": 309}, "condition": "near the 8-day MA"},
         "exitParameters": {"stopLoss": 305, "target": 315},
         "rationale": "only interesting near the 8-day MA"
@@ -718,13 +728,10 @@ The Trade Idea Extractor organizes ideas into these useful categories:
         }
       ]
     },
-    "processedAt": "2025-05-15T09:30:00Z",
     "analyst": "dp"
   },
   "minConviction": "medium",
-  "maxIdeas": 5,
-  "includeTechnical": true,
-  "includeRaw": false
+  "includeTechnical": true
 }
 ```
 
@@ -735,9 +742,10 @@ The Trade Idea Extractor organizes ideas into these useful categories:
     {
       "ticker": "TEM",
       "direction": "long",
-      "conviction": {"level": "high", "phrases": ["love TEM right now"]},
-      "entryParameters": {"zone": {"min": 60, "max": 62}, "condition": "current range", "strategy": "Enter within range"},
-      "exitParameters": {"stopLoss": 58, "target": 68, "secondaryTarget": 71, "runnerTarget": 75, "strategy": "Standard 75/15/10 rule"},
+      "conviction": {"level": "high", "phrases": ["love TEM right now"], "confidence": 0.95},
+      "entryParameters": {"zone": {"min": 60, "max": 62}, "condition": "current range"},
+      "exitParameters": {"stopLoss": 58, "target": 68},
+      "rationale": "great entry point for a swing trade",
       "setup": {
         "type": "support-bounce",
         "stage": "confirmed",
@@ -748,50 +756,34 @@ The Trade Idea Extractor organizes ideas into these useful categories:
         "initialRisk": 3.0,
         "potentialReward": 6.0
       },
-      "technicalContext": {
-        "keyLevels": [],
-        "movingAverages": {},
-        "patterns": []
-      },
-      "source": {
-        "analyst": "dp",
-        "timeStamp": "2025-05-15T09:30:00Z"
-      },
-      "priority": 95
+      "priority": 110
     },
     {
       "ticker": "HOOD",
       "direction": "long",
-      "conviction": {"level": "high", "phrases": ["looking to add more", "remain very bullish"]},
-      "entryParameters": {"zone": {"min": 56, "max": 56}, "condition": "if it gets to 56", "strategy": "Limit order at specific price"},
-      "exitParameters": {"stopLoss": 53, "target": 62, "secondaryTarget": 65, "runnerTarget": 68, "strategy": "Standard 75/15/10 rule"},
+      "conviction": {"level": "high", "phrases": ["looking to add more", "remain very bullish"], "confidence": 0.85},
+      "entryParameters": {"zone": {"min": 56, "max": 56}, "condition": "if it gets to 56"},
+      "exitParameters": {"stopLoss": 53, "target": 62},
+      "rationale": "remain very bullish on this name",
       "setup": {
-        "type": "support-bounce",
+        "type": "unknown",
         "stage": "confirmed",
-        "timeframe": "swing"
+        "timeframe": "intraday"
       },
       "riskReward": {
         "ratio": 2.0,
         "initialRisk": 3.0,
         "potentialReward": 6.0
       },
-      "technicalContext": {
-        "keyLevels": [],
-        "movingAverages": {},
-        "patterns": []
-      },
-      "source": {
-        "analyst": "dp",
-        "timeStamp": "2025-05-15T09:30:00Z"
-      },
-      "priority": 95
+      "priority": 105
     },
     {
       "ticker": "BABA",
       "direction": "short",
-      "conviction": {"level": "medium", "phrases": ["could be a decent day-after-trade", "might be worth a speculative short"]},
-      "entryParameters": {"zone": {"min": 121, "max": 121}, "condition": "if it gets to its 21-day MA around 121", "strategy": "Limit order at MA test"},
-      "exitParameters": {"stopLoss": 124, "target": 115, "secondaryTarget": 112, "runnerTarget": 108, "strategy": "Standard 75/15/10 rule"},
+      "conviction": {"level": "medium", "phrases": ["could be a decent day-after-trade", "might be worth a speculative short"], "confidence": 0.75},
+      "entryParameters": {"zone": {"min": 121, "max": 121}, "condition": "if it gets to its 21-day MA around 121"},
+      "exitParameters": {"stopLoss": 124, "target": 115},
+      "rationale": "day-after-trade opportunity",
       "setup": {
         "type": "day-after-trade",
         "stage": "confirmed",
@@ -802,32 +794,24 @@ The Trade Idea Extractor organizes ideas into these useful categories:
         "initialRisk": 3.0,
         "potentialReward": 6.0
       },
-      "technicalContext": {
-        "keyLevels": [],
-        "movingAverages": {},
-        "patterns": []
-      },
-      "source": {
-        "analyst": "dp",
-        "timeStamp": "2025-05-15T09:30:00Z"
-      },
-      "priority": 75
+      "priority": 85
     },
     {
       "ticker": "AMD",
       "direction": "long",
-      "conviction": {"level": "medium", "phrases": ["could work", "might be worth trying some calls"]},
-      "entryParameters": {"zone": {"min": 115, "max": 115}, "condition": "around 115", "strategy": "Options trade near level"},
-      "exitParameters": {"stopLoss": 112, "target": 120, "secondaryTarget": 123, "runnerTarget": 126, "strategy": "Options profit taking"},
+      "conviction": {"level": "medium", "phrases": ["could work", "might be worth trying some calls"], "confidence": 0.65},
+      "entryParameters": {"zone": {"min": 115, "max": 115}, "condition": "around 115"},
+      "exitParameters": {"stopLoss": 112, "target": 120},
+      "rationale": "worth trying some calls",
       "setup": {
-        "type": "support-bounce",
+        "type": "unknown",
         "stage": "confirmed",
-        "timeframe": "swing"
+        "timeframe": "intraday"
       },
       "riskReward": {
         "ratio": 1.67,
-        "initialRisk": 3.0,
-        "potentialReward": 5.0
+        "initialRisk": 3,
+        "potentialReward": 5
       },
       "technicalContext": {
         "keyLevels": [
@@ -837,33 +821,21 @@ The Trade Idea Extractor organizes ideas into these useful categories:
         "movingAverages": {"ma8": 117, "ma21": 115},
         "patterns": []
       },
-      "source": {
-        "analyst": "dp",
-        "timeStamp": "2025-05-15T09:30:00Z"
-      },
       "priority": 75
     },
     {
       "ticker": "CRWV",
       "direction": "long",
-      "conviction": {"level": "medium", "phrases": ["interesting on any pullback", "viable swing trade"]},
-      "entryParameters": {"zone": {"min": null, "max": null}, "condition": "on any pullback", "strategy": "Enter on pullback"},
-      "exitParameters": {"stopLoss": null, "target": null, "secondaryTarget": null, "runnerTarget": null, "strategy": "To be determined"},
+      "conviction": {"level": "medium", "phrases": ["interesting on any pullback", "viable swing trade"], "confidence": 0.7},
+      "entryParameters": {"zone": {"min": null, "max": null}, "condition": "on any pullback"},
+      "exitParameters": {"stopLoss": null, "target": null},
+      "rationale": "viable swing trade opportunity",
       "setup": {
         "type": "pullback",
         "stage": "developing",
         "timeframe": "swing"
       },
-      "technicalContext": {
-        "keyLevels": [],
-        "movingAverages": {},
-        "patterns": []
-      },
-      "source": {
-        "analyst": "dp",
-        "timeStamp": "2025-05-15T09:30:00Z"
-      },
-      "priority": 35
+      "priority": 65
     }
   ],
   "summary": {
@@ -872,75 +844,74 @@ The Trade Idea Extractor organizes ideas into these useful categories:
     "convictionBreakdown": {
       "high": 2,
       "medium": 3
-    },
-    "directionBreakdown": {
-      "long": 4,
-      "short": 1
-    },
-    "setupBreakdown": {
-      "support-bounce": 3,
-      "day-after-trade": 1,
-      "pullback": 1
     }
-  },
-  "metadata": {
-    "processingTime": 1721083440000,
-    "convictionThreshold": "medium",
-    "maxIdeas": 5,
-    "filters": ["conviction >= medium"],
-    "sortCriteria": ["priority"]
   }
 }
+```
 ```
 
 ## Implementation Notes
 
 The Trade Idea Extractor is designed to focus attention on the highest-quality opportunities while filtering out noise. Key design considerations include:
 
-1. **Priority-Based Filtering**: Ideas are ranked by a comprehensive scoring system that considers conviction, technical alignment, parameter completeness, and risk/reward.
+1. **Integration with Conviction Classification System**: The extractor leverages the existing Conviction Classification System to ensure consistent conviction assessment across the platform.
 
-2. **Parameter Enhancement**: The extractor enriches ideas with additional context, completing missing parameters where possible and adding technical information.
+2. **Priority-Based Filtering**: Ideas are ranked by a comprehensive scoring system that considers conviction level and confidence, technical alignment, parameter completeness, and risk/reward.
 
-3. **Setup Classification**: Ideas are classified by setup type, stage, and timeframe to enable better filtering and organization.
+3. **Enhanced Idea Context**: The extractor enriches ideas with additional information such as setup type, stage, timeframe, and risk/reward calculations.
 
-4. **Risk/Reward Calculation**: When sufficient parameters are available, risk/reward ratios are calculated to aid in prioritization.
+4. **Technical Integration**: For tickers with available technical data, the component incorporates key levels and moving average information to provide more context.
 
-5. **Technical Integration**: The extractor integrates technical context from level data and moving average relationships.
-
-The implementation is optimized for the FOCUS phase of trading, helping traders narrow their attention to the most promising opportunities.
+5. **Standardized Conviction Hierarchy**: The component uses the same conviction levels as the Conviction Classification System (focus-trade, high, medium, low, negative).
 
 ## Integration Details
 
+### Conviction Classifier Integration
+
+The Trade Idea Extractor integrates with the Conviction Classification System in two key ways:
+
+1. **Conviction Assessment**: For ideas without conviction information, the extractor can leverage the classifier to analyze text and determine conviction level:
+
+```javascript
+// Example of applying classifier to an idea
+const text = `${idea.ticker} ${idea.rationale}`;
+const convictionResult = convictionClassifier.classify(text, {
+  analyst: "dp",
+  minConfidence: 0.5
+});
+
+// Update idea with classification
+idea.conviction = convictionResult;
+```
+
+2. **Conviction Level Hierarchy**: The extractor uses the same conviction level hierarchy as the classifier:
+
+```javascript
+// Conviction level hierarchy from the Conviction Classification System
+const convictionLevels = {
+  "focus-trade": 4,
+  "high": 3,
+  "medium": 2,
+  "low": 1,
+  "negative": 0
+};
+```
+
 ### Analyzer Output Integration
 
-The Trade Idea Extractor is designed to work with output from various analyzer components, particularly:
+The Trade Idea Extractor is designed to work with output from the Morning Call Processor (`/analyze-dp`), specifically:
 
-1. **DP Analyzer Integration**:
-   - Extracts focus ideas from DP morning call analysis
-   - Uses conviction classification from DP-specific patterns
-   - Integrates with technical level data for DP-mentioned tickers
-
-2. **Mancini Analyzer Integration** (future):
-   - Will extract setups from Mancini newsletter analysis
-   - Will use Mancini-specific conviction patterns
-   - Will focus on Failed Breakdown setups with level integration
+1. **Focus Ideas**: Extracted from the `focusIdeas` array in the analyzer output
+2. **Technical Context**: Integrates with the `levels` structure for moving averages and support/resistance levels
+3. **Analyst Source**: Uses the `analyst` field to ensure proper conviction classification
 
 ### Trade Plan Integration
 
-The filtered ideas feed directly into the trade planning process:
+The filtered and prioritized ideas feed directly into the trade planning process:
 
 1. **Plan Generation**: Prioritized ideas become the foundation for the daily trade plan
 2. **Risk Allocation**: Conviction levels inform risk allocation decisions
 3. **Execution Sequencing**: Priority scores guide execution order
-
-## Future Enhancements
-
-Planned enhancements for future versions include:
-
-1. **Multi-Source Integration**: Combine ideas from multiple analysts with source-specific weightings
-2. **Historical Performance Tracking**: Incorporate success rates by setup type and analyst
-3. **Pattern Recognition**: Enhanced technical pattern detection from price data
-4. **Custom Filtering Rules**: User-defined filters based on various parameters
 
 ## Related Components
 
