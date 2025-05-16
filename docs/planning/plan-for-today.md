@@ -6,8 +6,8 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 
 ## Current State
 - **Status**: In Progress
-- **Current Phase**: Moving to Integration Testing
-- **Next Task**: Begin Integration Testing
+- **Current Phase**: Moving to Review and Integration
+- **Next Task**: Implement Trade Logger and Session Debrief
 - **Completed Components**:
   - Morning Call Processor [`/analyze-dp`]
   - Conviction Classification System
@@ -20,7 +20,7 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 
 ## Timeline
 1. **Today (May 15)**: Implement core functionality ✅
-2. **Tonight**: Test with sample data
+2. **Tonight**: Complete Review Phase & File Organization
 3. **Tomorrow (May 16)**: Use in live trading
 
 ### Implementation Tasks by Cognitive Phase
@@ -109,10 +109,10 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - **Implementation Path**:
   - Used Prompt Template: [Position Manager Implementation](master-prompt-instructions.md#6-position-manager-implementation)
   - Generated artifacts:
-    - `prompts/manage/add-position.md`
-    - `prompts/manage/list-positions.md`
-    - `prompts/manage/update-position.md`
-    - `prompts/manage/close-position.md`
+    - `prompts/execute/add-position.md`
+    - `prompts/execute/list-positions.md`
+    - `prompts/execute/update-position.md`
+    - `prompts/execute/close-position.md`
     - `state/my-positions.json`
     - `state/ic-moderator-positions.json`
 - **Dependencies**: None
@@ -152,40 +152,89 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
   - Will be prioritized in v0.5.2 release
 - **Implementation Path**:
   - Will use Prompt Template: [Runner Management Implementation](master-prompt-instructions.md#8-runner-management-implementation)
-  - Target artifact: `prompts/execute/manage-runner.md`
+  - Target artifact: `prompts/manage/manage-runner.md`
 - **Dependencies**: Position Manager
 - **Output**: Runner management guidance and trailing stop recommendations
 
-### 5. REVIEW Phase Implementation (1 hour - stretch goal)
+### 5. REVIEW Phase Implementation (1 hour - Current Focus)
 
-#### 5.1 Trade Logger [`/log-trade`]
-- [ ] **Status**: Not Started
-- **Priority**: Low (Stretch Goal)
+#### 5.1 Trading Session Logger [`/log-session`]
+- [ ] **Status**: In Progress
+- **Priority**: Medium (Core for MVP)
 - **Estimated Time**: 30 minutes
 - **Implementation Path**:
-  - Use Prompt Template: [Trade Logger Implementation](master-prompt-instructions.md#9-trade-logger-implementation)
-  - Generate artifact: `prompts/review/log-trade.md`
+  - Expanding from Trade Logger Implementation template
+  - Generate artifact: `prompts/review/log-session.md`
 - **Dependencies**: Position Manager
-- **Output**: Structured trade log entries with performance metrics
+- **Output**: Comprehensive session log with trades, performance metrics, and observations
+- **Features**:
+  - Records all trades with entry/exit details
+  - Captures market conditions and context
+  - Tracks plan adherence and execution quality
+  - Identifies strengths and areas for improvement
+  - Supports pattern recognition across sessions
 
 #### 5.2 Session Debrief [`/run-debrief`]
-- [ ] **Status**: Not Started
-- **Priority**: Low (Stretch Goal)
+- [ ] **Status**: Planned
+- **Priority**: Medium (Core for MVP)
 - **Estimated Time**: 30 minutes
 - **Implementation Path**:
   - Use Prompt Template: [Session Debrief Implementation](master-prompt-instructions.md#10-session-debrief-implementation)
   - Generate artifact: `prompts/review/run-debrief.md`
-- **Dependencies**: Trade Logger
+- **Dependencies**: Trading Session Logger
 - **Output**: Comprehensive session analysis with insights and recommendations
 
-### 6. Integration Testing (1 hour)
-- [ ] **Status**: Not Started
+### 6. System Finalization (2 hours)
+
+#### 6.1 Command Route Updates
+- [ ] **Status**: Planned
 - **Priority**: High
-- **Estimated Time**: 1 hour
+- **Estimated Time**: 30 minutes
 - **Implementation Path**:
-  - Test end-to-end workflow manually
-  - Create test data and expected outputs
-  - Verify correct data flow between components
+  - Update command routes to reflect organized file structure
+  - Create unified command reference document
+  - Generate artifact: `docs/command-reference.md`
+
+#### 6.2 Mancini Analysis Integration (Preliminary)
+- [ ] **Status**: Planned
+- **Priority**: Medium
+- **Estimated Time**: 45 minutes
+- **Implementation Path**:
+  - Create framework for Mancini newsletter analysis
+  - Define integration points with existing components
+  - Generate artifact: `docs/mancini-integration-plan.md`
+
+#### 6.3 Folder Structure and File Organization
+- [ ] **Status**: Planned
+- **Priority**: High
+- **Estimated Time**: 30 minutes
+- **Implementation Path**:
+  - Update all file paths to follow unified schema
+  - Organize components by cognitive phase
+  - Create appropriate subdirectories
+  - Update cross-references
+
+#### 6.4 System Architecture Documentation
+- [ ] **Status**: Planned
+- **Priority**: Medium
+- **Estimated Time**: 45 minutes
+- **Implementation Path**:
+  - Document final system architecture
+  - Create component relationship diagram
+  - Describe data flow between components
+  - Generate artifact: `docs/system-architecture.md`
+
+### 7. Integration Testing (Deferred to v0.5.2)
+- [x] **Status**: Deferred to v0.5.2
+- **Priority**: Medium
+- **Rationale for Deferral**:
+  - Focus on component completeness for MVP
+  - End-to-end testing to be conducted manually for now
+  - Comprehensive test framework to be developed in v0.5.2
+- **Implementation Path**:
+  - Will create test cases and expected outputs
+  - Will develop automated test scripts
+  - Will create integration test harness
 - **Dependencies**: All core components
 - **Output**: Working, integrated system
 
@@ -194,5 +243,24 @@ This implementation plan follows the cognitive workflow structure (Plan → Focu
 - Focus Phase: 100% complete
 - Execute Phase: 100% complete
 - Manage Phase: 50% complete (Position Management done, Runner Management deferred to v0.5.2)
-- Review Phase: 0% complete
+- Review Phase: 0% complete (In Progress)
+- System Finalization: 0% complete (Planned)
 - Overall MVP Progress: 85% complete
+
+## Next Steps
+
+1. ✓ Complete Morning Call Processor implementation
+2. ✓ Complete Conviction Classification System
+3. ✓ Complete Unified Trade Plan Generator
+4. ✓ Complete Trade Idea Extractor
+5. ✓ Complete Level Extractor
+6. ✓ Complete Position Manager
+7. ✓ Complete Position Sizing
+8. → Implement Trading Session Logger
+9. → Implement Session Debrief
+10. → Update command routes and organization
+11. → Create preliminary Mancini integration plan
+12. → Finalize folder structure and documentation
+13. → Create system architecture document
+
+Remember: The goal is a working MVP that helps make money tomorrow, not a perfect system!
