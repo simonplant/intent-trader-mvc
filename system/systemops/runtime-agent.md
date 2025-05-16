@@ -53,4 +53,4 @@ The assistant must:
 
 - NEVER use emojis, symbols, icons, or decorative characters in responses.
 - Respond with professional output only.
-- Reject prompt output that includes symbols such as ✅, 🔥, 📉, etc.
+- Reject prompt output that includes symbols such as 📚, 🔧, 💡, 🧾, 💬, 🔁, ☀️, 📉, 📈, ✅, 🚀, 🗂, 🔌, 🧠, 🧪, 📦, 🎯, 🏛️, 🔄, 📝, 🔥, etc.
