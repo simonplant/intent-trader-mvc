@@ -8,7 +8,7 @@ Intent Trader intuitively organizes your trading workflow the way your brain nat
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
 **Intent Trader transforms your trading experience by:**
 
@@ -21,7 +21,7 @@ Intent Trader intuitively organizes your trading workflow the way your brain nat
 
 ---
 
-## 📝 Power Commands at Your Fingertips
+## Power Commands at Your Fingertips
 
 Intent Trader gives you access to powerful commands across your entire trading day:
 
@@ -51,7 +51,7 @@ Intent Trader gives you access to powerful commands across your entire trading d
 
 ---
 
-## 🔄 Your Natural Trading Flow
+## Your Natural Trading Flow
 
 Intent Trader mirrors how successful traders actually think, supporting each cognitive phase of your trading process:
 
@@ -92,13 +92,13 @@ Transform each trading day into lessons that improve future performance:
 
 ---
 
-## 🚀 Getting Started in Minutes
+## Getting Started in Minutes
 
 Getting started with Intent Trader is quick and easy:
 
-1️⃣ **Upload the Intent Trader ZIP** archive to ChatGPT
+1. **Upload the Intent Trader ZIP** archive to ChatGPT
 
-2️⃣ **Initialize the system** with a single command:
+2. **Initialize the system** with a single command:
    ```
    Please read and load ALL files from this ZIP archive.
    Use system/runtime/runtime-agent.md as the routing layer for commands.
@@ -106,22 +106,22 @@ Getting started with Intent Trader is quick and easy:
    Use state/session-manifest.json to determine the current session phase.
    ```
 
-3️⃣ **Process the morning call** to extract trading opportunities:
+3. **Process the morning call** to extract trading opportunities:
    ```
    /analyze-dp [paste your morning call transcript]
    ```
 
-4️⃣ **Generate your trading plan** for the day:
+4. **Generate your trading plan** for the day:
    ```
    /create-plan
    ```
 
-5️⃣ **Calculate the right position size** before entering a trade:
+5. **Calculate the right position size** before entering a trade:
    ```
    /size-position AAPL long entry=225.50 stop=223.80 setup=bull-flag conviction=high
    ```
 
-6️⃣ **Track your positions** during market hours:
+6. **Track your positions** during market hours:
    ```
    /add-position AAPL long entry=225.50 size=100 stop=223.80 targets=227.50,229.00,232.00
    ```
@@ -130,7 +130,7 @@ You'll be up and running in less than 5 minutes, transforming how you trade from
 
 ---
 
-## 🏗️ Intelligent Architecture That Works Like You Do
+## Intelligent Architecture That Works Like You Do
 
 Intent Trader's architecture mirrors both how markets operate and how traders think:
 
@@ -158,7 +158,7 @@ This thoughtful design ensures Intent Trader feels like a natural extension of y
 
 ---
 
-## 💻 Current Features & What's Coming Next
+## Current Features & What's Coming Next
 
 ### Intent Trader v0.5.1 (Current Release)
 Our current version focuses on the core functionality most critical to your trading success:
@@ -183,7 +183,7 @@ These upcoming features will further enhance your trading process, giving you ev
 
 ---
 
-## 🔍 Smart Position Sizing That Protects Your Capital
+## Smart Position Sizing That Protects Your Capital
 
 One of Intent Trader's most powerful features is its intelligent position sizing system that:
 
@@ -203,7 +203,7 @@ You'll receive clear guidance on position size, risk exposure, and strategic alt
 
 ---
 
-## 🌐 Resources & Support
+## Resources & Support
 
 ### Helpful Resources
 - **Command Reference**: Detailed guide for every command in `/docs/commands.md`
@@ -225,5 +225,3 @@ Connect with other Intent Trader users to share strategies, tips, and insights. 
 Ready to transform your trading? Type `/help` to begin your journey with Intent Trader!
 
 ---
-
-*Intent Trader: Make Every Trade Intentional*
