@@ -44,9 +44,10 @@ Intent Trader operates within a structured trading day:
 
 | Phase     | Cognitive Workflow | Time Frame        | Primary Commands                              |
 |-----------|-------------------|-------------------|-----------------------------------------------|
-| premarket | Plan, Focus       | Before market open | `/analyze-dp`, `/create-plan`, `/extract-focus`, `/extract-levels` |
-| intraday  | Execute, Manage   | During market hours| `/add-position`, `/size-position`, `/update-position`, `/close-position` |
+| premarket | Plan, Focus       | Before market open | `/analyze-dp`, `/analyze-mancini-preprocessor`, `/analyze-mancini`, `/create-plan`, `/extract-focus`, `/extract-levels` |
+| intraday  | Execute, Manage   | During market hours| `/add-position`, `/size-position`, `/update-position`, `/close-position`, `/list-positions` |
 | postmarket| Review            | After market close | `/log-session` |
+| utilities | Any               | Any time          | `/analyze-chart` |
 
 ## State Management
 
@@ -70,9 +71,8 @@ When a command is received:
 
 ## System Status
 
-The `/status` command provides current system state:
+The system provides current system state:
 
-```json
 {
   "system": {
     "version": "0.5.1",
@@ -90,7 +90,6 @@ The `/status` command provides current system state:
     "technicalLevels": 12
   }
 }
-```
 
 ## Cognitive Workflow Support
 
@@ -105,9 +104,7 @@ The system is structured around the cognitive workflow:
 
 To initialize Intent Trader:
 
-```
 Please read and load ALL files from this ZIP archive.
 Use system/runtime/runtime-agent.md as the routing layer for commands.
 Use system/runtime/command-map.md to map valid commands.
 Use state/session-manifest.json to determine the current session phase.
-```
