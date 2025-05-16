@@ -3,7 +3,7 @@ id: analyze-mancini-preprocessor
 title: Mancini Newsletter Preprocessor
 description: Extracts structured data from Mancini's newsletters to prepare for analysis
 author: Intent Trader Team
-version: 0.5.2-preview
+version: 0.2.2
 release: 0.5.2
 created: 2025-05-16
 updated: 2025-05-16
