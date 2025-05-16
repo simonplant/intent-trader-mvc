@@ -6,6 +6,7 @@
 ├── docs
 │   ├── command-reference.md
 │   ├── command-routes-update-sop.md
+│   ├── mancini-trading-style.md
 │   ├── README.md
 │   ├── requirements.md
 │   └── system-architecture.md
@@ -45,7 +46,8 @@
 │   │   ├── list-positions.md
 │   │   └── update-position.md
 │   ├── plan
-│   │   └── analyze-dp.md
+│   │   ├── analyze-dp.md
+│   │   └── analyze-mancini.md
 │   ├── review
 │   └── utilities
 │       └── chart-analysis.md
@@ -74,4 +76,4 @@
 └── wip
     └── commands.md
 
-21 directories, 54 files
+21 directories, 56 files
