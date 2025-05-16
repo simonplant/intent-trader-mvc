@@ -1,55 +1,4 @@
-### 14. Historical Context Recognition
-
-The processor identifies references to how similar setups have performed in the past:
-- Explicit historical references: "Last time this setup worked well"
-- Prior results: "This worked for us last week"
-- Performance patterns: "These typically follow through within 2-3 days"
-- Previous mentions: "We've traded this one before with success"
-- Comparative setups: "Similar to the AMD trade from last month"
-- Learning from past trades: "Last time we entered too early"
-- Success rate indicators: "These setups have been about 70% successful recently"### 10. Position Sizing Identification
-
-The processor extracts explicit or implied position sizing recommendations based on:
-- Direct sizing statements: "full position," "small position," "half size"
-- Conviction-based inference: Focus trades typically warrant full positions
-- Risk-based cues: Mentions of risk or volatility that impact sizing
-- Duration-based context: Longer-term trades may have different sizing than day trades
-- Directional confidence: Stronger directness often implies larger sizing
-- Comparative language: "bigger than usual," "smaller than I'd typically take"
-- Personal position disclosure: "I'm in with a full position"
-
-### 11. Exit Strategy Extraction
-
-The processor identifies exit strategies beyond basic price targets:
-- Scaling approaches: "Taking profits in thirds," "75/15/10 rule"
-- Time-based exits: "Holding through earnings," "End of day exit"
-- Conditional exits: "Exit if volume doesn't confirm"
-- Trailing mechanisms: "Trail stops behind support levels"
-- Target hierarchies: "First target X, then Y if momentum continues"
-- Partial exit structures: "Take half off at first target"
-- Character change exits: "Exit on character change"
-
-### 12. Risk Assessment
-
-The processor evaluates the risk level of each trade idea based on:
-- Explicit risk mentions: "High risk trade," "Lower risk entry"
-- Catalyst uncertainty: Events with unknown outcomes
-- Technical context: Distance to stop, key level proximity
-- Conditional language frequency: More conditions often signal higher risk
-- Timeframe: Shorter timeframes may have different risk profiles
-- Volatility mentions: References to stock volatility
-- Comparative cautions: "Be more careful here than usual"
-
-### 13. Correlation and Theme Identification
-
-The processor identifies related trades and sector themes by:
-- Explicit grouping: "Similar setup to X"
-- Sector references: "Tech sector looks strong"
-- Causal relationships: "If X moves, Y will likely follow"
-- Comparative analysis: Multiple stocks mentioned in the same context
-- Thematic grouping: Trades driven by the same catalyst
-- Paired trades: Long one stock, short another in the same sector
-- Basket references: "AI names," "China stocks"---
+---
 id: analyze-dp
 title: Morning Call Processor
 description: Analyzes DP morning call transcripts to extract actionable trading information
@@ -61,7 +10,7 @@ updated: 2025-05-15
 category: premarket
 status: stable
 tags: [premarket, analysis, dp, morning-call]
-requires: [system/focus/conviction-classifier.md]
+requires: [prompts/focus/conviction-classifier.md]
 outputs: [marketContext, focusIdeas, levels]
 input_format: text
 output_format: json
@@ -199,7 +148,7 @@ The Morning Call Processor follows this analysis approach:
 
 - Identify ticker symbols in focus
 - Determine directional bias (long/short)
-- Classify conviction level using language patterns and emotional cues
+- Use `conviction-classifier.md` to determine conviction level
 - Identify trade duration (cashflow/day, swing, long-term)
 - Extract entry parameters (price levels or conditions)
 - Extract exit parameters and strategies (targets, stops, scaling approaches)
@@ -220,73 +169,7 @@ The Morning Call Processor follows this analysis approach:
 - Extract context or notes about levels
 - Calculate relative significance of levels
 
-### 6. Conviction Classification
-
-The processor uses a sophisticated framework to classify conviction levels based on DP's language patterns, emotional cues, and contextual signals:
-
-**Focus Trade (Highest Conviction)**:
-- Explicit designation: "focus idea," "focus trade," "this is one to watch today"
-- Emotional language: "love it," "really like this one"
-- Clear priority indicators: "one of my top ideas," "one to watch closely"
-- Strong confidence in entry/exit parameters
-- Multiple mentions throughout the call
-- Personal position disclosure: "I'm in this," "I own this," "I'm adding to my position"
-- Clear thesis with specific catalysts or technical setups
-- Detailed discussion with specific levels and management approach
-
-**High Conviction**:
-- "very viable"
-- "definitely a buyer"
-- "remain very bullish"
-- "excited about this"
-- Clear price levels or targets with conviction
-- "strong setup"
-- "looks good here"
-- Strong directional bias without the priority designation of focus trades
-- Specific entry parameters
-
-**Medium Conviction**:
-- "viable"
-- "interesting"
-- "worth a look"
-- "watching"
-- "decent setup"
-- Specific entry/exit levels but limited emotional engagement
-- "could work"
-- "on the radar"
-- "makes sense here"
-
-**Low Conviction**:
-- "might work"
-- "could be okay"
-- "if it pulls back"
-- "keeping an eye on"
-- "possibly"
-- "only interesting near"
-- Highly conditional language
-- Emphasis on specific short-term levels rather than thesis
-- "maybe"
-- "not excited, but..."
-
-**Negative Conviction**:
-- "not interested"
-- "would avoid"
-- "don't like"
-- "staying away"
-- "too extended"
-- "wouldn't chase"
-- "be careful with"
-- "don't see the opportunity"
-- "too risky"
-
-The processor also considers:
-- **Frequency of mentions**: Multiple references to the same trade idea throughout the call increase the conviction level
-- **Position context**: Mentions of personal position ("I'm in this," "I own this") often indicate higher conviction
-- **Duration markers**: References to trade timeframe (day trade, swing trade, long-term) provide additional context
-- **Sizing cues**: Any explicit references to position sizing can signal conviction level
-- **Relative emphasis**: How much time/detail is spent on each idea compared to others in the call
-
-### 7. Day-After-Trade (DAT) Detection
+### 6. Day-After-Trade (DAT) Detection
 
 The processor identifies DAT opportunities by looking for:
 - Explicit "DAT" or "day after trade" mentions
@@ -294,7 +177,7 @@ The processor identifies DAT opportunities by looking for:
 - News events with expected follow-through
 - Specific price action predictions after events
 
-### 8. Post-Processing
+### 7. Post-Processing
 
 - Validate extracted data for consistency
 - Assign confidence scores to extractions
@@ -390,7 +273,7 @@ Looking at levels, ES support is around 5900, which has trapped several times no
       "ticker": "HOOD",
       "direction": "long",
       "conviction": {
-        "level": "focus-trade",
+        "level": "high",
         "phrases": ["looking to add more", "remain very bullish"]
       },
       "entryParameters": {
@@ -416,7 +299,7 @@ Looking at levels, ES support is around 5900, which has trapped several times no
         "factors": ["Adding to existing position", "Specific entry level"]
       },
       "relatedIdeas": [],
-      "historicalContext": "DP has mentioned prior positions in HOOD"
+      "historicalContext": null
     },
     {
       "ticker": "BABA",
@@ -601,7 +484,7 @@ The implementation focuses on:
 
 1. **Accuracy over Completeness**: Prioritizes correctly identifying high-conviction trade ideas and key levels, even if some secondary information is missed.
 
-2. **Conviction-Based Classification**: Uses a comprehensive phrase library to determine the conviction level behind each trade idea.
+2. **Conviction-Based Classification**: Uses the Conviction Classification System to determine the conviction level behind each trade idea.
 
 3. **Technical Level Integration**: Extracts numerical price levels and classifies them properly as support or resistance.
 
@@ -638,7 +521,7 @@ The processor handles these common challenges:
 ## Related Components
 
 This processor works closely with:
-- `system/focus/conviction-classifier.md` - For standardized conviction classification
+- `prompts/focus/conviction-classifier.md` - For standardized conviction classification
 - `prompts/premarket/create-plan.md` - Consumes the output to generate a unified plan
 - `prompts/premarket/extract-focus.md` - Uses the focus ideas for prioritization
 - `prompts/premarket/extract-levels.md` - Leverages the level data for technical analysis
