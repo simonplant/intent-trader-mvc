@@ -182,7 +182,7 @@ function validateAndPreprocess(input) {
   if (!input || !input.analyzerOutput || !input.analyzerOutput.levels) {
     throw new Error("Missing required input: analyzerOutput.levels");
   }
-  
+
   // Extract and normalize parameters
   const {
     analyzerOutput,
@@ -192,26 +192,26 @@ function validateAndPreprocess(input) {
     classify = true,
     spxOffset = 20
   } = input;
-  
+
   // Validate spxOffset
   const normalizedOffset = Number.isFinite(spxOffset) ? spxOffset : 20;
-  
+
   // Extract available indices and stocks
   const availableIndices = Object.keys(analyzerOutput.levels.indices || {});
   const availableStocks = (analyzerOutput.levels.stocks || []).map(stock => stock.ticker);
-  
+
   // Determine which indices and stocks to process
-  const indicesToProcess = indices.length > 0 
+  const indicesToProcess = indices.length > 0
     ? indices.filter(idx => availableIndices.includes(idx))
     : availableIndices;
-    
+
   const stocksToProcess = stocks.length > 0
     ? stocks.filter(stock => availableStocks.includes(stock))
     : availableStocks;
-  
+
   // Get current prices if available
   const currentPrices = extractCurrentPrices(analyzerOutput);
-  
+
   return {
     levels: analyzerOutput.levels,
     indicesToProcess,
@@ -226,7 +226,7 @@ function validateAndPreprocess(input) {
 
 function extractCurrentPrices(analyzerOutput) {
   const prices = {};
-  
+
   // Try to extract from market context if available
   if (analyzerOutput.marketContext) {
     // Extract index prices if available
@@ -235,7 +235,7 @@ function extractCurrentPrices(analyzerOutput) {
         if (data.price) prices[index] = data.price;
       });
     }
-    
+
     // Extract stock prices if available
     if (analyzerOutput.marketContext.stocks) {
       Object.entries(analyzerOutput.marketContext.stocks).forEach(([ticker, data]) => {
@@ -243,7 +243,7 @@ function extractCurrentPrices(analyzerOutput) {
       });
     }
   }
-  
+
   return prices;
 }
 ```
@@ -255,18 +255,18 @@ The system classifies and enhances each level with additional context:
 ```javascript
 function classifyAndEnhanceLevels(levels, currentPrice, classify) {
   if (!levels || !Array.isArray(levels)) return [];
-  
+
   return levels.map(level => {
     // Start with the original level
     const enhancedLevel = { ...level };
-    
+
     // Extract price (required)
     const price = level.value || level.price;
     if (!price) return null; // Skip invalid levels
-    
+
     // Set standardized price property
     enhancedLevel.price = price;
-    
+
     // Apply classification if requested
     if (classify) {
       const classification = classifyLevel(level, currentPrice);
@@ -277,11 +277,11 @@ function classifyAndEnhanceLevels(levels, currentPrice, classify) {
       enhancedLevel.type = level.type || 'minor';
       enhancedLevel.significance = level.significance || 5;
     }
-    
+
     // Add source attribution if available
     enhancedLevel.source = level.source || 'analyst';
     enhancedLevel.consensus = level.consensus || 'none';
-    
+
     // Add distance from current price if available
     if (currentPrice) {
       enhancedLevel.context = {
@@ -292,7 +292,7 @@ function classifyAndEnhanceLevels(levels, currentPrice, classify) {
         timeframe: level.timeframe || 'daily'
       };
     }
-    
+
     return enhancedLevel;
   }).filter(level => level !== null); // Remove invalid levels
 }
@@ -303,7 +303,7 @@ function classifyLevel(level, currentPrice) {
     type: 'minor',
     significance: 5
   };
-  
+
   // Classify based on provided type if available
   if (level.type) {
     // Map common type descriptions to standardized types
@@ -319,15 +319,15 @@ function classifyLevel(level, currentPrice) {
       'provisional': 'provisional',
       'potential': 'provisional'
     };
-    
+
     // Apply mapping or default to 'minor'
     classification.type = typeMap[level.type.toLowerCase()] || 'minor';
   }
-  
+
   // Classify based on notes if available
   if (level.notes) {
     const notes = level.notes.toLowerCase();
-    
+
     // Check for key phrases indicating significance
     if (notes.includes('major') || notes.includes('key') || notes.includes('critical')) {
       classification.type = 'major';
@@ -336,28 +336,28 @@ function classifyLevel(level, currentPrice) {
       classification.type = 'significant';
       classification.significance = Math.max(classification.significance, 7);
     }
-    
+
     // Check for strength indicators
     if (notes.includes('strong')) {
       classification.significance += 1;
     }
-    
+
     // Check for weakness indicators
     if (notes.includes('weak') || notes.includes('minor')) {
       classification.significance -= 1;
     }
-    
+
     // Check for prior tests mentions
     if (notes.includes('tested') || notes.includes('multiple') || notes.includes('previous')) {
       classification.significance += 1;
     }
   }
-  
+
   // Classify based on value if provided
   if (level.significance) {
     // Direct significance value
     classification.significance = level.significance;
-    
+
     // Adjust type based on significance value
     if (classification.significance >= 8) {
       classification.type = 'major';
@@ -369,10 +369,10 @@ function classifyLevel(level, currentPrice) {
       classification.type = 'provisional';
     }
   }
-  
+
   // Ensure significance is within valid range (1-10)
   classification.significance = Math.max(1, Math.min(10, classification.significance));
-  
+
   return classification;
 }
 ```
@@ -384,20 +384,20 @@ The system processes moving average data when available:
 ```javascript
 function processMovingAverages(maData, currentPrice) {
   if (!maData) return {};
-  
+
   const enhancedMAs = {};
-  
+
   // Process each moving average
   Object.entries(maData).forEach(([key, value]) => {
     // Skip non-numeric values
     if (typeof value !== 'number') return;
-    
+
     const slope = deriveSlope(key, value, currentPrice);
     const priceRelationship = currentPrice
       ? (currentPrice > value ? 'above' : (currentPrice < value ? 'below' : 'at'))
       : 'unknown';
     const distance = currentPrice ? currentPrice - value : null;
-    
+
     enhancedMAs[key] = {
       value,
       slope,
@@ -405,19 +405,19 @@ function processMovingAverages(maData, currentPrice) {
       distance
     };
   });
-  
+
   return enhancedMAs;
 }
 
 function deriveSlope(maType, value, currentPrice) {
   // Without historical data, we can only make basic inferences
-  
+
   // For shorter MAs (like ma8), if price is well above, we can infer rising slope
   if (maType === 'ma8' || maType === 'ma10') {
     if (currentPrice && currentPrice > value * 1.02) return 'rising';
     if (currentPrice && currentPrice < value * 0.98) return 'falling';
   }
-  
+
   // For longer MAs, we need more data for accuracy
   return 'unknown';
 }
@@ -430,23 +430,23 @@ The system identifies meaningful price zones from individual levels:
 ```javascript
 function identifyZones(support, resistance, currentPrice) {
   if (!support || !resistance) return [];
-  
+
   const zones = [];
-  
+
   // Look for congestion zones (areas with multiple supports/resistances close together)
   const allLevels = [...support, ...resistance].sort((a, b) => a.price - b.price);
-  
+
   // Find clusters of levels (levels within 1% of each other)
   const clusters = [];
   let currentCluster = [];
-  
+
   for (let i = 0; i < allLevels.length; i++) {
     if (currentCluster.length === 0) {
       currentCluster.push(allLevels[i]);
     } else {
       const lastPrice = currentCluster[currentCluster.length - 1].price;
       const currentPrice = allLevels[i].price;
-      
+
       // If within 1% of the last price in cluster, add to current cluster
       if (Math.abs(currentPrice - lastPrice) / lastPrice < 0.01) {
         currentCluster.push(allLevels[i]);
@@ -459,27 +459,27 @@ function identifyZones(support, resistance, currentPrice) {
       }
     }
   }
-  
+
   // Add the last cluster if it has multiple levels
   if (currentCluster.length > 1) {
     clusters.push(currentCluster);
   }
-  
+
   // Convert clusters to zones
   clusters.forEach(cluster => {
     const minPrice = Math.min(...cluster.map(level => level.price));
     const maxPrice = Math.max(...cluster.map(level => level.price));
     const avgSignificance = cluster.reduce((sum, level) => sum + level.significance, 0) / cluster.length;
-    
+
     // Determine zone type
     let zoneType = 'congestion';
-    
+
     if (currentPrice && currentPrice < minPrice) {
       zoneType = 'resistance';
     } else if (currentPrice && currentPrice > maxPrice) {
       zoneType = 'support';
     }
-    
+
     zones.push({
       type: zoneType,
       min: minPrice,
@@ -488,16 +488,16 @@ function identifyZones(support, resistance, currentPrice) {
       description: `${zoneType} zone with ${cluster.length} levels`
     });
   });
-  
+
   // Look for key areas between major supports and resistances
   for (let i = 0; i < support.length; i++) {
     if (support[i].type === 'major' || support[i].significance >= 8) {
       for (let j = 0; j < resistance.length; j++) {
         if (resistance[j].type === 'major' || resistance[j].significance >= 8) {
           // If major support and resistance are within reasonable range
-          if (resistance[j].price > support[i].price && 
+          if (resistance[j].price > support[i].price &&
               (resistance[j].price - support[i].price) / support[i].price < 0.05) {
-            
+
             zones.push({
               type: 'decision',
               min: support[i].price,
@@ -510,7 +510,7 @@ function identifyZones(support, resistance, currentPrice) {
       }
     }
   }
-  
+
   return zones;
 }
 ```
@@ -522,39 +522,39 @@ The system identifies the most important levels for trading decisions:
 ```javascript
 function identifyKeyDecisionLevels(support, resistance, currentPrice) {
   if (!support || !resistance || !currentPrice) return [];
-  
+
   const keyLevels = [];
-  
+
   // Find nearest support below current price
   const supportBelow = support
     .filter(level => level.price < currentPrice)
     .sort((a, b) => b.price - a.price); // Sort descending to get closest first
-  
+
   if (supportBelow.length > 0) {
     keyLevels.push(supportBelow[0].price);
   }
-  
+
   // Find nearest resistance above current price
   const resistanceAbove = resistance
     .filter(level => level.price > currentPrice)
     .sort((a, b) => a.price - b.price); // Sort ascending to get closest first
-  
+
   if (resistanceAbove.length > 0) {
     keyLevels.push(resistanceAbove[0].price);
   }
-  
+
   // Find most significant support
   const significantSupport = [...support].sort((a, b) => b.significance - a.significance);
   if (significantSupport.length > 0 && !keyLevels.includes(significantSupport[0].price)) {
     keyLevels.push(significantSupport[0].price);
   }
-  
+
   // Find most significant resistance
   const significantResistance = [...resistance].sort((a, b) => b.significance - a.significance);
   if (significantResistance.length > 0 && !keyLevels.includes(significantResistance[0].price)) {
     keyLevels.push(significantResistance[0].price);
   }
-  
+
   return keyLevels;
 }
 ```
@@ -566,43 +566,43 @@ The system processes all specified indices:
 ```javascript
 function processIndices(levels, indicesToProcess, currentPrices, includeMAs, classify, spxOffset) {
   const processedIndices = {};
-  
+
   // Process each index
   indicesToProcess.forEach(index => {
     const indexLevels = levels.indices[index];
     if (!indexLevels) return;
-    
+
     const currentPrice = currentPrices[index];
-    
+
     // Enhanced support levels
     const enhancedSupport = classifyAndEnhanceLevels(
       indexLevels.support,
       currentPrice,
       classify
     );
-    
+
     // Enhanced resistance levels
     const enhancedResistance = classifyAndEnhanceLevels(
       indexLevels.resistance,
       currentPrice,
       classify
     );
-    
+
     // Process moving averages if requested
     const movingAverages = includeMAs && indexLevels.movingAverages
       ? processMovingAverages(indexLevels.movingAverages, currentPrice)
       : {};
-    
+
     // Identify zones
     const zones = identifyZones(enhancedSupport, enhancedResistance, currentPrice);
-    
+
     // Identify key decision levels
     const keyDecisionLevels = identifyKeyDecisionLevels(
       enhancedSupport,
       enhancedResistance,
       currentPrice
     );
-    
+
     // Special handling for ES->SPX conversion if needed
     let derivedLevels = {};
     if (index === 'es' && !indicesToProcess.includes('spx')) {
@@ -616,7 +616,7 @@ function processIndices(levels, indicesToProcess, currentPrices, includeMAs, cla
         spxOffset
       );
     }
-    
+
     // Create final index object
     processedIndices[index] = {
       support: enhancedSupport,
@@ -626,17 +626,17 @@ function processIndices(levels, indicesToProcess, currentPrices, includeMAs, cla
       currentPrice,
       keyDecisionLevels
     };
-    
+
     // Add derived levels if any
     Object.assign(processedIndices, derivedLevels);
   });
-  
+
   return processedIndices;
 }
 
 function deriveSpxLevels(support, resistance, movingAverages, zones, keyDecisionLevels, currentPrice, offset) {
   // Apply offset to all price-based fields
-  
+
   // Transform support levels
   const spxSupport = support.map(level => ({
     ...level,
@@ -646,7 +646,7 @@ function deriveSpxLevels(support, resistance, movingAverages, zones, keyDecision
       distance: level.context.distance ? level.context.distance + offset : null
     } : null
   }));
-  
+
   // Transform resistance levels
   const spxResistance = resistance.map(level => ({
     ...level,
@@ -656,14 +656,14 @@ function deriveSpxLevels(support, resistance, movingAverages, zones, keyDecision
       distance: level.context.distance ? level.context.distance + offset : null
     } : null
   }));
-  
+
   // Transform zones
   const spxZones = zones.map(zone => ({
     ...zone,
     min: zone.min + offset,
     max: zone.max + offset
   }));
-  
+
   // Transform moving averages
   const spxMAs = {};
   Object.entries(movingAverages).forEach(([key, ma]) => {
@@ -673,13 +673,13 @@ function deriveSpxLevels(support, resistance, movingAverages, zones, keyDecision
       distance: ma.distance ? ma.distance + offset : null
     };
   });
-  
+
   // Transform key decision levels
   const spxKeyLevels = keyDecisionLevels.map(level => level + offset);
-  
+
   // Transform current price if available
   const spxCurrentPrice = currentPrice ? currentPrice + offset : null;
-  
+
   return {
     support: spxSupport,
     resistance: spxResistance,
@@ -701,49 +701,73 @@ The system processes all specified stocks:
 ```javascript
 function processStocks(levels, stocksToProcess, currentPrices, includeMAs, classify) {
   const processedStocks = {};
-  
+
   // Check if stocks data is available
   if (!levels.stocks || !Array.isArray(levels.stocks)) return processedStocks;
-  
+
   // Process each stock
   stocksToProcess.forEach(ticker => {
     const stockData = levels.stocks.find(stock => stock.ticker === ticker);
     if (!stockData) return;
-    
+
     const currentPrice = currentPrices[ticker];
-    
-    // Extract and normalize stock levels
-    const stockLevels = stockData.levels || {};
-    
+
+    // Extract stock levels (handling different possible structures)
+    let supportLevels = [];
+    let resistanceLevels = [];
+    let movingAverageData = {};
+
+    // Handle different possible data structures
+    if (stockData.support) {
+      // Direct support array
+      supportLevels = stockData.support;
+    } else if (stockData.levels && stockData.levels.support) {
+      // Nested in levels object
+      supportLevels = stockData.levels.support;
+    }
+
+    if (stockData.resistance) {
+      // Direct resistance array
+      resistanceLevels = stockData.resistance;
+    } else if (stockData.levels && stockData.levels.resistance) {
+      // Nested in levels object
+      resistanceLevels = stockData.levels.resistance;
+    }
+
+    if (stockData.movingAverages) {
+      // Direct movingAverages object
+      movingAverageData = stockData.movingAverages;
+    }
+
     // Enhanced support levels
     const enhancedSupport = classifyAndEnhanceLevels(
-      stockLevels.support || [],
+      supportLevels,
       currentPrice,
       classify
     );
-    
+
     // Enhanced resistance levels
     const enhancedResistance = classifyAndEnhanceLevels(
-      stockLevels.resistance || [],
+      resistanceLevels,
       currentPrice,
       classify
     );
-    
+
     // Process moving averages if requested
-    const movingAverages = includeMAs && stockData.movingAverages
-      ? processMovingAverages(stockData.movingAverages, currentPrice)
+    const movingAverages = includeMAs && movingAverageData
+      ? processMovingAverages(movingAverageData, currentPrice)
       : {};
-    
+
     // Identify zones
     const zones = identifyZones(enhancedSupport, enhancedResistance, currentPrice);
-    
+
     // Identify key decision levels
     const keyDecisionLevels = identifyKeyDecisionLevels(
       enhancedSupport,
       enhancedResistance,
       currentPrice
     );
-    
+
     // Create final stock object
     processedStocks[ticker] = {
       support: enhancedSupport,
@@ -754,7 +778,7 @@ function processStocks(levels, stocksToProcess, currentPrices, includeMAs, class
       keyDecisionLevels
     };
   });
-  
+
   return processedStocks;
 }
 ```
@@ -768,24 +792,24 @@ function generateSummary(indices, stocks) {
   const mostSignificantLevels = [];
   const currentMarketPosition = {};
   const keyZones = [];
-  
+
   // Process indices for summary
   Object.entries(indices).forEach(([index, data]) => {
     // Skip derived indices for significant levels
     if (data.derived) return;
-    
+
     // Find most significant support and resistance
     const allLevels = [
       ...data.support.map(level => ({...level, levelType: 'support', index})),
       ...data.resistance.map(level => ({...level, levelType: 'resistance', index}))
     ];
-    
+
     // Sort by significance (descending)
     allLevels.sort((a, b) => b.significance - a.significance);
-    
+
     // Take top levels (up to 2 per index)
     const topLevels = allLevels.slice(0, 2);
-    
+
     // Add to most significant levels
     mostSignificantLevels.push(
       ...topLevels.map(level => ({
@@ -795,23 +819,23 @@ function generateSummary(indices, stocks) {
         significance: level.significance
       }))
     );
-    
+
     // Determine current market position if current price is available
     if (data.currentPrice) {
       // Get nearest support below and resistance above
       const nearestSupport = data.support
         .filter(level => level.price < data.currentPrice)
         .sort((a, b) => b.price - a.price)[0];
-        
+
       const nearestResistance = data.resistance
         .filter(level => level.price > data.currentPrice)
         .sort((a, b) => a.price - b.price)[0];
-      
+
       // Determine market position
       if (nearestSupport && nearestResistance) {
         const distToSupport = data.currentPrice - nearestSupport.price;
         const distToResistance = nearestResistance.price - data.currentPrice;
-        
+
         if (distToSupport < distToResistance * 0.2) {
           currentMarketPosition[index] = 'at support';
         } else if (distToResistance < distToSupport * 0.2) {
@@ -829,15 +853,15 @@ function generateSummary(indices, stocks) {
         currentMarketPosition[index] = 'indeterminate';
       }
     }
-    
+
     // Add significant zones
     if (data.zones && data.zones.length > 0) {
       // Sort by significance (descending)
       const sortedZones = [...data.zones].sort((a, b) => b.significance - a.significance);
-      
+
       // Take top zones (up to 2 per index)
       const topZones = sortedZones.slice(0, 2);
-      
+
       // Add to key zones
       keyZones.push(
         ...topZones.map(zone => ({
@@ -851,16 +875,93 @@ function generateSummary(indices, stocks) {
       );
     }
   });
-  
-  // Process stocks for summary (similar to indices)
-  // Code omitted for brevity, follows same pattern as indices
-  
+
+  // Process stocks for summary (similar logic as indices)
+  Object.entries(stocks).forEach(([ticker, data]) => {
+    // Find most significant support and resistance
+    const allLevels = [
+      ...data.support.map(level => ({...level, levelType: 'support', index: ticker})),
+      ...data.resistance.map(level => ({...level, levelType: 'resistance', index: ticker}))
+    ];
+
+    // Sort by significance (descending)
+    allLevels.sort((a, b) => b.significance - a.significance);
+
+    // Take top levels (up to 2 per stock)
+    const topLevels = allLevels.slice(0, 2);
+
+    // Add to most significant levels
+    mostSignificantLevels.push(
+      ...topLevels.map(level => ({
+        index: ticker,
+        price: level.price,
+        type: level.levelType,
+        significance: level.significance
+      }))
+    );
+
+    // Determine current market position if current price is available
+    if (data.currentPrice) {
+      // Get nearest support below and resistance above
+      const nearestSupport = data.support
+        .filter(level => level.price < data.currentPrice)
+        .sort((a, b) => b.price - a.price)[0];
+
+      const nearestResistance = data.resistance
+        .filter(level => level.price > data.currentPrice)
+        .sort((a, b) => a.price - b.price)[0];
+
+      // Determine market position
+      if (nearestSupport && nearestResistance) {
+        const distToSupport = data.currentPrice - nearestSupport.price;
+        const distToResistance = nearestResistance.price - data.currentPrice;
+
+        if (distToSupport < distToResistance * 0.2) {
+          currentMarketPosition[ticker] = 'at support';
+        } else if (distToResistance < distToSupport * 0.2) {
+          currentMarketPosition[ticker] = 'at resistance';
+        } else if (distToSupport < distToResistance) {
+          currentMarketPosition[ticker] = 'closer to support';
+        } else {
+          currentMarketPosition[ticker] = 'closer to resistance';
+        }
+      } else if (nearestSupport) {
+        currentMarketPosition[ticker] = 'above support';
+      } else if (nearestResistance) {
+        currentMarketPosition[ticker] = 'below resistance';
+      } else {
+        currentMarketPosition[ticker] = 'indeterminate';
+      }
+    }
+
+    // Add significant zones
+    if (data.zones && data.zones.length > 0) {
+      // Sort by significance (descending)
+      const sortedZones = [...data.zones].sort((a, b) => b.significance - a.significance);
+
+      // Take top zones (up to 2 per stock)
+      const topZones = sortedZones.slice(0, 2);
+
+      // Add to key zones
+      keyZones.push(
+        ...topZones.map(zone => ({
+          index: ticker,
+          zone: {
+            min: zone.min,
+            max: zone.max
+          },
+          description: zone.description
+        }))
+      );
+    }
+  });
+
   // Sort most significant levels by significance
   mostSignificantLevels.sort((a, b) => b.significance - a.significance);
-  
+
   // Limit to top 10 significant levels
   const topSignificantLevels = mostSignificantLevels.slice(0, 10);
-  
+
   return {
     mostSignificantLevels: topSignificantLevels,
     currentMarketPosition,
@@ -877,18 +978,18 @@ The system generates the final structured output:
 function generateResult(indices, stocks, params) {
   // Generate summary
   const summary = generateSummary(indices, stocks);
-  
+
   // Count total levels extracted
   const indexLevelCount = Object.values(indices).reduce((count, index) => {
     return count + index.support.length + index.resistance.length;
   }, 0);
-  
+
   const stockLevelCount = Object.values(stocks).reduce((count, stock) => {
     return count + stock.support.length + stock.resistance.length;
   }, 0);
-  
+
   const totalLevels = indexLevelCount + stockLevelCount;
-  
+
   // Generate metadata
   const metadata = {
     processingTime: new Date().getTime(),
@@ -898,7 +999,7 @@ function generateResult(indices, stocks, params) {
     levelsExtracted: totalLevels,
     significantLevelsThreshold: 8
   };
-  
+
   return {
     indices,
     stocks,
@@ -917,36 +1018,36 @@ function extractLevels(input) {
   try {
     // Validate and preprocess input
     const params = validateAndPreprocess(input);
-    const { 
-      levels, 
-      indicesToProcess, 
-      stocksToProcess, 
-      includeMAs, 
-      classify, 
-      normalizedOffset, 
-      currentPrices, 
-      analyzerOutput 
+    const {
+      levels,
+      indicesToProcess,
+      stocksToProcess,
+      includeMAs,
+      classify,
+      normalizedOffset,
+      currentPrices,
+      analyzerOutput
     } = params;
-    
+
     // Process indices
     const processedIndices = processIndices(
-      levels, 
-      indicesToProcess, 
-      currentPrices, 
-      includeMAs, 
-      classify, 
+      levels,
+      indicesToProcess,
+      currentPrices,
+      includeMAs,
+      classify,
       normalizedOffset
     );
-    
+
     // Process stocks
     const processedStocks = processStocks(
-      levels, 
-      stocksToProcess, 
-      currentPrices, 
-      includeMAs, 
+      levels,
+      stocksToProcess,
+      currentPrices,
+      includeMAs,
       classify
     );
-    
+
     // Generate final result
     return generateResult(processedIndices, processedStocks, params);
   } catch (error) {
