@@ -3,9 +3,9 @@ id: command-reference
 title: Intent Trader Command Reference
 description: Comprehensive reference for all commands in Intent Trader
 author: Intent Trader Team
-version: 0.1.0
+version: 0.1.2
 release: 0.5.1
-created: 2025-05-16
+created: 2025-05-15
 updated: 2025-05-16
 category: documentation
 status: stable
@@ -40,27 +40,26 @@ All commands are phase-aligned to the cognitive workflow:
 ## Implementation Status
 
 Commands are marked with their implementation status:
-- ✅ **CORE**: Implemented in v0.5.1
-- 📅 **FUTURE**: Planned for future releases
+- **CORE**: Implemented in v0.5.1
 
 ## Quick Reference: Commands
 
 | Command | Phase | Status | Description |
 |---------|-------|--------|-------------|
-| `/analyze-dp` | Plan | ✅ CORE | Process DP morning call |
-| `/create-plan` | Plan | ✅ CORE | Generate unified trade plan |
-| `/analyze-mancini-preprocessor` | Plan | ✅ CORE | Extract structured data from Mancini newsletter |
-| `/analyze-mancini` | Plan | ✅ CORE | Process preprocessed Mancini data |
-| `/extract-focus` | Focus | ✅ CORE | Extract high-conviction ideas |
-| `/extract-levels` | Focus | ✅ CORE | Extract key technical levels |
-| `/add-position` | Execute | ✅ CORE | Track new position |
-| `/size-position` | Execute | ✅ CORE | Calculate position size |
-| `/list-positions` | Execute | ✅ CORE | Show current positions |
-| `/update-position` | Manage | ✅ CORE | Update position details |
-| `/close-position` | Manage | ✅ CORE | Close position and record outcome |
-| `/log-session` | Review | ✅ CORE | Record complete session data |
-| `/help` | System | ✅ CORE | Show available commands |
-| `/status` | System | ✅ CORE | Show current trading session state |
+| `/analyze-dp` | Plan | CORE | Process DP morning call |
+| `/create-plan` | Plan | CORE | Generate unified trade plan |
+| `/analyze-mancini-preprocessor` | Plan | CORE | Extract structured data from Mancini newsletter |
+| `/analyze-mancini` | Plan | CORE | Process preprocessed Mancini data |
+| `/extract-focus` | Focus | CORE | Extract high-conviction ideas |
+| `/extract-levels` | Focus | CORE | Extract key technical levels |
+| `/add-position` | Execute | CORE | Track new position |
+| `/size-position` | Execute | CORE | Calculate position size |
+| `/list-positions` | Execute | CORE | Show current positions |
+| `/update-position` | Manage | CORE | Update position details |
+| `/close-position` | Manage | CORE | Close position and record outcome |
+| `/log-session` | Review | CORE | Record complete session data |
+| `/help` | System | CORE | Show available commands |
+| `/status` | System | CORE | Show current trading session state |
 
 ---
 
@@ -68,7 +67,7 @@ Commands are marked with their implementation status:
 
 ### PLAN Phase Commands
 
-#### `/analyze-dp [transcript]` ✅ CORE
+#### `/analyze-dp [transcript]`
 
 **Purpose:** Process DP morning call transcript comprehensively, extracting all key components and insights.
 
@@ -99,11 +98,11 @@ Commands are marked with their implementation status:
 /analyze-dp "Futures are a bit lower as we await this morning's CPI. The Dow is leading to the downside after UNH suspends guidance for 2025..."
 ```
 
-#### `/create-plan` ✅ CORE
+#### `/create-plan`
 
 **Purpose:** Generate comprehensive unified trade plan integrating multiple analyst inputs.
 
-**Parameters:** 
+**Parameters:**
 * `sources` (optional): Which analysts to include (default: all)
 * `risk_level` (optional): Day-specific risk tolerance (1-5) (default: 3)
 * `focus` (optional): Specific aspects to emphasize (default: all)
@@ -130,7 +129,7 @@ Commands are marked with their implementation status:
 /create-plan risk_level=4
 ```
 
-#### `/analyze-mancini-preprocessor [newsletter]` ✅ CORE
+#### `/analyze-mancini-preprocessor [newsletter]`
 
 **Purpose:** Extract structured data from Mancini newsletter for further analysis, handling large PDFs that exceed context limits.
 
@@ -160,7 +159,7 @@ Commands are marked with their implementation status:
 /analyze-mancini-preprocessor "SPX Is Coiled Tight. Another Move Is Coming. What Way? May 15 Plan..."
 ```
 
-#### `/analyze-mancini [preprocessedData]` ✅ CORE
+#### `/analyze-mancini [preprocessedData]`
 
 **Purpose:** Process preprocessed Mancini newsletter data to perform comprehensive analysis and integration with trade plan.
 
@@ -192,84 +191,9 @@ Commands are marked with their implementation status:
 /analyze-mancini preprocessedData='{"newsletterDate":"2025-05-16","newsletterTitle":"4 Green Days In A Row","marketSection":"Everyday since the market bottomed...","keyLevels":{"supports":[{"price":5925,"context":"major"}]}}'
 ```
 
-#### `/create-blueprint` 📅 FUTURE
-
-**Purpose:** Generate morning blueprint focusing on day structure and key scenarios.
-
-**Parameters:**
-* `complexity` (optional): Detail level (basic/detailed) (default: detailed)
-* `focus` (optional): Specific aspects to emphasize (default: all)
-* `format` (optional): Output format (default: structured)
-
-**Output:**
-* Day structure expectations
-* Key timing windows and events
-* Primary price scenarios
-* Gap analysis and plan
-* Mode classification with implications
-* Sector focus recommendations
-
-**Planned for:** v0.6.0
-
-**Example:**
-```
-/create-blueprint complexity=basic
-```
-
-#### `/run-preflight` 📅 FUTURE
-
-**Purpose:** Execute pre-trading checklist to ensure readiness and plan completeness.
-
-**Parameters:**
-* `checklist` (optional): Specific checklist to use (default: standard)
-* `strictness` (optional): Validation strictness (1-5) (default: 3)
-* `areas` (optional): Specific areas to check (default: all)
-
-**Output:**
-* Readiness status for each checklist item
-* Missing elements highlighted
-* Last-minute adjustments
-* Mental preparation assessment
-* Plan alignment verification
-* Risk parameter confirmation
-
-**Planned for:** v0.6.0
-
-**Example:**
-```
-/run-preflight strictness=4
-```
-
-#### `/detect-mode` 📅 FUTURE
-
-**Purpose:** Determine if the current market is in Mode 1 (trend) or Mode 2 (range/trap).
-
-**Parameters:**
-* `lookback` (optional): Historical periods to consider (default: 3)
-* `indices` (optional): Specific indices to analyze (default: ES)
-* `confidence` (optional): Minimum confidence threshold (default: medium)
-
-**Output:**
-* Mode classification with confidence
-* Supporting evidence
-* Historical mode statistics
-* Typical duration expectations
-* Optimal strategy recommendations
-* Warning signs of mode transition
-* Visual mode classification indicators
-
-**Planned for:** v0.5.2
-
-**Example:**
-```
-/detect-mode indices=ES,SPX
-```
-
----
-
 ### FOCUS Phase Commands
 
-#### `/extract-focus [source] [min_conviction]` ✅ CORE
+#### `/extract-focus [source] [min_conviction]`
 
 **Purpose:** Extract high-conviction trade ideas from analyst commentary.
 
@@ -298,7 +222,7 @@ Commands are marked with their implementation status:
 /extract-focus dp high
 ```
 
-#### `/extract-levels [source] [indices]` ✅ CORE
+#### `/extract-levels [source] [indices]`
 
 **Purpose:** Extract market levels from analyst source with precision and hierarchy.
 
@@ -327,81 +251,11 @@ Commands are marked with their implementation status:
 /extract-levels dp ES,SPX
 ```
 
-#### `/find-setups [type] [timeframe]` 📅 FUTURE
-
-**Purpose:** Identify specific setup types from analyst commentary or technical analysis.
-
-**Parameters:**
-* `type` (required): "failed-breakdown", "dat", "character-change", etc.
-* `timeframe` (optional): "intraday", "daily", "swing" (default: intraday)
-* `min_quality` (optional): Minimum setup quality (default: medium)
-
-**Output:**
-* Structured setup opportunities
-* Complete parameters for each setup
-* Qualifying criteria status
-* Conviction assessment
-* Management protocol
-
-**Planned for:** v0.6.0
-
-**Example:**
-```
-/find-setups failed-breakdown intraday
-```
-
-#### `/manage-watchlist [action]` 📅 FUTURE
-
-**Purpose:** Manage the active watchlist based on setups and focus ideas.
-
-**Parameters:**
-* `action` (required): "add", "remove", "prioritize", "clear", "show"
-* `tickers` (conditional): Specific symbols to affect (required for add/remove)
-* `setup` (conditional): Setup type (required for add)
-* `priority` (optional): Item priority (high/medium/low)
-
-**Output:**
-* Updated watchlist status
-* Priority ranking
-* Monitoring parameters
-* Alert configurations
-* Setup expiration estimates
-
-**Planned for:** v0.6.0
-
-**Example:**
-```
-/manage-watchlist add AAPL failed-breakdown priority=high
-```
-
-#### `/analyze-regime` 📅 FUTURE
-
-**Purpose:** Assess current market regime (buy dips vs. sell bounces) and mode classification.
-
-**Parameters:**
-* `lookback` (optional): Historical periods to consider (default: 10)
-* `source` (optional): Primary data source (default: combined)
-* `confidence` (optional): Minimum confidence threshold (default: medium)
-
-**Output:**
-* Current regime classification with confidence
-* Mode 1 vs. Mode 2 determination
-* Supporting evidence and duration
-* Historical comparison
-* Strategy recommendations based on regime
-
-**Planned for:** v0.5.2
-
-**Example:**
-```
-/analyze-regime 20
-```
-
 ---
 
 ### EXECUTE Phase Commands
 
-#### `/add-position [symbol]` ✅ CORE
+#### `/add-position [symbol]`
 
 **Purpose:** Add a new trading position to tracking system.
 
@@ -427,7 +281,7 @@ Commands are marked with their implementation status:
 /add-position AAPL entry_price=182.50 stop_price=180.25 target_price=187.50 strategy="Support Bounce" conviction=high
 ```
 
-#### `/size-position [symbol]` ✅ CORE
+#### `/size-position [symbol]`
 
 **Purpose:** Calculate appropriate position size based on risk parameters.
 
@@ -452,7 +306,7 @@ Commands are marked with their implementation status:
 /size-position AAPL entry=182.50 stop=180.25 risk_amount=500 conviction=high
 ```
 
-#### `/list-positions` ✅ CORE
+#### `/list-positions`
 
 **Purpose:** List all currently tracked positions.
 
@@ -471,8 +325,6 @@ Commands are marked with their implementation status:
 ```
 /list-positions status=active
 ```
-
-#### `/check-ticker [symbol]` 📅 FUTURE
 
 **Purpose:** Perform comprehensive technical analysis on a specific ticker.
 
@@ -496,60 +348,6 @@ Commands are marked with their implementation status:
 ```
 /check-ticker AAPL timeframe=daily
 ```
-
-#### `/check-character [symbol]` 📅 FUTURE
-
-**Purpose:** Assess if price character has changed for a specific ticker.
-
-**Parameters:**
-* `symbol` (required): Stock/instrument symbol
-* `timeframe` (optional): Analysis timeframe (default: daily)
-* `lookback` (optional): Historical periods to analyze (default: 10)
-
-**Output:**
-* Character change signal (yes/no/pending)
-* Pattern breakdown
-* Volume confirmation
-* Moving average relationship shifts
-* Momentum assessment
-* Historical character change examples
-* Trading implications
-
-**Planned for:** v0.6.0
-
-**Example:**
-```
-/check-character QQQ timeframe=intraday
-```
-
-#### `/set-alert [symbol]` 📅 FUTURE
-
-**Purpose:** Configure price or condition-based alerts for a symbol.
-
-**Parameters:**
-* `symbol` (required): Stock/instrument symbol
-* `type` (required): Alert type ("price", "ma-cross", "volume", "character", etc.)
-* `value` (required): Alert trigger value
-* `direction` (conditional): "above" or "below" (required for price alerts)
-* `expiration` (optional): Alert expiration time
-* `notes` (optional): Alert context
-
-**Output:**
-* Alert confirmation
-* Monitoring status
-* Similar historical alerts
-* Context visualization
-* Alternative alert suggestions
-* Notification options
-
-**Planned for:** v0.6.0
-
-**Example:**
-```
-/set-alert SPY price value=430.00 direction=below
-```
-
----
 
 ### MANAGE Phase Commands
 
@@ -691,7 +489,7 @@ Commands are marked with their implementation status:
 
 ### REVIEW Phase Commands
 
-#### `/log-session [date]` ✅ CORE
+#### `/log-session [date]`
 
 **Purpose:** Record complete trading session details and performance.
 
@@ -729,109 +527,11 @@ Commands are marked with their implementation status:
 /log-session market_conditions="Choppy, low volume" psychological_state="Focused, patient"
 ```
 
-#### `/run-debrief` 📅 FUTURE
-
-**Purpose:** Perform comprehensive session analysis and identify improvement areas.
-
-**Parameters:**
-* `date` (optional): Session date (default: today)
-* `focus_area` (optional): Specific aspect to analyze (execution, psychology, planning)
-
-**Output:**
-* Performance analysis with metrics
-* Pattern identification
-* Behavior assessment
-* Improvement recommendations
-* Comparative analysis with past sessions
-
-**Planned for:** v0.5.2
-
-**Example:**
-```
-/run-debrief focus_area=execution
-```
-
-#### `/add-journal [type]` 📅 FUTURE
-
-**Purpose:** Add a structured entry to trading journal.
-
-**Parameters:**
-* `type` (required): Entry type ("observation", "lesson", "pattern", etc.)
-* `content` (required): Journal entry text
-* `tags` (optional): Categorization tags (comma-separated)
-* `importance` (optional): Entry significance (1-5) (default: 3)
-
-**Output:**
-* Entry confirmation
-* Related historical entries
-* Pattern recognition
-* Implementation suggestions
-* Knowledge integration recommendations
-
-**Planned for:** v0.6.0
-
-**Example:**
-```
-/add-journal lesson "Failed Breakdowns work best when there are multiple tests of the same level" tags=failed-breakdown,support importance=4
-```
-
-#### `/compare-analysts` 📅 FUTURE
-
-**Purpose:** Compare trading performance against multiple analyst recommendations.
-
-**Parameters:**
-* `analysts` (optional): Specific analysts to include (default: all)
-* `timeframe` (optional): Analysis period (default: today)
-* `metrics` (optional): Specific metrics to focus on (default: all)
-
-**Output:**
-* Comparative performance analysis
-* Level accuracy assessment
-* Setup success rates by analyst
-* Timing accuracy evaluation
-* Missed opportunity analysis
-* Conviction correlation with outcomes
-* Implementation differences
-* Improvement recommendations
-
-**Planned for:** v0.6.0
-
-**Example:**
-```
-/compare-analysts analysts=dp,mancini timeframe=week
-```
-
-#### `/analyze-patterns` 📅 FUTURE
-
-**Purpose:** Identify recurring patterns in trading behavior and performance.
-
-**Parameters:**
-* `pattern_type` (optional): Specific patterns to analyze (default: all)
-* `timeframe` (optional): Analysis period (default: month)
-* `min_occurrences` (optional): Minimum pattern frequency (default: 3)
-
-**Output:**
-* Identified behavioral patterns
-* Success/failure correlations
-* Time-of-day performance analysis
-* Setup type effectiveness
-* Psychological tendencies
-* Decision trigger analysis
-* Mode correlation with performance
-* Improvement recommendations
-
-**Planned for:** v0.6.0
-
-**Example:**
-```
-/analyze-patterns pattern_type=execution timeframe=month
-```
-
 ---
 
 ### SYSTEM Commands
 
-#### `/help [command]` ✅ CORE
+#### `/help [command]`
 
 **Purpose:** Display available commands and basic usage.
 
@@ -850,7 +550,7 @@ Commands are marked with their implementation status:
 /help add-position
 ```
 
-#### `/status` ✅ CORE
+#### `/status`
 
 **Purpose:** Show current trading session state and system status.
 
@@ -869,77 +569,6 @@ Commands are marked with their implementation status:
 **Example:**
 ```
 /status
-```
-
-#### `/show-version` 📅 FUTURE
-
-**Purpose:** Display system version and component information.
-
-**Parameters:**
-* `component` (optional): Specific component to check
-* `format` (optional): Output format (default: standard)
-
-**Output:**
-* System version
-* Component versions
-* Recent updates
-* Compatibility information
-* Feature availability
-* Upcoming changes
-
-**Planned for:** v0.6.0
-
-**Example:**
-```
-/show-version component=processors
-```
-
-#### `/set-preferences [category]` 📅 FUTURE
-
-**Purpose:** Configure user preferences for system behavior.
-
-**Parameters:**
-* `category` (required): Preference category
-* `settings` (required): Preference values to set
-* `reset` (optional): Reset to defaults (true/false) (default: false)
-
-**Output:**
-* Confirmation of changes
-* Current preference summary
-* Affected functionality
-* Recommended related settings
-* Reset options
-* Advanced configuration options
-
-**Planned for:** v0.6.0
-
-**Example:**
-```
-/set-preferences risk settings="max_daily_loss=2%,max_position_size=5%"
-```
-
-#### `/run-phase [phase]` 📅 FUTURE
-
-**Purpose:** Execute all actions for a specific trading day phase.
-
-**Parameters:**
-* `phase` (required): "premarket", "intraday", "postmarket"
-* `options` (optional): Phase-specific options
-* `skip` (optional): Steps to skip (comma-separated)
-
-**Output:**
-* Phase execution confirmation
-* Actions performed
-* Results summary
-* Next steps
-* Optional actions
-* Timeline projection
-
-**Planned for:** v0.6.0
-
-**Example:**
-```
-/run-phase premarket skip=check-economic-calendar
 ```
 
 ---
@@ -974,29 +603,11 @@ Commands are marked with their implementation status:
 
 ### Mancini Newsletter Analysis Flow
 ```
-# For standard-sized newsletters:
-/analyze-mancini "SPX Is Coiled Tight. Another Move Is Coming. What Way? May 15 Plan..."
+# First run the pre-processor prompt:
+/analyze-mancini-preprocessor [PDF]
 
-# For large newsletters that exceed context limits:
-/analyze-mancini-preprocessor "SPX Is Coiled Tight. Another Move Is Coming. What Way? May 15 Plan..."
 # Then use the JSON output with:
 /analyze-mancini preprocessedData='[JSON output from preprocessor]'
 ```
 
-## Release Roadmap
-
-### v0.5.1 (Current Release)
-- All Plan/Focus phase commands completed
-- Position management implementation completed
-- Session logging fully implemented
-
-### v0.5.2 (Planned)
-- Enhanced stop management
-- Runner management protocol
-- Comprehensive session debrief
-
-### v0.6.0 (Future)
-- Comprehensive regime analysis
-- Advanced technical analysis
-- Complete market mode detection
-- Enhanced journaling and pattern recognition
+## Changelog

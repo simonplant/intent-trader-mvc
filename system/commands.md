@@ -1,10 +1,29 @@
-# Intent Trader: Comprehensive Command Catalog
+---
+id: commands
+title: Intent Trader Command Catalog
+description: Comprehensive listing of all implemented commands in the Intent Trader system
+author: Intent Trader Team
+version: 1.0.0
+release: 0.5.1
+created: 2025-05-16
+updated: 2025-05-16
+category: system
+status: stable
+tags: [system, commands, reference, documentation]
+requires: []
+outputs: []
+input_format: markdown
+output_format: markdown
+ai_enabled: false
+---
 
-This catalog provides a comprehensive listing of all commands in the Intent Trader system, organized by functional category with detailed specifications.
+# Intent Trader: Command Catalog
 
-## 1. Analyst Input Commands
+This catalog provides a comprehensive listing of all implemented commands in the Intent Trader system, organized by the cognitive workflow phases.
 
-### `/analyze-dp [transcript]` _(MVP CORE)_
+## PLAN Phase
+
+### `/analyze-dp [transcript]`
 
 **Purpose:**
 Process DP morning call transcript comprehensively, extracting all key components and insights.
@@ -22,47 +41,30 @@ Process DP morning call transcript comprehensively, extracting all key component
 - Analyst actions summary
 - Market philosophy assessment
 
-**MVP Implementation:**
-- Focus on extracting high-conviction trade ideas
-- Extract key levels for indices and focus stocks
-- Basic market context (futures, sentiment)
-- Simple conviction classification
-
 **Usage Example:**
-```
 /analyze-dp "Futures are a bit lower as we await this morning's CPI. The Dow is leading to the downside after UNH suspends guidance for 2025..."
-```
 
-### `/analyze-mancini [newsletter]`
+### `/analyze-mancini-preprocessor [newsletter]`
 
 **Purpose:**
-Process Mancini newsletter comprehensively, extracting levels, setups, and trade plan.
+Preprocess Mancini's long newsletter content for detailed analysis in a two-stage process.
 
 **Parameters:**
 - `newsletter` (required): Text of Mancini's newsletter
-- `components` (optional): Specific components to focus on (default: all)
-- `format` (optional): Output format (default: structured)
+- `format` (optional): Output format (default: json)
 
 **Output:**
-- Structured level framework with major/minor classification
-- Market mode assessment (Mode 1/Mode 2)
-- Failed Breakdown setups and opportunities
-- Bull/bear case scenarios
-- Runner status and management protocol
-- Level-to-level trading methodology
+- Preprocessed newsletter data structured for analysis
+- Key sections identified and parsed
+- Metadata about content
 
 **Usage Example:**
-```
-/analyze-mancini "SPX Is Coiled Tight. Another Move Is Coming. What Way? May 15 Plan
-
-ES/SPX continues to consolidate at highs. The coiled tight range over the last two days..."
-```
-
+/analyze-mancini-preprocessor "4 Green Days In A Row. Can SPX Close Week With 5, Or Are Bulls Out Of Steam? May 16 Plan..."
 
 ### `/analyze-mancini [preprocessedData]`
 
 **Purpose:**
-Process preprocessed Mancini newsletter data to perform comprehensive analysis and integration with trade plan.
+Process Mancini newsletter comprehensively, extracting levels, setups, and trade plan.
 
 **Parameters:**
 - `preprocessedData` (required): JSON output from the preprocessor
@@ -77,46 +79,33 @@ Process preprocessed Mancini newsletter data to perform comprehensive analysis a
 - Runner status and management protocol
 - Level-to-level trading methodology
 
-**MVP Implementation:**
-- Advanced analysis of preprocessed data
-- Mode classification (Mode 1 vs Mode 2)
-- Integration with level extraction system
-- Failed Breakdown pattern recognition
-- Market bias determination
-
 **Usage Example:**
-```
 /analyze-mancini preprocessedData='{"newsletterDate":"2025-05-16","newsletterTitle":"4 Green Days In A Row","marketSection":"Everyday since the market bottomed...","keyLevels":{"supports":[{"price":5925,"context":"major"}]}}'
-```
 
-### `/extract-levels [source] [indices]` _(MVP CORE)_
+## FOCUS Phase
+
+### `/create-plan`
 
 **Purpose:**
-Extract market levels from analyst source with precision and hierarchy.
+Generate comprehensive unified trade plan integrating multiple analyst inputs.
 
 **Parameters:**
-- `source` (required): "mancini", "dp", or "both"
-- `indices` (optional): Specific indices to extract (default: ES,SPX,QQQ)
-- `include_context` (optional): Include level context (default: true)
+- `sources` (optional): Which analysts to include (default: all)
+- `risk_level` (optional): Day-specific risk tolerance (1-5) (default: 3)
+- `focus` (optional): Specific aspects to emphasize (default: all)
 
 **Output:**
-- Structured levels with significance classification
-- Hierarchical organization (major/minor)
-- Context and historical significance
-- Level clusters identification
-- Visual representation of levels
-
-**MVP Implementation:**
-- Focus on extracting DP levels
-- Basic significance classification
-- Simple hierarchical structure
+- Complete trading plan with market context
+- Integrated level structure with consensus strength
+- Prioritized setups across analysts
+- Risk allocation framework
+- Conditional scenario planning
+- Mode-specific guidelines
 
 **Usage Example:**
-```
-/extract-levels dp ES,SPX
-```
+/create-plan risk_level=4
 
-### `/extract-focus [source] [min_conviction]` _(MVP CORE)_
+### `/extract-focus [source] [min_conviction]`
 
 **Purpose:**
 Extract high-conviction trade ideas from analyst commentary.
@@ -133,441 +122,58 @@ Extract high-conviction trade ideas from analyst commentary.
 - Trade management guidelines
 - Relevant timeframes
 
-**MVP Implementation:**
-- Extract DP's high-conviction ideas
-- Simple conviction classification (high/medium/low)
-- Basic entry/exit parameters
-
 **Usage Example:**
-```
 /extract-focus dp high
-```
 
-### `/find-setups [type] [timeframe]`
+### `/extract-levels [source] [indices]`
 
 **Purpose:**
-Identify specific setup types from analyst commentary or technical analysis.
+Extract market levels from analyst source with precision and hierarchy.
 
 **Parameters:**
-
-- `type` (required): "failed-breakdown", "dat", "character-change", etc.
-- `timeframe` (optional): "intraday", "daily", "swing" (default: intraday)
-- `min_quality` (optional): Minimum setup quality (default: medium)
+- `source` (required): "mancini", "dp", or "both"
+- `indices` (optional): Specific indices to extract (default: ES,SPX,QQQ)
+- `include_context` (optional): Include level context (default: true)
 
 **Output:**
-
-- Structured setup opportunities
-- Complete parameters for each setup
-- Qualifying criteria status
-- Conviction assessment
-- Management protocol
-
-**Usage Example:**
-
-```
-/find-setups failed-breakdown intraday
-```
-
-### `/analyze-ic [message]`
-
-**Purpose:**
-Process Inner Circle commentary for actionable signals and context.
-
-**Parameters:**
-
-- `message` (required): Inner Circle message text
-- `focus` (optional): Specific aspect to analyze (default: all)
-- `priority` (optional): Minimum priority level (default: all)
-
-**Output:**
-
-- Extracted trade signals
-- Market context updates
-- Analyst sentiment assessment
-- Time-sensitive alerts
-- Recommendation priority
+- Structured levels with significance classification
+- Hierarchical organization (major/minor)
+- Context and historical significance
+- Level clusters identification
+- Visual representation of levels
 
 **Usage Example:**
-```
-/analyze-ic "ES getting a bit extended here, watching for potential retest of 5900 support..."
-```
+/extract-levels dp ES,SPX
 
-### `/analyze-regime`
+## EXECUTE Phase
 
-**Purpose:**
-Assess current market regime (buy dips vs. sell bounces) and mode classification.
-
-**Parameters:**
-
-- `lookback` (optional): Historical periods to consider (default: 10)
-- `source` (optional): Primary data source (default: combined)
-- `confidence` (optional): Minimum confidence threshold (default: medium)
-
-**Output:**
-
-- Current regime classification with confidence
-- Mode 1 vs. Mode 2 determination
-- Supporting evidence and duration
-- Historical comparison
-- Strategy recommendations based on regime
-
-**Usage Example:**
-
-```
-/analyze-regime 20
-```
-
-## 2. Trade Planning Commands
-
-### `/create-plan` _(MVP CORE)_
+### `/size-position [symbol]`
 
 **Purpose:**
-Generate comprehensive unified trade plan integrating multiple analyst inputs.
+Calculate appropriate position size based on risk parameters.
 
 **Parameters:**
-
-- `sources` (optional): Which analysts to include (default: all)
-- `risk_level` (optional): Day-specific risk tolerance (1-5) (default: 3)
-- `focus` (optional): Specific aspects to emphasize (default: all)
-
-**Output:**
-
-- Complete trading plan with market context
-- Integrated level structure with consensus strength
-- Prioritized setups across analysts
-- Risk allocation framework
-- Conditional scenario planning
-- Mode-specific guidelines
-
-**MVP Implementation:**
-- Focus on DP insights
-- Prioritized trade ideas
-- Basic market context
-- Key levels for trading decisions
-
-**Usage Example:**
-
-```
-/create-plan risk_level=4
-```
-
-### `/create-blueprint`
-
-**Purpose:**
-Generate morning blueprint focusing on day structure and key scenarios.
-
-**Parameters:**
-
-- `complexity` (optional): Detail level (basic/detailed) (default: detailed)
-- `focus` (optional): Specific aspects to emphasize (default: all)
-- `format` (optional): Output format (default: structured)
-
-**Output:**
-
-- Day structure expectations
-- Key timing windows and events
-- Primary price scenarios
-- Gap analysis and plan
-- Mode classification with implications
-- Sector focus recommendations
-
-**Usage Example:**
-
-```
-/create-blueprint complexity=basic
-```
-
-### `/run-preflight`
-
-**Purpose:**
-Execute pre-trading checklist to ensure readiness and plan completeness.
-
-**Parameters:**
-
-- `checklist` (optional): Specific checklist to use (default: standard)
-- `strictness` (optional): Validation strictness (1-5) (default: 3)
-- `areas` (optional): Specific areas to check (default: all)
-
-**Output:**
-
-- Readiness status for each checklist item
-- Missing elements highlighted
-- Last-minute adjustments
-- Mental preparation assessment
-- Plan alignment verification
-- Risk parameter confirmation
-
-**Usage Example:**
-```
-/run-preflight strictness=4
-```
-
-### `/update-plan [section]`
-
-**Purpose:**
-Update specific sections of the trade plan based on new information.
-
-**Parameters:**
-
-- `section` (required): Plan section to update
-- `content` (required): New information to incorporate
-- `reason` (optional): Justification for the update
-- `priority` (optional): Update urgency (default: normal)
-
-**Output:**
-
-- Confirmation of update
-- Before/after comparison
-- Impact assessment on other plan elements
-- Suggested additional updates
-- Plan consistency verification
-
-**Usage Example:**
-```
-/update-plan market_context "ES now showing strength after CPI came in below expectations"
-```
-
-### `/show-plan [section]` _(MVP CORE)_
-
-**Purpose:**
-Display the unified trade plan or specific sections in a structured, readable format.
-
-**Parameters:**
-
-- `section` (optional): Specific plan section to display (default: all)
-- `format` (optional): Output format (detailed/summary/visual) (default: detailed)
-- `focus` (optional): Specific elements to highlight (default: none)
-
-**Output:**
-
-- Formatted plan content
-- Visual elements for levels and scenarios
-- Status indicators for completion
-- Time-sensitive elements highlighted
-- Key action items emphasized
-
-**MVP Implementation:**
-- Basic plan display
-- Prioritized trade list
-- Key level summary
-- Simple formatting
-
-**Usage Example:**
-```
-/show-plan priority_trades format=summary
-```
-
-### `/validate-plan`
-
-**Purpose:**
-Perform validation checks on the unified plan to ensure completeness, consistency, and alignment.
-
-**Parameters:**
-
-- `checks` (optional): Specific validation checks to perform (default: all)
-- `strictness` (optional): Validation strictness level (1-5) (default: 3)
-- `format` (optional): Output format (default: structured)
-
-**Output:**
-
-- Validation status (pass/fail/warnings)
-- Identified issues or inconsistencies
-- Completeness assessment
-- Recommended corrections
-- Market alignment verification
-
-**Usage Example:**
-```
-/validate-plan strictness=4
-```
-
-### `/manage-watchlist [action]`
-
-**Purpose:**
-Manage the active watchlist based on setups and focus ideas.
-
-**Parameters:**
-
-- `action` (required): "add", "remove", "prioritize", "clear", "show"
-- `tickers` (conditional): Specific symbols to affect (required for add/remove)
-- `setup` (conditional): Setup type (required for add)
-- `priority` (optional): Item priority (high/medium/low)
-
-**Output:**
-
-- Updated watchlist status
-- Priority ranking
-- Monitoring parameters
-- Alert configurations
-- Setup expiration estimates
-
-**Usage Example:**
-```
-/manage-watchlist add AAPL failed-breakdown priority=high
-```
-
-## 3. Technical Analysis Commands
-
-### `/check-ticker [symbol]`
-
-**Purpose:**
-Perform comprehensive technical analysis on a specific ticker.
-
-**Parameters:**
-
 - `symbol` (required): Stock/instrument symbol
-- `timeframe` (optional): Analysis timeframe (default: daily)
-- `components` (optional): Specific components to analyze (default: all)
+- `direction` (required): "long" or "short"
+- `entry` (required): Planned entry price
+- `stop` (required): Planned stop loss level
+- `setup` (optional): Setup type (affects sizing rules)
+- `conviction` (optional): Conviction level (high/medium/low)
+- `account_size` (optional): Total account size
+- `max_risk_percent` (optional): Maximum risk as percentage
 
 **Output:**
-
-- Complete technical assessment
-- Key level identification
-- Moving average relationships
-- Pattern recognition
-- Volume analysis
-- Relevant analyst commentary
-- Setup opportunities
+- Recommended position size
+- Risk calculations
+- Alternative sizing options
+- Scaling components
+- Setup-specific adjustments
+- Risk allocation context
 
 **Usage Example:**
-```
-/check-ticker AAPL timeframe=daily
-```
+/size-position AAPL long entry=225.50 stop=223.80 setup=bull-flag conviction=high
 
-### `/check-character [symbol]`
-
-**Purpose:**
-Assess if price character has changed for a specific ticker.
-
-**Parameters:**
-
-- `symbol` (required): Stock/instrument symbol
-- `timeframe` (optional): Analysis timeframe (default: daily)
-- `lookback` (optional): Historical periods to analyze (default: 10)
-
-**Output:**
-
-- Character change signal (yes/no/pending)
-- Pattern breakdown
-- Volume confirmation
-- Moving average relationship shifts
-- Momentum assessment
-- Historical character change examples
-- Trading implications
-
-**Usage Example:**
-```
-/check-character QQQ timeframe=intraday
-```
-
-### `/check-ma [symbol]`
-
-**Purpose:**
-Analyze moving average relationships and interactions for a symbol.
-
-**Parameters:**
-
-- `symbol` (required): Stock/instrument symbol
-- `mas` (optional): Specific MAs to include (default: 8,10,21,50,100,200)
-- `format` (optional): Output format (default: detailed)
-
-**Output:**
-- Current price vs. all MAs
-- MA crossovers and relationships
-- Support/resistance behavior of MAs
-- Historical MA interaction patterns
-- MA slope analysis
-- Trading implications
-- Visual MA chart
-
-**Usage Example:**
-```
-/check-ma SPY mas=8,21,50
-```
-
-### `/check-acceptance [level] [symbol]`
-
-**Purpose:**
-Verify if a price level shows acceptance based on Mancini's framework.
-
-**Parameters:**
-
-- `level` (required): Price level to check
-- `symbol` (required): Stock/instrument symbol
-- `type` (optional): Acceptance type to verify (default: all)
-
-**Output:**
-- Acceptance status (yes/no)
-- Acceptance type classification
-- Supporting evidence
-- Historical significance of level
-- Failed Breakdown potential
-- Time-based context
-- Trading implications
-
-**Usage Example:**
-```
-/check-acceptance 5900 ES
-```
-
-### `/analyze-levels [symbol] [direction]` _(MVP CORE)_
-
-**Purpose:**
-Identify and analyze key price levels for a specific symbol.
-
-**Parameters:**
-
-- `symbol` (required): Stock/instrument symbol
-- `direction` (optional): "support", "resistance", or "both" (default: both)
-- `significance` (optional): "major", "minor", or "all" (default: all)
-
-**Output:**
-- Comprehensive level structure
-- Major/minor classification
-- Recent price interaction
-- Analyst level consensus
-- Gap areas and significance
-- Volume profile at levels
-- Historical reliability statistics
-
-**MVP Implementation:**
-- Basic level identification
-- Simple classification
-- Current price relationship
-
-**Usage Example:**
-```
-/analyze-levels SPX support significance=major
-```
-
-### `/detect-mode`
-
-**Purpose:**
-Determine if the current market is in Mode 1 (trend) or Mode 2 (range/trap).
-
-**Parameters:**
-
-- `lookback` (optional): Historical periods to consider (default: 3)
-- `indices` (optional): Specific indices to analyze (default: ES)
-- `confidence` (optional): Minimum confidence threshold (default: medium)
-
-**Output:**
-- Mode classification with confidence
-- Supporting evidence
-- Historical mode statistics
-- Typical duration expectations
-- Optimal strategy recommendations
-- Warning signs of mode transition
-- Visual mode classification indicators
-
-**Usage Example:**
-```
-/detect-mode indices=ES,SPX
-```
-
-## 4. Position Management Commands
-
-### `/add-position [symbol]` _(MVP CORE)_
+### `/add-position [symbol]`
 
 **Purpose:**
 Add a new trading position to tracking system.
@@ -590,17 +196,12 @@ Add a new trading position to tracking system.
 - Visual position representation
 - Level interaction analysis
 
-**MVP Implementation:**
-- Basic position tracking
-- Simple risk calculation
-- Stop and target recording
-
 **Usage Example:**
-```
 /add-position AAPL long entry=225.50 size=100 stop=223.80 targets=227.50,229.00,232.00 setup=bull-flag
-```
 
-### `/update-position [symbol]` _(MVP CORE)_
+## MANAGE Phase
+
+### `/update-position [symbol]`
 
 **Purpose:**
 Update an existing position with new information or parameters.
@@ -620,17 +221,10 @@ Update an existing position with new information or parameters.
 - Visual position update
 - Level alignment verification
 
-**MVP Implementation:**
-- Basic update functionality
-- Simple partial exit handling
-- Stop level adjustment
-
 **Usage Example:**
-```
 /update-position AAPL move-stop value=224.50 notes="Moving stop to breakeven after first target hit"
-```
 
-### `/close-position [symbol]` _(MVP CORE)_
+### `/close-position [symbol]`
 
 **Purpose:**
 Close a position and record the outcome.
@@ -650,17 +244,10 @@ Close a position and record the outcome.
 - Next steps recommendations
 - Visual trade summary
 
-**MVP Implementation:**
-- Basic position closing
-- Simple performance calculation
-- Trade record creation
-
 **Usage Example:**
-```
 /close-position AAPL exit_price=227.50 reason="Target reached"
-```
 
-### `/list-positions` _(MVP CORE)_
+### `/list-positions`
 
 **Purpose:**
 Display all current positions with status and management information.
@@ -678,73 +265,12 @@ Display all current positions with status and management information.
 - Management priorities
 - Visual position dashboard
 
-**MVP Implementation:**
-- Basic position listing
-- Simple P&L calculation
-- Status indicators
-
 **Usage Example:**
-```
 /list-positions status=active format=summary
-```
 
-### `/manage-runner [symbol]` _(MVP STRETCH)_
+## REVIEW Phase
 
-**Purpose:**
-Apply Mancini's runner management protocol to a position.
-
-**Parameters:**
-- `symbol` (required): Stock/instrument symbol
-- `action` (optional): Specific runner action (adjust-stop, evaluate, target) (default: evaluate)
-- `value` (conditional): New parameter value (required for adjust-stop, target)
-
-**Output:**
-- Runner management guidance
-- Trailing stop recommendation
-- Historical runner statistics
-- Time-based considerations
-- Risk management protocol
-- Visual runner tracking
-
-**MVP Implementation:**
-- Basic runner tracking
-- Simple trailing stop logic
-- Status updates
-
-**Usage Example:**
-```
-/manage-runner AAPL adjust-stop value=225.00
-```
-
-### `/set-alert [symbol]`
-
-**Purpose:**
-Configure price or condition-based alerts for a symbol.
-
-**Parameters:**
-- `symbol` (required): Stock/instrument symbol
-- `type` (required): Alert type ("price", "ma-cross", "volume", "character", etc.)
-- `value` (required): Alert trigger value
-- `direction` (conditional): "above" or "below" (required for price alerts)
-- `expiration` (optional): Alert expiration time
-- `notes` (optional): Alert context
-
-**Output:**
-- Alert confirmation
-- Monitoring status
-- Similar historical alerts
-- Context visualization
-- Alternative alert suggestions
-- Notification options
-
-**Usage Example:**
-```
-/set-alert SPY price value=430.00 direction=below
-```
-
-## 5. Performance Commands
-
-### `/log-session [date]` _(MVP STRETCH)_
+### `/log-session [date]`
 
 **Purpose:**
 Create a comprehensive log entry for a complete trading session, including trades, market conditions, and performance analysis.
@@ -771,263 +297,39 @@ Create a comprehensive log entry for a complete trading session, including trade
 - Time-of-day performance patterns
 - Learning synthesis and improvement plan
 
-**MVP Implementation:**
-- Comprehensive session analysis
-- Performance metrics aggregation
-- Market context integration
-- Moderator trade comparison
-- Cognitive state assessment
-
 **Usage Example:**
-```
 /log-session date="2025-05-15" market_mode="Mode 2" cognitive_load=6.4 decision_quality=DEGRADED
-```
 
-### `/add-journal [type]`
+## UTILITIES
 
-**Purpose:**
-Add a structured entry to trading journal.
-
-**Parameters:**
-- `type` (required): Entry type ("observation", "lesson", "pattern", etc.)
-- `content` (required): Journal entry text
-- `tags` (optional): Categorization tags (comma-separated)
-- `importance` (optional): Entry significance (1-5) (default: 3)
-
-**Output:**
-- Entry confirmation
-- Related historical entries
-- Pattern recognition
-- Implementation suggestions
-- Knowledge integration recommendations
-
-**Usage Example:**
-```
-/add-journal lesson "Failed Breakdowns work best when there are multiple tests of the same level" tags=failed-breakdown,support importance=4
-```
-
-### `/run-debrief` _(MVP STRETCH)_
+### `/analyze-chart [image]`
 
 **Purpose:**
-Execute comprehensive end-of-day trading review.
+Analyze a chart image to identify key patterns, levels, and trading opportunities across different timeframes. This utility command can be used during any trading phase for setup validation, execution decisions, or post-trade review.
 
 **Parameters:**
-- `focus` (optional): Specific areas to emphasize (default: all)
-- `date` (optional): Session date (default: today)
-- `format` (optional): Output format (default: detailed)
+- `image` (required): Chart image to analyze
+- `symbol` (optional): Ticker symbol for additional context
+- `timeframe` (optional): Chart timeframe (e.g., "1m", "5m", "daily") (default: auto-detect)
+- `focus` (optional): Analysis focus (e.g., "support-resistance", "patterns", "entries", "review") (default: comprehensive)
+- `context` (optional): Additional market context information
+- `format` (optional): Output format (default: structured)
 
 **Output:**
-- Complete session analysis
-- Plan execution assessment
-- Decision quality evaluation
-- Performance metrics
-- Psychological state analysis
-- Mode classification accuracy
-- Level utilization effectiveness
-- Next day preparation guidance
+- Comprehensive chart pattern analysis
+- Key support and resistance levels
+- Volume analysis and significance
+- Entry and exit opportunity identification
+- Setup validation against catalog
+- Risk management recommendations
+- Related historical examples
+- Optimal trade analysis (for post-trade review)
 
-**MVP Implementation:**
-- Simple session summary
-- Basic performance metrics
-- Key patterns identified
+**Usage Examples:**
+/analyze-chart [attached 5-minute SPY chart] timeframe=5m focus=patterns
 
-**Usage Example:**
-```
-/run-debrief focus=execution,psychology
-```
+/analyze-chart [attached daily AAPL chart] focus=support-resistance
 
-### `/compare-analysts`
+/analyze-chart [attached 2-minute ES chart] focus=entries context="Failed breakdown potential after FOMC"
 
-**Purpose:**
-Compare trading performance against multiple analyst recommendations.
-
-**Parameters:**
-- `analysts` (optional): Specific analysts to include (default: all)
-- `timeframe` (optional): Analysis period (default: today)
-- `metrics` (optional): Specific metrics to focus on (default: all)
-
-**Output:**
-- Comparative performance analysis
-- Level accuracy assessment
-- Setup success rates by analyst
-- Timing accuracy evaluation
-- Missed opportunity analysis
-- Conviction correlation with outcomes
-- Implementation differences
-- Improvement recommendations
-
-**Usage Example:**
-```
-/compare-analysts analysts=dp,mancini timeframe=week
-```
-
-### `/analyze-patterns`
-
-**Purpose:**
-Identify recurring patterns in trading behavior and performance.
-
-**Parameters:**
-- `pattern_type` (optional): Specific patterns to analyze (default: all)
-- `timeframe` (optional): Analysis period (default: month)
-- `min_occurrences` (optional): Minimum pattern frequency (default: 3)
-
-**Output:**
-- Identified behavioral patterns
-- Success/failure correlations
-- Time-of-day performance analysis
-- Setup type effectiveness
-- Psychological tendencies
-- Decision trigger analysis
-- Mode correlation with performance
-- Improvement recommendations
-
-**Usage Example:**
-```
-/analyze-patterns pattern_type=execution timeframe=month
-```
-
-## 6. System Management Commands
-
-### `/show-help [command]` _(MVP CORE)_
-
-**Purpose:**
-Display help information for available commands.
-
-**Parameters:**
-- `command` (optional): Specific command to explain
-- `category` (optional): Command category to show
-- `format` (optional): Output format (default: detailed)
-
-**Output:**
-- Command description and usage
-- Parameter explanations
-- Examples and use cases
-- Related commands
-- Common patterns
-- Best practices
-
-**MVP Implementation:**
-- Basic help functionality
-- Command description
-- Parameter explanation
-
-**Usage Example:**
-```
-/show-help create-plan
-```
-
-### `/show-version`
-
-**Purpose:**
-Display system version and component information.
-
-**Parameters:**
-- `component` (optional): Specific component to check
-- `format` (optional): Output format (default: standard)
-
-**Output:**
-- System version
-- Component versions
-- Recent updates
-- Compatibility information
-- Feature availability
-- Upcoming changes
-
-**Usage Example:**
-```
-/show-version component=processors
-```
-
-### `/backup-system [options]`
-
-**Purpose:**
-Create system backup of data and configurations.
-
-**Parameters:**
-- `options` (optional): Backup configuration options (full, data, config)
-- `scope` (optional): Elements to include (default: all)
-- `format` (optional): Backup format (default: zip)
-
-**Output:**
-- Backup confirmation
-- Included components
-- Storage location
-- Recovery instructions
-- Backup history
-- Space utilization
-
-**Usage Example:**
-```
-/backup-system options=full
-```
-
-### `/set-preferences [category]`
-
-**Purpose:**
-Configure user preferences for system behavior.
-
-**Parameters:**
-- `category` (required): Preference category
-- `settings` (required): Preference values to set
-- `reset` (optional): Reset to defaults (true/false) (default: false)
-
-**Output:**
-- Confirmation of changes
-- Current preference summary
-- Affected functionality
-- Recommended related settings
-- Reset options
-- Advanced configuration options
-
-**Usage Example:**
-```
-/set-preferences risk settings="max_daily_loss=2%,max_position_size=5%"
-```
-
-### `/run-phase [phase]`
-
-**Purpose:**
-Execute all actions for a specific trading day phase.
-
-**Parameters:**
-- `phase` (required): "premarket", "intraday", "postmarket"
-- `options` (optional): Phase-specific options
-- `skip` (optional): Steps to skip (comma-separated)
-
-**Output:**
-- Phase execution confirmation
-- Actions performed
-- Results summary
-- Next steps
-- Optional actions
-- Timeline projection
-
-**Usage Example:**
-```
-/run-phase premarket skip=check-economic-calendar
-```
-
-### `/define-conviction`
-
-**Purpose:**
-Define and calibrate conviction level mapping for analyst language.
-
-**Parameters:**
-- `analyst` (required): Analyst to calibrate for
-- `samples` (optional): Number of samples to analyze (default: 10)
-- `phrases` (optional): Custom phrases to include
-
-**Output:**
-- Conviction level mapping
-- Phrase classification
-- Confidence scores
-- Example phrases
-- Override options
-- Testing recommendations
-
-**Usage Example:**
-```
-/define-conviction dp samples=20
-```
-
-This command catalog provides a comprehensive reference for all available commands in the Intent Trader system, with detailed specifications, parameters, outputs, and usage examples. Commands marked with _(MVP CORE)_ are the highest priority for implementation, while those with _(MVP STRETCH)_ are secondary priorities for the minimum viable product.
+/analyze-chart [attached 15-minute chart] focus=review symbol=NVDA context="Missed this setup yesterday"
