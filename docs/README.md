@@ -1,31 +1,263 @@
-# 📚 Intent Trader Documentation Index
+# Intent Trader: Your AI Trading Companion
 
-Welcome to the documentation hub for the Intent Trader system.
+Welcome to **Intent Trader** – your intelligent trading assistant that transforms how you approach the markets!
 
----
+Have you ever felt overwhelmed trying to extract actionable insights from morning calls, manage your position sizing, and track trades all at once? Intent Trader solves these challenges by working alongside you throughout your trading day, helping you make more informed decisions with greater confidence and consistency.
 
-## 🔧 Commands
-
-- [`commands.md`](./commands.md) – All CLI and ChatGPT runtime commands
+Intent Trader intuitively organizes your trading workflow the way your brain naturally works – from planning opportunities and focusing on the best setups to executing with precision and managing positions effectively. It's like having a dedicated trading assistant who helps you capture the wisdom from analyst calls while applying proven risk management principles to every trade.
 
 ---
 
-## 💡 How-To Guides
+## 🚀 Key Features
 
-| Guide                                             | Description                                     |
-|--------------------------------------------------|-------------------------------------------------|
-| [`how-to/run-daily-session.md`](./how-to/run-daily-session.md)     | Full daily trading lifecycle                   |
-| [`how-to/add-a-plugin.md`](./how-to/add-a-plugin.md)               | Create and register a plugin                   |
-| [`how-to/create-a-prompt.md`](./how-to/create-a-prompt.md)         | Build schema-compliant prompts                 |
-| [`how-to/review-execution.md`](./how-to/review-execution.md)       | Reconcile plan vs. trades                      |
-| [`how-to/chatgpt-boot.md`](./how-to/chatgpt-boot.md)               | Load the system into ChatGPT                   |
+**Intent Trader transforms your trading experience by:**
+
+- **Capturing Every Insight**: Automatically extracts actionable trade ideas from DP morning calls and Mancini ES Futures newsletters so you never miss a high-conviction opportunity
+- **Creating Clear Roadmaps**: Generates structured trade plans that organize opportunities by conviction, helping you focus on what matters most
+- **Taking the Guesswork Out of Position Sizing**: Calculates optimal position sizes based on risk parameters and your trading strategy
+- **Keeping You On Track**: Tracks entries, exits, and performance so you can focus on execution instead of bookkeeping
+- **Supporting Your Entire Process**: Guides you through each trading phase from pre-market prep to post-market review
+- **Speaking Your Language**: Uses intuitive slash commands that make complex actions simple and quick
 
 ---
 
-## 🧭 Developer Playbooks
+## 📝 Power Commands at Your Fingertips
 
-See `/playbooks/` for:
+Intent Trader gives you access to powerful commands across your entire trading day:
 
-- `phase-map.md`
-- `plugin-system-quickstart.md`
-- `bootstrap-prompt.md`
+### Pre-Market Preparation
+| Command | What It Does | Example |
+|---------|--------------|---------|
+| `/analyze-dp` | Extracts insights from DP morning calls | `/analyze-dp [transcript]` |
+| `/analyze-mancini` | Extracts insights from Mancini newsletters | `/analyze-mancini [newsletter]` |
+| `/create-plan` | Builds your daily trading roadmap | `/create-plan` |
+| `/extract-focus` | Filters for high-conviction ideas | `/extract-focus dp high` |
+| `/extract-levels` | Identifies key price levels to watch | `/extract-levels dp ES,SPX` |
+| `/detect-mode` | Determines market mode (trend vs. range) | `/detect-mode` |
+
+### Market Hours Execution
+| Command | What It Does | Example |
+|---------|--------------|---------|
+| `/size-position` | Calculates optimal position size | `/size-position AAPL long entry=225.50 stop=223.80` |
+| `/add-position` | Tracks new trade entries | `/add-position AAPL long entry=225.50 size=100 stop=223.80` |
+| `/analyze-levels` | Finds support/resistance for any ticker | `/analyze-levels SPX support` |
+| `/list-positions` | Shows your active position dashboard | `/list-positions` |
+| `/update-position` | Manages stops and partial exits | `/update-position AAPL move-stop value=224.50` |
+| `/close-position` | Records completed trades | `/close-position AAPL exit_price=227.50` |
+| `/manage-runner` | Applies runner management protocol | `/manage-runner ES current_price=5940` |
+
+### Post-Market Review (Coming Soon)
+| Command | What It Does | Example |
+|---------|--------------|---------|
+| `/log-session` | Records complete session data | `/log-session market_conditions="Trending, high volume"` |
+| `/run-debrief` | Analyzes your trading session | `/run-debrief` |
+
+---
+
+## 🔄 Your Natural Trading Flow
+
+Intent Trader mirrors how successful traders actually think, supporting each cognitive phase of your trading process:
+
+### 1. PLAN - Set the Stage for Success
+Begin your day by transforming analyst commentary into a clear market framework:
+- Process DP morning calls and Mancini newsletters with single commands
+- Identify key levels that other traders are watching
+- Understand market mode (Mode 1 trending vs. Mode 2 range/trap)
+- Create a personalized roadmap for your trading day
+
+### 2. FOCUS - Zero In On What Matters
+Cut through the noise and prioritize the highest-probability opportunities:
+- Automatically extract high-conviction trading ideas
+- Identify Failed Breakdown setups for ES/SPX futures
+- Rank setups by quality and probability of success
+- Organize your watchlist in priority order
+- Prepare for confident, targeted execution
+
+### 3. EXECUTE - Enter with Confidence
+Take the emotion out of trade entries with systematic validation:
+- Calculate position sizes based on your risk tolerance
+- Validate trades against your pre-defined criteria
+- Time entries based on optimal market conditions
+- Document your trades with complete context
+
+### 4. MANAGE - Navigate Changing Conditions
+Stay disciplined with active position management:
+- Track all positions in a clean, organized dashboard
+- Apply consistent rules to protect profits and manage risk
+- Use systematic 75/15/10 rule for runner management
+- Adjust stops based on price action developments
+- Build around core positions when appropriate
+
+### 5. REVIEW - Turn Experience Into Wisdom
+Transform each trading day into lessons that improve future performance:
+- Document completed trades with full context
+- Assess how closely you followed your plan
+- Identify patterns in your trading behavior
+- Compare performance between stock and futures trades
+- Prepare for tomorrow with new insights
+
+---
+
+## 🚀 Getting Started in Minutes
+
+Getting started with Intent Trader is quick and easy:
+
+1️⃣ **Upload the Intent Trader ZIP** archive to ChatGPT
+
+2️⃣ **Initialize the system** with a single command:
+   ```
+   Please read and load ALL files from this ZIP archive.
+   Use system/runtime/runtime-agent.md as the routing layer for commands.
+   Use system/runtime/command-map.md to map valid commands.
+   Use state/session-manifest.json to determine the current session phase.
+   ```
+
+3️⃣ **Process analyst insights** to extract trading opportunities:
+   ```
+   /analyze-dp [paste your morning call transcript]
+   /analyze-mancini [paste Mancini newsletter]
+   ```
+
+4️⃣ **Generate your trading plan** for the day:
+   ```
+   /create-plan
+   ```
+
+5️⃣ **Calculate the right position size** before entering a trade:
+   ```
+   /size-position AAPL long entry=225.50 stop=223.80 setup=bull-flag conviction=high
+   ```
+
+6️⃣ **Track your positions** during market hours:
+   ```
+   /add-position AAPL long entry=225.50 size=100 stop=223.80 targets=227.50,229.00,232.00
+   ```
+
+You'll be up and running in less than 5 minutes, transforming how you trade from day one!
+
+---
+
+## 🏗️ Intelligent Architecture That Works Like You Do
+
+Intent Trader's architecture mirrors both how markets operate and how traders think:
+
+### Aligned with Market Sessions
+Intent Trader organizes functionality around the natural rhythm of the trading day:
+- **Pre-Market Session**: Plan development and opportunity identification
+- **Open Market Session**: Execution decisions and position management
+- **Post-Market Session**: Performance review and learning
+
+### Built Around Your Cognitive Process
+The system's domain structure matches how traders mentally process the markets:
+- **PLAN Domain**: Creating your market framework and opportunity map
+- **FOCUS Domain**: Prioritizing setups and allocating attention
+- **EXECUTE Domain**: Validating entries and sizing positions
+- **MANAGE Domain**: Handling active trades through their lifecycle
+- **REVIEW Domain**: Analyzing outcomes and extracting lessons
+
+### Modular Components Working Together
+- **Processing Engines**: Specialized analyzers that transform raw data into actionable insights
+- **Command Router**: Intelligent system that directs your commands to the right components
+- **Entity Store**: Secure storage for tracking your positions, plans, and trading data
+- **Output Formatters**: Clear presentation of information optimized for trader decision-making
+
+This thoughtful design ensures Intent Trader feels like a natural extension of your trading process rather than just another tool.
+
+---
+
+## 💻 Current Features & What's Coming Next
+
+### Intent Trader v0.5.1 (Current Release)
+Our current version focuses on the core functionality most critical to your trading success:
+
+- **Morning Call Analysis**: Automatically extract actionable insights from DP's commentary
+- **Conviction Classification**: Identify high/medium/low conviction trade ideas
+- **Unified Trade Planning**: Generate structured trading plans with priorities and levels
+- **Risk-Based Position Sizing**: Calculate optimal position sizes based on your risk parameters
+- **Position Tracking**: Maintain a complete dashboard of your active trades
+- **Core Position Management**: Support for DP's "trading around a core" methodology
+
+### Coming in v0.5.2 (Next Release)
+We're excited about these powerful enhancements in our upcoming release:
+
+- **Mancini Newsletter Integration**: Extract insights from Mancini's ES Futures analysis
+- **Failed Breakdown Detection**: Identify Mancini's high-probability FB setups for futures trading
+- **Market Mode Detection**: Classify Mode 1 (trending) vs Mode 2 (range/trap) environments
+- **Runner Management Protocol**: Implement the 75/15/10 rule for systematic profit-taking
+- **Advanced Stop Techniques**: Sophisticated trailing stop methodologies
+- **Comprehensive Session Analysis**: Detailed logging and debriefing of trading sessions
+
+These upcoming features will further enhance your trading process, giving you even more powerful tools to navigate both stock and futures markets with confidence.
+
+---
+
+## 🔍 Smart Position Sizing That Protects Your Capital
+
+One of Intent Trader's most powerful features is its intelligent position sizing system that:
+
+- **Eliminates Emotional Sizing**: Calculates precise position sizes based on your risk parameters and trading charter
+- **Adapts to Trade Quality**: Automatically adjusts size based on setup type and conviction level
+- **Offers Alternatives**: Provides both conservative and aggressive options for different market conditions
+- **Supports Strategic Building**: Implements DP's "trading around a core" methodology for progressive position building
+- **Prevents Sizing Errors**: Warns about impractical position sizes for options and higher-priced instruments
+- **Enforces Your Guardrails**: Respects maximum risk limits from your trading charter
+
+Simply run this command before any trade to get optimal sizing recommendations:
+```
+/size-position AAPL long entry=225.50 stop=223.80 setup=bull-flag conviction=high
+```
+
+You'll receive clear guidance on position size, risk exposure, and strategic alternatives – taking the guesswork out of one of trading's most critical decisions.
+
+---
+
+## 🌊 Failed Breakdown Trading for ES Futures
+
+The v0.5.2 release introduces powerful support for Adam Mancini's Failed Breakdown methodology:
+
+- **Automated FB Detection**: Identify high-probability Failed Breakdown setups from Mancini's analysis
+- **Precise Parameter Extraction**: Get exact level, condition, target, and stop information for each setup
+- **Level-to-Level Framework**: Apply Mancini's structured approach to futures trading
+- **Mode-Based Strategy Adjustment**: Adapt your approach based on market mode (Mode 1 vs. Mode 2)
+- **Runner Management Protocol**: Apply systematic rules for trailing stops and profit-taking
+
+To leverage this powerful methodology, simply process Mancini's newsletter:
+
+```
+/analyze-mancini [paste newsletter content]
+```
+
+Then incorporate the setups into your unified trade plan:
+
+```
+/create-plan sources=both
+```
+
+This gives you a comprehensive approach covering both DP's stock analysis and Mancini's futures expertise in one integrated system.
+
+---
+
+## 🌐 Resources & Support
+
+### Helpful Resources
+- **Command Reference**: Detailed guide for every command in `/docs/commands.md`
+- **User Guide**: Step-by-step instructions in `/docs/how-to/run-daily-session.md`
+- **Development Guide**: Technical information in `/docs/developer-handbook.md`
+
+### Getting Help
+Type `/help` at any time during your session to:
+- See available commands
+- Get usage examples
+- Access command-specific guidance
+- Find troubleshooting information
+
+### Join Our Community
+Connect with other Intent Trader users to share strategies, tips, and insights. Follow our updates to be the first to know about new features and improvements.
+
+---
+
+Ready to transform your trading? Type `/help` to begin your journey with Intent Trader!
+
+---
+
+*Intent Trader: Make Every Trade Intentional*
