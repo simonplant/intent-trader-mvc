@@ -7,7 +7,6 @@
 │   ├── command-reference.md
 │   ├── command-routes-update-sop.md
 │   ├── mancini-trading-style.md
-│   ├── README.md
 │   ├── requirements.md
 │   └── system-architecture.md
 ├── INSTALL.md
@@ -31,7 +30,7 @@
 ├── prompts
 │   ├── coach
 │   ├── execute
-│   │   ├── log-session.md
+│   │   ├── add-position.md
 │   │   └── size-position.md
 │   ├── focus
 │   │   ├── conviction-classifier.md
@@ -41,14 +40,15 @@
 │   │   ├── market-regimes.md
 │   │   └── risk-rules.json
 │   ├── manage
-│   │   ├── add-position.md
 │   │   ├── close-position.md
 │   │   ├── list-positions.md
 │   │   └── update-position.md
 │   ├── plan
 │   │   ├── analyze-dp.md
+│   │   ├── analyze-mancini-preprocessor.md
 │   │   └── analyze-mancini.md
 │   ├── review
+│   │   └── log-session.md
 │   └── utilities
 │       └── chart-analysis.md
 ├── README.md
@@ -74,6 +74,11 @@
 ├── tests
 ├── tree.txt
 └── wip
-    └── commands.md
+    ├── analyze-mancini-preprocessor.md
+    ├── command-reference.md
+    ├── commands-backup.md
+    ├── mancini-analyzer.md
+    ├── mancini-integration-update-plan.md
+    └── mancini-refactor-implementation-guide.md
 
-21 directories, 56 files
+21 directories, 61 files
