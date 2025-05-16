@@ -1,5 +1,5 @@
 ---
-id: intent-trader-v051-plan-update
+id: intent-trader-v051-plan-update2
 version: "0.5.1"
 type: plan
 created: 2025-05-15
@@ -7,7 +7,7 @@ updated: 2025-05-15
 status: ACTIVE
 ---
 
-# Intent Trader v0.5.1 MVP Plan (Updated)
+# Intent Trader v0.5.1 MVP Plan (Final Update)
 
 This document defines the scope, architecture, and development priorities for delivering a working MVP (minimum viable product) of the Intent Trader system by tomorrow/Monday. It focuses on providing immediate trading value while establishing the foundation for future iterations.
 
@@ -20,7 +20,7 @@ The MVP must support a full trading session for a single user, aligned to a hybr
 ### Temporal Sessions:
 - **Pre-Market Session**: Plan + Focus _(MVP CORE)_
 - **Open Market Session**: Execute + Manage _(MVP CORE)_
-- **Post-Market Session**: Review _(MVP STRETCH)_
+- **Post-Market Session**: Review _(MVP CORE)_
 
 ### Cognitive Workflow:
 - **Plan → Focus → Execute → Manage → Review**
@@ -89,17 +89,44 @@ This framework supports the end-to-end trading workflow while prioritizing the c
 
 ### 3. Post-Market Session
 
-#### REVIEW Phase (STRETCH GOAL)
-- **Trade Logging**: Record completed trades _(STRETCH)_
-  - Entry/exit details
+#### REVIEW Phase (MVP CORE)
+- **Trading Session Logging**: Record session details _(IN PROGRESS)_
+  - Trade entry/exit details
   - Performance metrics
-  - Setup classification
   - Plan adherence assessment
-- **Session Debrief**: Analyze trading performance _(STRETCH)_
+  - Market context capture
+  - Trading behavior patterns
+- **Session Debrief**: Analyze trading performance _(PLANNED)_
   - Day summary creation
   - Performance metric calculation
   - Pattern identification
   - Improvement recommendations
+
+### 4. System Finalization
+
+#### SYSTEM ORGANIZATION (MVP CORE)
+- **Command Route Updates**: Standardize command interfaces _(PLANNED)_
+  - Update command patterns
+  - Create command reference document
+  - Standardize parameter handling
+  - Document command relationships
+- **Folder Structure**: Organize by cognitive phase _(PLANNED)_
+  - Restructure files by phase
+  - Create consistent naming conventions
+  - Implement proper cross-linking
+  - Document organization schema
+- **System Architecture Documentation**: Define system design _(PLANNED)_
+  - Document component relationships
+  - Define data flows
+  - Diagram system architecture
+  - Create component registry
+
+#### FUTURE INTEGRATION (PRELIMINARY)
+- **Mancini Analysis Integration**: Plan for v0.5.2 _(PLANNED)_
+  - Define integration points
+  - Identify required components
+  - Create transition plan
+  - Document differences from DP workflow
 
 ---
 
@@ -125,22 +152,32 @@ This framework supports the end-to-end trading workflow while prioritizing the c
      - `/list-positions`
    - Create position sizing functionality with `/size-position`
 
-4. **Evening (1 hour)**: Test end-to-end workflow _(IN PROGRESS)_
-   - Process sample morning call
-   - Generate unified plan
-   - Simulate position management
-   - Fix critical issues
+4. **Evening (1 hour)**: Begin REVIEW Phase _(IN PROGRESS)_
+   - Implement `/log-session` for session tracking
+   - Create `/run-debrief` for session analysis
+   - Start system organization
 
-### Day 2 (Next Trading Day): MVP STRETCH
-1. **Morning (2 hours)**: Enhance MANAGE Phase
-   - ~~Improve trimming protocol with 75/15/10 rule~~ _(MOVED TO v0.5.2)_
-   - ~~Add stop adjustment functionality~~ _(MOVED TO v0.5.2)_
-   - ~~Implement `/manage-runner` command~~ _(MOVED TO v0.5.2)_
+### Day 2 (Next Trading Day): MVP FINALIZATION
+1. **Morning (2 hours)**: Complete System Finalization
+   - Update command routes and references
+   - Organize folder structure
+   - Create preliminary Mancini integration plan
+   - Document system architecture
 
-2. **Afternoon (2 hours)**: Implement REVIEW Phase
-   - Create `/log-trade` command _(STRETCH)_
-   - Implement `/run-debrief` for session analysis _(STRETCH)_
-   - Develop basic pattern recognition _(STRETCH)_
+2. **Pre-Market (1 hour)**: Live Test with Morning Call
+   - Process real DP morning call with system
+   - Generate trade plan for the day
+   - Extract focus ideas and levels
+
+3. **Trading Session (4 hours)**: Execute with System Support
+   - Use position management commands in real-time
+   - Apply position sizing rules to actual trades
+   - Track positions throughout the day
+
+4. **Post-Market (1 hour)**: Review Session Performance
+   - Log complete trading session
+   - Run session debrief
+   - Identify improvement areas for v0.5.2
 
 ---
 
@@ -165,187 +202,51 @@ This framework supports the end-to-end trading workflow while prioritizing the c
 - `/close-position [symbol]` - Close position and record outcome ✅
 - `/list-positions` - Show current positions ✅
 
-### Day 2 (MVP STRETCH) Commands
+#### REVIEW Phase
+- `/log-session` - Record trading session data _(IN PROGRESS)_
+- `/run-debrief` - Analyze trading session _(PLANNED)_
+
+### v0.5.2 Commands (DEFERRED)
 
 #### MANAGE Phase
 - `/adjust-stop [symbol]` - Modify stop loss level _(MOVED TO v0.5.2)_
 - `/trim-position [symbol]` - Execute partial exit _(MOVED TO v0.5.2)_
 - `/manage-runner [symbol]` - Apply runner management protocol _(MOVED TO v0.5.2)_
 
-#### REVIEW Phase
-- `/log-trade [symbol]` - Record trade performance _(STRETCH)_
-- `/run-debrief` - Analyze trading session _(STRETCH)_
+#### PLAN Phase
+- `/analyze-mancini [newsletter]` - Process Mancini newsletter _(MOVED TO v0.5.2)_
+- `/mode-detect` - Determine market mode _(MOVED TO v0.5.2)_
 
 ---
 
-## Output Templates
-
-### 1. Morning Call Analysis (PLAN Phase) ✅
-```json
-{
-  "marketContext": {
-    "futures": {"status": "string", "catalysts": ["string"]},
-    "indices": {"dow": {"direction": "string", "change": "string"}, "nasdaq": {"direction": "string", "change": "string"}},
-    "keyMovers": [{"ticker": "string", "direction": "string", "magnitude": "string", "reason": "string"}],
-    "sentiment": "string"
-  },
-  "focusIdeas": [
-    {
-      "ticker": "string",
-      "direction": "long/short",
-      "conviction": {"level": "high/medium/low", "phrases": ["string"]},
-      "entryParameters": {"zone": {"min": "number", "max": "number"}, "condition": "string"},
-      "exitParameters": {"stopLoss": "number", "target": "number"},
-      "rationale": "string"
-    }
-  ],
-  "levels": {
-    "indices": {
-      "es": {"support": [{"value": "number"}], "resistance": [{"value": "number"}]},
-      "spx": {"support": [{"value": "number"}], "resistance": [{"value": "number"}]}
-    },
-    "stocks": [
-      {
-        "ticker": "string",
-        "levels": {"support": [{"value": "number"}], "resistance": [{"value": "number"}]},
-        "movingAverages": {"ma8": "number", "ma21": "number"}
-      }
-    ]
-  }
-}
-```
-
-### 2. Unified Trade Plan (PLAN/FOCUS Phases) ✅
-```markdown
-# Unified Daily Trade Plan — [DATE]
-
-## Market Overview
-- **Futures**: [status]
-- **Sentiment**: [assessment]
-- **Key Context**: [important information]
-
----
-
-## DP Trade Ideas (Sorted by Conviction)
-
-| # | Ticker | Level(s)     | Action              | Conviction | Sizing       | Duration | Sentiment |
-|---|--------|--------------|---------------------|------------|--------------|----------|-----------|
-| 1 | TICK   | 00–00        | [action]            | High       | [size]       | [time]   | [sent]    |
-| 2 | TICK   | 00           | [action]            | High       | [size]       | [time]   | [sent]    |
-| 3 | TICK   | 00 (00d MA)  | [action]            | Med-High   | [size]       | [time]   | [sent]    |
-
----
-
-## Key Levels
-
-### Support Zones
-
-| Level | Type     | Notes                                    |
-|-------|----------|------------------------------------------|
-| 0000  | Major    | [significance]                           |
-| 0000  | Minor    | [context]                                |
-
-### Resistance Zones
-
-| Level | Type     | Notes                                    |
-|-------|----------|------------------------------------------|
-| 0000  | Major    | [significance]                           |
-| 0000  | Minor    | [context]                                |
-
----
-
-## Moving Averages (Levels-Check Summary)
-
-| Ticker | 8d MA | 21d MA | Price     | Notes                         |
-|--------|-------|--------|-----------|-------------------------------|
-| SPX    | ~0000 | ~0000  | 0000.00   | [relationship]                |
-| TICK   | ~000  | ~000   | 000.00    | [relationship]                |
-
----
-
-## Execution Notes
-
-- [key focus points]
-- [risk notes]
-- [management protocol]
-```
-
-### 3. Position Tracker (EXECUTE/MANAGE Phases) ✅
-```markdown
-# Active Positions — [DATE]
-
-| Ticker | Direction | Entry   | Current | P&L     | Stop    | Target  | Status    |
-|--------|-----------|---------|---------|---------|---------|---------|-----------|
-| TICK   | Long      | 000.00  | 000.00  | +0.0%   | 000.00  | 000.00  | Active    |
-| TICK   | Short     | 000.00  | 000.00  | -0.0%   | 000.00  | 000.00  | Active    |
-
-## Position Details
-
-### TICK (Long)
-- **Entry**: 000.00 at 00:00
-- **Current**: 000.00 (+/-0.0%)
-- **Stop**: 000.00 (-0.0%)
-- **Targets**:
-  - T1 (75%): 000.00 (+0.0%)
-  - T2 (15%): 000.00 (+0.0%)
-  - T3 (10%): 000.00 (+0.0%)
-- **Setup**: [type]
-- **Notes**: [context]
-
-## Aggregate Risk
-- **Total Exposure**: 0.0% of capital
-- **Directional Bias**: [long/short/neutral]
-```
-
-### 4. Position Sizing Calculation (EXECUTE Phase) ✅
-```markdown
-# Position Sizing: $SYMBOL (DIRECTION)
-
-## Trade Parameters
-- Entry: $000.00
-- Stop: $000.00 
-- Risk Per Share: $0.00
-- Setup: [type]
-- Conviction: [level]
-
-## Recommended Position
-- Size: 000 shares
-- Risk Amount: $000.00 (0.0% of account)
-- R-Multiple Value: $1R = $0.00
-
-## Alternative Sizes
-- Conservative: 000 shares ($000.00 risk)
-- Aggressive: 000 shares ($000.00 risk)
-
-## Position Management Considerations
-- Total Position: 000 shares
-- Traditional Core Position: 000 shares (50% for scaling in/out)
-- Options/Higher-Priced Instruments: Consider whole-unit increments
-
-## Sizing Notes
-- [key sizing considerations]
-```
-
-### 5. Trade Log (REVIEW Phase) _(STRETCH)_
-```markdown
-# Trade Log — [DATE]
-
-| Ticker | Direction | Entry   | Exit    | P&L     | Hold Time | Setup     | Adherence |
-|--------|-----------|---------|---------|---------|-----------|-----------|-----------|
-| TICK   | Long      | 000.00  | 000.00  | +0.0%   | 0h 00m    | [type]    | [rating]  |
-| TICK   | Short     | 000.00  | 000.00  | -0.0%   | 0h 00m    | [type]    | [rating]  |
-
-## Trade Details
-
-### TICK (Long)
-- **Entry**: 000.00 at 00:00 [condition]
-- **Exit**: 000.00 at 00:00 [reason]
-- **Result**: +/-0.0% ($ amount)
-- **Plan Adherence**: [assessment]
-- **Management**: [assessment]
-- **Lessons**: [key takeaways]
-```
-
+## Folder Structure (Updated)
+intent-trader/
+├── prompts/
+│   ├── plan/
+│   │   └── analyze-dp.md
+│   ├── focus/
+│   │   ├── conviction-classifier.md
+│   │   ├── create-plan.md
+│   │   ├── extract-focus.md
+│   │   └── extract-levels.md
+│   ├── execute/
+│   │   ├── add-position.md
+│   │   ├── list-positions.md
+│   │   ├── update-position.md
+│   │   ├── close-position.md
+│   │   └── size-position.md
+│   ├── manage/
+│   │   └── [future: manage-runner.md]
+│   └── review/
+│       ├── log-session.md
+│       └── run-debrief.md
+├── state/
+│   ├── my-positions.json
+│   └── ic-moderator-positions.json
+└── docs/
+├── system-architecture.md
+├── command-reference.md
+└── mancini-integration-plan.md
 ---
 
 ## MVP Success Criteria
@@ -356,7 +257,9 @@ The MVP will be considered successful if:
 2. It generates a clear, prioritized trade plan with entry/exit points (PLAN) ✅
 3. It helps prioritize the highest conviction setups (FOCUS) ✅
 4. It tracks positions accurately during the trading day (EXECUTE/MANAGE) ✅
-5. It supports profitable decision making during tomorrow's trading session
+5. It supports logging and analysis of trading performance (REVIEW) _(IN PROGRESS)_
+6. It provides a clean, organized system architecture (SYSTEM) _(PLANNED)_
+7. It supports profitable decision making during tomorrow's trading session
 
 This MVP focuses on delivering immediate trading value while establishing the core architecture for future enhancements.
 
@@ -365,25 +268,33 @@ This MVP focuses on delivering immediate trading value while establishing the co
 ## v0.5.2 Roadmap (Post-MVP Updates)
 
 1. Mancini-specific trade management
+   - Implement `/analyze-mancini` command
    - Implement `/manage-runner` command
    - Add comprehensive 75/15/10 rule implementation
    - Enhance trailing stop methodology
    - Add Failed Breakdown detection
+   - Create level integration framework
+   - Add Mode detection (Mode 1 vs. Mode 2)
 
 2. Enhanced stop management
    - Advanced stop adjustment methodology
    - Character-based stop movement
    - Implement `/adjust-stop` dedicated command
    - Create automated stop management rules
+   - Add ATR-based stop adjustment
 
-3. Develop REVIEW phase functionality
+3. Implementation testing framework
+   - Create comprehensive test suite
+   - Implement automated testing workflows
+   - Add end-to-end testing tools
+   - Create realistic test scenarios
+   - Track test coverage metrics
+
+4. Enhanced review capabilities
    - Improve trade logging and analytics
-   - Implement pattern recognition
+   - Enhance pattern recognition algorithms
    - Create knowledge extraction framework
-
-4. Begin Mancini newsletter processing development
-   - Preliminary work on `/analyze-mancini` command
-   - Create level integration framework
-   - Add Mode detection (Mode 1 vs. Mode 2)
+   - Add long-term performance tracking
+   - Implement trading journal integration
 
 By focusing on a pragmatic MVP that delivers immediate trading value, we establish a solid foundation while enabling rapid feedback and iteration. The v0.5.2 release will then build on this foundation with enhanced features and Mancini-specific functionality.
