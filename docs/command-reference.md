@@ -37,29 +37,30 @@ All commands are phase-aligned to the cognitive workflow:
 - **Review Phase**: Performance analysis and reflection
 - **System**: Core system commands
 
-## MVP Implementation Status
+## Implementation Status
 
 Commands are marked with their implementation status:
-- ✅ **MVP CORE**: Implemented in v0.5.1
-- 🔜 **MVP STRETCH**: Partial implementation in v0.5.1
+- ✅ **CORE**: Implemented in v0.5.1
 - 📅 **FUTURE**: Planned for future releases
 
-## Quick Reference: MVP Commands
+## Quick Reference: Commands
 
 | Command | Phase | Status | Description |
 |---------|-------|--------|-------------|
-| `/analyze-dp` | Plan | ✅ MVP CORE | Process DP morning call |
-| `/create-plan` | Plan | ✅ MVP CORE | Generate unified trade plan |
-| `/extract-focus` | Focus | ✅ MVP CORE | Extract high-conviction ideas |
-| `/extract-levels` | Focus | ✅ MVP CORE | Extract key technical levels |
-| `/add-position` | Execute | ✅ MVP CORE | Track new position |
-| `/size-position` | Execute | ✅ MVP CORE | Calculate position size |
-| `/list-positions` | Execute | ✅ MVP CORE | Show current positions |
-| `/update-position` | Manage | ✅ MVP CORE | Update position details |
-| `/close-position` | Manage | ✅ MVP CORE | Close position and record outcome |
-| `/log-session` | Review | 🔜 MVP STRETCH | Record complete session data |
-| `/help` | System | ✅ MVP CORE | Show available commands |
-| `/status` | System | ✅ MVP CORE | Show current trading session state |
+| `/analyze-dp` | Plan | ✅ CORE | Process DP morning call |
+| `/create-plan` | Plan | ✅ CORE | Generate unified trade plan |
+| `/analyze-mancini-preprocessor` | Plan | ✅ CORE | Extract structured data from Mancini newsletter |
+| `/analyze-mancini` | Plan | ✅ CORE | Process preprocessed Mancini data |
+| `/extract-focus` | Focus | ✅ CORE | Extract high-conviction ideas |
+| `/extract-levels` | Focus | ✅ CORE | Extract key technical levels |
+| `/add-position` | Execute | ✅ CORE | Track new position |
+| `/size-position` | Execute | ✅ CORE | Calculate position size |
+| `/list-positions` | Execute | ✅ CORE | Show current positions |
+| `/update-position` | Manage | ✅ CORE | Update position details |
+| `/close-position` | Manage | ✅ CORE | Close position and record outcome |
+| `/log-session` | Review | ✅ CORE | Record complete session data |
+| `/help` | System | ✅ CORE | Show available commands |
+| `/status` | System | ✅ CORE | Show current trading session state |
 
 ---
 
@@ -67,7 +68,7 @@ Commands are marked with their implementation status:
 
 ### PLAN Phase Commands
 
-#### `/analyze-dp [transcript]` ✅ MVP CORE
+#### `/analyze-dp [transcript]` ✅ CORE
 
 **Purpose:** Process DP morning call transcript comprehensively, extracting all key components and insights.
 
@@ -84,7 +85,7 @@ Commands are marked with their implementation status:
 * Analyst actions summary
 * Market philosophy assessment
 
-**MVP Implementation:**
+**Implementation:**
 * Focus on extracting high-conviction trade ideas
 * Extract key levels for indices and focus stocks
 * Basic market context (futures, sentiment)
@@ -98,7 +99,7 @@ Commands are marked with their implementation status:
 /analyze-dp "Futures are a bit lower as we await this morning's CPI. The Dow is leading to the downside after UNH suspends guidance for 2025..."
 ```
 
-#### `/create-plan` ✅ MVP CORE
+#### `/create-plan` ✅ CORE
 
 **Purpose:** Generate comprehensive unified trade plan integrating multiple analyst inputs.
 
@@ -115,7 +116,7 @@ Commands are marked with their implementation status:
 * Conditional scenario planning
 * Mode-specific guidelines
 
-**MVP Implementation:**
+**Implementation:**
 * Focus on DP insights
 * Prioritized trade ideas
 * Basic market context
@@ -129,12 +130,42 @@ Commands are marked with their implementation status:
 /create-plan risk_level=4
 ```
 
-#### `/analyze-mancini [newsletter]` 📅 FUTURE
+#### `/analyze-mancini-preprocessor [newsletter]` ✅ CORE
 
-**Purpose:** Process Mancini newsletter comprehensively, extracting levels, setups, and trade plan.
+**Purpose:** Extract structured data from Mancini newsletter for further analysis, handling large PDFs that exceed context limits.
 
 **Parameters:**
-* `newsletter` (required): Text of Mancini's newsletter
+* `newsletter` (required): Complete text of Mancini's newsletter
+* `format` (optional): Output format for the structured data (default: json)
+
+**Output:**
+* Preprocessed JSON with structured sections
+* Extracted price levels with context
+* Market commentary organized by sections
+* Failed Breakdown setups identified
+* Bull/bear scenarios extracted
+* Runner management information
+
+**Implementation:**
+* Document chunking for large newsletters
+* Key section identification
+* Price level extraction
+* Basic structure normalization
+
+**File Location:**
+* `prompts/plan/analyze-mancini-preprocessor.md`
+
+**Example:**
+```
+/analyze-mancini-preprocessor "SPX Is Coiled Tight. Another Move Is Coming. What Way? May 15 Plan..."
+```
+
+#### `/analyze-mancini [preprocessedData]` ✅ CORE
+
+**Purpose:** Process preprocessed Mancini newsletter data to perform comprehensive analysis and integration with trade plan.
+
+**Parameters:**
+* `preprocessedData` (required): JSON output from the preprocessor
 * `components` (optional): Specific components to focus on (default: all)
 * `format` (optional): Output format (default: structured)
 
@@ -146,11 +177,19 @@ Commands are marked with their implementation status:
 * Runner status and management protocol
 * Level-to-level trading methodology
 
-**Planned for:** v0.5.2
+**Implementation:**
+* Advanced analysis of preprocessed data
+* Mode classification (Mode 1 vs Mode 2)
+* Integration with level extraction system
+* Failed Breakdown pattern recognition
+* Market bias determination
+
+**File Location:**
+* `prompts/plan/analyze-mancini.md`
 
 **Example:**
 ```
-/analyze-mancini "SPX Is Coiled Tight. Another Move Is Coming. What Way? May 15 Plan..."
+/analyze-mancini preprocessedData='{"newsletterDate":"2025-05-16","newsletterTitle":"4 Green Days In A Row","marketSection":"Everyday since the market bottomed...","keyLevels":{"supports":[{"price":5925,"context":"major"}]}}'
 ```
 
 #### `/create-blueprint` 📅 FUTURE
@@ -230,7 +269,7 @@ Commands are marked with their implementation status:
 
 ### FOCUS Phase Commands
 
-#### `/extract-focus [source] [min_conviction]` ✅ MVP CORE
+#### `/extract-focus [source] [min_conviction]` ✅ CORE
 
 **Purpose:** Extract high-conviction trade ideas from analyst commentary.
 
@@ -246,7 +285,7 @@ Commands are marked with their implementation status:
 * Trade management guidelines
 * Relevant timeframes
 
-**MVP Implementation:**
+**Implementation:**
 * Extract DP's high-conviction ideas
 * Simple conviction classification (high/medium/low)
 * Basic entry/exit parameters
@@ -259,7 +298,7 @@ Commands are marked with their implementation status:
 /extract-focus dp high
 ```
 
-#### `/extract-levels [source] [indices]` ✅ MVP CORE
+#### `/extract-levels [source] [indices]` ✅ CORE
 
 **Purpose:** Extract market levels from analyst source with precision and hierarchy.
 
@@ -275,7 +314,7 @@ Commands are marked with their implementation status:
 * Level clusters identification
 * Visual representation of levels
 
-**MVP Implementation:**
+**Implementation:**
 * Focus on extracting DP levels
 * Basic significance classification
 * Simple hierarchical structure
@@ -362,7 +401,7 @@ Commands are marked with their implementation status:
 
 ### EXECUTE Phase Commands
 
-#### `/add-position [symbol]` ✅ MVP CORE
+#### `/add-position [symbol]` ✅ CORE
 
 **Purpose:** Add a new trading position to tracking system.
 
@@ -388,7 +427,7 @@ Commands are marked with their implementation status:
 /add-position AAPL entry_price=182.50 stop_price=180.25 target_price=187.50 strategy="Support Bounce" conviction=high
 ```
 
-#### `/size-position [symbol]` ✅ MVP CORE
+#### `/size-position [symbol]` ✅ CORE
 
 **Purpose:** Calculate appropriate position size based on risk parameters.
 
@@ -413,7 +452,7 @@ Commands are marked with their implementation status:
 /size-position AAPL entry=182.50 stop=180.25 risk_amount=500 conviction=high
 ```
 
-#### `/list-positions` ✅ MVP CORE
+#### `/list-positions` ✅ CORE
 
 **Purpose:** List all currently tracked positions.
 
@@ -514,7 +553,7 @@ Commands are marked with their implementation status:
 
 ### MANAGE Phase Commands
 
-#### `/update-position [symbol]` ✅ MVP CORE
+#### `/update-position [symbol]` ✅ CORE
 
 **Purpose:** Update details for an existing position.
 
@@ -537,7 +576,7 @@ Commands are marked with their implementation status:
 /update-position AAPL current_price=184.75 stop_price=182.50 notes="Moving stop to breakeven after 2:1 R:R reached"
 ```
 
-#### `/close-position [symbol]` ✅ MVP CORE
+#### `/close-position [symbol]` ✅ CORE
 
 **Purpose:** Close a position and record the outcome.
 
@@ -652,7 +691,7 @@ Commands are marked with their implementation status:
 
 ### REVIEW Phase Commands
 
-#### `/log-session [date]` 🔜 MVP STRETCH
+#### `/log-session [date]` ✅ CORE
 
 **Purpose:** Record complete trading session details and performance.
 
@@ -677,7 +716,7 @@ Commands are marked with their implementation status:
   * Comparison with moderator trades
   * Time-of-day performance patterns
 
-**MVP Implementation:**
+**Implementation:**
 * Basic session logging
 * Simple performance metrics
 * Trade recording
@@ -792,7 +831,7 @@ Commands are marked with their implementation status:
 
 ### SYSTEM Commands
 
-#### `/help [command]` ✅ MVP CORE
+#### `/help [command]` ✅ CORE
 
 **Purpose:** Display available commands and basic usage.
 
@@ -811,7 +850,7 @@ Commands are marked with their implementation status:
 /help add-position
 ```
 
-#### `/status` ✅ MVP CORE
+#### `/status` ✅ CORE
 
 **Purpose:** Show current trading session state and system status.
 
@@ -933,15 +972,25 @@ Commands are marked with their implementation status:
 /log-session market_conditions="Trending, high volume" psychological_state="Focused"
 ```
 
+### Mancini Newsletter Analysis Flow
+```
+# For standard-sized newsletters:
+/analyze-mancini "SPX Is Coiled Tight. Another Move Is Coming. What Way? May 15 Plan..."
+
+# For large newsletters that exceed context limits:
+/analyze-mancini-preprocessor "SPX Is Coiled Tight. Another Move Is Coming. What Way? May 15 Plan..."
+# Then use the JSON output with:
+/analyze-mancini preprocessedData='[JSON output from preprocessor]'
+```
+
 ## Release Roadmap
 
-### v0.5.1 (Current MVP)
-- Core Plan/Focus phase commands
-- Basic position management
-- Simple session logging
+### v0.5.1 (Current Release)
+- All Plan/Focus phase commands completed
+- Position management implementation completed
+- Session logging fully implemented
 
 ### v0.5.2 (Planned)
-- Mancini analysis integration
 - Enhanced stop management
 - Runner management protocol
 - Comprehensive session debrief

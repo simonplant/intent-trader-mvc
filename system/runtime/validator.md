@@ -3,7 +3,7 @@ id: validator
 title: Command Validator
 description: Validation rules for command parameters and state integrity
 author: Intent Trader Team
-version: 0.1.0
+version: 0.1.1
 release: 0.5.1
 created: 2025-05-16
 updated: 2025-05-16
@@ -40,13 +40,35 @@ Each command has specific validation rules for its parameters. The validator ens
 - **Validation Actions**:
   - Verify transcript contains relevant trading content
 
-#### `/create-plan`
-- **Required Parameters**: None
+#### `/analyze-mancini-preprocessor [newsletter]`
+- **Required Parameters**:
+  - `newsletter`: String, non-empty, minimum length 100 characters
+- **Optional Parameters**:
+  - None
 - **Validation Actions**:
-  - Verify DP analysis exists in state
-  - Confirm analysis is from current trading day
+  - Verify newsletter contains relevant trading content
+
+#### `/analyze-mancini [preprocessedData]`
+- **Required Parameters**:
+  - `preprocessedData`: String or Object, valid JSON structure
+- **Optional Parameters**:
+  - `components`: String array, values from ["levels", "mode", "failed-breakdowns", "scenarios", "runners", "all"]
+  - `format`: String, one of ["json", "markdown", "summary", "structured"]
+- **Validation Actions**:
+  - Verify preprocessedData is valid JSON structure
+  - Validate component names if provided
+
 
 ### FOCUS Phase Commands
+
+#### `/create-plan`
+- **Required Parameters**: None
+- **Optional Parameters**:
+  - `sources`: String, one of ["dp", "mancini", "both"]
+  - `risk_level`: Number, range 1-5
+- **Validation Actions**:
+  - Verify DP analysis exists in state
+  - If sources includes "mancini", verify Mancini analysis exists
 
 #### `/extract-focus dp [min_conviction]`
 - **Required Parameters**:
@@ -166,21 +188,3 @@ When validation fails, the system returns:
   ],
   "message": "Validation failed. Please correct the errors and try again."
 }
-```
-
-## State File Validation
-
-The validator also checks state files to ensure they exist and have valid structure:
-
-- `state/session-manifest.json`
-- `state/my-positions.json`
-- `state/moderator-positions.json`
-- `state/trade-plan-state.json`
-
-## Error Handling
-
-If validation fails, the system:
-1. Does not execute the command
-2. Returns specific error messages
-3. Suggests corrective action
-4. Preserves existing state

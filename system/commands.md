@@ -33,7 +33,7 @@ Process DP morning call transcript comprehensively, extracting all key component
 /analyze-dp "Futures are a bit lower as we await this morning's CPI. The Dow is leading to the downside after UNH suspends guidance for 2025..."
 ```
 
-### `/analyze-mancini [newsletter]` _(MVP FUTURE)_
+### `/analyze-mancini [newsletter]`
 
 **Purpose:**
 Process Mancini newsletter comprehensively, extracting levels, setups, and trade plan.
@@ -56,6 +56,37 @@ Process Mancini newsletter comprehensively, extracting levels, setups, and trade
 /analyze-mancini "SPX Is Coiled Tight. Another Move Is Coming. What Way? May 15 Plan
 
 ES/SPX continues to consolidate at highs. The coiled tight range over the last two days..."
+```
+
+
+### `/analyze-mancini [preprocessedData]`
+
+**Purpose:**
+Process preprocessed Mancini newsletter data to perform comprehensive analysis and integration with trade plan.
+
+**Parameters:**
+- `preprocessedData` (required): JSON output from the preprocessor
+- `components` (optional): Specific components to focus on (default: all)
+- `format` (optional): Output format (default: structured)
+
+**Output:**
+- Structured level framework with major/minor classification
+- Market mode assessment (Mode 1/Mode 2)
+- Failed Breakdown setups and opportunities
+- Bull/bear case scenarios
+- Runner status and management protocol
+- Level-to-level trading methodology
+
+**MVP Implementation:**
+- Advanced analysis of preprocessed data
+- Mode classification (Mode 1 vs Mode 2)
+- Integration with level extraction system
+- Failed Breakdown pattern recognition
+- Market bias determination
+
+**Usage Example:**
+```
+/analyze-mancini preprocessedData='{"newsletterDate":"2025-05-16","newsletterTitle":"4 Green Days In A Row","marketSection":"Everyday since the market bottomed...","keyLevels":{"supports":[{"price":5925,"context":"major"}]}}'
 ```
 
 ### `/extract-levels [source] [indices]` _(MVP CORE)_

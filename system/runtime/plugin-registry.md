@@ -3,7 +3,7 @@ id: plugin-registry
 title: Plugin Registry Documentation
 description: Documentation for the plugin architecture of Intent Trader
 author: Intent Trader Team
-version: 0.1.0
+version: 0.1.2
 release: 0.5.1
 created: 2025-05-16
 updated: 2025-05-16
@@ -46,10 +46,14 @@ Defines the modular plugin architecture for Intent Trader's command execution sy
 ## Lifecycle Support
 
 ### Phase Definitions
-- `premarket`: Commands for morning preparation (Plan and Focus phases)
-- `intraday`: Commands for active trading (Execute and Manage phases)
-- `postmarket`: Commands for end-of-day review (Review phase)
-- `any`: Commands available in any phase
+### Phase Definitions
+- `plan`: Commands for morning analysis and market context development, typically run before market open
+- `focus`: Commands for opportunity identification and trade plan creation, usually completed before trading begins
+- `execute`: Commands for trade entry and position initialization during active market hours
+- `manage`: Commands for active position management and adjustment throughout the trading session
+- `review`: Commands for performance analysis and session evaluation, typically run after market close
+- `coach`: Commands for skill development, pattern recognition, and trading improvement over time
+- `any`: Commands available in any phase of the trading workflow
 
 ## Current Registry Contents
 
@@ -57,6 +61,8 @@ Intent Trader v0.5.1 includes the following commands:
 
 ### Plan Phase Commands
 - `analyze-dp`: Process DP morning call
+- `analyze-mancini-proprocessor` : Worker to analyze Mancini's ES Futures newsletter long PDF
+- `analyze-mancini` : Process Mancini's ES Futures newsletter trade ideas
 - `create-plan`: Generate unified trade plan
 
 ### Focus Phase Commands
@@ -81,9 +87,8 @@ Intent Trader v0.5.1 includes the following commands:
 
 ## Future Commands (v0.5.2)
 
-The following commands are planned for v0.5.2:
+The following commands are planned for future releases:
 
-- `analyze-mancini`: Process Mancini newsletter
 - `adjust-stop`: Modify stop loss level
 - `trim-position`: Execute partial exit
 - `manage-runner`: Apply runner management protocol

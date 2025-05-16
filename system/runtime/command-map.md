@@ -3,7 +3,7 @@ id: command-map
 title: Intent Trader Command Map
 description: Mapping of command routes to execution handlers
 author: Intent Trader Team
-version: 0.1.0
+version: 0.1.3
 release: 0.5.1
 created: 2025-05-16
 updated: 2025-05-16
@@ -27,8 +27,10 @@ This file defines the routing and execution logic for all Intent Trader commands
 |----------------------|---------------------------------------------------|--------------|--------------------------------------|--------------------------------|
 | **PLAN PHASE**                                                                                                              |
 | `/analyze-dp`        | Process DP morning call                           | plan         | Transcript text                       | prompts/plan/analyze-dp.md     |
-| `/create-plan`       | Generate unified trade plan                       | plan         | None (uses analyzed call)             | prompts/focus/create-plan.md   |
+| `/analyze-mancini-preprocessor`| Preprocess Mancini newsletter                  | plan         | Newsletter text                     | prompts/plan/analyze-mancini-preprocessor.md |
+| `/analyze-mancini`   | Process Mancini newsletter                        | plan         | Newsletter text                       | prompts/plan/analyze-mancini.md|
 | **FOCUS PHASE**                                                                                                             |
+| `/create-plan`       | Generate unified trade plan                       | focus        | None (uses analyzed call)             | prompts/focus/create-plan.md   |
 | `/extract-focus`     | Extract high-conviction trade ideas               | focus        | Source (dp), min_conviction           | prompts/focus/extract-focus.md |
 | `/extract-levels`    | Extract key technical levels                      | focus        | Source (dp), indices                  | prompts/focus/extract-levels.md|
 | **EXECUTE PHASE**                                                                                                           |
@@ -48,17 +50,17 @@ This file defines the routing and execution logic for all Intent Trader commands
 
 | Phase        | Command                | Triggered Components                              |
 |--------------|------------------------|---------------------------------------------------|
-| premarket    | `/run-phase premarket` | `analyze-dp`, `create-plan`                       |
+| premarket    | `/run-phase premarket` | `analyze-dp`, `analyze-mancini`                   |
+| focus        | `/run-phase focus`     | `create-plan`, `extract-focus`, `extract-levels`  |
 | intraday     | `/run-phase intraday`  | Position management commands                      |
 | postmarket   | `/run-phase postmarket`| `log-session`                                     |
 
 ## Reserved for v0.5.2
 
-The following commands are planned for v0.5.2 but not implemented in the MVP:
+The following commands are planned for v0.5.2 but not yet fully implemented:
 
 | Command              | Description                                       | Phase        | Status                             |
 |----------------------|---------------------------------------------------|--------------|-----------------------------------|
-| `/analyze-mancini`   | Process Mancini newsletter                        | plan         | Planned for v0.5.2                |
 | `/adjust-stop`       | Modify stop loss level                            | manage       | Planned for v0.5.2                |
 | `/trim-position`     | Execute partial exit                              | manage       | Planned for v0.5.2                |
 | `/manage-runner`     | Apply runner management protocol                  | manage       | Planned for v0.5.2                |

@@ -4,15 +4,27 @@
     "type": "analyzer",
     "version": "0.5.1",
     "entryPoint": "prompts/plan/analyze-dp.md",
-    "phase": "premarket",
+    "phase": "plan",
     "dependsOn": []
+  },
+  {
+    "id": "analyze-mancini",
+    "type": "analyzer",
+    "version": "0.5.2-preview",
+    "entryPoint": "prompts/plan/analyze-mancini.md",
+    "phase": "plan",
+    "dependsOn": [
+      "market-regimes",
+      "extract-levels",
+      "conviction-classifier"
+    ]
   },
   {
     "id": "create-plan",
     "type": "transform",
     "version": "0.5.1",
     "entryPoint": "prompts/focus/create-plan.md",
-    "phase": "premarket",
+    "phase": "focus",
     "dependsOn": [
       "analyze-dp"
     ]
@@ -22,7 +34,7 @@
     "type": "analyzer",
     "version": "0.5.1",
     "entryPoint": "prompts/focus/extract-focus.md",
-    "phase": "premarket",
+    "phase": "focus",
     "dependsOn": [
       "analyze-dp"
     ]
@@ -32,7 +44,7 @@
     "type": "analyzer",
     "version": "0.5.1",
     "entryPoint": "prompts/focus/extract-levels.md",
-    "phase": "premarket",
+    "phase": "focus",
     "dependsOn": [
       "analyze-dp"
     ]
@@ -42,7 +54,7 @@
     "type": "action",
     "version": "0.5.1",
     "entryPoint": "prompts/manage/add-position.md",
-    "phase": "intraday",
+    "phase": "execute",
     "dependsOn": []
   },
   {
@@ -50,7 +62,7 @@
     "type": "calculator",
     "version": "0.5.1",
     "entryPoint": "prompts/execute/size-position.md",
-    "phase": "intraday",
+    "phase": "execute",
     "dependsOn": []
   },
   {
@@ -58,7 +70,7 @@
     "type": "report",
     "version": "0.5.1",
     "entryPoint": "prompts/manage/list-positions.md",
-    "phase": "intraday",
+    "phase": "execute",
     "dependsOn": []
   },
   {
@@ -66,7 +78,7 @@
     "type": "action",
     "version": "0.5.1",
     "entryPoint": "prompts/manage/update-position.md",
-    "phase": "intraday",
+    "phase": "manage",
     "dependsOn": [
       "add-position"
     ]
@@ -76,7 +88,7 @@
     "type": "action",
     "version": "0.5.1",
     "entryPoint": "prompts/manage/close-position.md",
-    "phase": "intraday",
+    "phase": "manage",
     "dependsOn": [
       "add-position"
     ]
@@ -86,7 +98,7 @@
     "type": "analyzer",
     "version": "0.5.1",
     "entryPoint": "prompts/execute/log-session.md",
-    "phase": "postmarket",
+    "phase": "review",
     "dependsOn": []
   },
   {
