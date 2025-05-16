@@ -46,7 +46,6 @@ Defines the modular plugin architecture for Intent Trader's command execution sy
 ## Lifecycle Support
 
 ### Phase Definitions
-### Phase Definitions
 - `plan`: Commands for morning analysis and market context development, typically run before market open
 - `focus`: Commands for opportunity identification and trade plan creation, usually completed before trading begins
 - `execute`: Commands for trade entry and position initialization during active market hours
@@ -60,44 +59,31 @@ Defines the modular plugin architecture for Intent Trader's command execution sy
 Intent Trader v0.5.1 includes the following commands:
 
 ### Plan Phase Commands
-- `analyze-dp`: Process DP morning call
-- `analyze-mancini-proprocessor` : Worker to analyze Mancini's ES Futures newsletter long PDF
-- `analyze-mancini` : Process Mancini's ES Futures newsletter trade ideas
-- `create-plan`: Generate unified trade plan
+- `analyze-dp`: Process DP morning call transcript comprehensively, extracting all key components and insights
+- `analyze-mancini-preprocessor`: Preprocess Mancini's long newsletter content for detailed analysis in a two-stage process
+- `analyze-mancini`: Process Mancini newsletter comprehensively, extracting levels, setups, and trade plan
 
 ### Focus Phase Commands
-- `extract-focus`: Extract high-conviction trade ideas
-- `extract-levels`: Extract key technical levels
+- `create-plan`: Generate comprehensive unified trade plan integrating multiple analyst inputs
+- `extract-focus`: Extract high-conviction trade ideas from analyst commentary
+- `extract-levels`: Extract market levels from analyst source with precision and hierarchy
 
 ### Execute Phase Commands
-- `add-position`: Track new position
-- `size-position`: Calculate position size
-- `list-positions`: Show current positions
+- `size-position`: Calculate appropriate position size based on risk parameters
+- `add-position`: Add a new trading position to tracking system
 
 ### Manage Phase Commands
-- `update-position`: Update position details
-- `close-position`: Close position and record outcome
+- `update-position`: Update an existing position with new information or parameters
+- `close-position`: Close a position and record the outcome
+- `list-positions`: Display all current positions with status and management information
 
 ### Review Phase Commands
-- `log-session`: Record complete session data
+- `log-session`: Create a comprehensive log entry for a complete trading session, including trades, market conditions, and performance analysis
 
-### System Commands
-- `help`: Show available commands
-- `status`: Show current trading session state
-
-## Future Commands (v0.5.2)
-
-The following commands are planned for future releases:
-
-- `adjust-stop`: Modify stop loss level
-- `trim-position`: Execute partial exit
-- `manage-runner`: Apply runner management protocol
-- `run-debrief`: Comprehensive session analysis
-- `mode-detect`: Determine market mode
+### Utilities Commands
+- `analyze-chart`: Analyze a chart image to identify key patterns, levels, and trading opportunities across different timeframes
 
 ## Plugin Organization
 
 The plugin system is organized around the cognitive workflow:
 - **Plan → Focus → Execute → Manage → Review**
-
-This structure ensures that plugins naturally support the trading process from preparation to execution to review.
