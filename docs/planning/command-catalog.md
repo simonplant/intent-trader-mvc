@@ -713,33 +713,43 @@ Configure price or condition-based alerts for a symbol.
 
 ## 5. Performance Commands
 
-### `/log-trade [symbol]` _(MVP STRETCH)_
+### `/log-session [date]` _(MVP STRETCH)_
 
 **Purpose:**
-Create a structured log entry for a completed trade.
+Create a comprehensive log entry for a complete trading session, including trades, market conditions, and performance analysis.
 
 **Parameters:**
-- `symbol` (required): Stock/instrument symbol
-- `template` (optional): Log template to use (default: standard)
-- `details` (optional): Additional details to include
+- `date` (optional): Trading session date (default: today)
+- `market_regime` (optional): Market regime classification
+- `market_mode` (optional): Mode 1 (trend) or Mode 2 (range/trap)
+- `market_conditions` (optional): Overall market conditions description
+- `cognitive_load` (optional): Average cognitive load during session (1-10)
+- `decision_quality` (optional): Overall decision quality
+- `key_learnings` (optional): Key session learnings
+- `improvement_actions` (optional): Specific improvement actions
 - `format` (optional): Output format (default: detailed)
 
 **Output:**
-- Structured trade record
-- Performance metrics
-- Plan adherence assessment
-- Setup outcome evaluation
-- Learning opportunities
-- Visual trade analysis
+- Complete session analysis
+- Market framework assessment
+- Trade performance metrics
+- Plan adherence evaluation
+- Missed opportunity analysis
+- Moderator trade comparison
+- Psychological state analysis
+- Time-of-day performance patterns
+- Learning synthesis and improvement plan
 
 **MVP Implementation:**
-- Basic trade logging
-- Simple performance metrics
-- Plan comparison
+- Comprehensive session analysis
+- Performance metrics aggregation
+- Market context integration
+- Moderator trade comparison
+- Cognitive state assessment
 
 **Usage Example:**
 ```
-/log-trade AAPL template=failed-breakdown
+/log-session date="2025-05-15" market_mode="Mode 2" cognitive_load=6.4 decision_quality=DEGRADED
 ```
 
 ### `/add-journal [type]`
