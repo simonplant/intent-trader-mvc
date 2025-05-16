@@ -66,8 +66,8 @@ Exclude common artifacts from the loading process:
 
 Activate runtime and command routing via:
 
-- **Routing Engine:** `system/systemops/runtime-agent.md`
-- **Command Map:** `system/systemops/command-map.md`
+- **Routing Engine:** `system/runtime/runtime-agent.md`
+- **Command Map:** `system/runtime/command-map.md`
 - **Session Context:** `state/session-manifest.json`
 
 ---

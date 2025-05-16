@@ -1,6 +1,6 @@
 # Intent Trader: Your AI Trading Companion
 
-Welcome to **Intent Trader** – your intelligent trading assistant that transforms how you approach the markets! 
+Welcome to **Intent Trader** – your intelligent trading assistant that transforms how you approach the markets!
 
 Have you ever felt overwhelmed trying to extract actionable insights from morning calls, manage your position sizing, and track trades all at once? Intent Trader solves these challenges by working alongside you throughout your trading day, helping you make more informed decisions with greater confidence and consistency.
 
@@ -101,8 +101,8 @@ Getting started with Intent Trader is quick and easy:
 2️⃣ **Initialize the system** with a single command:
    ```
    Please read and load ALL files from this ZIP archive.
-   Use system/systemops/runtime-agent.md as the routing layer for commands.
-   Use system/systemops/command-map.md to map valid commands.
+   Use system/runtime/runtime-agent.md as the routing layer for commands.
+   Use system/runtime/command-map.md to map valid commands.
    Use state/session-manifest.json to determine the current session phase.
    ```
 
