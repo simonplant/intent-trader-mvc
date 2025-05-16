@@ -3,7 +3,7 @@ id: runtime-agent
 title: Intent Trader Runtime Agent
 description: Core routing engine for Intent Trader command processing
 author: Intent Trader Team
-version: 0.1.0
+version: 0.2.0
 release: 0.5.1
 created: 2025-05-16
 updated: 2025-05-16
@@ -49,28 +49,29 @@ When a command is received:
 ## Supported Commands by Phase
 
 ### Plan Phase
-- `/analyze-dp [transcript]` - Process DP morning call
-- `/create-plan` - Generate unified trade plan
+- `/analyze-dp [transcript]` - Process DP morning call transcript comprehensively, extracting all key components and insights
+- `/analyze-mancini-preprocessor [newsletter]` - Preprocess Mancini's long newsletter content for detailed analysis in a two-stage process
+- `/analyze-mancini [preprocessedData]` - Process Mancini newsletter comprehensively, extracting levels, setups, and trade plan
 
 ### Focus Phase
-- `/extract-focus dp [min_conviction]` - Extract high-conviction ideas
-- `/extract-levels dp [indices]` - Extract key technical levels
+- `/create-plan` - Generate comprehensive unified trade plan integrating multiple analyst inputs
+- `/extract-focus [source] [min_conviction]` - Extract high-conviction trade ideas from analyst commentary
+- `/extract-levels [source] [indices]` - Extract market levels from analyst source with precision and hierarchy
 
 ### Execute Phase
-- `/add-position [symbol]` - Track new position
-- `/size-position [symbol]` - Calculate position size
-- `/list-positions` - Show current positions
+- `/size-position [symbol]` - Calculate appropriate position size based on risk parameters
+- `/add-position [symbol]` - Add a new trading position to tracking system
 
 ### Manage Phase
-- `/update-position [symbol]` - Update position details
-- `/close-position [symbol]` - Close position and record outcome
+- `/update-position [symbol]` - Update an existing position with new information or parameters
+- `/close-position [symbol]` - Close a position and record the outcome
+- `/list-positions` - Display all current positions with status and management information
 
 ### Review Phase
-- `/log-session [date]` - Record complete session data
+- `/log-session [date]` - Create a comprehensive log entry for a complete trading session, including trades, market conditions, and performance analysis
 
-### System Commands
-- `/help [command]` - Show available commands
-- `/status` - Show current trading session state
+### Utilities
+- `/analyze-chart [image]` - Analyze a chart image to identify key patterns, levels, and trading opportunities across different timeframes
 
 ## State Files
 
@@ -83,14 +84,13 @@ The runtime agent interacts with these state files:
 ## Response Format
 
 All command responses follow this structure:
-```
+
 {
   "success": true|false,
   "command": "command-name",
   "result": {}, // Command-specific result data
   "message": "Human-readable message"
 }
-```
 
 ## Error Handling
 
