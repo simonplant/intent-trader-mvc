@@ -1,91 +1,91 @@
 ---
 id: trade-plan-2025-05-16
 title: Unified Daily Trade Plan – May 16, 2025
-description: Combined execution plan from DP and Mancini for 2025-05-16
+description: Combined execution plan from DP and Mancini with -20 ES→SPX offset
 author: Intent Trader System
 version: 0.5.1
 created: 2025-05-16
-tags: [daily, trade-plan, dp, mancini]
+tags: [daily, trade-plan, dp, mancini, spx, offset-20]
 ---
 
-## 1. 📊 Morning Context
+## 1. Morning Context
 
-| Index  | PM Change     | Trend        | Notes                              |
-|--------|---------------|--------------|-------------------------------------|
-| ES/SPX | +0.3–0.5%     | Uptrend      | 5th green day attempt               |
-| VIX    | Flat/down     | Low vol      | Implied grind or chop               |
-| News   | OPEX Friday    | ⚠️ Caution   | Expect traps and range pinning      |
-
----
-
-## 2. ✅ DP Trade Ideas (Sorted by Confidence)
-
-| Ticker | Trade Type     | Bias    | Confidence | Size     | Entry Zone     | Trim Zone       | Notes |
-|--------|----------------|---------|------------|----------|----------------|------------------|-------|
-| TEM    | Swing          | Bullish | **High**   | Full     | Near $60       | $65–66           | Re-enter full if 21d tested ($55.42) |
-| AMD    | Day Trade      | Bullish | Medium     | Trimming | N/A            | N/A              | Already up $3; trimming calls         |
-| RKT    | Swing          | Bullish | Medium     | Trimmed  | —              | —                | Up on ValueAct stake; trimmed $13.50 |
-| HOOD   | Portfolio Mgt  | Neutral | Low        | Trimmed  | —              | —                | Not a fresh setup                    |
-| TSLA   | Lotto Friday   | Bearish | Low        | Small    | PM pop         | N/A              | Cute put idea only                  |
-| META   | Lotto Friday   | Bearish | Low        | Small    | PM weakness    | N/A              | Put idea on scam news, low conviction |
+| Index  | PM Status     | Trend       | Notes                             |
+|--------|---------------|-------------|-----------------------------------|
+| ES     | Green (+0.3%) | Strong Up   | 5th consecutive green day attempt |
+| VIX    | Flat/down     | Low Vol     | Implies grind or trap risk        |
+| Macro  | OPEX Friday   | Chop Risk   | Traps, pins, magnet behavior likely |
+| Offset | SPX = ES - 20 |             | Used for all trade level mapping |
 
 ---
 
-## 3. ✅ Mancini Levels & SPX Equivalents
+## 2. DP Trade Ideas
 
-_(ESM25 ~ SPX – 5 offset today)_
-
-### Buy Zones (Failed Breakdowns – Long Setups)
-
-| ES Level | SPX Level | Quality | Notes |
-|----------|-----------|---------|-------|
-| **5890** | **5895**  | ✅ High | Already triggered today |
-| 5882–85  | 5887–90   | ⚠️ Mid  | Watch reaction, not fresh |
-| 5868     | 5873      | ⚠️ Mid  | Must flush and reclaim |
-| **5850** | **5855**  | ✅ High | Macro support, ideal flush buy |
-| 5836     | 5841      | ✅ High | Cluster of lows |
-| 5815     | 5820      | ✅ High | Major level |
-
-### Short Zones (Breakdown Shorts – Advanced Use Only)
-
-| ES Level | SPX Level | Notes |
-|----------|-----------|-------|
-| 5910     | 5915      | Only if no reclaim |
-| 5882–85  | 5887–90   | After a weak pop then fail |
+| Ticker | Bias    | Type       | Confidence | Size     | Entry Zone | Trim Zone | Notes |
+|--------|---------|------------|------------|----------|------------|-----------|-------|
+| TEM    | Bullish | Swing      | High       | Full     | ~$60       | $65–66    | 21d support = $55.42 full add zone |
+| AMD    | Bullish | Day Trade  | Medium     | Trimmed  | —          | —         | +$3 premarket; trimming ITM calls |
+| RKT    | Bullish | Swing      | Medium     | Trimmed  | —          | —         | Trimmed ~$13.50 on ValueAct stake |
+| HOOD   | Neutral | Portfolio  | Low        | Trimmed  | —          | —         | Passive trim only                 |
+| TSLA   | Bearish | Lotto Put  | Low        | Small    | PM strength| —         | Cute contrarian idea              |
+| META   | Bearish | Lotto Put  | Low        | Small    | AM weakness| —         | Based on WSJ scam article         |
 
 ---
 
-## 4. 🎯 SPX Key Levels for Orders
+## 3. Mancini Zones (with -20 SPX Offset)
 
-| SPX Level | Type      | Action         | Notes                             |
-|-----------|-----------|----------------|------------------------------------|
-| 5895      | Support   | Long trigger   | From 5890 ES Failed Breakdown     |
-| 5887–90   | Support   | Secondary long | Recycle only if clear acceptance  |
-| 5855      | Major Supp| Big long       | Multi-month macro support         |
-| 5945      | Target    | 1st trim zone  | Trend continuation target         |
-| 5953–75   | Resist    | Short watch    | Only if direct; scalp short zone  |
-| 6000      | Target    | Final target   | Psychological round level         |
+### Buy Zones – Failed Breakdowns
+
+| ES Level | SPX Level | Quality | Notes                          |
+|----------|-----------|---------|--------------------------------|
+| 5890     | 5870      | High    | Executed today, long 5892 ES   |
+| 5882–85  | 5862–65   | Mid     | Tested 3x, reaction important  |
+| 5868     | 5848      | Mid     | Flush + reclaim                |
+| 5850     | 5830      | High    | Macro shelf reclaim            |
+| 5836     | 5816      | High    | Cluster of lows                |
+| 5815     | 5795      | High    | Major demand                   |
+
+### Breakdown Shorts (Advanced Only)
+
+| ES Level | SPX Level | Trigger Condition        |
+|----------|-----------|--------------------------|
+| 5910     | 5890      | Breakdown + no reclaim   |
+| 5882–85  | 5862–65   | Fail after bounce        |
+
+### Bullish Targets
+
+| ES Level | SPX Level | Purpose                  |
+|----------|-----------|--------------------------|
+| 5945     | 5925      | Primary breakout target  |
+| 5953     | 5933      | Watch for fade setup     |
+| 5970–75  | 5950–55   | Next resistance zone     |
+| 6000     | 5980      | Psychological level      |
 
 ---
 
-## 5. 📈 Execution Notes
+## 4. Execution Protocols
 
-- **Trade Max:** 2/day
-- **First Trade Win:** Lock 75%, runner 25%, platform shut
-- **Runner Stops:** Under lowest flush low (e.g., 5877 or 5867)
-- **No Predicting:** Only react to reclaim/acceptance of key levels
-- **Volatility:** Low; avoid overtrading chop
+| Rule                             | Value                       |
+|----------------------------------|-----------------------------|
+| Setup Type                       | Failed Breakdowns only      |
+| Entry Signal                     | Reclaim with structure      |
+| Stops                            | Below setup low             |
+| Trims                            | 75% → 15% → 10% runner      |
+| Post-Win Protocol                | Profit protection mode      |
+| Trades Per Day                   | Max 2                       |
+| Risking on 2nd Trade             | Only risk prior profits     |
 
 ---
 
-## 6. 🧠 Risk Controls
+## 5. Risk & Positioning
 
-| Rule                            | Value           |
-|---------------------------------|------------------|
-| Default Position Size           | 1/3 account      |
-| Max Risk for Lotto Trades       | < $1K            |
-| Max Trades Allowed              | 2                |
-| Post-Win Rule                   | Profit protect   |
-| No Shorting Unless Confirmed    | Breakdown + no reclaim |
+| Category             | Rule                              |
+|----------------------|------------------------------------|
+| Default Size         | 1/3 account                        |
+| Swing Size (TEM)     | Full if 21d tested ($55.42)        |
+| Lotto Size           | $500–$1000                         |
+| Stop Discipline      | Technically placed under lowest flush |
+| Execution Times      | 7:30–11am or 3–4pm PST             |
+| No Shorting          | Unless breakdown confirmed and not reclaimed |
 
 ---
