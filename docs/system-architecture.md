@@ -42,7 +42,7 @@ The system is organized around the natural temporal boundaries of a trading day:
 Within each temporal session, the system organizes functionality according to the trader's cognitive workflow:
 
 - **PLAN**: Establish market framework and potential opportunities
-- **FOCUS**: Prioritize specific trade opportunities 
+- **FOCUS**: Prioritize specific trade opportunities
 - **EXECUTE**: Enter positions based on prepared plans
 - **MANAGE**: Handle active positions toward optimal outcomes
 - **REVIEW**: Analyze performance for continuous improvement
@@ -55,19 +55,19 @@ This dual structure provides both temporal organization and cognitive process al
 **Purpose**: Establish market framework and potential opportunities
 
 **Key Entities**:
-- **Market Regime**: Overall market behavior framework _(MVP FUTURE)_
-- **Mode Classification**: Day structure assessment _(MVP FUTURE)_
-- **Level Structure**: Price level framework _(MVP CORE)_
+- **Market Regime**: Overall market behavior framework
+- **Mode Classification**: Day structure assessment
+- **Level Structure**: Price level framework
 - **Scenario Planning**: Conditional outcomes
-- **Risk Allocation**: Capital distribution rules _(MVP CORE)_
-- **Market Context**: Broader market environment _(MVP CORE)_
+- **Risk Allocation**: Capital distribution rules
+- **Market Context**: Broader market environment
 
 ### 3.2 FOCUS Domain _(Pre-Market)_
 **Purpose**: Prioritize specific trade opportunities
 
 **Key Entities**:
-- **Setup Prioritization**: Opportunity ranking _(MVP CORE)_
-- **Conviction Classification**: Confidence measurement _(MVP CORE)_
+- **Setup Prioritization**: Opportunity ranking
+- **Conviction Classification**: Confidence measurement
 - **Watchlist Management**: Attention allocation
 - **Alert Configuration**: Trigger notification
 - **Opportunity Filtering**: Attention optimization
@@ -77,7 +77,7 @@ This dual structure provides both temporal organization and cognitive process al
 
 **Key Entities**:
 - **Entry Trigger**: Action signals
-- **Position Sizing**: Risk calibration _(MVP CORE)_
+- **Position Sizing**: Risk calibration
 - **Order Management**: Execution framework
 - **Entry Timing**: Execution optimization
 - **Execution Quality**: Implementation measurement
@@ -86,18 +86,18 @@ This dual structure provides both temporal organization and cognitive process al
 **Purpose**: Handle active positions toward optimal outcomes
 
 **Key Entities**:
-- **Core Position Management**: Base position handling _(MVP CORE)_
-- **Trimming Protocol**: Profit taking framework _(MVP STRETCH)_
+- **Core Position Management**: Base position handling
+- **Trimming Protocol**: Profit taking framework
 - **Adding Protocol**: Position building framework
-- **Stop Adjustment**: Risk control evolution _(MVP STRETCH)_
-- **Runner Management**: Extended position handling _(MVP STRETCH)_
+- **Stop Adjustment**: Risk control evolution
+- **Runner Management**: Extended position handling
 - **Risk Tolerance Framework**: Market vs. money trading approach
 
 ### 3.5 REVIEW Domain _(Post-Market)_
 **Purpose**: Analyze performance for continuous improvement
 
 **Key Entities**:
-- **Trade Logging**: Structured record keeping _(MVP STRETCH)_
+- **Trade Logging**: Structured record keeping
 - **Performance Metrics**: Result measurement
 - **Plan Adherence**: Discipline tracking
 - **Pattern Recognition**: Behavior analysis
@@ -108,8 +108,8 @@ This dual structure provides both temporal organization and cognitive process al
 **Purpose**: Track and process expert commentary
 
 **Key Entities**:
-- **DP Morning Call**: Dark Pool commentary and trade plan _(MVP CORE)_
-- **Mancini Newsletter**: Daily market analysis and trading levels _(MVP FUTURE)_
+- **DP Morning Call**: Dark Pool commentary and trade plan
+- **Mancini Newsletter**: Daily market analysis and trading levels
 - **Inner Circle Commentary**: Trading room discussions
 - **VTF Commentary**: Additional analyst insights
 
@@ -117,8 +117,8 @@ This dual structure provides both temporal organization and cognitive process al
 **Purpose**: Maintain and optimize the trading system
 
 **Key Entities**:
-- **Command Registry**: Available system commands _(MVP CORE)_
-- **Session State**: Trading day context _(MVP CORE)_
+- **Command Registry**: Available system commands
+- **Session State**: Trading day context
 - **User Preferences**: Customized settings
 - **Data Archive**: Historical information storage
 
@@ -131,16 +131,16 @@ Commands are organized according to the hybrid structure, with both temporal ses
 #### Pre-Market Session Commands
 
 **PLAN Phase**
-- `/analyze-dp [transcript]` _(MVP CORE)_
-- `/analyze-mancini [newsletter]` _(MVP FUTURE)_
+- `/analyze-dp [transcript]`
+- `/analyze-mancini [newsletter]`
 - `/analyze-regime`
 - `/detect-mode`
-- `/create-plan` _(MVP CORE)_
+- `/create-plan`
 - `/create-blueprint`
 
 **FOCUS Phase**
-- `/extract-focus [source] [min_conviction]` _(MVP CORE)_
-- `/extract-levels [source] [indices]` _(MVP CORE)_
+- `/extract-focus [source] [min_conviction]`
+- `/extract-levels [source] [indices]`
 - `/find-setups [type] [timeframe]`
 - `/manage-watchlist [action]`
 - `/set-alert [symbol]`
@@ -151,17 +151,17 @@ Commands are organized according to the hybrid structure, with both temporal ses
 **EXECUTE Phase**
 - `/validate-trade [symbol]`
 - `/check-ticker [symbol]`
-- `/analyze-levels [symbol] [direction]` _(MVP CORE)_
+- `/analyze-levels [symbol] [direction]`
 - `/size-position [symbol]`
-- `/add-position [symbol]` _(MVP CORE)_
+- `/add-position [symbol]`
 
 **MANAGE Phase**
-- `/list-positions` _(MVP CORE)_
-- `/update-position [symbol]` _(MVP CORE)_
-- `/close-position [symbol]` _(MVP CORE)_
+- `/list-positions`
+- `/update-position [symbol]`
+- `/close-position [symbol]`
 - `/adjust-stop [symbol]`
 - `/trim-position [symbol]`
-- `/manage-runner [symbol]` _(MVP STRETCH)_
+- `/manage-runner [symbol]`
 - `/check-character [symbol]`
 - `/check-ma [symbol]`
 - `/check-acceptance [level] [symbol]`
@@ -169,15 +169,15 @@ Commands are organized according to the hybrid structure, with both temporal ses
 #### Post-Market Session Commands
 
 **REVIEW Phase**
-- `/log-trade [symbol]` _(MVP STRETCH)_
-- `/run-debrief` _(MVP STRETCH)_
+- `/log-trade [symbol]`
+- `/run-debrief`
 - `/compare-analysts`
 - `/analyze-patterns`
 - `/add-journal [type]`
 - `/extract-lessons`
 
 #### System Management Commands
-- `/show-help [command]` _(MVP CORE)_
+- `/show-help [command]`
 - `/show-version`
 - `/backup-system [options]`
 - `/set-preferences [category]`
@@ -201,7 +201,7 @@ Each command is implemented as a structured prompt with:
 ### 5.1 Processing Engines
 
 #### Analyst Input Processors
-- **Morning Call Processor**: Analyzes DP transcripts _(MVP CORE)_
+- **Morning Call Processor**: Analyzes DP transcripts
   - Section Identifier
   - Focus Idea Extractor
   - Level Extractor
@@ -210,7 +210,7 @@ Each command is implemented as a structured prompt with:
   - Character Change Detector
   - DAT Opportunity Detector
 
-- **Newsletter Processor**: Analyzes Mancini letters _(MVP FUTURE)_
+- **Newsletter Processor**: Analyzes Mancini letters
   - Level Framework Extractor
   - Mode Classifier
   - Failed Breakdown Detector
@@ -247,15 +247,15 @@ Each command is implemented as a structured prompt with:
 
 ### 5.2 Core Services
 
-- **Command Router**: Processes and routes commands _(MVP CORE)_
+- **Command Router**: Processes and routes commands
 - **Entity Store**: Manages entity persistence
 - **Schema Validator**: Ensures data integrity
 - **State Manager**: Maintains session context
 
 ### 5.3 User Interface
 
-- **Command Parser**: Interprets user commands _(MVP CORE)_
-- **Response Formatter**: Standardizes outputs _(MVP CORE)_
+- **Command Parser**: Interprets user commands
+- **Response Formatter**: Standardizes outputs
 - **Visualization Engine**: Creates visual elements
 - **Alert System**: Manages notifications
 

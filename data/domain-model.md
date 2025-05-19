@@ -10,7 +10,7 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 
 ### Entities
 
-#### Market Regime _(MVP FUTURE)_
+#### Market Regime
 - **Regime Type**: "Buy dips" vs. "Sell bounces" classification
 - **Duration**: How long current regime has persisted
 - **Strength**: Conviction in regime classification
@@ -18,7 +18,7 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 - **Historical Comparison**: Similar historical regimes
 - **Institutional Positioning**: How large players are positioned
 
-#### Mode Classification _(MVP FUTURE)_
+#### Mode Classification
 - **Mode Type**: Mode 1 (trend day) or Mode 2 (range/trap day)
 - **Characteristics**: Defining features of current mode
 - **Frequency**: Statistical occurrence of this mode
@@ -26,7 +26,7 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 - **Transition Risk**: Likelihood of mode shifting
 - **Recent Examples**: Similar recent days
 
-#### Level Structure _(MVP CORE)_
+#### Level Structure
 - **Major Levels**: Primary support/resistance points
 - **Minor Levels**: Secondary support/resistance
 - **Level Hierarchy**: Organizational structure of levels
@@ -44,7 +44,7 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 - **Early Warning Indicators**: Signals of scenario development
 - **Transition Management**: How to handle scenario shifts
 
-#### Risk Allocation _(MVP CORE)_
+#### Risk Allocation
 - **Daily Risk Budget**: Overall risk limit for the session
 - **Setup Type Allocation**: Risk distribution by setup category
 - **Correlation Control**: Related exposure management
@@ -53,7 +53,7 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 - **Focus Idea Allocation**: Enhanced allocation for high-conviction ideas
 - **Reserve Requirements**: Maintaining dry powder
 
-#### Market Context _(MVP CORE)_
+#### Market Context
 - **Futures Status**: Pre-market futures performance
 - **Index Performance**: Major index movements
 - **Sector Rotation**: Industry group relative strength
@@ -70,7 +70,7 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 
 ### Entities
 
-#### Setup Prioritization _(MVP CORE)_
+#### Setup Prioritization
 - **Conviction Assessment**: Confidence level ranking
 - **Setup Quality Scoring**: Technical validity rating
 - **Risk/Reward Evaluation**: Potential R-multiple calculation
@@ -79,7 +79,7 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 - **Confluence Factors**: Supporting elements
 - **Contradiction Resolution**: Handling competing setups
 
-#### Conviction Classification _(MVP CORE)_
+#### Conviction Classification
 - **Language Pattern Recognition**: Phrase-to-confidence mapping
 - **Conviction Level Standardization**: High/medium/low framework
 - **Source-Specific Terminology**: Analyst-specific language patterns
@@ -132,7 +132,7 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 - **Pattern Completion Criteria**: Technical pattern validation
 - **Rejection Recognition**: Failed trigger identification
 
-#### Position Sizing _(MVP CORE)_
+#### Position Sizing
 - **Day Trading Scalp Sizing**: Parameters for short-term trades
 - **Focus/Big Idea Sizing**: Parameters for high-conviction trades
 - **Conviction-Based Adjustment**: Size scaling by confidence
@@ -176,7 +176,7 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 
 ### Entities
 
-#### Core Position Management _(MVP CORE)_
+#### Core Position Management
 - **Initial Core Position Definition**: Base position parameters
 - **Profit Buffer Tracking**: Accumulated gain monitoring
 - **Re-entry Criteria**: Adding to position rules
@@ -185,7 +185,7 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 - **Average Price Tracking**: Cost basis maintenance
 - **Component Tracking**: Tranche management
 
-#### Trimming Protocol _(MVP STRETCH)_
+#### Trimming Protocol
 - **75/15/10 Rule Implementation**: Systematic profit taking
 - **Target-Based Reduction**: Taking profits at objectives
 - **Scaling Methodology**: Gradual position reduction
@@ -203,7 +203,7 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 - **Tiered Entry Framework**: Planned scaling strategy
 - **Cost Basis Management**: Average price optimization
 
-#### Stop Adjustment _(MVP STRETCH)_
+#### Stop Adjustment
 - **Initial Stop Placement**: Original risk point determination
 - **Breakeven Methodology**: Risk elimination approach
 - **Trailing Techniques**: Dynamic stop management
@@ -212,7 +212,7 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 - **Time-Based Tightening**: Duration-driven stop movement
 - **Volatility-Based Buffer**: Market condition adaptation
 
-#### Runner Management _(MVP STRETCH)_
+#### Runner Management
 - **Runner Isolation Framework**: Separating core from runner
 - **Trailing Stop Protocol**: Dynamic risk management
 - **Re-entry Criteria**: Adding back to runners
@@ -238,7 +238,7 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 
 ### Entities
 
-#### Trade Logging _(MVP STRETCH)_
+#### Trade Logging
 - **Trade Record Schema**: Structured data format
 - **Entry/Exit Details**: Execution specifics
 - **Setup Classification**: Trade categorization
@@ -300,7 +300,7 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 
 ### Entities
 
-#### DP Morning Call _(MVP CORE)_
+#### DP Morning Call
 - **Market Context**: Futures status, indices, catalysts, sentiment
 - **Earnings Analysis**: Beat/miss assessment, guidance, price reactions
 - **Analyst Actions**: Upgrades, downgrades, price targets, firm ratings
@@ -310,7 +310,7 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 - **Character Change Signals**: Price behavior shift indicators
 - **Market Philosophy**: Strategic context and broader approach
 
-#### Mancini Newsletter _(MVP FUTURE)_
+#### Mancini Newsletter
 - **Publication Metadata**: Date, title, key theme
 - **Market Context**: Recent activity, regime assessment
 - **Mode Classification**: Mode 1 (trend) vs. Mode 2 (range/trap) assessment
@@ -345,7 +345,7 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 
 ### Entities
 
-#### Command Registry _(MVP CORE)_
+#### Command Registry
 - **Command Name**: Unique identifier
 - **Description**: Function explanation
 - **Parameter Requirements**: Required inputs
@@ -355,7 +355,7 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 - **Permission Level**: Access control
 - **Version Information**: Command history
 
-#### Session State _(MVP CORE)_
+#### Session State
 - **Date**: Current trading date
 - **Phase**: Premarket/intraday/postmarket
 - **Active Plans**: Loaded trading plans
@@ -384,5 +384,3 @@ This domain model organizes the Intent Trader system around a hybrid structure t
 - **System Logs**: Operation history
 - **Performance Snapshots**: Results at points in time
 - **Backup Management**: Recovery resources
-
-This restructured domain model organizes all entities around the trading workflow while preserving the comprehensive nature of the Intent Trader system. MVP priorities are clearly indicated to guide implementation.
