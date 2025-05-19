@@ -174,17 +174,6 @@ Our current version focuses on the core functionality most critical to your trad
 - **Position Tracking**: Maintain a complete dashboard of your active trades
 - **Core Position Management**: Support for DP's "trading around a core" methodology
 
-### Coming in v0.5.2 (Next Release)
-We're excited about these powerful enhancements coming in our next update:
-
-- **Mancini Newsletter Integration**: Extract insights from Mancini's market analysis
-- **Runner Management Protocol**: Implement the 75/15/10 rule for systematic profit-taking
-- **Advanced Stop Techniques**: Sophisticated trailing stop methodologies
-- **Failed Breakdown Detection**: Specialized pattern identification for high-probability setups
-- **Comprehensive Performance Analytics**: Detailed analysis of your trading patterns
-
-These upcoming features will further enhance your trading process, giving you even more powerful tools to navigate the markets with confidence.
-
 ---
 
 ## Smart Position Sizing That Protects Your Capital
