@@ -57,6 +57,7 @@ Commands are marked with their implementation status:
 | `/list-positions` | Manage | CORE | Display all current positions |
 | `/log-session` | Review | CORE | Create a comprehensive log entry |
 | `/analyze-chart` | Utilities | CORE | Analyze a chart image to identify patterns and levels |
+| `/reload-active-logic` | System | CORE | Flush all stale memory and rebuild runtime environment |
 |---------|-------|--------|-------------|
 
 ---
@@ -489,11 +490,7 @@ Commands are marked with their implementation status:
 * None
 
 **Output:**
-* `systemReport` summarizing:
-  * Commands loaded and parsed
-  * Prompts validated and resolved
-  * Dependency issues (missing requires/outputs)
-  * Memory/context flushed
+* `systemReport` with state of command registry, parsed prompts, missing files, and rebuild status.
 
 **Implementation:**
 * Flushes in-memory context from previous ZIPs or chat history
@@ -502,7 +499,7 @@ Commands are marked with their implementation status:
 * Disables inference or fallback behavior
 
 **File Location:**
-* `prompts/system/reload-active-logic.md`
+* `prompts/utilities/reload-active-logic.md`
 
 **Example:**
 /reload-active-logic
