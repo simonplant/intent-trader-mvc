@@ -10,8 +10,16 @@ This prompt guides you through a comprehensive system-wide review of the Intent 
 Check for complete synchronization between these files:
 - `system/commands.md`
 - `system/runtime/command-map.md`
+- `system/runtime/entrypoint.md`
+- `system/runtime/plugin-dispatcher.js`
 - `system/runtime/plugin-registry.json`
+- `system/runtime/plugin-registry.md`
+- `system/runtime/runtime-agent.md`
+- `system/runtime/validator.md`
 - `docs/command-reference.md`
+- `INSTALL.md`
+- `README.md`
+- `tree.md`
 
 For each command, verify:
 - [ ] Identical command names across all references
@@ -23,10 +31,10 @@ For each command, verify:
 
 **Command Definition Checklist:**
 ```
-| Command | Commands.md | Command-Map | Plugin-Registry | Command-Reference | Consistent? |
-|---------|-------------|-------------|-----------------|-------------------|-------------|
-| /analyze-dp | ✓ | ✓ | ✓ | ✓ | ✓ |
-| /summarize-mancini | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Command | Commands.md | Command-Map | Plugin-Registry | Command-Reference | README.md? | Consistent? |
+|---------|-------------|-------------|-----------------|-------------------|------------|-------------|
+| /analyze-dp | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| /summarize-mancini | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 ...
 ```
 
@@ -45,7 +53,7 @@ For each command, verify:
 **Dependency Graph Verification:**
 - Run a dependency linkage analysis to identify:
   - Missing dependencies
-  - Circular dependencies  
+  - Circular dependencies
   - Orphaned components
   - Unreferenced inputs/outputs
 
