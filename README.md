@@ -103,7 +103,7 @@ Getting started with Intent Trader is quick and easy:
    Please read and load ALL files from this ZIP archive.
    Use system/runtime/runtime-agent.md as the routing layer for commands.
    Use system/runtime/command-map.md to map valid commands.
-   Use state/session-manifest.json to determine the current session phase.
+   Please route all prompts via this application's runtime code first.
    ```
 
 3. **Process the morning call** to extract trading opportunities:
