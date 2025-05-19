@@ -31,10 +31,9 @@ For each command, verify:
 
 **Command Definition Checklist:**
 ```
-| Command | Commands.md | Command-Map | Plugin-Registry | Command-Reference | README.md? | Consistent? |
-|---------|-------------|-------------|-----------------|-------------------|------------|-------------|
-| /analyze-dp | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| /summarize-mancini | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Consistent? | Command | Commands.md | Command-Map | Command-Ref | Entrypoint | Plugin-dispatcher | Plugin-Registry | Plugin-Reg .md |Runtime Agent | Validator | README.md |
+|-------------|---------|-------------|-------------|-------------|------------|-------------------|-----------------|----------------|--------------|---------|-------------|
+| /analyze-dp | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 ...
 ```
 
