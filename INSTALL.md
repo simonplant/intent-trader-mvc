@@ -85,10 +85,9 @@ Exclude the following common artifacts from initialization:
 ## Runtime Activation
 
 Activate command routing and runtime behavior from:
-
+- `system/runtime/entrypoint.md`
 - `system/runtime/runtime-agent.md` (Routing Engine)
 - `system/runtime/command-map.md` (Command Map)
-- `state/session-manifest.json` (Session Context)
 
 ---
 
@@ -103,13 +102,12 @@ Activate command routing and runtime behavior from:
 Unknown command. Not handled by runtime.
 
 - Report missing or malformed required files immediately.
-- No emoji, symbolic bullets, or decorative unicode are allowed in any user-facing text.
-This includes characters like ✅, 🔥, 📈, ⛔️, and any non-standard alphanumerics.
+- No emoji, symbolic bullets, or decorative unicode are allowed in any user-facing text. This includes characters like ✅, 🔥, 📈, ⛔️, and any non-standard alphanumerics.
 
 - If any emoji or decorative unicode is found in output or code:
-- Flag the issue
-- Report file and line number
-- Suggest removal
+	- Flag the issue
+	- Report file and line number
+	- Suggest removal
 
 - **Prioritize runtime protocol above natural language assistance where commands exist.**
 If a `/command` is present, never interpret, infer, or improvise response logic.
@@ -121,12 +119,12 @@ If a `/command` is present, never interpret, infer, or improvise response logic.
 Once initialization completes, return:
 
 Runtime initialized.
-	•	Commands loaded: [count]
-	•	Active command map: system/runtime/command-map.md
-	•	Session manifest loaded: state/session-manifest.json
-	•	Emoji enforcement: enabled
-	•	Audit logging: [active | inactive]
-Awaiting next instruction.
+Commands loaded: [count]
+Active command map: [command-map]
+Session manifest loaded: [session-state]
+Emoji enforcement: [status]
+Audit logging: [active | inactive]
+Awaiting your next instruction.
 
 ---
 
