@@ -105,14 +105,14 @@ Getting started with Intent Trader is quick and easy:
    Use system/runtime/entrypoint.md to initialize the appliction.
    Use system/runtime/runtime-agent.md as the routing layer for commands.
    Use system/runtime/command-map.md to map valid commands.
-   Strictly route all prompts via this application's runtime code first.
+   Strictly route all prompts via this application's runtime system first.
    ```
 
 3. **Process the morning call** to extract trading opportunities:
    ```
    /analyze-dp [paste your morning call transcript]
-   Run prompts/plan/analyze-mancini-preprocessor.md
-   /analyze-mancini preprocessedData='[PASTE JSON HERE]'
+   /summarize-mancini [paste Mancini newsletter]
+   /analyze-mancini summary='[JSON from summarizer]'
    ```
 
 4. **Generate your trading plan** for the day:
