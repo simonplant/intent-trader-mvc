@@ -10,7 +10,7 @@ updated: 2025-05-19
 category: plan
 status: active
 tags: [plan, mancini, es-futures, levels, failed-breakdown, mode]
-requires: [prompts/plan/summarize-mancini-newsletter.md]
+requires: [prompts/plan/summarize-mancini.md]
 outputs: [manciniAnalysis]
 input_format: json
 output_format: json
