@@ -99,34 +99,31 @@ Getting started with Intent Trader is quick and easy:
 1. **Upload the Intent Trader ZIP** archive to ChatGPT
 
 2. **Initialize the system** with a single command:
-   ```
+   ```bash
    Please read and load ALL files from this codebase.
-   Use INSTALL.md to load the application.
-   Use system/runtime/entrypoint.md to initialize the appliction.
-   Use system/runtime/runtime-agent.md as the routing layer for commands.
-   Use system/runtime/command-map.md to map valid commands.
-   Strictly route all prompts via this application's runtime system first.
+   Use INSTALL.md to load the system's runtime code
+   Strictly route all prompts via this runtime system before falling back to conversations.
    ```
 
 3. **Process the morning call** to extract trading opportunities:
-   ```
+   ```bash
    /analyze-dp [paste your morning call transcript]
    /summarize-mancini [paste Mancini newsletter]
    /analyze-mancini summary='[JSON from summarizer]'
    ```
 
 4. **Generate your trading plan** for the day:
-   ```
+   ```bash
    /create-plan
    ```
 
 5. **Calculate the right position size** before entering a trade:
-   ```
+   ```bash
    /size-position AAPL long entry=225.50 stop=223.80 setup=bull-flag conviction=high
    ```
 
 6. **Track your positions** during market hours:
-   ```
+   ```bash
    /add-position AAPL long entry=225.50 size=100 stop=223.80 targets=227.50,229.00,232.00
    ```
 
