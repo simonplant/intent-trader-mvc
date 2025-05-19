@@ -100,10 +100,12 @@ Getting started with Intent Trader is quick and easy:
 
 2. **Initialize the system** with a single command:
    ```
-   Please read and load ALL files from this ZIP archive.
+   Please read and load ALL files from this codebase.
+   Use INSTALL.md to load the application.
+   Use system/runtime/entrypoint.md to initialize the appliction.
    Use system/runtime/runtime-agent.md as the routing layer for commands.
    Use system/runtime/command-map.md to map valid commands.
-   Please route all prompts via this application's runtime code first.
+   Strictly route all prompts via this application's runtime code first.
    ```
 
 3. **Process the morning call** to extract trading opportunities:
