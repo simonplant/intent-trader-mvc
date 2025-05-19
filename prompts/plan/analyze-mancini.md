@@ -1,17 +1,18 @@
 ---
-id: analyze-mancini
-title: Mancini Newsletter Analyzer
-description: Analyzes Mancini newsletters to extract actionable trading strategies
+id: summarize-mancini
+title: Mancini Newsletter Preprocessor
+description: Extracts structured data from Mancini's newsletters to prepare for analysis
 author: Intent Trader Team
-version: 0.4.0
+version: 0.4 .0
 release: 0.5.1
-created: 2025-05-15
+created: 2025-05-19
 updated: 2025-05-19
 category: plan
 status: active
-tags: [plan, mancini, es-futures, levels, failed-breakdown, mode]
-requires: [prompts/plan/summarize-mancini.md]
-outputs: [manciniAnalysis]
+tags: [plan, mancini, es-futures, preprocessing, extraction]
+requires: []
+outputs: [summary]
+input_format: text
 output_format: json
 ai_enabled: true
 ---
