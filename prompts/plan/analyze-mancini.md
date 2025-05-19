@@ -12,7 +12,6 @@ status: active
 tags: [plan, mancini, es-futures, levels, failed-breakdown, mode]
 requires: [prompts/plan/summarize-mancini.md]
 outputs: [manciniAnalysis]
-input_format: json
 output_format: json
 ai_enabled: true
 ---
