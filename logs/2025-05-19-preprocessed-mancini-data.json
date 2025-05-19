@@ -1,0 +1,43 @@
+{
+  "newsletterDate": "2025-05-19",
+  "newsletterTitle": "Will Next Week Bring A Pullback For SPX? May 19th Plan",
+  "marketSection": "Its been one of the most lucrative runs in years and since April 6th, I've started this newsletter the exact same way: By reminding readers that bulls control, and that we are in buy dips mode. This has been highly repetitive I know, but its essential. Even for day traders, most losses are preventable and come from fighting the dominant regime. Conversely, life changing gains are made by respecting it. By starting each newsletter by making it clear to readers what the regime is (buy dips), and where it changes, readers have been able to avoid shorts and profit from what has been a 1100 point run.",
+  "levelsSection": "Supports are: 5963 (major), 5954, 5945 (major), 5933, 5926 (major), 5918, 5910, 5900 (major), 5890, 5880-84 (major), 5874, 5866, 5860 (major), 5850 (major), 5844, 5835, 5824, 5815 (major), 5802, 5796 (major), 5789, 5780, 5771 (major), 5762 (major), 5757, 5752, 5739, 5726-30 (major), 5715 (major), 5711, 5706, 5699 (major), 5690, 5685 (major), 5678, 5673, 5663, 5652-56 (major), 5643, 5634-36 (major), 5628, 5620 (major), 5609, 5600, 5597, 5592, 5582 (major), 5574, 5563-66 (major).",
+  "keyLevels": {
+    "supports": [
+      {"price": 5963, "context": "major, first support down"},
+      {"price": 5954, "context": ""},
+      {"price": 5945, "context": "major"},
+      {"price": 5933, "context": ""},
+      {"price": 5926, "context": "major, resistance of bull flag built since Tuesday, back-tested extensively"},
+      {"price": 5918, "context": "afternoon low"},
+      {"price": 5910, "context": ""},
+      {"price": 5900, "context": "major, multiple Failed Breakdowns here"},
+      {"price": 5890, "context": "Wednesday's daily low"},
+      {"price": 5880, "context": "major, part of 5880-84 support range of bull flag"},
+      {"price": 5868, "context": "Thursday morning low"},
+      {"price": 5860, "context": "major"},
+      {"price": 5815, "context": "major"}
+    ],
+    "resistances": [
+      {"price": 5970, "context": "major, current close level, spot for high risk short"},
+      {"price": 5976, "context": ""},
+      {"price": 5987, "context": ""},
+      {"price": 6000, "context": "major, psychological level"},
+      {"price": 6009, "context": "major"},
+      {"price": 6040, "context": "major, spot for potential short if ES pops above and loses it"},
+      {"price": 6070, "context": "major"}
+    ]
+  },
+  "scenarios": {
+    "bullCase": "The trend continues, until it doesn't. Bulls control until a support fails. We don't predict when that will be, or front run it. We just react and respond when it happens. It is very tough to talk about a bull case closing at the high of day and the high of week (and near heavy resistances) but for Monday, it depends on 5925 continuuing to hold. The breakout of that caused this leg up, and it needs to fail to temporarily end it. In an 'ultra bull case' for Monday, ES won't even back-test that again. Instead, it will start to flag out once again, probably below 5970-75 and above 5945 (perhaps with a 5963) magnet. From there, we will head to 6k, where ES has a shot a dip before moving to the next magnets up which are now 6030, 6040, then 6070. then 6140 is next and 6140 back-tests the orange macro channel in the below chart. Its all clear to ATHS above there.",
+    "bearCase": "Begins below 5925. I say everyday, there is a strong disclaimer that goes with these types of trades. These types of level loss shorts below a support are called breakdown trades. My core edge is failed breakdowns, and the reason is this is an edge is the vast majority of break downs (80%) trap. They take great skill to execute, and even when done well by a trader who has mastered these setups, one should expect over 60% to fail (they are low win rate, high R/R trades. 2 or 3 in a row will fail, then the 4th will pay out huge). *If you don't like these odds and cant tolerate being trapped - simply don't take them. I consider breakdown trades to be an advanced setup type so if a newer subscriber, there is nothing wrong with passing on these. In order to short here, one would need to see a final bounce at 5925, or a failed breakdown attempt. After this, one can short below wherever the lows of that bounce is. It may be 5925 or may be a little lower something like 5917."
+  },
+  "failedBreakdowns": [
+    {"level": 5900, "context": "Multiple 'Double/Triple Dip' Failed Breakdowns at this level on Wednesday/Thursday, setting up the squeeze into Friday's highs"},
+    {"level": 5890, "context": "Wednesday's daily low, flushed to 5868 overnight Thursday, recovered at 8:30AM Thursday, leading to significant upside"},
+    {"level": 5925, "context": "First support down. This is an obvious one as it was resistance of the bull flag we built since late day Tuesday. This has already back-tested extensively this afternoon and I know many readers traded it. This also means its no longer fresh or high quality. For those who want to try it again, its best to see it flush and recover, ideally below this afternoons 5918 low or even down to 5910 and back up."}
+  ],
+  "runnerManagement": "I am still holding my 10% long runner from the 5890 Failed Breakdown yesterday, with my most recent add being the 5925 Back-Test long last night, which was also managed down to a 10% runner. This is starting to get a little odd now as literally everyday has ended the exact same essentially for the last several, but I will repeat myself again: Just like yesterday, we are again closing not far from the high of day. In this configuration, there is 0 for me to do. As a primarily Failed Breakdown trader, my job is to position before these squeezes on the 'scary' flushes that lose and recover a major low (think the sell to 5868 and recovery of 5890 we saw yesterday morning that ultimately triggered this move). After that is done, there is nothing for me to do but wait for the next one and near the high of day there is no positioning available until 1) We get a deep pullback or 2) We start to build out a clear sideways base.",
+  "tradingStrategy": "As always no crystal balls, no guessing, no predicting. I'll be trading the above plan following whatever path price chooses. Reacting level to level, one move at a time, take profits, reset bias from scratch. Not choosing the path for price ahead of time, and hoping it agrees with me. *You don't need an opinion on where price is going to make money*. Remember trade management is everything - lock in 75% profits at first level up, leave a 25% runner, then lock in more at second level up, and let a 10% runner go and initiate the trailing stop methodology. No opinions, no emotions, no thoughts - manage trades systematically, the same way every time. 90% of moves do not follow through, if you do not lock in gains level to level, you will *not* succeed as a day trader."
+}

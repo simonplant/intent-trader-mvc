@@ -111,6 +111,8 @@ Getting started with Intent Trader is quick and easy:
 3. **Process the morning call** to extract trading opportunities:
    ```
    /analyze-dp [paste your morning call transcript]
+   Run prompts/plan/analyze-mancini-preprocessor.md
+   /analyze-mancini preprocessedData='[PASTE JSON HERE]'
    ```
 
 4. **Generate your trading plan** for the day:

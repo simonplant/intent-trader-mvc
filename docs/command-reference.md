@@ -6,7 +6,7 @@ author: Intent Trader Team
 version: 0.2.0
 release: 0.5.1
 created: 2025-05-15
-updated: 2025-05-16
+updated: 2025-05-19
 category: documentation
 status: stable
 tags: [reference, commands, documentation]
@@ -45,8 +45,8 @@ Commands are marked with their implementation status:
 | Command | Phase | Status | Description |
 |---------|-------|--------|-------------|
 | `/analyze-dp` | Plan | CORE | Process DP morning call transcript comprehensively |
-| `/analyze-mancini-preprocessor` | Plan | CORE | Preprocess Mancini's long newsletter content |
-| `/analyze-mancini` | Plan | CORE | Process Mancini newsletter comprehensively |
+| `/summarize-mancini` | Plan | CORE | Extract structured data from Mancini's newsletter |
+| `/analyze-mancini` | Plan | CORE | Process Mancini newsletter summary for trading strategies |
 | `/create-plan` | Focus | CORE | Generate comprehensive unified trade plan |
 | `/extract-focus` | Focus | CORE | Extract high-conviction trade ideas |
 | `/extract-levels` | Focus | CORE | Extract market levels with precision and hierarchy |
@@ -94,50 +94,50 @@ Commands are marked with their implementation status:
 **Example:**
 /analyze-dp "Futures are a bit lower as we await this morning's CPI. The Dow is leading to the downside after UNH suspends guidance for 2025..."
 
-#### `/analyze-mancini-preprocessor [newsletter]`
+#### `/summarize-mancini [newsletter]`
 
-**Purpose:** Preprocess Mancini's long newsletter content for detailed analysis in a two-stage process.
+**Purpose:** Extract structured data from Mancini's ES Futures newsletter for further analysis.
 
 **Parameters:**
 * `newsletter` (required): Text of Mancini's newsletter
 * `format` (optional): Output format (default: json)
 
 **Output:**
-* Preprocessed newsletter data structured for analysis
-* Key sections identified and parsed
-* Metadata about content
+* Structured JSON summary of newsletter content
+* Key levels, market assessment, failed breakdowns, scenarios, etc.
+* Raw sections for reference
 
 **Implementation:**
-* Document chunking for large newsletters
+* Newsletter parsing and content extraction
 * Key section identification
-* Price level extraction
-* Basic structure normalization
+* Level and setup identification
+* Market assessment and bias determination
 
 **File Location:**
-* `prompts/plan/analyze-mancini-preprocessor.md`
+* `prompts/plan/summarize-mancini.md`
 
 **Example:**
-/analyze-mancini-preprocessor "4 Green Days In A Row. Can SPX Close Week With 5, Or Are Bulls Out Of Steam? May 16 Plan..."
+/summarize-mancini "4 Green Days In A Row. Can SPX Close Week With 5, Or Are Bulls Out Of Steam? May 16 Plan..."
 
-#### `/analyze-mancini [preprocessedData]`
+#### `/analyze-mancini [summary]`
 
-**Purpose:** Process Mancini newsletter comprehensively, extracting levels, setups, and trade plan.
+**Purpose:** Process Mancini newsletter summary to extract actionable trading strategies.
 
 **Parameters:**
-* `preprocessedData` (required): JSON output from the preprocessor
+* `summary` (required): JSON output from the `/summarize-mancini` command
 * `components` (optional): Specific components to focus on (default: all)
 * `format` (optional): Output format (default: structured)
 
 **Output:**
-* Structured level framework with major/minor classification
 * Market mode assessment (Mode 1/Mode 2)
+* Structured level framework with significance classification
 * Failed Breakdown setups and opportunities
-* Bull/bear case scenarios
-* Runner status and management protocol
+* Bull/bear case scenarios with probability assessment
+* Runner management recommendations
 * Level-to-level trading methodology
 
 **Implementation:**
-* Advanced analysis of preprocessed data
+* Advanced analysis of summarized data
 * Mode classification (Mode 1 vs Mode 2)
 * Integration with level extraction system
 * Failed Breakdown pattern recognition
@@ -147,7 +147,7 @@ Commands are marked with their implementation status:
 * `prompts/plan/analyze-mancini.md`
 
 **Example:**
-/analyze-mancini preprocessedData='{"newsletterDate":"2025-05-16","newsletterTitle":"4 Green Days In A Row","marketSection":"Everyday since the market bottomed...","keyLevels":{"supports":[{"price":5925,"context":"major"}]}}'
+/analyze-mancini summary='{"date":"2025-05-19","title":"ES Futures Companion","market_assessment":{"mode":"Mode 2","bias":"bullish"},"levels":{"supports":[{"price":5925,"context":"major"}]}}'
 
 ### FOCUS Phase Commands
 
@@ -513,8 +513,8 @@ Commands are marked with their implementation status:
 
 ### Morning Preparation Flow
 /analyze-dp [morning call transcript]
-/analyze-mancini-preprocessor [newsletter]
-/analyze-mancini [preprocessed data]
+/summarize-mancini [newsletter]
+/analyze-mancini [summary JSON]
 /create-plan
 /extract-focus dp high
 /extract-levels dp SPX,NDX
@@ -538,4 +538,5 @@ Commands are marked with their implementation status:
 ## Changelog
 
 - v0.5.1: Added `/analyze-chart` command for chart image analysis
+- v0.5.1: Updated Mancini analysis workflow, replacing `/analyze-mancini-preprocessor` with `/summarize-mancini`
 - v0.5.1: Initial implementation of core commands

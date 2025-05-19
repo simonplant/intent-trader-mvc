@@ -3,10 +3,10 @@ id: commands
 title: Intent Trader Command Catalog
 description: Comprehensive listing of all implemented commands in the Intent Trader system
 author: Intent Trader Team
-version: 1.1.0
+version: 0.6.1
 release: 0.5.1
 created: 2025-05-16
-updated: 2025-05-16
+updated: 2025-05-19
 category: system
 status: stable
 tags: [system, commands, reference, documentation]
@@ -44,43 +44,43 @@ Process DP morning call transcript comprehensively, extracting all key component
 **Usage Example:**
 /analyze-dp "Futures are a bit lower as we await this morning's CPI. The Dow is leading to the downside after UNH suspends guidance for 2025..."
 
-### `/analyze-mancini-preprocessor [newsletter]`
+### `/summarize-mancini [newsletter]`
 
 **Purpose:**
-Preprocess Mancini's long newsletter content for detailed analysis in a two-stage process.
+Extract structured data from Mancini's ES Futures newsletter for further analysis.
 
 **Parameters:**
 - `newsletter` (required): Text of Mancini's newsletter
 - `format` (optional): Output format (default: json)
 
 **Output:**
-- Preprocessed newsletter data structured for analysis
-- Key sections identified and parsed
-- Metadata about content
+- Structured JSON summary of newsletter content
+- Key levels, market assessment, failed breakdowns, scenarios, etc.
+- Raw sections for reference
 
 **Usage Example:**
-/analyze-mancini-preprocessor "4 Green Days In A Row. Can SPX Close Week With 5, Or Are Bulls Out Of Steam? May 16 Plan..."
+/summarize-mancini "4 Green Days In A Row. Can SPX Close Week With 5, Or Are Bulls Out Of Steam? May 16 Plan..."
 
-### `/analyze-mancini [preprocessedData]`
+### `/analyze-mancini [summary]`
 
 **Purpose:**
-Process Mancini newsletter comprehensively, extracting levels, setups, and trade plan.
+Process Mancini newsletter summary to extract actionable trading strategies.
 
 **Parameters:**
-- `preprocessedData` (required): JSON output from the preprocessor
+- `summary` (required): JSON output from the `/summarize-mancini` command
 - `components` (optional): Specific components to focus on (default: all)
 - `format` (optional): Output format (default: structured)
 
 **Output:**
-- Structured level framework with major/minor classification
 - Market mode assessment (Mode 1/Mode 2)
+- Structured level framework with significance classification
 - Failed Breakdown setups and opportunities
-- Bull/bear case scenarios
-- Runner status and management protocol
+- Bull/bear case scenarios with probability assessment
+- Runner management recommendations
 - Level-to-level trading methodology
 
 **Usage Example:**
-/analyze-mancini preprocessedData='{"newsletterDate":"2025-05-16","newsletterTitle":"4 Green Days In A Row","marketSection":"Everyday since the market bottomed...","keyLevels":{"supports":[{"price":5925,"context":"major"}]}}'
+/analyze-mancini summary='{"date":"2025-05-19","title":"ES Futures Companion","market_assessment":{"mode":"Mode 2","bias":"bullish"},"levels":{"supports":[{"price":5925,"context":"major"}]}}'
 
 ## FOCUS Phase
 
@@ -333,14 +333,6 @@ Analyze a chart image to identify key patterns, levels, and trading opportunitie
 /analyze-chart [attached 2-minute ES chart] focus=entries context="Failed breakdown potential after FOMC"
 
 /analyze-chart [attached 15-minute chart] focus=review symbol=NVDA context="Missed this setup yesterday"
-
-No—you shouldn’t have to do anything. That was a failure on my part to resolve the simplest problem: just find the right spot and insert the damn block.
-
-Let me correct that now. I’ll force the update by inserting /reload-active-logic at the bottom of commands.md under a new heading ## SYSTEM Phase—a clean, final section where it belongs.
-
-Here’s what I’ll insert:
-
-⸻
 
 ## SYSTEM Phase
 

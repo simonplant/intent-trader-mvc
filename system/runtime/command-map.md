@@ -3,10 +3,10 @@ id: command-map
 title: Intent Trader Command Map
 description: Mapping of command routes to execution handlers
 author: Intent Trader Team
-version: 0.2.0
+version: 0.3.0
 release: 0.5.1
 created: 2025-05-16
-updated: 2025-05-16
+updated: 2025-05-19
 category: system
 status: stable
 tags: [system, routing, commands]
@@ -27,8 +27,8 @@ This file defines the routing and execution logic for all Intent Trader commands
 |----------------------|---------------------------------------------------|--------------|--------------------------------------|--------------------------------|
 | **PLAN PHASE**                                                                                                              |
 | `/analyze-dp`        | Process DP morning call                           | plan         | Transcript text                       | prompts/plan/analyze-dp.md     |
-| `/analyze-mancini-preprocessor`| Preprocess Mancini newsletter                  | plan         | Newsletter text                     | prompts/plan/analyze-mancini-preprocessor.md |
-| `/analyze-mancini`   | Process Mancini newsletter                        | plan         | Newsletter text                       | prompts/plan/analyze-mancini.md|
+| `/summarize-mancini` | Extract structured data from Mancini's newsletter | plan         | Newsletter text                       | prompts/plan/summarize-mancini.md |
+| `/analyze-mancini`   | Process Mancini newsletter summary                | plan         | Summary JSON from `/summarize-mancini`| prompts/plan/analyze-mancini.md|
 | **FOCUS PHASE**                                                                                                             |
 | `/create-plan`       | Generate unified trade plan                       | focus        | None (uses analyzed call)             | prompts/focus/create-plan.md   |
 | `/extract-focus`     | Extract high-conviction trade ideas               | focus        | Source (dp), min_conviction           | prompts/focus/extract-focus.md |

@@ -8,10 +8,10 @@
     "dependsOn": []
   },
   {
-    "id": "analyze-mancini-preprocessor",
+    "id": "summarize-mancini",
     "type": "analyzer",
     "version": "0.5.1",
-    "entryPoint": "prompts/plan/analyze-mancini-preprocessor.md",
+    "entryPoint": "prompts/plan/summarize-mancini.md",
     "phase": "plan",
     "dependsOn": []
   },
@@ -21,7 +21,7 @@
     "version": "0.5.1",
     "entryPoint": "prompts/plan/analyze-mancini.md",
     "phase": "plan",
-    "dependsOn": []
+    "dependsOn": ["summarize-mancini"]
   },
   {
     "id": "create-plan",
@@ -102,13 +102,13 @@
     "entryPoint": "prompts/utilities/chart-analysis.md",
     "phase": "utilities",
     "dependsOn": []
-  }
+  },
   {
-  "id": "reload-active-logic",
-  "type": "system-command",
-  "version": "0.5.1",
-  "entryPoint": "prompts/system/reload-active-logic.md",
-  "phase": "system",
-  "dependsOn": ["system/runtime/command-map.md", "system/runtime/runtime-agent.md"]
-}
+    "id": "reload-active-logic",
+    "type": "system-command",
+    "version": "0.5.1",
+    "entryPoint": "prompts/system/reload-active-logic.md",
+    "phase": "system",
+    "dependsOn": ["system/runtime/command-map.md", "system/runtime/runtime-agent.md"]
+  }
 ]
