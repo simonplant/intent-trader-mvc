@@ -33,6 +33,8 @@ Upon invocation, this command:
    - No hallucinated links between prompts and commands
 
 2. **Rebuilds the execution graph from file system reality**:
+   - Re-parse the installer `INSTALL.md` to ensure all files are present.
+   - Re-parse the entrpoint file `system/runtime/entrypoint.md` fro the initialization sequence.
    - Re-parse `command-map.md` as the single source of truth for routable commands
    - Load all referenced prompt files and validate their metadata (`id`, `requires`, `outputs`, etc.)
    - Resolve all `requires:` and `outputs:` chains explicitly — throw if any are missing

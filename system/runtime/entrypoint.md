@@ -3,7 +3,7 @@ id: entrypoint
 title: Intent Trader EntryPoint
 description: System initialization and bootstrap loader
 author: Intent Trader Team
-version: 0.2.0
+version: 0.2.1
 release: 0.5.1
 created: 2025-05-16
 updated: 2025-05-16
@@ -23,14 +23,22 @@ This file bootstraps the Intent Trader system, loads the session context, and in
 
 ## Initialization Sequence
 
-1. **Load Core Files**:
-   - `state/session-manifest.json` - Current session state
-   - `system/runtime/command-map.md` - Command routing table
-   - `system/runtime/plugin-registry.json` - Plugin definitions
+1. **Hard Bind Runtime Routing**
+
+Load and permanently bind the runtime control layer:
+
+```json
+{
+  "runtime_bound": true,
+  "entrypoint": "system/runtime/runtime-agent.md",
+  "command_map": "system/runtime/command-map.md",
+  "plugin_registry": "system/runtime/plugin-registry.json"
+}
+```
 
 2. **Determine Trading Phase**:
    - Extract `currentPhase` from session manifest
-   - Validate phase (premarket, intraday, postmarket)
+   - Validate market session phase (premarket, intraday, postmarket)
    - Load phase-appropriate commands
 
 3. **Initialize State**:
