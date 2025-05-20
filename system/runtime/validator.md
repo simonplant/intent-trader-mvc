@@ -239,3 +239,27 @@ When validation fails, the system returns:
   ],
   "message": "Validation failed. Please correct the errors and try again."
 }
+```
+
+### SYSTEM Commands
+
+#### `/scaffold-command <command-name> <phase> <type> [description]`
+- **Required Parameters**:
+  - `command-name`: String, valid command identifier format (alphanumeric with hyphens, no spaces)
+  - `phase`: String, one of ["plan", "focus", "execute", "manage", "review", "utility", "system"]
+  - `type`: String, one of ["analyzer", "action", "calculator", "transform", "report", "system", "preprocessor"]
+- **Optional Parameters**:
+  - `description`: String, brief description of command purpose
+- **Validation Actions**:
+  - Verify command-name doesn't already exist in plugin registry
+  - Validate phase is one of the allowed values
+  - Validate type is one of the allowed values
+  - Check command name follows naming convention (lowercase, hyphenated, no special characters)
+
+#### `/sync-commands [fix] [verbose]`
+- **Optional Parameters**:
+  - `fix`: Boolean (default: false), whether to automatically fix discrepancies
+  - `verbose`: Boolean (default: false), whether to show detailed report
+- **Validation Actions**:
+  - No specific parameter validation required
+  - Verify current user has permission to update files if fix=true
