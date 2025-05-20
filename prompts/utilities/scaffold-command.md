@@ -3,8 +3,8 @@ id: scaffold-command
 title: Command Scaffold Generator
 description: Generates standardized boilerplate for new commands across all required files
 author: Intent Trader Team
-version: 0.2.0
-release: 0.5.3
+version: 0.2.1
+release: 0.5.1
 created: 2025-05-21
 updated: 2025-05-21
 category: utility
