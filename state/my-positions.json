@@ -1,55 +1,98 @@
 {
   "positions": [
     {
-      "id": "QQQ-20250515-001",
-      "symbol": "QQQ 16-May-25 475P",
+      "id": "SQQQ-20250520-001",
+      "symbol": "SQQQ",
       "direction": "long",
       "entry": {
-        "price": 6.41,
-        "time": "2025-05-14T09:32:00Z"
-      },
-      "current": {
-        "price": 0.025,
-        "pnl": -638.50
+        "price": 23.915,
+        "time": "2025-05-20T11:29:00Z"
       },
       "risk": {
-        "stop": 0.00
+        "stop": null
       },
-      "targets": [
-        {"price": 10.00, "status": "missed"},
-        {"price": 15.00, "status": "missed"},
-        {"price": 20.00, "status": "missed"}
-      ],
+      "targets": [],
+      "size": {
+        "initial": 500,
+        "current": 500,
+        "unit": "shares"
+      },
+      "status": "active",
+      "owner": "me",
+      "trade_type": "swing",
+      "notes": "Filled 5/20/25 at 23.915",
+      "history": [
+        {
+          "action": "created",
+          "time": "2025-05-20T11:29:00Z",
+          "details": "500 shares bought at 23.915"
+        }
+      ]
+    },
+    {
+      "id": "SPX-20250520-001",
+      "symbol": "SPX 22-May-25 5870P",
+      "direction": "long",
+      "entry": {
+        "price": 11.60,
+        "time": "2025-05-20T11:53:00Z"
+      },
+      "risk": {
+        "stop": null
+      },
+      "targets": [],
       "size": {
         "initial": 1,
         "current": 1,
         "unit": "contracts"
       },
       "status": "active",
-      "setup": "put-option",
-      "strategy": "dp",
-      "trade_type": "day",
       "owner": "me",
-      "notes": "QQQ May 16 put option, premium paid was $5.76 plus $0.65 commission",
+      "trade_type": "day",
+      "notes": "Filled 5/20/25 at $11.60",
       "history": [
         {
           "action": "created",
-          "time": "2025-05-14T09:32:00Z",
-          "details": "Position created - put option purchase"
-        },
+          "time": "2025-05-20T11:53:00Z",
+          "details": "1 contract bought at $11.60"
+        }
+      ]
+    },
+    {
+      "id": "QQQ-20250520-001",
+      "symbol": "QQQ 21-May-25 515P",
+      "direction": "long",
+      "entry": {
+        "price": 1.32,
+        "time": "2025-05-20T11:30:00Z"
+      },
+      "risk": {
+        "stop": null
+      },
+      "targets": [],
+      "size": {
+        "initial": 1,
+        "current": 1,
+        "unit": "contracts"
+      },
+      "status": "active",
+      "owner": "me",
+      "trade_type": "day",
+      "notes": "Filled 5/20/25 at $1.32",
+      "history": [
         {
-          "action": "price_update",
-          "time": "2025-05-15T15:30:00Z",
-          "details": "Updated price to 0.025 - significant loss of value"
+          "action": "created",
+          "time": "2025-05-20T11:30:00Z",
+          "details": "1 contract bought at $1.32"
         }
       ]
     }
   ],
   "metadata": {
-    "last_updated": "2025-05-15T15:30:00Z",
-    "active_count": 1,
-    "total_positions": 1,
+    "last_updated": "2025-05-20T11:55:00Z",
+    "active_count": 3,
+    "total_positions": 3,
     "total_risk": 0.00,
-    "daily_pnl": -638.50
+    "daily_pnl": 0.00
   }
 }
