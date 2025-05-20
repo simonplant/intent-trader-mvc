@@ -1,5 +1,3 @@
-## SYSTEM Phase
-
 ### `/scaffold-command <command-name> <phase> <type> [description]`
 
 **Purpose:**

@@ -7,9 +7,9 @@ version: 0.1.0
 release: 0.5.2
 created: 2025-05-21
 updated: 2025-05-21
-category: system
+category: utility
 status: beta
-tags: [system, automation, scaffolding, commands]
+tags: [utility, automation, scaffolding, commands]
 requires: [system/templates/front-matter-template.md, system/runtime/command-map.md, system/runtime/plugin-registry.json]
 outputs: []
 input_format: command

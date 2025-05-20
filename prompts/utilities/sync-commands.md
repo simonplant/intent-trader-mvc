@@ -7,9 +7,9 @@ version: 0.1.0
 release: 0.5.2
 created: 2025-05-21
 updated: 2025-05-21
-category: system
+category: utility
 status: beta
-tags: [system, automation, validation, commands, sync]
+tags: [utility, automation, validation, commands, sync]
 requires: [system/runtime/command-map.md, system/runtime/plugin-registry.json, docs/command-reference.md]
 outputs: []
 input_format: command

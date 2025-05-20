@@ -1,6 +1,6 @@
 # Implementation Guide: Command System Automation
 
-This guide outlines the steps required to implement the new command system automation tools in Intent Trader.
+This guide outlines the steps required to implement the new command system automation tools in Intent Trader, following the standard operating procedure outlined in `command-routes-update-sop.md`.
 
 ## Implementation Overview
 
@@ -67,7 +67,8 @@ We're adding two key system automation commands to streamline command management
 
 #### Update commands.md
 1. Open: `system/commands.md`
-2. Add the new system commands entries from the commands-md-update artifact to the end of the file
+2. Add the new system commands entries from the refined-commands-md-update artifact to the **SYSTEM Phase** section
+3. Update the "updated" date in the front matter to today's date (2025-05-21)
 
 #### Update Runtime Agent
 1. Open: `system/runtime/runtime-agent.md`

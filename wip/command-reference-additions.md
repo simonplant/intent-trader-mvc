@@ -1,7 +1,3 @@
-## System Commands Update for command-reference.md
-
-Add the following entries to the Command Reference document in the "SYSTEM Commands" section:
-
 #### `/scaffold-command <command-name> <phase> <type> [description]`
 
 **Purpose:** Creates standardized boilerplate for new commands across all required files to ensure consistency and reduce errors.
@@ -26,7 +22,7 @@ Add the following entries to the Command Reference document in the "SYSTEM Comma
 * Provides complete output for manual copy-paste or automated writing
 
 **File Location:**
-* `prompts/system/scaffold-command.md`
+* `prompts/utilities/scaffold-command.md`
 
 **Example:**
 /scaffold-command analyze-asset plan analyzer "Process asset fundamentals for trading opportunities"
@@ -46,15 +42,15 @@ Add the following entries to the Command Reference document in the "SYSTEM Comma
 * Details on fixes applied (if requested)
 
 **Implementation:**
-* Checks all commands in `command-map.md` are present in `plugin-registry.json`
-* Verifies all commands in `plugin-registry.json` have a corresponding implementation file
-* Ensures all commands in `command-reference.md` match those in `command-map.md`
-* Validates file paths are consistent between `command-map.md` and `plugin-registry.json`
+* Checks all commands in `system/runtime/command-map.md` are present in `system/runtime/plugin-registry.json`
+* Verifies all commands in `system/runtime/plugin-registry.json` have a corresponding implementation file
+* Ensures all commands in `docs/command-reference.md` match those in `system/runtime/command-map.md`
+* Validates file paths are consistent between `system/runtime/command-map.md` and `system/runtime/plugin-registry.json`
 * Checks all commands share the same phase assignment across files
 * Updates runtime-agent.md supported commands list when using "fix" parameter
 
 **File Location:**
-* `prompts/system/sync-commands.md`
+* `prompts/utilities/sync-commands.md`
 
 **Example:**
 /sync-commands fix verbose
