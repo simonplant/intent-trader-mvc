@@ -1,5 +1,13 @@
 [
   {
+  "id": "clean-dp-transcript",
+  "type": "preprocessor",
+  "version": "0.5.1",
+  "entryPoint": "prompts/plan/clean-dp-transcript.md",
+  "phase": "plan",
+  "dependsOn": []
+  },
+  {
     "id": "analyze-dp",
     "type": "analyzer",
     "version": "0.5.1",

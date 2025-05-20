@@ -66,6 +66,25 @@ Commands are marked with their implementation status:
 
 ### PLAN Phase Commands
 
+#### `/clean-dp-transcript [transcript]`
+
+**Purpose:** Clean and correct transcription errors in DP morning call text while preserving original content and structure.
+
+**Parameters:**
+* `transcript` (required): Raw morning call transcript text
+* `includeAnnotations` (optional): Include correction notes (default: false)
+* `standardizeFormatting` (optional): Apply paragraph formatting (default: true)
+
+**Output:**
+* Cleaned transcript with corrected tickers and terminology
+* Optional annotation notes if requested
+
+**File Location:**
+* `prompts/plan/clean-dp-transcript.md`
+
+**Example:**
+/clean-dp-transcript "Futures are a bit lower as we await this morning's CPI. The Dow is leading to the downside after you anench suspends guidance for 2025."
+
 #### `/analyze-dp [transcript]`
 
 **Purpose:** Process DP morning call transcript comprehensively, extracting all key components and insights.

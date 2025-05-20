@@ -8,6 +8,7 @@
 │   ├── command-routes-update-sop.md
 │   ├── mancini-analysis-guide.md
 │   ├── mancini-trading-style.md
+│   ├── public-chat-app-container-issues.md
 │   ├── requirements.md
 │   └── system-architecture.md
 ├── INSTALL.md
@@ -22,18 +23,14 @@
 │   ├── 2025-05-19-preprocessed-mancini-data.json
 │   ├── 2025-05-19-unified-plan-short.md
 │   ├── 2025-05-19-unified-plan.md
+│   ├── 2025-05-20-dp-transcript.md
+│   ├── 2025-05-20-mancini-newsletter-summary.md
 │   ├── releases
 │   │   └── v0.5.0.md
 │   ├── test-session-output.json
 │   └── trade-log.json
 ├── planning
-│   ├── implementation-log.md
-│   ├── intent-trader-v051-plan.md
-│   ├── kick-off-prompt.md
-│   ├── master-prompt-instructions.md
-│   ├── plan-for-today.md
-│   ├── project-tracker.md
-│   └── qa-review-prompt.md
+│   └── plan.md
 ├── prompts
 │   ├── coach
 │   ├── execute
@@ -53,6 +50,7 @@
 │   ├── plan
 │   │   ├── analyze-dp.md
 │   │   ├── analyze-mancini.md
+│   │   ├── clean-dp-transcript.md
 │   │   └── summarize-mancini.md
 │   ├── review
 │   │   └── log-session.md
@@ -84,4 +82,4 @@
 ├── tree.txt
 └── wip
 
-21 directories, 64 files
+21 directories, 62 files

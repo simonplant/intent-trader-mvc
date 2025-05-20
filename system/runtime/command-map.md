@@ -3,7 +3,7 @@ id: command-map
 title: Intent Trader Command Map
 description: Mapping of command routes to execution handlers
 author: Intent Trader Team
-version: 0.3.0
+version: 0.3.1
 release: 0.5.1
 created: 2025-05-16
 updated: 2025-05-19
@@ -26,6 +26,7 @@ This file defines the routing and execution logic for all Intent Trader commands
 | Command              | Description                                       | Phase        | Input Required                        | File Path                      |
 |----------------------|---------------------------------------------------|--------------|--------------------------------------|--------------------------------|
 | **PLAN PHASE**                                                                                                              |
+| `/clean-dp-transcript` | Clean DP morning call transcript                   | plan         | transcript                            | prompts/plan/clean-dp-transcript.md |
 | `/analyze-dp`        | Process DP morning call                           | plan         | Transcript text                       | prompts/plan/analyze-dp.md     |
 | `/summarize-mancini` | Extract structured data from Mancini's newsletter | plan         | Newsletter text                       | prompts/plan/summarize-mancini.md |
 | `/analyze-mancini`   | Process Mancini newsletter summary                | plan         | Summary JSON from `/summarize-mancini`| prompts/plan/analyze-mancini.md|

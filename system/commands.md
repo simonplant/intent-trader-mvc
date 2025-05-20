@@ -3,7 +3,7 @@ id: commands
 title: Intent Trader Command Catalog
 description: Comprehensive listing of all implemented commands in the Intent Trader system
 author: Intent Trader Team
-version: 0.6.1
+version: 0.6.2
 release: 0.5.1
 created: 2025-05-16
 updated: 2025-05-19
@@ -22,6 +22,22 @@ ai_enabled: false
 This catalog provides a comprehensive listing of all implemented commands in the Intent Trader system, organized by the cognitive workflow phases.
 
 ## PLAN Phase
+
+### `/clean-dp-transcript [transcript]`
+
+**Purpose:** Clean and correct transcription errors in DP morning call text while preserving original content and structure.
+
+**Parameters:**
+* `transcript` (required): Raw morning call transcript text
+* `includeAnnotations` (optional): Include correction notes (default: false)
+* `standardizeFormatting` (optional): Apply paragraph formatting (default: true)
+
+**Output:**
+* Cleaned transcript with corrected tickers and terminology
+* Optional annotation notes if requested
+
+**Usage Example:**
+/clean-dp-transcript "Futures are a bit lower as we await this morning's CPI. The Dow is leading to the downside after you anench suspends guidance for 2025."
 
 ### `/analyze-dp [transcript]`
 

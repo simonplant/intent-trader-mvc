@@ -34,6 +34,15 @@ Each command has specific validation rules for its parameters. The validator ens
 
 ### PLAN Phase Commands
 
+#### `/clean-dp-transcript [transcript]`
+- **Required Parameters**:
+  - `transcript`: String, non-empty, minimum length 100 characters
+- **Optional Parameters**:
+  - `includeAnnotations`: Boolean (default: false)
+  - `standardizeFormatting`: Boolean (default: true)
+- **Validation Actions**:
+  - Verify transcript contains recognizable content
+
 #### `/analyze-dp [transcript]`
 - **Required Parameters**:
   - `transcript`: String, non-empty, minimum length 50 characters

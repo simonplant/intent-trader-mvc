@@ -13,7 +13,7 @@ Check for complete synchronization between these files:
 - `system/runtime/entrypoint.md`
 - `system/runtime/plugin-dispatcher.js`
 - `system/runtime/plugin-registry.json`
-- `system/runtime/plugin-registry.md`
+- `docs/runtime/plugin-registry.md`
 - `system/runtime/runtime-agent.md`
 - `system/runtime/validator.md`
 - `docs/command-reference.md`
