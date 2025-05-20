@@ -3,7 +3,7 @@ id: runtime-agent
 title: Intent Trader Runtime Agent
 description: Core routing engine for Intent Trader command processing
 author: Intent Trader Team
-version: 0.3.2
+version: 0.4.0
 release: 0.5.1
 created: 2025-05-16
 updated: 2025-05-20
