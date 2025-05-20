@@ -3,10 +3,10 @@ id: command-map
 title: Intent Trader Command Map
 description: Mapping of command routes to execution handlers
 author: Intent Trader Team
-version: 0.3.1
-release: 0.5.1
+version: 0.4.0
+release: 0.5.2
 created: 2025-05-16
-updated: 2025-05-19
+updated: 2025-05-20
 category: system
 status: stable
 tags: [system, routing, commands]
@@ -48,5 +48,7 @@ This file defines the routing and execution logic for all Intent Trader commands
 | **SYSTEM COMMANDS**                                                                                                         |
 | `/help`              | Show available commands                           | system       | Optional command name                 | system/commands.md             |
 | `/status`            | Show current trading session state                | system       | None                                  | system/runtime/entrypoint.md   |
-| `/reload-active-logic` | Flush context and reload runtime logic     | system       | none                                   | prompts/system/reload-active-logic.md |
+| `/reload-active-logic` | Flush context and reload runtime logic          | system       | none                                  | prompts/system/reload-active-logic.md |
+| `/scaffold-command` | Generate boilerplate for new commands              | system       | command-name, phase, type, [description] | prompts/utilities/scaffold-command.md |
+| `/sync-commands`    | Validate and sync command references               | system       | [fix], [verbose]                      | prompts/utilities/sync-commands.md |
 |----------------------|---------------------------------------------------|--------------|--------------------------------------|--------------------------------|
