@@ -103,9 +103,11 @@ Activate command routing and runtime behavior from:
 Unknown command. Not handled by runtime.
 
 - Report missing or malformed required files immediately.
-- No emoji, symbolic bullets, or decorative unicode are allowed in any user-facing text. This includes characters like ✅, 🔥, 📈, ⛔️, and any non-standard alphanumerics.
 
-- If any emoji or decorative unicode is found in output or code:
+- Absolutely no emojis are allowed in any user-facing text. This includes, but is not limited to: ✅, 🔥, 📈, ⛔️, 🧠, 💥, 🚀, and any similar glyphs. Do not attempt to substitute emojis under any alias (e.g., “semantic icons”, “expressive symbols”, “intent glyphs”) — all are disallowed.
+
+
+- If any emoji or decorated text is found in output or code:
 	- Flag the issue
 	- Report file and line number
 	- Suggest removal

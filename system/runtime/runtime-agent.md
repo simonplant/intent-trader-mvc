@@ -117,7 +117,39 @@ if command == "/list-positions":
 
 ## Enforcement Policy
 
-- All /commands must be listed in command-map.md
-- Execution must match routing logic
-- Do not invent behavior for unknown routes
-- No emoji or decorative Unicode permitted in output
+### Command Execution Integrity
+
+- All /commands must be explicitly declared in command-map.md
+- Routing must match entries in runtime-agent.md or plugin-registry.json
+- Unknown routes must not be executed
+- No speculative or inferred behavior allowed
+
+### Output Character Policy
+
+The following output rules must be enforced across all user-facing prompts and system responses:
+
+1. **Emoji Ban**
+   - Absolutely no emojis are allowed under any context (e.g., ✅ 🔥 📈 ⛔️ 🚀 🙏)
+   - No visual glyphs, reaction icons, or substitutes
+
+2. **Decorative Unicode Blocked**
+   - Symbols used for emotional, decorative, or expressive effect are prohibited
+   - Includes all emoji-like pictograms, symbols, or characters designed for styling, branding, or flair
+
+3. **Permitted Structural Unicode**
+   - Only the following are allowed for layout purposes:
+     - Bullets: •, ‣, ∙
+     - Smart Quotes: “ ”, ‘ ’
+     - Dashes: –, —
+     - Arrows: →, ⇒, ⇨, ➡
+     - Box Drawing: │, ━, ┼, ╭, and related frame characters
+
+   - These are permitted strictly for formatting and clarity — never for expression
+
+4. **ASCII Fallback Mode**
+   - When `ascii_mode` is enabled:
+     - All responses must downgrade to plain ASCII
+     - Allowed characters: -, *, ", ', ->, =>
+     - No Markdown rendering or smart quotes permitted
+
+Violations of this policy are treated as rendering faults and must be corrected before response delivery.
