@@ -118,5 +118,29 @@
     "entryPoint": "prompts/system/reload-active-logic.md",
     "phase": "system",
     "dependsOn": ["system/runtime/command-map.md", "system/runtime/runtime-agent.md"]
+  },
+  {
+    "id": "scaffold-command",
+    "type": "system",
+    "version": "0.1.0",
+    "entryPoint": "prompts/utilities/scaffold-command.md",
+    "phase": "system",
+    "dependsOn": [
+      "system/templates/front-matter-template.md", 
+      "system/runtime/command-map.md", 
+      "system/runtime/plugin-registry.json"
+    ]
+  },
+  {
+    "id": "sync-commands",
+    "type": "system",
+    "version": "0.1.0",
+    "entryPoint": "prompts/utilities/sync-commands.md",
+    "phase": "system",
+    "dependsOn": [
+      "system/runtime/command-map.md", 
+      "system/runtime/plugin-registry.json", 
+      "docs/command-reference.md"
+    ]
   }
 ]
