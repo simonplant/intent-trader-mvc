@@ -1,0 +1,146 @@
+[
+  {
+  "id": "clean-dp-transcript",
+  "type": "preprocessor",
+  "version": "0.5.1",
+  "entryPoint": "prompts/plan/clean-dp-transcript.md",
+  "phase": "plan",
+  "dependsOn": []
+  },
+  {
+    "id": "analyze-dp",
+    "type": "analyzer",
+    "version": "0.5.1",
+    "entryPoint": "prompts/plan/analyze-dp.md",
+    "phase": "plan",
+    "dependsOn": []
+  },
+  {
+    "id": "summarize-mancini",
+    "type": "analyzer",
+    "version": "0.5.1",
+    "entryPoint": "prompts/plan/summarize-mancini.md",
+    "phase": "plan",
+    "dependsOn": []
+  },
+  {
+    "id": "analyze-mancini",
+    "type": "analyzer",
+    "version": "0.5.1",
+    "entryPoint": "prompts/plan/analyze-mancini.md",
+    "phase": "plan",
+    "dependsOn": ["summarize-mancini"]
+  },
+  {
+    "id": "create-plan",
+    "type": "transform",
+    "version": "0.5.1",
+    "entryPoint": "prompts/focus/create-plan.md",
+    "phase": "focus",
+    "dependsOn": []
+  },
+  {
+    "id": "extract-focus",
+    "type": "analyzer",
+    "version": "0.5.1",
+    "entryPoint": "prompts/focus/extract-focus.md",
+    "phase": "focus",
+    "dependsOn": []
+  },
+  {
+    "id": "extract-levels",
+    "type": "analyzer",
+    "version": "0.5.1",
+    "entryPoint": "prompts/focus/extract-levels.md",
+    "phase": "focus",
+    "dependsOn": []
+  },
+  {
+    "id": "size-position",
+    "type": "calculator",
+    "version": "0.5.1",
+    "entryPoint": "prompts/execute/size-position.md",
+    "phase": "execute",
+    "dependsOn": []
+  },
+  {
+    "id": "add-position",
+    "type": "action",
+    "version": "0.5.1",
+    "entryPoint": "prompts/execute/add-position.md",
+    "phase": "execute",
+    "dependsOn": []
+  },
+  {
+    "id": "update-position",
+    "type": "action",
+    "version": "0.5.1",
+    "entryPoint": "prompts/manage/update-position.md",
+    "phase": "manage",
+    "dependsOn": []
+  },
+  {
+    "id": "close-position",
+    "type": "action",
+    "version": "0.5.1",
+    "entryPoint": "prompts/manage/close-position.md",
+    "phase": "manage",
+    "dependsOn": []
+  },
+  {
+    "id": "list-positions",
+    "type": "report",
+    "version": "0.5.1",
+    "entryPoint": "prompts/manage/list-positions.md",
+    "phase": "manage",
+    "dependsOn": []
+  },
+  {
+    "id": "log-session",
+    "type": "analyzer",
+    "version": "0.5.1",
+    "entryPoint": "prompts/review/log-session.md",
+    "phase": "review",
+    "dependsOn": []
+  },
+  {
+    "id": "analyze-chart",
+    "type": "analyzer",
+    "version": "0.5.1",
+    "entryPoint": "prompts/utilities/chart-analysis.md",
+    "phase": "utilities",
+    "dependsOn": []
+  },
+  {
+    "id": "reload-active-logic",
+    "type": "system-command",
+    "version": "0.5.1",
+    "entryPoint": "prompts/system/reload-active-logic.md",
+    "phase": "system",
+    "dependsOn": ["system/runtime/command-map.md", "system/runtime/runtime-agent.md"]
+  },
+  {
+    "id": "scaffold-command",
+    "type": "system",
+    "version": "0.1.0",
+    "entryPoint": "prompts/utilities/scaffold-command.md",
+    "phase": "system",
+    "dependsOn": [
+      "system/templates/front-matter-template.md", 
+      "system/runtime/command-map.md", 
+      "system/runtime/plugin-registry.json"
+    ]
+  },
+  {
+    "id": "sync-commands",
+    "type": "system",
+    "version": "0.1.0",
+    "entryPoint": "prompts/utilities/sync-commands.md",
+    "phase": "system",
+    "dependsOn": [
+      "system/runtime/command-map.md", 
+      "system/runtime/plugin-registry.json", 
+      "docs/command-reference.md"
+    ]
+  }
+]
