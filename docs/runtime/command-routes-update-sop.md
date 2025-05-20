@@ -3,10 +3,10 @@ id: command-routes-update-sop
 title: Commands & Routes System Maintenance SOP
 description: Standard operating procedure for updating the command system in Intent Trader
 author: Intent Trader Team
-version: 0.3.0
+version: 0.4.1
 release: 0.5.2
 created: 2025-05-16
-updated: 2025-05-21
+updated: 2025-05-20
 category: system
 status: stable
 tags: [sop, commands, maintenance, updates, system]
@@ -71,6 +71,7 @@ Paste each scaffolded block into its corresponding file:
 * `command-map.md`
 * `command-reference.md`
 * `commands.md`
+* `validator.md`
 * `release-notes.md`
 
 ### Step 3: Confirm Runtime Integration
@@ -107,6 +108,7 @@ This rebuilds the runtime routing and ensures recognition.
 
 Run `/sync-commands` to:
 * Verify all commands have correct plugin and map entries
+* Ensure validation rules exist for all commands in validator.md
 * Catch orphaned or undocumented commands
 * Check version consistency
 
