@@ -1,85 +1,109 @@
 ---
 id: plan-v0.5.2
-title: Intent Trader v0.5.2 – Canonical Schema & Prompt Refactor
+title: Intent Trader v0.5.2 – Canonical Schema & System Refactor
+description: Foundation release to define canonical schema, unify prompt metadata, validate runtime state, and remove legacy assets
+author: Simon Plant
+version: 0.2.1
 release: 0.5.2
+created: 2025-05-20
+updated: 2025-05-20
+category: system
 status: final
-release: 2025-05-20
-category: foundations
-author: Intent Trader Team
-tags: [schema, prompts, refactor, validation, system-state]
+tags: [schema, prompts, refactor, validation, claude-compatibility]
+requires: [system/schemas/trading-intent.schema.json]
+outputs: [system/state/trade-plan-state.json, system/state/my-positions.json]
+input_format: markdown
+output_format: markdown
+ai_enabled: true
 ---
 
-# Intent Trader Plan v0.5.2 — Canonical Schema & Prompt Refactor
+# Intent Trader Plan v0.5.2 — Canonical Schema & System Refactor
 
 ## Purpose
 
-This release establishes the foundational schema and file structure for all future work. It enforces alignment across all prompt input/output, system state files, and runtime tooling.
+This foundational release standardizes schemas, prompt metadata, and runtime files. It minimizes tech debt, shrinks prompt sizes for Claude compatibility, and prepares the system for fast iteration in v0.5.3 and v0.5.4.
 
 ---
 
-## Milestone Objective
+## Core Deliverables
 
-**“All prompts and state files are schema-valid and structurally aligned. The system is clean, reliable, and maintainable.”**
+### 1. Canonical Schema
+
+- [ ] Define `system/schemas/trading-intent.schema.json`
+  - Supports trade ideas, positions, execution logs, session state, and behavioral metadata
+  - Use `schemaVersion`, `id`, `source` on all major objects
+  - Limit to ≤ 4 nested levels for Claude compatibility
+
+### 2. Prompt Alignment
+
+- [ ] Standardize front matter across all prompt files using `front-matter-template.md`
+- [ ] Enforce presence of: `id`, `title`, `version`, `release`, `requires`, `inputs`, `outputs`, `examples`
+- [ ] Normalize layout sections: Purpose, Inputs, Output, Prompt Logic, Example
+- [ ] Strip all emojis and decorative Unicode
+
+### 3. File + Command Cleanup
+
+- [ ] Remove deprecated or unused prompts and scripts
+- [ ] Collapse prompt variants (e.g. `create-plan-alt`)
+- [ ] Apply one-file-per-intent enforcement
+- [ ] Remove markdown fluff, visual art, comments, emoji
+
+### 4. Repo Hygiene + Restructure
+
+- [ ] Move planning and docs (`plan-v*.md`, `backlog.md`) to `/docs/` or separate repo
+- [ ] Archive logs and session replays to `/archive/`
+- [ ] Final structure:
+
+/prompts/
+/plan/
+/review/
+/focus/
+/execute/
+/conviction/
+/manage/
+/system/
+/schemas/
+/state/
+/runtime/
+/model/
+/tests/
+validate-prompts.test.js
+schema-roundtrip.test.js
+/scripts/
+/docs/
+/archive/
+
+### 5. Claude Optimization
+
+- [ ] Limit all prompt and schema files to ~20K tokens max
+- [ ] Compact all examples, remove bloat
+- [ ] Avoid large inline JSON unless necessary
+- [ ] Use simple field names and flat structures
+
+### 6. Schema Enforcement & Validation
+
+- [ ] Implement `validateOutput()` hook in runtime
+- [ ] Add test suite: `tests/validate-prompts.test.js`
+  - Validate output examples from all prompts
+  - Ensure conformance to schema
+- [ ] Lock schema version references in all state files
+- [ ] Add recovery defaults for partially corrupted state
 
 ---
 
-## Phase 1: Canonical Schema Definition
+## Success Criteria
 
-| File | Purpose |
-|------|---------|
-| `system/schemas/trading-intent.schema.json` | Master schema for trade plan, positions, session, and journaling |
-| `system/validation/schema-validator.js` | Runtime utility to validate state files and prompt outputs |
-| `system/state/*.json` | Moved from `state/`, now structured and validated |
-| `prompts/plan/analyze-dp.md` | Emits schema-conformant ideas from DP transcript |
-| `prompts/plan/analyze-mancini.md` | Emits schema-conformant ideas from Mancini letter |
-| `prompts/focus/create-plan.md` | Builds unified trade plan from analyst data |
-| `prompts/review/log-session.md` | Logs trade activity, plan alignment, and emotion |
-| `prompts/execute/add-position.md` | Writes to `system/state/my-positions.json` using schema |
-| `prompts/manage/list-positions.md` | Reads and formats live position data |
-| `system/sop.md` | Defines daily PFEMRC workflow and schema checkpoints |
-| `system/runtime/command-map.md` | Ensures schema-aware routing for prompt execution |
-
----
-
-## Phase 2: Prompt Refactor and Codebase Cleanup
-
-- [ ] Update front matter in all prompts to include `requires: [system/schemas/trading-intent.schema.json]`
-- [ ] Remove deprecated prompts and unused utilities
-- [ ] Collapse repeated logic into centralized routines
-- [ ] Target: 30–50% reduction in file volume and duplication
-- [ ] Ensure every prompt has a clear input/output model aligned to schema
-
----
-
-## Phase 3: State Alignment and Validation
-
-- [ ] Migrate all state files to `system/state/*.json`
-- [ ] Validate state files after each session using `schema-validator.js`
-- [ ] Lock schema version to prevent breaking changes during runtime
-- [ ] Enable recovery from partial/corrupt state using schema fallback defaults
-
----
-
-## Deliverables
-
-| Output | Description |
-|--------|-------------|
-| `system/schemas/trading-intent.schema.json` | Unified schema for all state and prompt output |
-| `system/state/trade-plan-state.json` | Schema-aligned daily plan |
-| `system/state/my-positions.json` | Active + closed trades |
-| `system/state/session-manifest.json` | Session metadata and market bias |
-| `system/state/transaction-log.json` | Execution and system action log |
-
----
-
-## Release Outcome
-
-- Prompts and runtime files conform to a single canonical data structure
-- Codebase reduced and simplified
-- Ready for v0.5.3 performance benchmarking and trade comparison work
+| Area        | Target Outcome                                                  |
+|-------------|-----------------------------------------------------------------|
+| Schema      | All state and prompt outputs validate against canonical schema |
+| Prompts     | Front matter aligned, structurally consistent                  |
+| Size        | Files are Claude-optimized and lean                            |
+| Runtime     | Output validation enforced in execution                        |
+| Cleanup     | Legacy prompts, emoji, and noise removed                       |
+| Structure   | Repo separated into runtime, archive, and docs cleanly         |
 
 ---
 
 ## Notes
 
-This version supersedes earlier split variants of 0.5.2 (including Mancini-specific modules) and now serves as the foundation for all future system behavior.
+This release is mandatory before benchmarking (v0.5.3) or mindset modeling (v0.5.4). It ensures runtime integrity, prompt reusability, schema validation, and Claude reliability for forward velocity.
