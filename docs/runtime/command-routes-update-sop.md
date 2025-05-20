@@ -3,10 +3,10 @@ id: command-routes-update-sop
 title: Commands & Routes System Maintenance SOP
 description: Standard operating procedure for updating the command system in Intent Trader
 author: Intent Trader Team
-version: 0.1.0
+version: 0.2.1
 release: 0.5.1
 created: 2025-05-16
-updated: 2025-05-16
+updated: 2025-05-20
 category: system
 status: stable
 tags: [sop, commands, maintenance, updates, system]

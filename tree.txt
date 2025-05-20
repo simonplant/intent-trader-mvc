@@ -10,6 +10,8 @@
 │   ├── mancini-trading-style.md
 │   ├── public-chat-app-container-issues.md
 │   ├── requirements.md
+│   ├── runtime
+│   │   └── plugin-registry.md
 │   └── system-architecture.md
 ├── INSTALL.md
 ├── intent-trader.code-workspace
@@ -72,7 +74,6 @@
 │   │   ├── entrypoint.md
 │   │   ├── plugin-dispatcher.js
 │   │   ├── plugin-registry.json
-│   │   ├── plugin-registry.md
 │   │   ├── runtime-agent.md
 │   │   └── validator.md
 │   ├── sop.md
@@ -82,4 +83,4 @@
 ├── tree.txt
 └── wip
 
-21 directories, 62 files
+22 directories, 62 files
