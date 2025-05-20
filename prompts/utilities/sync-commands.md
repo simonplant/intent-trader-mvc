@@ -33,11 +33,11 @@ The `/sync-commands` utility ensures command definitions are consistent across t
 ## Processing Steps
 
 1. Load all relevant system files:
-   - `command-map.md`
-   - `plugin-registry.json`
-   - `command-reference.md`
-   - `commands.md`
-   - `runtime-agent.md`
+   - `system/runtime/command-map.md`
+   - `system/runtime/plugin-registry.json`
+   - `docs/command-reference.md`
+   - `system/commands.md`
+   - `system/runtime/runtime-agent.md`
    - Implementation files in `prompts/` directory
 
 2. Extract and parse command definitions from each file:
@@ -48,24 +48,27 @@ The `/sync-commands` utility ensures command definitions are consistent across t
    - Command implementation front matter
 
 3. Perform consistency checks:
-   - All commands in `command-map.md` are present in `plugin-registry.json`
-   - All commands in `plugin-registry.json` have a corresponding file at `entryPoint`
-   - All commands in `command-reference.md` match those in `command-map.md`
-   - All file paths are consistent between `command-map.md` and `plugin-registry.json`
+   - All commands in `system/runtime/command-map.md` are present in `system/runtime/plugin-registry.json`
+   - All commands in `system/runtime/plugin-registry.json` have a corresponding file at `entryPoint`
+   - All commands in `docs/command-reference.md` match those in `system/runtime/command-map.md`
+   - All commands in `system/commands.md` match those in `system/runtime/command-map.md`
+   - All file paths are consistent between `system/runtime/command-map.md` and `system/runtime/plugin-registry.json`
    - All commands share the same phase assignment across files
-   - All command types in `plugin-registry.json` match those in front matter
+   - All command types in `system/runtime/plugin-registry.json` match those in front matter
    - All version numbers are consistent or newer in implementation files
 
 4. Detect orphaned files or commands:
-   - Command files not referenced in `command-map.md` or `plugin-registry.json`
-   - Commands in `command-map.md` or `plugin-registry.json` without implementation files
-   - Commands in `runtime-agent.md` not present in other files
+   - Command files not referenced in `system/runtime/command-map.md` or `system/runtime/plugin-registry.json`
+   - Commands in `system/runtime/command-map.md` or `system/runtime/plugin-registry.json` without implementation files
+   - Commands in `system/runtime/runtime-agent.md` not present in other files
+   - Commands missing from `docs/command-reference.md` or `system/commands.md`
 
 5. Apply fixes if requested:
-   - Update `runtime-agent.md` supported commands list from `command-map.md`
-   - Align file paths between `command-map.md` and `plugin-registry.json`
-   - Add missing registry entries for commands found in `command-map.md`
+   - Update `system/runtime/runtime-agent.md` supported commands list from `system/runtime/command-map.md`
+   - Align file paths between `system/runtime/command-map.md` and `system/runtime/plugin-registry.json`
+   - Add missing registry entries for commands found in `system/runtime/command-map.md`
    - Standardize phase naming across files
+   - Update missing entries in `docs/command-reference.md` and `system/commands.md`
 
 6. Generate comprehensive report
 
@@ -116,7 +119,9 @@ The `/sync-commands` utility ensures command definitions are consistent across t
 
 2. **Implementation Existence**: All commands in the registry must have an existing implementation file at the specified path
 
-3. **Documentation Coverage**: All commands in the map/registry should be documented in the command reference
+3. **Documentation Coverage**: All commands in the map/registry should be documented in:
+   - `docs/command-reference.md`
+   - `system/commands.md`
 
 4. **Phase Consistency**: The phase assigned in the registry must match the phase in:
    - Command map
@@ -131,11 +136,11 @@ The `/sync-commands` utility ensures command definitions are consistent across t
 
 When `fix` parameter is true, the system will attempt to correct these issues:
 
-1. Update `runtime-agent.md` supported commands list from `command-map.md`
-2. Align file paths between `command-map.md` and `plugin-registry.json`
-3. Add missing registry entries for commands found in `command-map.md`
+1. Update `system/runtime/runtime-agent.md` supported commands list from `system/runtime/command-map.md`
+2. Align file paths between `system/runtime/command-map.md` and `system/runtime/plugin-registry.json`
+3. Add missing registry entries for commands found in `system/runtime/command-map.md`
 4. Standardize phase naming across files
-5. Update command reference entries from implementation file front matter
+5. Update command reference entries in `docs/command-reference.md` and `system/commands.md` from implementation file front matter
 
 ## Error Handling
 

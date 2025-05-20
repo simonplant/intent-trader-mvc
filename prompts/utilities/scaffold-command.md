@@ -166,15 +166,19 @@ ai_enabled: true
         "content": "..."
       },
       "pluginRegistryEntry": {
-        "path": "plugin-registry.json",
+        "path": "system/runtime/plugin-registry.json",
         "content": "..."
       },
       "commandMapEntry": {
-        "path": "command-map.md",
+        "path": "system/runtime/command-map.md",
         "content": "..."
       },
       "commandReferenceEntry": {
-        "path": "command-reference.md",
+        "path": "docs/command-reference.md",
+        "content": "..."
+      },
+      "commandsEntry": {
+        "path": "system/commands.md",
         "content": "..."
       },
       "releaseNotesEntry": {
