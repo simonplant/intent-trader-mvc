@@ -3,7 +3,7 @@ id: INSTALL.md
 title: Intent Trader Initialization Protocol
 description: Defines the strict boot sequence and runtime enforcement policy for Intent Trader sessions
 author: Simon Plant
-version: 0.2.1
+version: 0.2.2
 release: 0.5.1
 created: 2025-05-19
 updated: 2025-05-19
@@ -26,6 +26,7 @@ Use this sequence to initialize Intent Trader in any new chat environment. This 
 ## Required Load Sequence
 
 ### Step 1 — Top-Level System Files (must exist)
+Please read and load ALL files from this codebase.
 
 Parse and load if present:
 
