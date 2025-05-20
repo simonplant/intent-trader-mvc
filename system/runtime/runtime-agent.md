@@ -3,10 +3,10 @@ id: runtime-agent
 title: Intent Trader Runtime Agent
 description: Core routing engine for Intent Trader command processing
 author: Intent Trader Team
-version: 0.2.1
+version: 0.3.2
 release: 0.5.1
 created: 2025-05-16
-updated: 2025-05-16
+updated: 2025-05-20
 category: system
 status: stable
 tags: [system, runtime, agent, orchestration]
@@ -49,9 +49,10 @@ When a command is received:
 ## Supported Commands by Phase
 
 ### Plan Phase
+- `/clean-dp-transcript [transcript]` - Clean and correct transcription errors in DP morning call text while preserving original content and structure
 - `/analyze-dp [transcript]` - Process DP morning call transcript comprehensively, extracting all key components and insights
-- `/analyze-mancini-preprocessor [newsletter]` - Preprocess Mancini's long newsletter content for detailed analysis in a two-stage process
-- `/analyze-mancini [preprocessedData]` - Process Mancini newsletter comprehensively, extracting levels, setups, and trade plan
+- `/summarize-mancini [newsletter]` - Extract structured data from Mancini's ES Futures newsletter for further analysis
+- `/analyze-mancini [summary]` - Process Mancini newsletter summary to extract actionable trading strategies
 
 ### Focus Phase
 - `/create-plan` - Generate comprehensive unified trade plan integrating multiple analyst inputs
@@ -73,6 +74,11 @@ When a command is received:
 ### Utilities
 - `/analyze-chart [image]` - Analyze a chart image to identify key patterns, levels, and trading opportunities across different timeframes
 
+### System Commands
+- `/reload-active-logic` - Flush all stale memory and rebuild runtime/execution from current uploaded files
+- `/help` - Show available commands
+- `/status` - Show current trading session state
+
 ## State Files
 
 The runtime agent interacts with these state files:
@@ -85,12 +91,14 @@ The runtime agent interacts with these state files:
 
 All command responses follow this structure:
 
+```json
 {
   "success": true|false,
   "command": "command-name",
   "result": {}, // Command-specific result data
   "message": "Human-readable message"
 }
+```
 
 ## Error Handling
 
@@ -107,11 +115,3 @@ The assistant must:
 - Maintain consistency with trading workflow
 - Provide appropriate context for decisions
 - Format output for readability
-
-#### `/reload-active-logic`
-**Purpose:** Flush all stale memory and rebuild routing/execution from current uploaded files.
-**Parameters:** None
-**Output:**
-- `systemReport` with state of command registry, parsed prompts, missing files, and rebuild status.
-**File Location:**
-- `prompts/system/reload-active-logic.md`
