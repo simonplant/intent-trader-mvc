@@ -3,7 +3,7 @@ id: entrypoint
 title: Intent Trader EntryPoint
 description: System initialization and bootstrap loader
 author: Intent Trader Team
-version: 0.2.1
+version: 0.2.2
 release: 0.5.1
 created: 2025-05-16
 updated: 2025-05-16
