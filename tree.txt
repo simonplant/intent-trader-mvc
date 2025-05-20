@@ -5,13 +5,13 @@
 │   └── domain-model.md
 ├── docs
 │   ├── command-reference.md
-│   ├── command-routes-update-sop.md
 │   ├── mancini-analysis-guide.md
 │   ├── mancini-trading-style.md
 │   ├── public-chat-app-container-issues.md
 │   ├── requirements.md
 │   ├── runtime
-│   │   └── plugin-registry.md
+│   │   ├── command-routes-update-sop.md
+│   │   └── command-scaffold-template.md
 │   └── system-architecture.md
 ├── INSTALL.md
 ├── intent-trader.code-workspace
@@ -59,7 +59,9 @@
 │   └── utilities
 │       ├── chart-analysis.md
 │       ├── code-review-prompt.md
-│       └── reload-active-logic.md
+│       ├── reload-active-logic.md
+│       ├── scaffold-command.md
+│       └── sync-commands.md
 ├── README.md
 ├── state
 │   ├── moderator-positions.json
@@ -69,12 +71,12 @@
 ├── system
 │   ├── commands.md
 │   ├── runtime
-│   │   ├── api-contracts.md
 │   │   ├── command-map.md
 │   │   ├── entrypoint.md
 │   │   ├── plugin-dispatcher.js
 │   │   ├── plugin-registry.json
 │   │   ├── runtime-agent.md
+│   │   ├── status.md
 │   │   └── validator.md
 │   ├── sop.md
 │   └── templates
@@ -83,4 +85,4 @@
 ├── tree.txt
 └── wip
 
-22 directories, 62 files
+22 directories, 64 files
