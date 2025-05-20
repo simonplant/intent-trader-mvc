@@ -4,15 +4,22 @@
 ├── data
 │   └── domain-model.md
 ├── docs
+│   ├── architecture
+│   │   ├── requirements.md
+│   │   └── system-architecture.md
 │   ├── command-reference.md
 │   ├── mancini-analysis-guide.md
 │   ├── mancini-trading-style.md
+│   ├── planning
+│   │   ├── backlog.md
+│   │   ├── plan-v0.5.2.md
+│   │   ├── plan-v0.5.3.alt.md
+│   │   ├── plan-v0.5.3.md
+│   │   └── plan-v0.5.4.md
 │   ├── public-chat-app-container-issues.md
-│   ├── requirements.md
-│   ├── runtime
-│   │   ├── command-routes-update-sop.md
-│   │   └── command-scaffold-template.md
-│   └── system-architecture.md
+│   └── runtime
+│       ├── command-routes-update-sop.md
+│       └── command-scaffold-template.md
 ├── INSTALL.md
 ├── intent-trader.code-workspace
 ├── logs
@@ -31,8 +38,6 @@
 │   │   └── v0.5.0.md
 │   ├── test-session-output.json
 │   └── trade-log.json
-├── planning
-│   └── plan.md
 ├── prompts
 │   ├── coach
 │   ├── execute
@@ -85,4 +90,4 @@
 ├── tree.txt
 └── wip
 
-22 directories, 64 files
+23 directories, 68 files
