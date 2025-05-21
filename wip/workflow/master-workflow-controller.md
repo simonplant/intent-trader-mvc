@@ -215,12 +215,12 @@ This synthesis ensures a coherent implementation across the system.
 ```
 User: /task-list
 
-Controller: 
+Controller:
 # Intent Trader v0.5.2 - Task List
 
 ## Phase 1: Schema Design & Implementation (0/15 points)
 - [ ] Design canonical schema structure (0/3)
-- [ ] Create trading-intent.schema.json (0/5)
+- [ ] Create intent-trader-master-schema.json (0/5)
 - [ ] Test schema with sample data (0/2)
 - [ ] Update critical runtime components (0/5)
 
@@ -302,8 +302,8 @@ Complete JSON Schema definition for tradePosition object type.
 
 You can provide documents to the controller for reference:
 - plan-v0.5.2.md - The implementation plan
-- intent-trader.schema.master.json - The master schema
-- intent-trader.schema.runtime.json - The runtime schema
+- intent-trader-master-schema.json - The master schema
+- trading-intent.runtime.json - The runtime schema
 - Various prompt files for updating
 
 The controller will use these documents for context and implementation guidance.

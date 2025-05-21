@@ -16,7 +16,7 @@ This document maintains a comprehensive task list for implementing the Intent Tr
 - **Assignee**: Schema Designer
 - **Status**: Not Started
 
-### 1.2 Create `system/schemas/trading-intent.schema.json` (5 points)
+### 1.2 Create `system/schemas/intent-trader-master-schema.json` (5 points)
 - [ ] Implement baseObject definition
 - [ ] Implement tradePosition schema
 - [ ] Implement tradeIdea schema
@@ -262,7 +262,7 @@ This document maintains a comprehensive task list for implementing the Intent Tr
 ## New File Creation Checklist
 
 ### Schema Files
-- [ ] system/schemas/trading-intent.schema.json (Phase 1)
+- [ ] system/schemas/intent-trader-master-schema.json (Phase 1)
 
 ### NL Interface Files
 - [ ] prompts/utilities/natural-language-parser.md (Phase 4)
@@ -312,7 +312,7 @@ This document maintains a comprehensive task list for implementing the Intent Tr
 ## Critical Path
 
 1. Design canonical schema structure (1.1)
-2. Create trading-intent.schema.json (1.2)
+2. Create intent-trader-master-schema.json (1.2)
 3. Update critical runtime components (1.4)
 4. Convert existing state files (2.2)
 5. Update critical prompt files (3.1, specifically create-plan.md and add-position.md)
@@ -332,7 +332,7 @@ This document maintains a comprehensive task list for implementing the Intent Tr
 ## Next Steps
 
 1. Begin with Phase 1.1: Design canonical schema structure
-2. Proceed to Phase 1.2: Create trading-intent.schema.json
+2. Proceed to Phase 1.2: Create intent-trader-master-schema.json
 3. Continue with Phase 1.3 and 1.4 in parallel if resources allow
 
 ## Notes

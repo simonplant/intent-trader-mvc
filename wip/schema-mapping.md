@@ -252,19 +252,19 @@ function validateAgainstSchema(obj, schemaType) {
   if (!obj.schemaVersion || obj.schemaVersion !== "0.5.2") {
     return { valid: false, error: "Missing or invalid schemaVersion" };
   }
-  
+
   if (!obj.id || typeof obj.id !== "string") {
     return { valid: false, error: "Missing or invalid id" };
   }
-  
+
   if (!obj.source || !["manual", "dp", "mancini", "vtf", "moderator", "system", "claude"].includes(obj.source)) {
     return { valid: false, error: "Missing or invalid source" };
   }
-  
+
   if (!obj.timestamp || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/.test(obj.timestamp)) {
     return { valid: false, error: "Missing or invalid timestamp" };
   }
-  
+
   // Type-specific validation
   switch (schemaType) {
     case "tradeIdea":
@@ -274,21 +274,21 @@ function validateAgainstSchema(obj, schemaType) {
       if (!obj.direction || !["long", "short"].includes(obj.direction)) {
         return { valid: false, error: "Missing or invalid direction" };
       }
-      if (!obj.conviction || !obj.conviction.level || 
+      if (!obj.conviction || !obj.conviction.level ||
           !["focus-trade", "high", "medium", "low", "negative"].includes(obj.conviction.level)) {
         return { valid: false, error: "Missing or invalid conviction level" };
       }
       break;
-    
+
     case "tradePosition":
       // Add position-specific validation
       break;
-      
+
     case "tradePlan":
       // Add plan-specific validation
       break;
   }
-  
+
   return { valid: true };
 }
 ```
@@ -513,7 +513,7 @@ function validateAgainstSchema(obj, schemaType) {
 
 At minimum, converted prompt files must:
 
-1. Reference the trading-intent.schema.json file in their front matter
+1. Reference the intent-trader-master-schema.json file in their front matter
 2. Use the canonical schema's field names in all examples
 3. Include validation instructions for schema structure
 4. Generate all required fields in output objects

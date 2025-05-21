@@ -4,11 +4,11 @@ This directory defines the schema system for all data structures used in the Int
 
 ---
 
-## 📘 Canonical Schema (`intent-trader.schema.master.json`)
+## 📘 Canonical Schema (`intent-trader-master-schema.json`)
 
 The **canonical schema** is the authoritative source of truth for all trading-related data. It is used internally by the system for validation, documentation, authoring, and inter-object relationships.
 
-- **File**: `intent-trader.schema.master.json`
+- **File**: `intent-trader-master-schema.json`
 - **Version**: `0.5.2`
 - **Role**: Authoritative master schema (used by internal tools and workflows)
 - **Depth**: May exceed 3 levels for proper object modeling
@@ -21,11 +21,11 @@ The **canonical schema** is the authoritative source of truth for all trading-re
 
 ---
 
-## ⚡ Runtime Schema (`intent-trader.schema.runtime.json`)
+## ⚡ Runtime Schema (`trading-intent.runtime.json`)
 
 The **runtime schema** is a derived, flattened version designed for consumption by LLM agents such as Claude or ChatGPT. It includes only essential fields and is optimized for token and context efficiency.
 
-- **File**: `intent-trader.schema.runtime.json`
+- **File**: `trading-intent.runtime.json`
 - **Version**: `0.5.2`
 - **Role**: Flattened schema for AI runtime environments
 - **Depth**: Max 3 nested levels (Claude-compatible)
@@ -50,8 +50,8 @@ The **runtime schema** is a derived, flattened version designed for consumption 
 
 | Schema                   | Version | ID                                               | Source of Truth? |
 |--------------------------|---------|--------------------------------------------------|------------------|
-| `intent-trader.schema.master.json` | 0.5.2   | `https://schemas.intenttrader.ai/schema/master/v0.5.2` | ✅ Yes             |
-| `intent-trader.schema.runtime.json`| 0.5.2   | `https://schemas.intenttrader.ai/schema/runtime/v0.5.2`| ❌ Derived         |
+| `intent-trader-master-schema.json` | 0.5.2   | `https://schemas.intenttrader.ai/schema/master/v0.5.2` | ✅ Yes             |
+| `trading-intent.runtime.json`| 0.5.2   | `https://schemas.intenttrader.ai/schema/runtime/v0.5.2`| ❌ Derived         |
 
 - All runtime schemas must be generated from the master schema via a deterministic transformation pipeline.
 - Future schema versions will follow semantic versioning (`v0.5.2`, `v0.6.0`, etc.) and use changelogs to track field additions, removals, and semantic shifts.

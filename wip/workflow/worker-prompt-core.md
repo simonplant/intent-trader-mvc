@@ -11,7 +11,7 @@ This file defines the foundational implementation roles for Intent Trader v0.5.2
 **Assigned Tasks**: 1.1, 1.2 from `implementation-todo-list.md`
 
 **Files**:
-- `intent-trader.schema.master.json`
+- `intent-trader-master-schema.json`
 - `README.schema.md`
 - `schema-mapping.md`
 - `schema-implementation-guide.md`
@@ -22,7 +22,7 @@ This file defines the foundational implementation roles for Intent Trader v0.5.2
 - Document field types, constraints, nesting rules, and classification flags
 - Design schema versioning strategy
 
-**Expected Output**: Final `intent-trader.schema.master.json` and supporting documentation.
+**Expected Output**: Final `intent-trader-master-schema.json` and supporting documentation.
 
 ---
 
@@ -33,8 +33,8 @@ This file defines the foundational implementation roles for Intent Trader v0.5.2
 **Assigned Tasks**: 1.3, 2.3, 6.1, 6.2, 6.3
 
 **Files**:
-- `intent-trader.schema.master.json`
-- `intent-trader.schema.runtime.json`
+- `intent-trader-master-schema.json`
+- `trading-intent.runtime.json`
 - Sample test data (`samples/` folder)
 - All state files (`system/state/*.json`)
 
@@ -59,7 +59,7 @@ This file defines the foundational implementation roles for Intent Trader v0.5.2
 - `system/runtime/runtime-agent.md`
 - `system/runtime/command-parser.md`
 - `system/runtime/plugin-registry.json`
-- `intent-trader.schema.runtime.json`
+- `trading-intent.runtime.json`
 
 **Responsibilities**:
 - Refactor runtime-agent to validate and enforce schema compliance
@@ -79,7 +79,7 @@ This file defines the foundational implementation roles for Intent Trader v0.5.2
 
 **Files**:
 - All files in `prompts/`
-- `intent-trader.schema.master.json`
+- `intent-trader-master-schema.json`
 - `schema-conversion-plan.md`
 - `schema-mapping.md`
 

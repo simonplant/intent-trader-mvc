@@ -10,7 +10,7 @@ updated: 2025-05-20
 category: system
 status: final
 tags: [schema, prompts, refactor, validation, claude-compatibility, natural-language]
-requires: [system/schemas/trading-intent.schema.json, system/runtime/plugin-registry.json]
+requires: [system/schemas/intent-trader-master-schema.json, system/runtime/plugin-registry.json]
 outputs: [system/state/trade-plan-state.json, system/state/my-positions.json, system/state/conversation-context.json]
 input_format: markdown
 output_format: markdown
@@ -31,7 +31,7 @@ This release takes an evolutionary approach that preserves existing functionalit
 
 ### 1. Canonical Schema (Priority: Critical)
 
-- [ ] Define minimal `system/schemas/trading-intent.schema.json`
+- [ ] Define minimal `system/schemas/intent-trader-master-schema.json`
   - Create consistent structure for all trading objects (positions, ideas, logs)
   - Use `schemaVersion`, `id`, `source` on all major objects for traceability
   - Maximum 3 nested levels for Claude compatibility
@@ -105,7 +105,7 @@ This release takes an evolutionary approach that preserves existing functionalit
 
 | File Category | Files | Status |
 |---------------|-------|--------|
-| Schema | `system/schemas/trading-intent.schema.json` | New |
+| Schema | `system/schemas/intent-trader-master-schema.json` | New |
 | NL Interface | `prompts/utilities/natural-language-parser.md` | New |
 | NL Interface | `prompts/utilities/context-tracker.md` | New |
 | Documentation | `docs/natural-language-commands.md` | New |
@@ -124,16 +124,16 @@ This release takes an evolutionary approach that preserves existing functionalit
 
 | Prompt File | Schema Required | Refactor Priority | Dependencies |
 |-------------|----------------|-------------------|--------------|
-| `prompts/analyze-dp.md` | Yes | High | trading-intent.schema.json |
-| `prompts/analyze-mancini.md` | Yes | High | trading-intent.schema.json |
-| `prompts/create-plan.md` | Yes | Critical | trading-intent.schema.json |
-| `prompts/add-position.md` | Yes | Critical | trading-intent.schema.json |
-| `prompts/log-session.md` | Yes | Medium | trading-intent.schema.json |
-| `prompts/market-review.md` | Yes | Medium | trading-intent.schema.json |
-| `prompts/review-positions.md` | Yes | High | trading-intent.schema.json |
-| `prompts/chart-analysis.md` | Yes | Medium | trading-intent.schema.json |
-| `prompts/utilities/natural-language-parser.md` | Yes | Critical | trading-intent.schema.json, plugin-registry.json |
-| `prompts/utilities/context-tracker.md` | Yes | Critical | trading-intent.schema.json, conversation-context.json |
+| `prompts/analyze-dp.md` | Yes | High | intent-trader-master-schema.json |
+| `prompts/analyze-mancini.md` | Yes | High | intent-trader-master-schema.json |
+| `prompts/create-plan.md` | Yes | Critical | intent-trader-master-schema.json |
+| `prompts/add-position.md` | Yes | Critical | intent-trader-master-schema.json |
+| `prompts/log-session.md` | Yes | Medium | intent-trader-master-schema.json |
+| `prompts/market-review.md` | Yes | Medium | intent-trader-master-schema.json |
+| `prompts/review-positions.md` | Yes | High | intent-trader-master-schema.json |
+| `prompts/chart-analysis.md` | Yes | Medium | intent-trader-master-schema.json |
+| `prompts/utilities/natural-language-parser.md` | Yes | Critical | intent-trader-master-schema.json, plugin-registry.json |
+| `prompts/utilities/context-tracker.md` | Yes | Critical | intent-trader-master-schema.json, conversation-context.json |
 
 ---
 
@@ -143,14 +143,14 @@ Each worker prompt must include the following required files to function properl
 
 | Worker Prompt | Required Files |
 |---------------|---------------|
-| `analyze-dp.md` | trading-intent.schema.json, runtime-agent.md |
-| `analyze-mancini.md` | trading-intent.schema.json, runtime-agent.md |
-| `create-plan.md` | trading-intent.schema.json, trade-plan-state.json, runtime-agent.md |
-| `add-position.md` | trading-intent.schema.json, my-positions.json, runtime-agent.md |
-| `log-session.md` | trading-intent.schema.json, my-positions.json, runtime-agent.md |
-| `review-positions.md` | trading-intent.schema.json, my-positions.json, runtime-agent.md |
-| `natural-language-parser.md` | trading-intent.schema.json, plugin-registry.json, command-parser.md |
-| `context-tracker.md` | trading-intent.schema.json, conversation-context.json |
+| `analyze-dp.md` | intent-trader-master-schema.json, runtime-agent.md |
+| `analyze-mancini.md` | intent-trader-master-schema.json, runtime-agent.md |
+| `create-plan.md` | intent-trader-master-schema.json, trade-plan-state.json, runtime-agent.md |
+| `add-position.md` | intent-trader-master-schema.json, my-positions.json, runtime-agent.md |
+| `log-session.md` | intent-trader-master-schema.json, my-positions.json, runtime-agent.md |
+| `review-positions.md` | intent-trader-master-schema.json, my-positions.json, runtime-agent.md |
+| `natural-language-parser.md` | intent-trader-master-schema.json, plugin-registry.json, command-parser.md |
+| `context-tracker.md` | intent-trader-master-schema.json, conversation-context.json |
 
 ---
 
@@ -182,7 +182,7 @@ Each worker prompt must include the following required files to function properl
 
 ### Phase 1: Schema Design & Implementation (15 Points)
 - [ ] Design canonical schema structure (3)
-- [ ] Create `system/schemas/trading-intent.schema.json` (5)
+- [ ] Create `system/schemas/intent-trader-master-schema.json` (5)
 - [ ] Test schema with sample data (2)
 - [ ] Update critical runtime components for schema compatibility (5)
 
@@ -218,7 +218,7 @@ Each worker prompt must include the following required files to function properl
 ## File Updates
 
 ### New Files
-- `system/schemas/trading-intent.schema.json` - Canonical schema definition
+- `system/schemas/intent-trader-master-schema.json` - Canonical schema definition
 - `prompts/utilities/natural-language-parser.md` - NL command parsing implementation
 - `prompts/utilities/context-tracker.md` - Conversation context management
 - `docs/natural-language-commands.md` - NL command guide with examples

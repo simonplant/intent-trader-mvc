@@ -2,12 +2,15 @@
 
 ## Overview
 
-This document outlines the step-by-step process for converting existing prompt files to use the canonical schema (`intent-trader.schema.master.json`) and its runtime variant (`intent-trader.schema.runtime.json`). The goal is to standardize all data structures across the Intent Trader system, reduce ambiguity, and ensure LLM compatibility.
+This document outlines the step-by-step process for converting existing prompt files to use the canonical schema (`intent-trader-master-schema.json`) and its runtime variant (`trading-intent.runtime.json`). The goal is to standardize all data structures across the Intent Trader system, reduce ambiguity, and ensure LLM compatibility.
 
 ## General Conversion Guidelines
 
 1. **Front Matter Updates**
-   - Add `requires: ["system/schemas/trading-intent.schema.json"]` to all prompt front matter
+   - Add `requires: [
+  "system/schemas/intent-trader-master-schema.json",
+  "system/schemas/intent-trader-runtime-schema.json"
+]` to all prompt front matter
    - Update version to match schema version (0.5.2)
    - Add appropriate schema tags
 

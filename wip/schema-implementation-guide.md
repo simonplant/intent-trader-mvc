@@ -7,8 +7,8 @@ Intent Trader Schema Implementation Guide (v0.5.2)
 Purpose
 
 This guide defines the process to refactor all existing prompt files, commands, and system objects to adopt the standardized data schemas defined in:
-	•	Canonical schema: intent-trader.schema.master.json
-	•	Runtime schema: intent-trader.schema.runtime.json
+	•	Canonical schema: intent-trader-master-schema.json
+	•	Runtime schema: trading-intent.runtime.json
 
 ⸻
 
@@ -43,7 +43,10 @@ Prompt File Conversion Plan
 For each file (analyze-dp.md, create-plan.md, etc.):
 	•	Update frontmatter:
 
-requires: ["system/schemas/intent-trader.schema.master.json"]
+requires: [
+  "system/schemas/intent-trader-master-schema.json",
+  "system/schemas/intent-trader-runtime-schema.json"
+]
 version: "0.5.2"
 
 
