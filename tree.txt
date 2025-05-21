@@ -119,6 +119,7 @@
     ├── docs
     │   ├── schema-implementation-guide.md
     │   └── template-usage-guide.md
+    ├── Hardcoded_Absolute_Path_References.csv
     ├── reports
     │   ├── conversion-report.md
     │   ├── schema-audit-report.md
@@ -161,4 +162,4 @@
         ├── worker-prompt-nlp.md
         └── worker-prompt-testing.md
 
-32 directories, 130 files
+32 directories, 131 files
