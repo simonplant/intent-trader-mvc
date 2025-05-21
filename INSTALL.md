@@ -85,16 +85,18 @@ Exclude the following common artifacts from initialization:
 Activate command routing and runtime behavior from:
 
 - `system/runtime/entrypoint.md` (Entrypoint)
-- `system/runtime/runtime-agent.md` (Routing Engine)
 - `system/runtime/command-map.md` (Command Map)
+- `system/runtime/runtime-agent.md` (Routing Engine)
 - `system/runtime/plugin-dispatcher.js` (Plugin Dispatcher)
 - `system/runtime/plugin-registry.json` (Plugin Registry)
+- `system/runtime/validator.md` (Validator)
 
 ---
 
 ## Runtime Enforcement
 
-- All commands **must** route through `runtime-agent.md`.
+- All commands **must** route through `system/runtime/runtime-agent.md`.
+- All commands are validated by `system/runtime/validator.md`
 - Only patterns defined in `command-map.md` are valid.
 - **Never assume or synthesize command behavior.**
 - Any input beginning with `/` must be routed via `runtime-agent.md` and matched in `command-map.md`.
@@ -119,16 +121,7 @@ Unknown command. Not handled by runtime.
 
 ## Ready Check
 
-Once initialization completes, return:
-
-Runtime initialized.
-Runtime root: [RUNTIME_ROOT]
-Commands loaded: [count]
-Active command map: [command-map]
-Session manifest: [session-state]
-Emoji enforcement: [status]
-Audit logging: [active|inactive]
-Awaiting your next instruction.
+Once initialization completes, return the full status:
 
 ---
 

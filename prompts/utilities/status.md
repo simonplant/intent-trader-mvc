@@ -14,20 +14,34 @@ output_format: markdown
 ai_enabled: true
 ---
 
-## /status
+# /status
 
-Display current session metadata by parsing `state/session-manifest.json`.
+Runtime boot: [status]
+Runtime root: [RUNTIME_ROOT]
+Commands loaded: [count]
+Active command map: [command-map]
+Session manifest: [session-state]
+Emoji enforcement: [status]
+Audit logging: [active|inactive]
+Session metadata: [`state/session-manifest.json`]
 
-### Output
+Awaiting your next instruction...
 
-- `sessionId`
+## Output
+
+Trading:
+
 - `currentPhase`
 - `market.openTime`, `market.closeTime`, `currentStatus`
 - `plan.focusIdeas`
 - `positions.totalRisk`
-- `plugins.active`
 
-### Example Output
+System:
+
+- `plugins.active`
+- Display current session metadata by parsing `state/session-manifest.json`.
+
+## Example Output
 
 ```json
 {
@@ -48,3 +62,4 @@ Display current session metadata by parsing `state/session-manifest.json`.
     "active": ["analyze-dp", "analyze-mancini"]
   }
 }
+```
