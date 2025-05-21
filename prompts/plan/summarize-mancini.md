@@ -1,30 +1,131 @@
 ---
 id: summarize-mancini
-title: Mancini Newsletter Preprocessor
+title: Mancini Newsletter Summarizer
 description: Extracts structured data from Mancini's newsletters to prepare for analysis
 author: Intent Trader Team
-version: 0.3.1
-release: 0.5.1
+version: 1.0.0
+release: 0.5.2
 created: 2025-05-19
-updated: 2025-05-19
+updated: 2025-05-21
 category: plan
 status: active
 tags: [plan, mancini, es-futures, preprocessing, extraction]
-requires: []
-outputs: [summary]
+requires: [system/schemas/intent-trader-runtime-schema.json]
+outputs: [state/mancini-summary.json]
 input_format: text
 output_format: json
 ai_enabled: true
 ---
 
-# Trading Newsletter Extraction and Summarization Prompt
+# Mancini Newsletter Summarizer
 
-Please analyze this trading newsletter and create a concise yet comprehensive summary of 2-4 pages (approximately 1,000-1,800 words). Focus only on essential, non-repetitive information relevant to current market conditions and upcoming trading opportunities.
+## Purpose
 
-## SUMMARY FORMAT:
-Produce a well-structured document with clear section headers, bullet points for scannability, and occasional tables for level comparisons where appropriate. The final output should be immediately actionable for trading decisions without requiring reference to the original newsletter.
+The Mancini Newsletter Summarizer extracts structured data from Adam Mancini's ES Futures newsletters, processing raw content into a standardized JSON format. This component serves as the first step in the Intent Trader workflow for Mancini analysis, preparing data for subsequent processing by the `/analyze-mancini` command.
 
-## KEY ELEMENTS TO EXTRACT:
+## Usage
+
+```
+/summarize-mancini-newsletter content='[newsletter content]'
+```
+
+Pass the raw newsletter content to this command for extraction and summarization.
+
+## Processing Logic
+
+This component performs the following operations:
+
+1. **Content Extraction**: Isolates key information from the newsletter
+2. **Structural Analysis**: Identifies market assessment, levels, and setups
+3. **Data Standardization**: Converts to a consistent format
+4. **Schema Preparation**: Organizes data for later schema conversion
+5. **Noise Reduction**: Removes boilerplate and repetitive content
+
+## Output Format
+
+The component produces JSON output following this structure:
+
+```json
+{
+  "date": "2025-05-19",
+  "title": "Newsletter title",
+  "market_assessment": {
+    "mode": "Mode 1/Mode 2",
+    "bias": "bullish/bearish/neutral",
+    "key_characteristic": "string",
+    "context_notes": "string"
+  },
+  "levels": {
+    "support": [
+      {"price": 5860, "significance": "major"},
+      {"price": 5880, "significance": "moderate"}
+    ],
+    "resistance": [
+      {"price": 5945, "significance": "major"},
+      {"price": 5970, "significance": "moderate"}
+    ],
+    "zones": [
+      {"min": 5860, "max": 5880, "type": "support"},
+      {"min": 5945, "max": 5970, "type": "resistance"}
+    ],
+    "key_decision_point": 5905
+  },
+  "failed_breakdowns": [
+    {
+      "level": 5860,
+      "direction": "long",
+      "condition": "Entry above 5880 after failure",
+      "target": 5945,
+      "stop": 5865,
+      "notes": "Multiple tests of support with strong rejection"
+    }
+  ],
+  "scenarios": {
+    "bull_case": {
+      "trigger": "reclaim 5905",
+      "targets": [5945, 5970],
+      "stop": 5890,
+      "confidence": "high",
+      "probability": 65
+    },
+    "bear_case": {
+      "trigger": "fail below 5880",
+      "targets": [5860, 5840],
+      "stop": 5895,
+      "confidence": "medium",
+      "probability": 55
+    }
+  },
+  "runner_management": {
+    "trim_targets": [5945, 5970],
+    "current_runners": [
+      {"entry": 5880, "current_stop": 5860, "target": 5945}
+    ],
+    "trail_strategy": "Trail to breakeven after 50% of target reached"
+  },
+  "trading_strategy": {
+    "primary_setup": "Failed Breakdown",
+    "risk_parameters": {
+      "stop_placement": "Place stops 15 points below key support for longs",
+      "position_sizing": "Risk 0.5% per trade for primary setups"
+    }
+  },
+  "traps": {
+    "failed_breakdowns": [5860]
+  },
+  "catalysts": ["FOMC minutes tomorrow", "Option expiration Friday"],
+  "raw_sections": {
+    "market_structure": "string",
+    "levels": "string",
+    "setups": "string",
+    "scenarios": "string"
+  }
+}
+```
+
+## Extraction Guidelines
+
+### Key Elements to Extract
 
 1. **Current Market Regime & Structure** (5-10% of summary)
    * Current directional bias (bullish/bearish/neutral) with specific supporting evidence
@@ -61,7 +162,8 @@ Produce a well-structured document with clear section headers, bullet points for
    * Practical applications of core strategies with measurable outcomes
    * New variations of setups with distinguishing characteristics
 
-## EXCLUDE:
+### Content to Exclude
+
 * Methodology explanations that repeat in every issue
 * Standard housekeeping notices
 * Generic trading philosophy statements
@@ -70,12 +172,66 @@ Produce a well-structured document with clear section headers, bullet points for
 * Generic warnings about prediction vs. reaction
 * Standard trade management reminders
 
-## HIGHLIGHT SECTION:
-At the end of the summary, include a highlighted "Tomorrow's Focus" section that identifies the 2-3 most immediately actionable items for the next trading session, including:
-1. Primary levels to watch with exact numbers
-2. Specific setup conditions with entry triggers
-3. Key risk management considerations
-4. Timing considerations if mentioned
+## Implementation Details
 
-## FINAL OUTPUT
-The final output should be approximately 1,000-1,800 words (2-4 pages) and provide a trader with everything needed to understand current market conditions and actionable trade opportunities without referencing the original newsletter.
+### Mancini Method Extraction Focus
+
+The summarizer should focus on extracting information related to:
+
+1. **Market Mode Assessment**
+   * Mode 1 (trending) vs. Mode 2 (range/trap) classification
+   * Directional bias (bullish, bearish, neutral)
+   * Key market characteristics and context
+
+2. **Level Framework**
+   * Primary support and resistance levels
+   * Key decision points separating bull/bear cases
+   * Zones of interest (consolidation, decision, etc.)
+   * Structural significance of levels
+
+3. **Failed Breakdown Setups**
+   * Level where breakdown occurred
+   * Recovery points and entry conditions
+   * Target projections
+   * Stop placement
+   * Notes on setup quality or significance
+
+4. **Trading Scenarios**
+   * Bull case with triggers, targets, and stops
+   * Bear case with triggers, targets, and stops
+   * Probability assessment
+   * Conviction level for each scenario
+
+5. **Runner Management**
+   * Current runner positions
+   * Trailing stop methodology
+   * Trim targets
+
+## Integration Notes
+
+The summarized output serves as input to the `/analyze-mancini` command, which transforms this data into schema-compliant objects. This two-step approach:
+
+1. Separates extraction concerns from schema implementation
+2. Allows for flexible handling of newsletter format variations
+3. Provides a clean boundary between raw content and structured data
+4. Creates an intermediate format for diagnostic purposes
+
+For optimal results:
+- Extract exact prices whenever possible
+- Capture complete contextual information for setups
+- Include all relevant market structure details
+- Preserve directional language for sentiment analysis
+
+## Example Usage
+
+```
+/summarize-mancini-newsletter content='[paste full newsletter content here]'
+```
+
+After running the summarizer, the output can be passed to the analyzer:
+
+```
+/analyze-mancini summary='[output from summarizer]'
+```
+
+The analyzer will then convert this intermediate format into schema-compliant objects for use in the Intent Trader system.

@@ -6,8 +6,18 @@ function: "/log-session"
 status: "DRAFT"
 priority: "MVP STRETCH"
 author: "Intent Trader"
-date: "2025-05-15"
-version: "1.0.0"
+date: "2025-05-21"
+version: "0.5.2"
+dependencies:
+  - intent-trader-master-schema.json (sessionLog schema)
+  - trade-plan-state.json
+  - my-positions.json
+  - moderator-positions.json
+  - session-manifest.json
+tags:
+  - schema-compliant
+  - review-workflow
+  - trader-analytics
 ---
 
 # Session Logger
@@ -44,8 +54,8 @@ The Session Logger creates comprehensive records of trading sessions, including 
 The Session Logger performs the following operations:
 
 1. **Data Collection**
-   - Retrieve trade plan state from `trade-plan-state.json`
-   - Collect personal positions from `my-positions.json`
+   - Retrieve trade plan state from `trade-plan-state.json` using the canonical schema
+   - Collect personal positions from `my-positions.json` using the tradePosition schema
    - Gather moderator positions from `moderator-positions.json`
    - Load session context from `session-manifest.json`
    - Retrieve any previously logged individual trades
@@ -100,9 +110,43 @@ The Session Logger performs the following operations:
 
 10. **State Management**
     - Update session-manifest.json with completed status
-    - Store comprehensive log to session-logs directory
+    - Store comprehensive log to session-logs directory using the sessionLog schema
     - Update pattern recognition database
     - Generate session performance metrics for tracking
+
+## Schema Object Generation
+
+The command generates a schema-compliant sessionLog object with the following structure:
+
+```json
+{
+  "schemaVersion": "0.5.2",
+  "id": "session-YYYYMMDD",
+  "source": "system",
+  "timestamp": "YYYY-MM-DDTHH:MM:SSZ",
+  "date": "YYYY-MM-DD",
+  "entries": [
+    {
+      "timestamp": "YYYY-MM-DDTHH:MM:SSZ",
+      "text": "Entry text",
+      "type": "market|trade|note|plan|alert",
+      "relatedId": "pos-YYYYMMDD-SYMBOL-XX"
+    }
+  ],
+  "summary": {
+    "profit": 0.00,
+    "trades": 0,
+    "winRate": 0,
+    "keyLessons": []
+  },
+  "planId": "plan-YYYYMMDD",
+  "marketState": "",
+  "origin": {
+    "sourceCommand": "/log-session",
+    "createdBy": "session-logger"
+  }
+}
+```
 
 ## Output Format
 
@@ -169,7 +213,7 @@ Session log created and saved to session-logs/[DATE].md
 
 ## Detailed Trade Log Format
 
-Each individual trade is logged in the following format:
+Each individual trade is logged in the following format, with data pulled from the corresponding tradePosition object:
 
 ```markdown
 ### Trade: [SYMBOL] [DIRECTION] ([SETUP_TYPE])
@@ -186,6 +230,8 @@ Each individual trade is logged in the following format:
 
 ## Missed Opportunity Format
 
+Missed opportunities are recorded using a standard format that references the original tradeIdea:
+
 ```markdown
 ### Missed: [SYMBOL] [DIRECTION] ([SETUP_TYPE])
 
@@ -196,6 +242,8 @@ Each individual trade is logged in the following format:
 ```
 
 ## Moderator Trade Format
+
+Moderator trades are tracked using a standard format:
 
 ```markdown
 ### Moderator Trade: [SYMBOL] [DIRECTION] ([MODERATOR])
@@ -209,6 +257,8 @@ Each individual trade is logged in the following format:
 ```
 
 ## Time-of-Day Performance Analysis
+
+Time-of-day analysis is included to identify optimal trading windows:
 
 ```markdown
 ## Time-of-Day Analysis
@@ -279,32 +329,70 @@ Session grades are calculated based on a combination of plan adherence, P&L perf
 ### Complete Session Log
 
 ```
-/log-session date="2025-05-15" market_regime="Bull - Buy Dips" market_mode="Mode 2" market_conditions="Sideways day with sector rotation, indices flat" cognitive_load=6.4 decision_quality=DEGRADED distractions=["Discord notifications", "News alerts"] notable_events=["CPI data came in below expectations", "UNH guidance suspension affected Dow"] key_learnings=["Mode 2 requires faster profit taking", "Missed several good moderator calls", "Over-traded midday chop"] improvement_actions=["Set concrete rules for Mode 2 profit taking", "Create pre-session focus ritual", "Reduce position size when cognitive load exceeds 5"] personal_notes="Felt distracted today, need to improve focus techniques"
+/log-session date="2025-05-21" market_regime="Bull - Buy Dips" market_mode="Mode 2" market_conditions="Sideways day with sector rotation, indices flat" cognitive_load=6.4 decision_quality=DEGRADED distractions=["Discord notifications", "News alerts"] notable_events=["CPI data came in below expectations", "UNH guidance suspension affected Dow"] key_learnings=["Mode 2 requires faster profit taking", "Missed several good moderator calls", "Over-traded midday chop"] improvement_actions=["Set concrete rules for Mode 2 profit taking", "Create pre-session focus ritual", "Reduce position size when cognitive load exceeds 5"] personal_notes="Felt distracted today, need to improve focus techniques"
 ```
 
 ### Quick Session Log
 
 ```
-/log-session date="2025-05-15" market_mode="Mode 2" cognitive_load=6.4 decision_quality=DEGRADED improvement_actions=["Improve focus", "Take fewer trades"] format=summary
+/log-session date="2025-05-21" market_mode="Mode 2" cognitive_load=6.4 decision_quality=DEGRADED improvement_actions=["Improve focus", "Take fewer trades"] format=summary
 ```
 
-## Integration with System Components
+## Schema Integration
 
-The Session Logger integrates with:
+The Session Logger implements the sessionLog schema from the master schema and integrates with these related schemas:
 
-1. **Trade Plan Generator**: Accesses morning plan for adherence assessment
-2. **Position Manager**: Retrieves personal trade data
-3. **DP Morning Call Processor**: Utilizes market context information
-4. **Session Manifest**: Updates session status and metrics
+1. **tradePosition** - For personal trade data and execution details
+2. **tradePlan** - For morning plan adherence assessment
+3. **tradeIdea** - For setup identification and missed opportunity tracking
+4. **marketFramework** - For market context information
 
-## Data Model
+## Schema Data Model
 
-The command outputs and stores session logs in a structured JSON format:
+The command stores session logs according to the sessionLog schema defined in the canonical schema:
 
 ```json
 {
-  "sessionId": "session-2025-05-15",
-  "date": "2025-05-15",
+  "schemaVersion": "0.5.2",
+  "id": "session-20250521",
+  "source": "system",
+  "timestamp": "2025-05-21T16:30:00Z",
+  "date": "2025-05-21",
+  "entries": [
+    {
+      "timestamp": "2025-05-21T09:32:00Z",
+      "text": "Entered QQQ puts based on technical breakdown signal",
+      "type": "trade",
+      "relatedId": "pos-20250521-QQQ-01"
+    }
+  ],
+  "summary": {
+    "profit": -638.50,
+    "trades": 1,
+    "winRate": 0,
+    "keyLessons": [
+      "Mode 2 requires faster profit taking",
+      "Missed several good moderator calls",
+      "Over-traded midday chop"
+    ]
+  },
+  "planId": "plan-20250521",
+  "marketState": "Sideways day with sector rotation, indices flat",
+  "origin": {
+    "sourceCommand": "/log-session",
+    "createdBy": "session-logger"
+  }
+}
+```
+
+## Enhanced Session Analytics Object
+
+In addition to the core sessionLog object, the system generates an enhanced analytics object for internal use:
+
+```json
+{
+  "sessionId": "session-20250521",
+  "date": "2025-05-21",
   "market": {
     "regime": "Bull - Buy Dips",
     "mode": "Mode 2",
@@ -342,17 +430,17 @@ The command outputs and stores session logs in a structured JSON format:
   },
   "trades": [
     {
-      // Individual trade record format identical to /log-trade output
+      // Individual trade record in schema format
     }
   ],
   "missedTrades": [
     {
-      // Missed trade record format
+      // Missed trade record in schema format
     }
   ],
   "moderatorTrades": [
     {
-      // Moderator trade record format
+      // Moderator trade record in schema format
     }
   ],
   "performance": {
@@ -430,7 +518,7 @@ The command outputs and stores session logs in a structured JSON format:
 
 Session logs are stored in:
 
-1. **session-logs/[DATE].json**: Complete session data in JSON format
+1. **session-logs/[DATE].json**: Complete session data in schema-compliant JSON format
 2. **session-logs/[DATE].md**: Markdown formatted session report
 3. **performance-metrics.json**: Updated with session statistics for tracking
 
@@ -441,26 +529,64 @@ Session logs are stored in:
 - Invalid regime value: "Error: Market regime must be one of: Bull - Buy Dips, Bull - Momentum, etc."
 - Invalid mode value: "Error: Market mode must be 'Mode 1' or 'Mode 2'"
 - Invalid cognitive load value: "Error: Cognitive load must be between 1 and 10"
+- Schema validation error: "Error: Session data does not conform to schema"
 
 ## Implementation Notes
 
-- The system automatically gathers trade data from state files if available
+- The system automatically gathers trade data from schema-compliant state files
 - Session grades balance process quality, psychological management, and outcome
 - The logger creates both individual trade analysis and session-level insights
 - Time-of-day analysis helps identify optimal trading windows
 - Moderator trade comparisons provide benchmarking opportunities
 - Learning synthesis focuses on actionable improvements for future sessions
+- All session data is stored in schema-compliant formats
+- Backward compatibility is maintained for legacy log formats
 
 ## Test Vector
 
 Input:
 ```
-/log-session date="2025-05-15" market_regime="Bull - Buy Dips" market_mode="Mode 2" market_conditions="Sideways day with sector rotation, indices flat" cognitive_load=6.4 decision_quality=DEGRADED distractions=["Discord notifications", "News alerts"] key_learnings=["Mode 2 requires faster profit taking", "Missed several good moderator calls", "Over-traded midday chop"] improvement_actions=["Set concrete rules for Mode 2 profit taking", "Create pre-session focus ritual", "Reduce position size when cognitive load exceeds 5"] personal_notes="Felt distracted today, need to improve focus techniques"
+/log-session date="2025-05-21" market_regime="Bull - Buy Dips" market_mode="Mode 2" market_conditions="Sideways day with sector rotation, indices flat" cognitive_load=6.4 decision_quality=DEGRADED distractions=["Discord notifications", "News alerts"] key_learnings=["Mode 2 requires faster profit taking", "Missed several good moderator calls", "Over-traded midday chop"] improvement_actions=["Set concrete rules for Mode 2 profit taking", "Create pre-session focus ritual", "Reduce position size when cognitive load exceeds 5"] personal_notes="Felt distracted today, need to improve focus techniques"
 ```
 
-Partial Expected Output:
+Schema-Compliant Output Object:
+```json
+{
+  "schemaVersion": "0.5.2",
+  "id": "session-20250521",
+  "source": "system",
+  "timestamp": "2025-05-21T16:30:00Z",
+  "date": "2025-05-21",
+  "entries": [
+    {
+      "timestamp": "2025-05-21T09:32:00Z",
+      "text": "Entered QQQ put options at 6.41",
+      "type": "trade",
+      "relatedId": "pos-20250521-QQQ-01"
+    }
+  ],
+  "summary": {
+    "profit": -638.50,
+    "trades": 1,
+    "winRate": 0,
+    "keyLessons": [
+      "Mode 2 requires faster profit taking",
+      "Missed several good moderator calls",
+      "Over-traded midday chop"
+    ]
+  },
+  "planId": "plan-20250521",
+  "marketState": "Sideways day with sector rotation, indices flat",
+  "origin": {
+    "sourceCommand": "/log-session",
+    "createdBy": "session-logger"
+  }
+}
+```
+
+Partial Expected Markdown Output:
 ```markdown
-# Trading Session Log: May 15, 2025
+# Trading Session Log: May 21, 2025
 
 ## Market Framework
 - **Market Regime**: Bull - Buy Dips
@@ -480,8 +606,8 @@ Partial Expected Output:
 
 ## Personal Trade Performance
 
-### Trade: QQQ 16-May-25 475P long (put-option)
-**Entry**: 6.41 at 05/14/2025 09:32:00 - Option purchase
+### Trade: QQQ 21-May-25 515P long (put-option)
+**Entry**: 6.41 at 05/21/2025 09:32:00 - Option purchase
 **Exit**: 0.025 (current) - Significant loss of value
 **Performance**: -$638.50 (-99.6%), -3.2R, Grade: F
 **Plan Adherence**: Entry (Not in plan), Exit (N/A), Size (Oversized)
@@ -489,14 +615,4 @@ Partial Expected Output:
 **Cognitive State**: Load 6.4/10, DEGRADED
 
 **Key Learning**: Avoid options trades without specific thesis and exact trigger
-
-### Session P&L Summary
-- **Total P&L**: -$638.50 (-0.64%)
-- **Win Rate**: 0% (0/1 trades)
-- **Average R**: -3.2
-- **Largest Win**: N/A
-- **Largest Loss**: -$638.50
-- **Profit Factor**: 0
-
-[... remainder of output ...]
 ```

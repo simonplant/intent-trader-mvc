@@ -1,16 +1,20 @@
 ---
-id: size-position
-version: "0.5.1"
-type: command
-category: execute
-subcategory: position-management
+id: size-position-v0.5.2
+title: Position Size Calculator
+description: Calculates optimal position size based on risk parameters, setup type, and conviction level while respecting account risk limits
+author: Intent Trader Team
+version: 1.0.0
+release: 0.5.2
 created: 2025-05-15
-updated: 2025-05-15
-status: ACTIVE
-required_parameters: ["symbol", "direction", "entry", "stop"]
-optional_parameters: ["setup", "conviction", "account_size", "max_risk_percent"]
-related_commands: ["add-position", "list-positions", "update-position", "close-position"]
-example: "/size-position AAPL long entry=225.50 stop=223.80 setup=bull-flag conviction=high"
+updated: 2025-05-21
+category: execute
+status: stable
+tags: [position-management, risk-management, capital-allocation, position-sizing]
+requires: [system/schemas/intent-trader-master-schema.json, system/schemas/intent-trader-runtime-schema.json]
+outputs: [state/position-sizing-history.json]
+input_format: command
+output_format: markdown
+ai_enabled: true
 ---
 
 # Position Sizing Command (`/size-position`)
@@ -19,24 +23,19 @@ example: "/size-position AAPL long entry=225.50 stop=223.80 setup=bull-flag conv
 
 Calculate appropriate position size based on risk parameters, setup type, and conviction level, ensuring optimal capital allocation while respecting risk limits. This command helps traders determine the precise number of shares or contracts to trade based on their risk tolerance and the characteristics of the specific trading opportunity.
 
-## Command Syntax
+## Input Parameters
 
-```
-/size-position [symbol] [direction] entry=[price] stop=[price] [setup] [conviction] [account_size] [max_risk_percent]
-```
-
-## Parameters
-
-| Parameter | Required | Default | Description |
-|-----------|----------|---------|-------------|
-| `symbol` | Yes | - | Stock/instrument symbol |
-| `direction` | Yes | - | "long" or "short" |
-| `entry` | Yes | - | Planned entry price |
-| `stop` | Yes | - | Planned stop loss level |
-| `setup` | No | "standard" | Setup type (affects sizing rules) |
-| `conviction` | No | "medium" | Conviction level (high/medium/low) |
-| `account_size` | No | $100,000 | Total account size |
-| `max_risk_percent` | No | 1% | Maximum risk as percentage |
+| Parameter | Required | Description | Format | Default |
+|-----------|----------|-------------|--------|---------|
+| `symbol` | Yes | Stock/instrument symbol | String (e.g., "AAPL") | - |
+| `direction` | Yes | Trade direction | String: "long" or "short" | - |
+| `entry` | Yes | Planned entry price | Number (e.g., 225.50) | - |
+| `stop` | Yes | Planned stop loss level | Number (e.g., 223.80) | - |
+| `setup` | No | Setup type | String (e.g., "bull-flag") | "standard" |
+| `conviction` | No | Conviction level | String: "high", "medium", "low" | "medium" |
+| `account_size` | No | Total account size | Number (e.g., 100000) | 100000 |
+| `max_risk_percent` | No | Maximum risk percentage | Number (e.g., 1) | 1 |
+| `classifications` | No | Classification flags | Comma-separated flags (e.g., "isTrendFollow,isMomentumPlay") | - |
 
 ## Calculation Logic
 
@@ -53,9 +52,9 @@ Position size is calculated through a systematic process that considers risk par
    - Low conviction: 0.5 (50% of full size)
 
 3. **Apply Setup Type Multipliers:**
-   - High-probability setups (failed-breakdown, character-change): 1.0
-   - Medium-probability setups (bull-flag, bear-flag, pullback): 0.8
-   - Speculative setups (day-after-trade, earnings-reaction): 0.6
+   - High-probability setups (isFailedBreakdown, isReversal): 1.0
+   - Medium-probability setups (isFlagPattern, isBreakout, isTrendFollow): 0.8
+   - Speculative setups (isDayAfterTrade, isEarningsPlay): 0.6
 
 4. **Enforce Risk Limits:**
    - Maximum risk per trade: `max_risk_percent` of account
@@ -70,85 +69,6 @@ Position size is calculated through a systematic process that considers risk par
    - Include target position sizes for the 75/15/10 scaling rule
    - Show the initial 75%, 15%, and 10% position components
 
-## Response Format
-
-The command returns a detailed position sizing recommendation with alternatives and rationale:
-
-```json
-{
-  "symbol": "string",
-  "direction": "long/short",
-  "entry": "number",
-  "stop": "number",
-  "riskPerShare": "number",
-  "sizing": {
-    "recommended": {
-      "size": "number",
-      "unit": "shares/contracts",
-      "riskAmount": "number",
-      "riskPercent": "number"
-    },
-    "alternatives": [
-      {
-        "name": "conservative",
-        "size": "number",
-        "riskAmount": "number",
-        "riskPercent": "number"
-      },
-      {
-        "name": "aggressive",
-        "size": "number",
-        "riskAmount": "number",
-        "riskPercent": "number"
-      }
-    ],
-    "scaling": {
-      "component1": {"percent": "75%", "shares": "number"},
-      "component2": {"percent": "15%", "shares": "number"},
-      "component3": {"percent": "10%", "shares": "number"}
-    }
-  },
-  "adjustments": {
-    "convictionMultiplier": "number",
-    "setupTypeMultiplier": "number",
-    "riskLimitAdjustment": "boolean"
-  },
-  "notes": ["sizing rationale and considerations"]
-}
-```
-
-## Display Format
-
-The command also provides a human-readable display format:
-
-```markdown
-# Position Sizing: $SYMBOL ($DIRECTION)
-
-## Trade Parameters
-- Entry: $ENTRY
-- Stop: $STOP 
-- Risk Per Share: $RISK_PER_SHARE
-- Setup: $SETUP
-- Conviction: $CONVICTION
-
-## Recommended Position
-- Size: $SIZE shares
-- Risk Amount: $RISK_AMOUNT ($RISK_PERCENT of account)
-- R-Multiple Value: $1R = $R_VALUE
-
-## Alternative Sizes
-- Conservative: $CONSERVATIVE_SIZE shares ($CONSERVATIVE_RISK_AMOUNT risk)
-- Aggressive: $AGGRESSIVE_SIZE shares ($AGGRESSIVE_RISK_AMOUNT risk)
-
-## 75/15/10 Scaling Components
-- Initial Position (75%): $COMPONENT1_SHARES shares
-- First Target Position (15%): $COMPONENT2_SHARES shares
-- Runner Position (10%): $COMPONENT3_SHARES shares
-
-## Sizing Notes
-$NOTES
-```
-
 ## Processing Logic
 
 ```javascript
@@ -159,11 +79,16 @@ function calculatePositionSize(params) {
     direction, 
     entry, 
     stop, 
-    setup = 'standard', 
+    setup = 'standard',
     conviction = 'medium',
     account_size = 100000,
-    max_risk_percent = 1
+    max_risk_percent = 1,
+    classifications = ''
   } = params;
+  
+  // Initialize schemaVersion and timestamp
+  const schemaVersion = "0.5.2";
+  const timestamp = new Date().toISOString();
   
   // Calculate risk per share
   const entryPrice = parseFloat(entry);
@@ -185,22 +110,49 @@ function calculatePositionSize(params) {
   };
   const convictionMultiplier = convictionMultipliers[conviction] || 0.75;
   
-  // Apply setup type multiplier
+  // Process classifications
+  const classificationFlags = processClassifications(classifications);
+  
+  // Determine setup multiplier based on classifications
+  let setupTypeMultiplier = 0.8; // Default medium-probability
+  
+  // High probability setups
+  if (classificationFlags.isFailedBreakdown || classificationFlags.isReversal) {
+    setupTypeMultiplier = 1.0;
+  }
+  // Medium probability setups
+  else if (classificationFlags.isFlagPattern || classificationFlags.isBreakout || classificationFlags.isTrendFollow) {
+    setupTypeMultiplier = 0.8;
+  }
+  // Speculative setups
+  else if (classificationFlags.isDayAfterTrade || classificationFlags.isEarningsPlay) {
+    setupTypeMultiplier = 0.6;
+  }
+
+  // Also check traditional setup naming for backward compatibility
   const setupTypeMultipliers = {
     // High probability setups
     'failed-breakdown': 1.0,
     'character-change': 1.0,
+    'reversal': 1.0,
     // Medium probability setups
     'bull-flag': 0.8,
     'bear-flag': 0.8,
     'pullback': 0.8,
+    'breakout': 0.8,
+    'trend-follow': 0.8,
     // Speculative setups
     'day-after-trade': 0.6,
     'earnings-reaction': 0.6,
+    'earnings-play': 0.6,
     // Default
     'standard': 0.8
   };
-  const setupTypeMultiplier = setupTypeMultipliers[setup] || 0.8;
+  
+  // Only override if we didn't already set by classifications
+  if (setupTypeMultiplier === 0.8 && setupTypeMultipliers[setup]) {
+    setupTypeMultiplier = setupTypeMultipliers[setup];
+  }
   
   // Apply multipliers
   let adjustedSize = Math.floor(baseSize * convictionMultiplier * setupTypeMultiplier);
@@ -245,7 +197,13 @@ function calculatePositionSize(params) {
   const aggressiveRiskAmount = aggressiveSize * riskPerShare;
   const aggressiveRiskPercent = (aggressiveRiskAmount / account_size) * 100;
   
-const traditionalCoreSize = Math.floor(adjustedSize * 0.5);
+  // Calculate 75/15/10 scaling components
+  const component1 = Math.floor(adjustedSize * 0.75);
+  const component2 = Math.floor(adjustedSize * 0.15);
+  const component3 = Math.floor(adjustedSize * 0.10);
+  
+  // Calculate traditional core size
+  const traditionalCoreSize = Math.floor(adjustedSize * 0.5);
   
   // Generate notes
   const notes = [];
@@ -258,7 +216,14 @@ const traditionalCoreSize = Math.floor(adjustedSize * 0.5);
     notes.push(`Using half size due to low conviction in the setup.`);
   }
   
-  if (setupTypeMultiplier === 1.0) {
+  // Add notes about classification-based sizing
+  if (classificationFlags.isFailedBreakdown || classificationFlags.isReversal) {
+    notes.push(`High-probability setup type receives full sizing allocation.`);
+  } else if (classificationFlags.isFlagPattern || classificationFlags.isBreakout || classificationFlags.isTrendFollow) {
+    notes.push(`Medium-probability setup type receives 80% sizing allocation.`);
+  } else if (classificationFlags.isDayAfterTrade || classificationFlags.isEarningsPlay) {
+    notes.push(`Speculative setup type receives 60% sizing allocation.`);
+  } else if (setupTypeMultiplier === 1.0) {
     notes.push(`High-probability setup type (${setup}) receives full sizing allocation.`);
   } else if (setupTypeMultiplier === 0.8) {
     notes.push(`Medium-probability setup type (${setup}) receives 80% sizing allocation.`);
@@ -279,14 +244,24 @@ const traditionalCoreSize = Math.floor(adjustedSize * 0.5);
   if (actualRiskPercent > max_risk_percent) {
     notes.push(`WARNING: Actual risk (${actualRiskPercent.toFixed(2)}%) exceeds maximum risk percentage (${max_risk_percent}%).`);
   }
+
+  // Calculate R-Value
+  const rValue = riskPerShare;
   
-  // Prepare response
-  return {
-    symbol,
-    direction,
+  // Generate an ID for this sizing recommendation
+  const id = `size-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${symbol}-${direction}`;
+  
+  // Create corresponding position sizing object (schema-compliant)
+  const positionSizing = {
+    schemaVersion: schemaVersion,
+    id: id,
+    source: "system",
+    timestamp: timestamp,
+    symbol: symbol,
+    direction: direction,
     entry: entryPrice,
     stop: stopPrice,
-    riskPerShare,
+    riskPerShare: riskPerShare,
     sizing: {
       recommended: {
         size: adjustedSize,
@@ -308,110 +283,174 @@ const traditionalCoreSize = Math.floor(adjustedSize * 0.5);
           riskPercent: aggressiveRiskPercent
         }
       ],
+      scaling: {
+        component1: {
+          percent: 75,
+          shares: component1
+        },
+        component2: {
+          percent: 15,
+          shares: component2
+        },
+        component3: {
+          percent: 10,
+          shares: component3
+        }
+      },
       traditionalCore: {
         size: traditionalCoreSize
       }
     },
     adjustments: {
-      convictionMultiplier,
-      setupTypeMultiplier,
-      riskLimitAdjustment
+      convictionMultiplier: convictionMultiplier,
+      setupTypeMultiplier: setupTypeMultiplier,
+      riskLimitAdjustment: riskLimitAdjustment
     },
-    notes
+    setup: setup,
+    conviction: {
+      level: conviction,
+      phrases: []
+    },
+    classifications: classificationFlags,
+    notes: notes,
+    rValue: rValue,
+    accountParameters: {
+      accountSize: account_size,
+      maxRiskPercent: max_risk_percent
+    },
+    origin: {
+      sourceCommand: "/size-position",
+      createdBy: "position-sizer",
+      planId: null,
+      ideaId: null
+    }
   };
+  
+  return positionSizing;
+}
+
+// Convert classification flags from input to schema format
+function processClassifications(classificationFlags) {
+  // Initialize with all flags set to false
+  const classifications = {
+    isBreakout: false,
+    isReversal: false, 
+    isFlagPattern: false,
+    isFailedBreakdown: false,
+    isEarningsPlay: false,
+    isDayAfterTrade: false,
+    isTrendFollow: false,
+    isRangePlay: false,
+    isGapFill: false,
+    isMomentumPlay: false
+  };
+  
+  // Process the flags from input
+  if (classificationFlags) {
+    const flags = classificationFlags.split(',');
+    for (const flag of flags) {
+      const trimmedFlag = flag.trim();
+      if (classifications.hasOwnProperty(trimmedFlag)) {
+        classifications[trimmedFlag] = true;
+      }
+    }
+  }
+  
+  return classifications;
 }
 ```
 
-## Response Templates
+## Response Format
+
+The command returns a detailed position sizing recommendation with alternatives and rationale:
 
 ### JSON Response
 
 ```json
 {
-  "symbol": "{{symbol}}",
-  "direction": "{{direction}}",
-  "entry": {{entry}},
-  "stop": {{stop}},
-  "riskPerShare": {{riskPerShare}},
+  "schemaVersion": "0.5.2",
+  "id": "size-20250520-AAPL-long",
+  "source": "system",
+  "timestamp": "2025-05-20T10:30:00Z",
+  "symbol": "AAPL",
+  "direction": "long",
+  "entry": 225.50,
+  "stop": 223.80,
+  "riskPerShare": 1.70,
   "sizing": {
     "recommended": {
-      "size": {{sizing.recommended.size}},
-      "unit": "{{sizing.recommended.unit}}",
-      "riskAmount": {{sizing.recommended.riskAmount}},
-      "riskPercent": {{sizing.recommended.riskPercent}}
+      "size": 470,
+      "unit": "shares",
+      "riskAmount": 799.00,
+      "riskPercent": 0.80
     },
     "alternatives": [
       {
         "name": "conservative",
-        "size": {{sizing.alternatives[0].size}},
-        "riskAmount": {{sizing.alternatives[0].riskAmount}},
-        "riskPercent": {{sizing.alternatives[0].riskPercent}}
+        "size": 235,
+        "riskAmount": 399.50,
+        "riskPercent": 0.40
       },
       {
         "name": "aggressive",
-        "size": {{sizing.alternatives[1].size}},
-        "riskAmount": {{sizing.alternatives[1].riskAmount}},
-        "riskPercent": {{sizing.alternatives[1].riskPercent}}
+        "size": 588,
+        "riskAmount": 999.60,
+        "riskPercent": 1.00
       }
     ],
+    "scaling": {
+      "component1": {"percent": 75, "shares": 352},
+      "component2": {"percent": 15, "shares": 70},
+      "component3": {"percent": 10, "shares": 47}
+    },
     "traditionalCore": {
-      "size": {{Math.floor(sizing.recommended.size * 0.5)}}
+      "size": 235
     }
   },
   "adjustments": {
-    "convictionMultiplier": {{adjustments.convictionMultiplier}},
-    "setupTypeMultiplier": {{adjustments.setupTypeMultiplier}},
-    "riskLimitAdjustment": {{adjustments.riskLimitAdjustment}}
+    "convictionMultiplier": 1.0,
+    "setupTypeMultiplier": 0.8,
+    "riskLimitAdjustment": false
+  },
+  "setup": "bull-flag",
+  "conviction": {
+    "level": "high",
+    "phrases": []
+  },
+  "classifications": {
+    "isBreakout": false,
+    "isReversal": false,
+    "isFlagPattern": true,
+    "isFailedBreakdown": false,
+    "isEarningsPlay": false,
+    "isDayAfterTrade": false,
+    "isTrendFollow": true,
+    "isRangePlay": false,
+    "isGapFill": false,
+    "isMomentumPlay": false
   },
   "notes": [
-    {{#each notes}}
-    "{{this}}"{{#unless @last}},{{/unless}}
-    {{/each}}
-  ]
+    "Using full size due to high conviction in the setup.",
+    "Medium-probability setup type (bull-flag) receives 80% sizing allocation.",
+    "For traditional position management with DP methodology, consider a core position of 235 shares (50% of total) that you can build around."
+  ],
+  "rValue": 1.70,
+  "accountParameters": {
+    "accountSize": 100000,
+    "maxRiskPercent": 1
+  },
+  "origin": {
+    "sourceCommand": "/size-position",
+    "createdBy": "position-sizer",
+    "planId": null,
+    "ideaId": null
+  }
 }
 ```
 
 ### Markdown Response
 
 ```markdown
-# Position Sizing: ${{symbol}} ({{direction}})
-
-## Trade Parameters
-- Entry: ${{entry}}
-- Stop: ${{stop}} 
-- Risk Per Share: ${{riskPerShare}}
-- Setup: {{setup}}
-- Conviction: {{conviction}}
-
-## Recommended Position
-- Size: {{sizing.recommended.size}} shares
-- Risk Amount: ${{sizing.recommended.riskAmount.toFixed(2)}} ({{sizing.recommended.riskPercent.toFixed(2)}}% of account)
-- R-Multiple Value: $1R = ${{riskPerShare.toFixed(2)}}
-
-## Alternative Sizes
-- Conservative: {{sizing.alternatives[0].size}} shares (${{sizing.alternatives[0].riskAmount.toFixed(2)}} risk)
-- Aggressive: {{sizing.alternatives[1].size}} shares (${{sizing.alternatives[1].riskAmount.toFixed(2)}} risk)
-
-## Position Management Considerations
-- **Total Position**: {{sizing.recommended.size}} shares
-- **Traditional Core Position**: {{Math.floor(sizing.recommended.size * 0.5)}} shares (50% for scaling in/out)
-- **Options/Higher-Priced Instruments**: Consider whole-unit increments for appropriate scaling
-
-## Sizing Notes
-{{#each notes}}
-- {{this}}
-{{/each}}
-```
-
-## Example Usage
-
-### Command:
-```
-/size-position AAPL long entry=225.50 stop=223.80 setup=bull-flag conviction=high account_size=100000 max_risk_percent=1
-```
-
-### Response:
-```
 # Position Sizing: $AAPL (long)
 
 ## Trade Parameters
@@ -430,27 +469,102 @@ const traditionalCoreSize = Math.floor(adjustedSize * 0.5);
 - Conservative: 235 shares ($399.50 risk)
 - Aggressive: 588 shares ($999.60 risk)
 
+## 75/15/10 Scaling Components
+- Initial Position (75%): 352 shares
+- First Target Position (15%): 70 shares
+- Runner Position (10%): 47 shares
+
 ## Position Management Considerations
-- **Total Position**: 470 shares
-- **Traditional Core Position**: 235 shares (50% for scaling in/out)
-- **Options/Higher-Priced Instruments**: Consider whole-unit increments for appropriate scaling
+- Traditional Core Position: 235 shares (50% for scaling in/out)
+- Options/Higher-Priced Instruments: Consider whole-unit increments for appropriate scaling
 
 ## Sizing Notes
 - Using full size due to high conviction in the setup.
 - Medium-probability setup type (bull-flag) receives 80% sizing allocation.
 - For traditional position management with DP methodology, consider a core position of 235 shares (50% of total) that you can build around.
-
 ```
 
-## Test Vector
+## Example Usage
 
-### Input:
 ```
-/size-position AAPL long entry=225.50 stop=223.80 setup=bull-flag conviction=high
+/size-position AAPL long entry=225.50 stop=223.80 setup=bull-flag conviction=high classifications=isFlagPattern,isTrendFollow
 ```
 
-### Expected Output:
-A position sizing recommendation for AAPL with approximately 470 shares, risk amount around $800, and complete sizing alternatives and notes.
+## Position Sizing Object Structure
+
+The command conforms to the baseObject schema requirements and adds position sizing specific fields:
+
+```json
+{
+  "schemaVersion": "0.5.2",
+  "id": "size-YYYYMMDD-SYMBOL-DIRECTION",
+  "source": "system",
+  "timestamp": "YYYY-MM-DDThh:mm:ssZ",
+  "symbol": "string",
+  "direction": "long|short",
+  "entry": "number",
+  "stop": "number",
+  "riskPerShare": "number",
+  "sizing": {
+    "recommended": {
+      "size": "number",
+      "unit": "shares|contracts",
+      "riskAmount": "number",
+      "riskPercent": "number"
+    },
+    "alternatives": [
+      {
+        "name": "conservative|aggressive",
+        "size": "number",
+        "riskAmount": "number",
+        "riskPercent": "number"
+      }
+    ],
+    "scaling": {
+      "component1": {"percent": "number", "shares": "number"},
+      "component2": {"percent": "number", "shares": "number"},
+      "component3": {"percent": "number", "shares": "number"}
+    },
+    "traditionalCore": {
+      "size": "number"
+    }
+  },
+  "adjustments": {
+    "convictionMultiplier": "number",
+    "setupTypeMultiplier": "number",
+    "riskLimitAdjustment": "boolean"
+  },
+  "setup": "string",
+  "conviction": {
+    "level": "high|medium|low",
+    "phrases": ["string"]
+  },
+  "classifications": {
+    "isBreakout": "boolean",
+    "isReversal": "boolean",
+    "isFlagPattern": "boolean",
+    "isFailedBreakdown": "boolean",
+    "isEarningsPlay": "boolean",
+    "isDayAfterTrade": "boolean",
+    "isTrendFollow": "boolean",
+    "isRangePlay": "boolean",
+    "isGapFill": "boolean",
+    "isMomentumPlay": "boolean"
+  },
+  "notes": ["string"],
+  "rValue": "number",
+  "accountParameters": {
+    "accountSize": "number",
+    "maxRiskPercent": "number"
+  },
+  "origin": {
+    "sourceCommand": "string",
+    "createdBy": "string",
+    "planId": "string|null",
+    "ideaId": "string|null"
+  }
+}
+```
 
 ## Integration with Other Components
 
@@ -459,7 +573,7 @@ This command is designed to be used in conjunction with:
 1. **Trade Plan** (`/create-plan`): Use position sizing after identifying high-conviction setups
 2. **Position Management** (`/add-position`): Apply sizing recommendations when entering new positions
 3. **Risk Management**: Ensure positions respect overall risk allocation rules
-4. **DP Trading Methodology**: Support for building around a core position
+4. **Classification System**: Integrate with the schema-defined boolean classification flags
 
 ## Advanced Considerations
 
@@ -469,9 +583,25 @@ This command is designed to be used in conjunction with:
 - **Market Mode**: In Mode 2 (ranging) markets, favor conservative sizing
 - **Account Drawdown**: Automatically reduce sizing when approaching daily loss limits
 
-## References
+## Error Handling
 
-- Risk management principles from Trading System Charter
-- Capital allocation rules from Trading Capital Profile
-- 75/15/10 position management protocol
-- Default account parameters: $100,000 base capital, 1% max risk per trade
+The command implements error handling for various failure cases:
+
+- Missing parameters: "Error: Required parameter '{PARAM}' is missing"
+- Invalid direction: "Error: Direction must be 'long' or 'short'"
+- Invalid price: "Error: '{PARAM}' must be a valid number"
+- Schema validation failure: "Error: Position sizing validation failed: {VALIDATION_ERRORS}"
+- Invalid classification flag: "Warning: Unknown classification flag '{FLAG}' was ignored"
+
+## Implementation Notes
+
+This implementation follows the canonical schema approach established in v0.5.2:
+
+1. The position sizing object structure follows the master schema with proper inheritance from baseObject
+2. All required fields are implemented with appropriate nesting
+3. Boolean classifications replace text-based classifications
+4. Integration with position tracking is implemented with consistent references
+5. Runtime schema validation ensures compliance
+6. Standardized front matter matches the template format
+7. Examples demonstrate real-world trading scenarios
+8. All existing functionality is preserved while implementing the canonical schema

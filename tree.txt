@@ -5,7 +5,9 @@
 │   └── schemas
 │       ├── intent-trader-master-schema.json
 │       ├── intent-trader-runtime-schema.json
-│       └── README.schema.md
+│       ├── README.schema.md
+│       ├── samples
+│       └── templates
 ├── docs
 │   ├── architecture
 │   │   ├── requirements.md
@@ -87,38 +89,31 @@
 │   │   ├── status.md
 │   │   └── validator.md
 │   ├── sop.md
-│   └── templates
-│       └── front-matter-template.md
+│   ├── templates
+│   │   ├── front-matter-template.md
+│   │   ├── trade-idea-template.json
+│   │   └── trade-plan-template.json
+│   ├── utilities
+│   └── workflow
 ├── tree.txt
 └── wip
-    ├── add-position.md
-    ├── analyze-dp.md
-    ├── analyze-mancini.md
     ├── archive
     │   ├── master-schema-updated.json
     │   └── runtime-schema-updated.json
-    ├── chart-analysis.md
-    ├── close-position.md
     ├── command-parser.md
-    ├── conversation-context-sample.json
     ├── conversation-context-state.json
     ├── conversation-context-template.json
     ├── conversion-report.md
-    ├── create-plan.md
     ├── field-mapping.md
-    ├── list-positions.md
-    ├── log-session.md
     ├── migration-code.js
     ├── migration-implementation-plan.md
     ├── migration-test-plan.md
     ├── migration-test.js
     ├── migration-utilities.js
     ├── migration-utilities.md
-    ├── my-positions-state.json
-    ├── plugin-registry.json
     ├── position-template.json
-    ├── runtime-agent.md
     ├── samples
+    │   ├── conversation-context-sample.json
     │   ├── intent-trader-runtime-sample.json
     │   ├── sample-conversation-context.json
     │   ├── sample-level-framework.json
@@ -132,25 +127,22 @@
     ├── schema-implementation-guide.md
     ├── schema-mapping.md
     ├── schema-validation-report.md
-    ├── summarize-mancini.md
     ├── template-usage-guide.md
-    ├── trade-idea-template.json
-    ├── trade-plan-state.json
-    ├── trade-plan-template.json
     ├── tradePlan-runtime-schema.json
     ├── transaction-entry-template.json
     ├── transaction-log-state.json
     ├── transaction-log-template.json
-    ├── update-position.md
     ├── validation-report.md
+    ├── wip-to-production.sh
     └── workflow
         ├── implementation-todo-list.md
         ├── master-workflow-controller.md
         ├── project-manager-update.md
+        ├── refactored-size-position.md
         ├── updated-workplan.md
         ├── worker-prompt-core.md
         ├── worker-prompt-docs.md
         ├── worker-prompt-nlp.md
         └── worker-prompt-testing.md
 
-25 directories, 129 files
+29 directories, 117 files

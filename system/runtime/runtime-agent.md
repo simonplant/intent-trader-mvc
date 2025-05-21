@@ -1,155 +1,305 @@
----
-id: runtime-agent
-title: Intent Trader Runtime Agent
-description: Core routing engine for Intent Trader command processing
-author: Intent Trader Team
-version: 0.4.2
-release: 0.5.1
-created: 2025-05-16
-updated: 2025-05-20
-category: system
-status: stable
-tags: [system, runtime, agent, orchestration]
-requires: [system/runtime/command-map.md, system/runtime/plugin-registry.json]
-outputs: []
-input_format: command
-output_format: json
-ai_enabled: true
----
+# Runtime Agent
 
-# Intent Trader Runtime Agent
+**Version:** 0.5.2  
+**Requires:** intent-trader-runtime-schema.json  
+**Tags:** runtime, schema, validation
 
-This agent serves as the interface layer for Intent Trader commands, prompt execution, and session orchestration.
+## Purpose
+The Runtime Agent is responsible for managing the schema validation, object references, and runtime state throughout the Intent Trader system. This agent ensures that all data structures conform to the runtime-optimized schemas for Claude compatibility.
 
-## Identity
+## Schema Validation and Reference Management
 
-- Name: Intent Trader Agent
-- Role: Intelligent orchestrator for trading day lifecycle
-- Behavior: Context-aware assistant with schema validation, command dispatch, and trading workflow support
+The Runtime Agent performs the following tasks:
 
-## Command Routing
+1. **Schema Validation**
+   - Validates all objects against their runtime schema
+   - Ensures maximum nesting depth of 3 levels
+   - Rejects objects that violate schema constraints
+   - Provides helpful error messages when validation fails
 
-The Intent Trader system processes commands using a cognitive workflow structure:
-- Plan Phase: Morning analysis and preparation
-- Focus Phase: Opportunity identification and prioritization
-- Execute Phase: Trade entry and position creation
-- Manage Phase: Active position management
-- Review Phase: Performance analysis and reflection
+2. **Reference Management**
+   - Maintains a registry of object references
+   - Resolves references when objects are requested
+   - Updates references when objects are modified
+   - Handles reference integrity during state transitions
 
-## Command Processing Logic
+3. **Runtime Optimization**
+   - Flattens deeply nested structures
+   - Converts between master schema and runtime schema
+   - Provides methods for working with reduced-complexity objects
 
-When a command is received:
+## Runtime Schema Handling
 
-1. Validation: Verify command exists in command-map.md
-2. Parameter Validation: Validate parameters using validator.md rules
-3. Dispatch: Route to appropriate prompt handler using plugin-registry.json
-4. Execution: Process command and return results
-5. State Update: Update relevant state files if command modifies system state
-
-## Supported Commands by Phase
-
-### Plan Phase
-/clean-dp-transcript [transcript] – Clean and correct transcription errors in DP morning call text
-/analyze-dp [transcript] – Extract all key components and insights from DP
-/summarize-mancini [newsletter] – Extract structured data from Mancini's newsletter
-/analyze-mancini [summary] – Convert summary into actionable strategies
-
-### Focus Phase
-/create-plan – Generate unified trade plan
-/extract-focus [source] [min_conviction] – Extract high-conviction trade ideas
-/extract-levels [source] [indices] – Identify critical market levels
-
-### Execute Phase
-/size-position [symbol] – Compute optimal position size
-/add-position [symbol] – Track a new trade
-
-### Manage Phase
-/update-position [symbol] – Adjust stops, size, or notes
-/close-position [symbol] – Finalize a trade and log results
-/list-positions [filters] – Render filtered list of current tracked trades
-
-### Review Phase
-/log-session [date] – Postmarket summary and key learning capture
-
-### Utilities
-/analyze-chart [image] – Run technical analysis on uploaded chart
-
-### System Commands
-/reload-active-logic – Reinitialize all loaded logic
-/scaffold-command <name> <phase> <type> [desc] – Create new command boilerplate
-/sync-commands [fix] [verbose] – Fix or audit system for command mismatches
-/help [command] – Show available commands or help
-/status – System diagnostic and readiness report
-
-## Execution Handler Examples
-
-To invoke a command (pseudo-code):
-
-if command == "/list-positions":
-    load("prompts/manage/list-positions.md")
-    validate(params, "validator.md")
-    execute_prompt(command, params)
-
-> Future support: abstract this into a registry-driven dispatcher to eliminate hardcoded cases.
-
-## State Files
-
-- state/session-manifest.json
-- state/my-positions.json
-- state/moderator-positions.json
-- state/trade-plan-state.json
-
-## Response Format
-
-{
-  "success": true|false,
-  "command": "command-name",
-  "result": {},
-  "message": "Human-readable summary"
+### Object Reference Resolution
+```javascript
+// Example reference resolution logic
+function resolveReferences(object, referenceType) {
+  if (!object) return null;
+  
+  // Handle different reference types
+  switch (referenceType) {
+    case 'marketFramework':
+      return state.marketFrameworks[object.marketFrameworkId] || null;
+    case 'levelFramework':
+      return state.levelFrameworks[object.levelFrameworkId] || null;
+    case 'tradeIdea':
+      return object.tradeIdeaIds.map(id => state.tradeIdeas[id] || null);
+    default:
+      return null;
+  }
 }
+
+// Example usage
+const plan = state.tradePlans['plan-20250520'];
+const marketFramework = resolveReferences(plan, 'marketFramework');
+```
+
+### Object Transformation
+```javascript
+// Converting master schema to runtime schema
+function toRuntimeSchema(object, type) {
+  if (!object) return null;
+  
+  switch (type) {
+    case 'tradePlan':
+      return {
+        // Base properties
+        schemaVersion: object.schemaVersion,
+        id: object.id,
+        source: object.source,
+        timestamp: object.timestamp,
+        date: object.date,
+        
+        // Market framework fields
+        bias: object.marketFramework?.bias || null,
+        biasCondition: object.marketFramework?.biasCondition || null,
+        mode: object.marketFramework?.mode || null,
+        modeConfidence: object.marketFramework?.modeConfidence || null,
+        marketCharacter: object.marketFramework?.character || null,
+        
+        // Level framework field
+        keyDecisionPoint: object.levelFramework?.keyDecisionPoint || null,
+        
+        // References
+        marketFrameworkId: object.marketFramework?.id || null,
+        levelFrameworkId: object.levelFramework?.id || null,
+        tradeIdeaIds: object.tradeIdeas?.map(idea => idea.id) || [],
+        
+        // Simplified primary ideas
+        primaryIdeas: object.tradeIdeas
+          ?.filter(idea => idea.category === 'primary')
+          ?.map(idea => ({
+            id: idea.id,
+            symbol: idea.symbol,
+            direction: idea.direction,
+            convictionLevel: idea.conviction?.level || null,
+            setup: idea.setup
+          })) || [],
+        
+        // Other fields
+        scenarios: object.scenarioPlanning || [],
+        accountSize: object.riskManagement?.accountSize || null,
+        maxRiskPercent: object.riskManagement?.maxRiskPercent || null,
+        dailyRiskAmount: object.riskManagement?.dailyRiskAmount || null,
+        positionSizingStrategy: object.riskManagement?.positionSizing || null,
+        stopPlacementStrategy: object.riskManagement?.stopPlacement || null,
+        trailStrategy: object.riskManagement?.trailStrategy || null,
+        
+        // Metadata
+        generatedFrom: object.metadata?.generatedFrom || [],
+        originCommand: object.origin?.sourceCommand || null,
+        createdBy: object.origin?.createdBy || null
+      };
+    // Add other object types here
+    default:
+      return object;
+  }
+}
+
+// Converting runtime schema back to master schema
+function toMasterSchema(runtimeObject, type) {
+  if (!runtimeObject) return null;
+  
+  // Implementation for converting back to master schema
+  // ...
+}
+```
+
+## Runtime Validation
+
+The Runtime Agent performs the following validation checks:
+
+1. **Schema Compliance**: Validates objects against their schema
+2. **Nesting Depth**: Ensures maximum nesting depth of 3 levels
+3. **Runtime Compatibility**: Checks field constraints for Claude compatibility
+4. **Reference Integrity**: Ensures references point to valid objects
+
+### Validation Implementation
+```javascript
+function validateRuntimeObject(object, type) {
+  // Basic validation
+  if (!object) return { valid: false, errors: ['Object is null or undefined'] };
+  if (!object.schemaVersion) return { valid: false, errors: ['Missing schema version'] };
+  if (object.schemaVersion !== '0.5.2') return { valid: false, errors: ['Invalid schema version'] };
+  
+  // Schema-specific validation
+  switch (type) {
+    case 'tradePlan':
+      return validateTradePlan(object);
+    case 'tradeIdea':
+      return validateTradeIdea(object);
+    // Add other types
+    default:
+      return { valid: false, errors: [`Unknown object type: ${type}`] };
+  }
+}
+
+function validateTradePlan(plan) {
+  const errors = [];
+  
+  // Required fields
+  if (!plan.id) errors.push('Missing id');
+  if (!plan.date) errors.push('Missing date');
+  if (!plan.bias) errors.push('Missing bias');
+  
+  // Reference integrity
+  if (plan.marketFrameworkId && !state.marketFrameworks[plan.marketFrameworkId]) {
+    errors.push(`Invalid marketFrameworkId: ${plan.marketFrameworkId}`);
+  }
+  
+  if (plan.levelFrameworkId && !state.levelFrameworks[plan.levelFrameworkId]) {
+    errors.push(`Invalid levelFrameworkId: ${plan.levelFrameworkId}`);
+  }
+  
+  // Validate tradeIdeaIds
+  if (plan.tradeIdeaIds) {
+    plan.tradeIdeaIds.forEach(ideaId => {
+      if (!state.tradeIdeas[ideaId]) {
+        errors.push(`Invalid tradeIdeaId: ${ideaId}`);
+      }
+    });
+  }
+  
+  // Nesting depth check for scenarios
+  if (plan.scenarios) {
+    const scenariosDepth = getObjectNestingDepth(plan.scenarios);
+    if (scenariosDepth > 3) {
+      errors.push(`Scenarios nesting depth (${scenariosDepth}) exceeds maximum (3)`);
+    }
+  }
+  
+  return { valid: errors.length === 0, errors };
+}
+
+// Utility to check nesting depth
+function getObjectNestingDepth(obj, depth = 0) {
+  if (!obj || typeof obj !== 'object') return depth;
+  
+  return 1 + Math.max(
+    0,
+    ...Object.values(obj).map(value => {
+      if (Array.isArray(value)) {
+        return Math.max(
+          0,
+          ...value.map(item => getObjectNestingDepth(item, depth))
+        );
+      }
+      return getObjectNestingDepth(value, depth);
+    })
+  );
+}
+```
 
 ## Error Handling
 
-- Report specific issue and file
-- Suggest fix or patch
-- Preserve state integrity
-- Write to error log (when enabled)
+The Runtime Agent provides detailed error messages for schema validation failures:
 
-## Enforcement Policy
+```javascript
+function handleValidationError(validationResult, objectType, objectId) {
+  if (validationResult.valid) return;
+  
+  const errorMessage = `Validation failed for ${objectType} (${objectId}):\n` +
+    validationResult.errors.map(err => `- ${err}`).join('\n');
+  
+  console.error(errorMessage);
+  
+  // Add to error log
+  state.errors.push({
+    timestamp: new Date().toISOString(),
+    type: 'validation',
+    objectType,
+    objectId,
+    errors: validationResult.errors
+  });
+  
+  // Return formatted error
+  return {
+    status: 'error',
+    message: errorMessage,
+    details: validationResult.errors
+  };
+}
+```
 
-### Command Execution Integrity
+## Runtime API
 
-- All /commands must be explicitly declared in command-map.md
-- Routing must match entries in runtime-agent.md or plugin-registry.json
-- Unknown routes must not be executed
-- No speculative or inferred behavior allowed
+The Runtime Agent exposes the following API for other components:
 
-### Output Character Policy
+```javascript
+const RuntimeAgent = {
+  // Object management
+  getObject: (type, id) => { /* ... */ },
+  createObject: (type, data) => { /* ... */ },
+  updateObject: (type, id, data) => { /* ... */ },
+  deleteObject: (type, id) => { /* ... */ },
+  
+  // Validation
+  validateObject: (type, data) => { /* ... */ },
+  
+  // Schema conversion
+  toRuntimeSchema: (object, type) => { /* ... */ },
+  toMasterSchema: (runtimeObject, type) => { /* ... */ },
+  
+  // Reference management
+  resolveReferences: (object, referenceType) => { /* ... */ },
+  updateReferences: (objectType, objectId) => { /* ... */ }
+};
+```
 
-The following output rules must be enforced across all user-facing prompts and system responses:
+## Integration with Command Parser
 
-1. **Emoji Ban**
-   - Absolutely no emojis are allowed under any context (e.g., ✅ 🔥 📈 ⛔️ 🚀 🙏)
-   - No visual glyphs, reaction icons, or substitutes
+The Runtime Agent integrates with the Command Parser to validate and transform command outputs:
 
-2. **Decorative Unicode Blocked**
-   - Symbols used for emotional, decorative, or expressive effect are prohibited
-   - Includes all emoji-like pictograms, symbols, or characters designed for styling, branding, or flair
+```javascript
+// Example integration
+function processCommand(command, args) {
+  // Execute command logic
+  const result = CommandParser.execute(command, args);
+  
+  // Validate and transform output
+  if (result.objectType && result.data) {
+    const validationResult = RuntimeAgent.validateObject(result.objectType, result.data);
+    
+    if (!validationResult.valid) {
+      return handleValidationError(validationResult, result.objectType, result.data.id);
+    }
+    
+    // Transform to runtime schema if needed
+    if (result.needsTransform) {
+      result.data = RuntimeAgent.toRuntimeSchema(result.data, result.objectType);
+    }
+    
+    // Update state
+    return RuntimeAgent.createObject(result.objectType, result.data);
+  }
+  
+  return result;
+}
+```
 
-3. **Permitted Structural Unicode**
-   - Only the following are allowed for layout purposes:
-     - Bullets: •, ‣, ∙
-     - Smart Quotes: “ ”, ‘ ’
-     - Dashes: –, —
-     - Arrows: →, ⇒, ⇨, ➡
-     - Box Drawing: │, ━, ┼, ╭, and related frame characters
+## Implementation Notes
 
-   - These are permitted strictly for formatting and clarity — never for expression
-
-4. **ASCII Fallback Mode**
-   - When `ascii_mode` is enabled:
-     - All responses must downgrade to plain ASCII
-     - Allowed characters: -, *, ", ', ->, =>
-     - No Markdown rendering or smart quotes permitted
-
-Violations of this policy are treated as rendering faults and must be corrected before response delivery.
+1. All components that produce schema objects must use the Runtime Agent for validation
+2. The Runtime Agent automatically converts between master and runtime schemas
+3. Reference integrity is maintained throughout object lifecycle
+4. Maximum nesting depth of 3 levels is enforced for Claude compatibility

@@ -1,98 +1,146 @@
-{
-  "positions": [
-    {
-      "id": "SQQQ-20250520-001",
-      "symbol": "SQQQ",
-      "direction": "long",
-      "entry": {
-        "price": 23.915,
-        "time": "2025-05-20T11:29:00Z"
-      },
-      "risk": {
-        "stop": null
-      },
-      "targets": [],
-      "size": {
-        "initial": 500,
-        "current": 500,
-        "unit": "shares"
-      },
-      "status": "active",
-      "owner": "me",
-      "trade_type": "swing",
-      "notes": "Filled 5/20/25 at 23.915",
-      "history": [
-        {
-          "action": "created",
-          "time": "2025-05-20T11:29:00Z",
-          "details": "500 shares bought at 23.915"
-        }
-      ]
+[
+  {
+    "schemaVersion": "0.5.2",
+    "id": "pos-20250520-SQQQ-01",
+    "source": "manual",
+    "timestamp": "2025-05-20T11:29:00Z",
+    "symbol": "SQQQ",
+    "direction": "long",
+    "entry": {
+      "price": 23.915,
+      "date": "2025-05-20",
+      "shares": 500,
+      "contracts": null
     },
-    {
-      "id": "SPX-20250520-001",
-      "symbol": "SPX 22-May-25 5870P",
-      "direction": "long",
-      "entry": {
-        "price": 11.60,
-        "time": "2025-05-20T11:53:00Z"
-      },
-      "risk": {
-        "stop": null
-      },
-      "targets": [],
-      "size": {
-        "initial": 1,
-        "current": 1,
-        "unit": "contracts"
-      },
-      "status": "active",
-      "owner": "me",
-      "trade_type": "day",
-      "notes": "Filled 5/20/25 at $11.60",
-      "history": [
-        {
-          "action": "created",
-          "time": "2025-05-20T11:53:00Z",
-          "details": "1 contract bought at $11.60"
-        }
-      ]
+    "stop": null,
+    "target": 26.00,
+    "setup": "market-hedge",
+    "status": "open",
+    "exitDate": null,
+    "exitPrice": null,
+    "profit": {
+      "amount": null,
+      "percent": null,
+      "rMultiple": null
     },
-    {
-      "id": "QQQ-20250520-001",
-      "symbol": "QQQ 21-May-25 515P",
-      "direction": "long",
-      "entry": {
-        "price": 1.32,
-        "time": "2025-05-20T11:30:00Z"
-      },
-      "risk": {
-        "stop": null
-      },
-      "targets": [],
-      "size": {
-        "initial": 1,
-        "current": 1,
-        "unit": "contracts"
-      },
-      "status": "active",
-      "owner": "me",
-      "trade_type": "day",
-      "notes": "Filled 5/20/25 at $1.32",
-      "history": [
-        {
-          "action": "created",
-          "time": "2025-05-20T11:30:00Z",
-          "details": "1 contract bought at $1.32"
-        }
-      ]
+    "notes": "Filled 5/20/25 at 23.915",
+    "conviction": {
+      "level": "medium",
+      "phrases": ["market hedge"]
+    },
+    "classifications": {
+      "isBreakout": false,
+      "isReversal": false,
+      "isFlagPattern": false,
+      "isFailedBreakdown": false,
+      "isEarningsPlay": false,
+      "isDayAfterTrade": false,
+      "isTrendFollow": true,
+      "isRangePlay": false,
+      "isGapFill": false,
+      "isMomentumPlay": false
+    },
+    "isRunner": false,
+    "isCorePosition": true,
+    "origin": {
+      "sourceCommand": "/migrate-schema",
+      "createdBy": "schema-migrator"
     }
-  ],
-  "metadata": {
-    "last_updated": "2025-05-20T11:55:00Z",
-    "active_count": 3,
-    "total_positions": 3,
-    "total_risk": 0.00,
-    "daily_pnl": 0.00
+  },
+  {
+    "schemaVersion": "0.5.2",
+    "id": "pos-20250520-SPX-01",
+    "source": "manual",
+    "timestamp": "2025-05-20T11:53:00Z",
+    "symbol": "SPX",
+    "direction": "long",
+    "entry": {
+      "price": 11.60,
+      "date": "2025-05-20",
+      "shares": null,
+      "contracts": 1
+    },
+    "stop": null,
+    "target": 17.00,
+    "setup": "intraday-momentum",
+    "status": "open",
+    "exitDate": null,
+    "exitPrice": null,
+    "profit": {
+      "amount": null,
+      "percent": null,
+      "rMultiple": null
+    },
+    "notes": "Put option: 22-May-25 5870P; Filled 5/20/25 at $11.60",
+    "conviction": {
+      "level": "medium",
+      "phrases": ["intraday momentum"]
+    },
+    "classifications": {
+      "isBreakout": false,
+      "isReversal": false,
+      "isFlagPattern": false,
+      "isFailedBreakdown": false,
+      "isEarningsPlay": false,
+      "isDayAfterTrade": false,
+      "isTrendFollow": false,
+      "isRangePlay": true,
+      "isGapFill": false,
+      "isMomentumPlay": true
+    },
+    "isRunner": false,
+    "isCorePosition": false,
+    "origin": {
+      "sourceCommand": "/migrate-schema",
+      "createdBy": "schema-migrator"
+    }
+  },
+  {
+    "schemaVersion": "0.5.2",
+    "id": "pos-20250520-QQQ-01",
+    "source": "manual",
+    "timestamp": "2025-05-20T11:30:00Z",
+    "symbol": "QQQ",
+    "direction": "long",
+    "entry": {
+      "price": 1.32,
+      "date": "2025-05-20",
+      "shares": null,
+      "contracts": 1
+    },
+    "stop": null,
+    "target": 2.50,
+    "setup": "day-scalp",
+    "status": "open",
+    "exitDate": null,
+    "exitPrice": null,
+    "profit": {
+      "amount": null,
+      "percent": null,
+      "rMultiple": null
+    },
+    "notes": "Put option: 21-May-25 515P; Filled 5/20/25 at $1.32",
+    "conviction": {
+      "level": "medium",
+      "phrases": ["intraday scalp"]
+    },
+    "classifications": {
+      "isBreakout": false,
+      "isReversal": false,
+      "isFlagPattern": false,
+      "isFailedBreakdown": false,
+      "isEarningsPlay": false,
+      "isDayAfterTrade": false,
+      "isTrendFollow": false,
+      "isRangePlay": true,
+      "isGapFill": false,
+      "isMomentumPlay": true
+    },
+    "isRunner": false,
+    "isCorePosition": false,
+    "origin": {
+      "sourceCommand": "/migrate-schema",
+      "createdBy": "schema-migrator"
+    }
   }
-}
+]

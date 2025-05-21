@@ -1,146 +1,162 @@
-[
-  {
-  "id": "clean-dp-transcript",
-  "type": "preprocessor",
-  "version": "0.5.1",
-  "entryPoint": "prompts/plan/clean-dp-transcript.md",
-  "phase": "plan",
-  "dependsOn": []
+{
+  "schemaVersion": "0.5.2",
+  "plugins": [
+    {
+      "id": "dp-analyzer",
+      "name": "DP Analysis Plugin",
+      "version": "0.5.2",
+      "description": "Analyzes Derrick's Plays content for trade ideas",
+      "entryPoint": "plugins/dp-analyzer/index.js",
+      "commands": [
+        {
+          "name": "analyze-dp",
+          "description": "Analyze Derrick's Plays content",
+          "schema": {
+            "input": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "Date of the DP content (defaults to today)"
+                },
+                "content": {
+                  "type": "string",
+                  "description": "Raw DP content if not using default source"
+                }
+              }
+            },
+            "output": {
+              "type": "object",
+              "properties": {
+                "tradeIdeas": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "intent-trader-runtime-schema.json#/definitions/tradeIdea"
+                  }
+                },
+                "marketFramework": {
+                  "$ref": "intent-trader-runtime-schema.json#/definitions/marketFramework"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "permissions": ["readContent", "writeTradeIdeas", "writeMarketFramework"],
+      "dependencies": [],
+      "schemaVersion": "0.5.2"
+    },
+    {
+      "id": "trade-planner",
+      "name": "Trade Planning Plugin",
+      "version": "0.5.2",
+      "description": "Creates and manages trading plans",
+      "entryPoint": "plugins/trade-planner/index.js",
+      "commands": [
+        {
+          "name": "create-plan",
+          "description": "Create a new trading plan",
+          "schema": {
+            "input": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "Date for the plan (defaults to today)"
+                }
+              }
+            },
+            "output": {
+              "$ref": "intent-trader-runtime-schema.json#/definitions/tradePlan"
+            }
+          }
+        },
+        {
+          "name": "update-plan",
+          "description": "Update an existing trading plan",
+          "schema": {
+            "input": {
+              "type": "object",
+              "properties": {
+                "planId": {
+                  "type": "string",
+                  "description": "ID of the plan to update"
+                },
+                "fields": {
+                  "type": "object",
+                  "description": "Fields to update using runtime schema format"
+                }
+              },
+              "required": ["planId", "fields"]
+            },
+            "output": {
+              "$ref": "intent-trader-runtime-schema.json#/definitions/tradePlan"
+            }
+          }
+        }
+      ],
+      "permissions": ["readTradePlans", "writeTradePlans", "readTradeIdeas"],
+      "dependencies": [],
+      "schemaVersion": "0.5.2"
+    },
+    {
+      "id": "trade-position-manager",
+      "name": "Trade Position Manager",
+      "version": "0.5.2",
+      "description": "Manages trade positions",
+      "entryPoint": "plugins/trade-position-manager/index.js",
+      "commands": [
+        {
+          "name": "enter-position",
+          "description": "Enter a new trade position",
+          "schema": {
+            "input": {
+              "type": "object",
+              "properties": {
+                "ideaId": {
+                  "type": "string",
+                  "description": "ID of the trade idea to enter"
+                },
+                "entryPrice": {
+                  "type": "number",
+                  "description": "Entry price"
+                },
+                "shares": {
+                  "type": "number",
+                  "description": "Number of shares"
+                },
+                "contracts": {
+                  "type": "number",
+                  "description": "Number of contracts"
+                }
+              },
+              "required": ["ideaId", "entryPrice"]
+            },
+            "output": {
+              "$ref": "intent-trader-runtime-schema.json#/definitions/tradePosition"
+            }
+          }
+        }
+      ],
+      "permissions": ["readTradeIdeas", "writeTradePositions"],
+      "dependencies": [],
+      "schemaVersion": "0.5.2"
+    }
+  ],
+  "dependencies": {
+    "intent-trader-runtime-schema": "0.5.2",
+    "runtime-agent": "0.5.2",
+    "command-parser": "0.5.2"
   },
-  {
-    "id": "analyze-dp",
-    "type": "analyzer",
-    "version": "0.5.1",
-    "entryPoint": "prompts/plan/analyze-dp.md",
-    "phase": "plan",
-    "dependsOn": []
+  "schemaCompatibility": {
+    "masterSchema": "0.5.2",
+    "runtimeSchema": "0.5.2"
   },
-  {
-    "id": "summarize-mancini",
-    "type": "analyzer",
-    "version": "0.5.1",
-    "entryPoint": "prompts/plan/summarize-mancini.md",
-    "phase": "plan",
-    "dependsOn": []
-  },
-  {
-    "id": "analyze-mancini",
-    "type": "analyzer",
-    "version": "0.5.1",
-    "entryPoint": "prompts/plan/analyze-mancini.md",
-    "phase": "plan",
-    "dependsOn": ["summarize-mancini"]
-  },
-  {
-    "id": "create-plan",
-    "type": "transform",
-    "version": "0.5.1",
-    "entryPoint": "prompts/focus/create-plan.md",
-    "phase": "focus",
-    "dependsOn": []
-  },
-  {
-    "id": "extract-focus",
-    "type": "analyzer",
-    "version": "0.5.1",
-    "entryPoint": "prompts/focus/extract-focus.md",
-    "phase": "focus",
-    "dependsOn": []
-  },
-  {
-    "id": "extract-levels",
-    "type": "analyzer",
-    "version": "0.5.1",
-    "entryPoint": "prompts/focus/extract-levels.md",
-    "phase": "focus",
-    "dependsOn": []
-  },
-  {
-    "id": "size-position",
-    "type": "calculator",
-    "version": "0.5.1",
-    "entryPoint": "prompts/execute/size-position.md",
-    "phase": "execute",
-    "dependsOn": []
-  },
-  {
-    "id": "add-position",
-    "type": "action",
-    "version": "0.5.1",
-    "entryPoint": "prompts/execute/add-position.md",
-    "phase": "execute",
-    "dependsOn": []
-  },
-  {
-    "id": "update-position",
-    "type": "action",
-    "version": "0.5.1",
-    "entryPoint": "prompts/manage/update-position.md",
-    "phase": "manage",
-    "dependsOn": []
-  },
-  {
-    "id": "close-position",
-    "type": "action",
-    "version": "0.5.1",
-    "entryPoint": "prompts/manage/close-position.md",
-    "phase": "manage",
-    "dependsOn": []
-  },
-  {
-    "id": "list-positions",
-    "type": "report",
-    "version": "0.5.1",
-    "entryPoint": "prompts/manage/list-positions.md",
-    "phase": "manage",
-    "dependsOn": []
-  },
-  {
-    "id": "log-session",
-    "type": "analyzer",
-    "version": "0.5.1",
-    "entryPoint": "prompts/review/log-session.md",
-    "phase": "review",
-    "dependsOn": []
-  },
-  {
-    "id": "analyze-chart",
-    "type": "analyzer",
-    "version": "0.5.1",
-    "entryPoint": "prompts/utilities/chart-analysis.md",
-    "phase": "utilities",
-    "dependsOn": []
-  },
-  {
-    "id": "reload-active-logic",
-    "type": "system-command",
-    "version": "0.5.1",
-    "entryPoint": "prompts/system/reload-active-logic.md",
-    "phase": "system",
-    "dependsOn": ["system/runtime/command-map.md", "system/runtime/runtime-agent.md"]
-  },
-  {
-    "id": "scaffold-command",
-    "type": "system",
-    "version": "0.1.0",
-    "entryPoint": "prompts/utilities/scaffold-command.md",
-    "phase": "system",
-    "dependsOn": [
-      "system/templates/front-matter-template.md", 
-      "system/runtime/command-map.md", 
-      "system/runtime/plugin-registry.json"
-    ]
-  },
-  {
-    "id": "sync-commands",
-    "type": "system",
-    "version": "0.1.0",
-    "entryPoint": "prompts/utilities/sync-commands.md",
-    "phase": "system",
-    "dependsOn": [
-      "system/runtime/command-map.md", 
-      "system/runtime/plugin-registry.json", 
-      "docs/command-reference.md"
-    ]
+  "runtimeConstraints": {
+    "maxNestingDepth": 3,
+    "maxArrayLength": 100,
+    "maxResponseSize": 50000
   }
-]
+}

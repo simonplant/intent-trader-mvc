@@ -1,409 +1,609 @@
 {
-  "tradePlan": {
-    "date": "2025-05-15",
-    "timestamp": "2025-05-15T07:45:00Z",
-    "marketFramework": {
-      "bias": "neutral-to-bearish",
-      "biasCondition": "below 5926, bullish above",
-      "mode": "Mode 2",
-      "modeConfidence": 80,
-      "character": "Consolidation in bull flag pattern",
-      "catalysts": ["CPI data (awaiting release)", "UNH guidance suspension"]
-    },
-    "levelFramework": {
-      "indices": {
-        "es": {
-          "support": [
-            {
-              "level": 5900,
-              "type": "Major",
-              "consensus": "High",
-              "notes": "Trapped several times, key support zone"
-            },
-            {
-              "level": 5850,
-              "type": "Major",
-              "consensus": "High",
-              "notes": "Major support if 5900 fails"
-            }
-          ],
-          "resistance": [
-            {
-              "level": 5926,
-              "type": "Major",
-              "consensus": "High",
-              "notes": "Top of the bull flag pattern"
-            },
-            {
-              "level": 5945,
-              "type": "Significant",
-              "consensus": "Medium",
-              "notes": "Secondary resistance"
-            },
-            {
-              "level": 5970,
-              "type": "Target",
-              "consensus": "Medium",
-              "notes": "Measured move target if we break out"
-            }
-          ]
-        },
-        "spx": {
-          "support": [
-            {
-              "level": 5920,
-              "type": "Major",
-              "consensus": "High",
-              "notes": "Equivalent to ES 5900, key support"
-            },
-            {
-              "level": 5870,
-              "type": "Major",
-              "consensus": "High",
-              "notes": "Major support if 5920 breaks"
-            }
-          ],
-          "resistance": [
-            {
-              "level": 5946,
-              "type": "Major",
-              "consensus": "High",
-              "notes": "Top of bull flag pattern"
-            },
-            {
-              "level": 5965,
-              "type": "Significant",
-              "consensus": "Medium",
-              "notes": "Secondary resistance"
-            },
-            {
-              "level": 5990,
-              "type": "Target",
-              "consensus": "Medium",
-              "notes": "Measured move target on breakout"
-            }
-          ]
-        }
+  "schemaVersion": "0.5.2",
+  "id": "plan-20250520",
+  "source": "system",
+  "timestamp": "2025-05-20T09:00:00Z",
+  "date": "2025-05-20",
+  "marketFramework": {
+    "schemaVersion": "0.5.2",
+    "id": "framework-market-20250520",
+    "source": "system",
+    "timestamp": "2025-05-20T09:00:00Z",
+    "bias": "neutral-to-bearish",
+    "biasCondition": "below 5926, bullish above",
+    "mode": "Mode 2",
+    "modeConfidence": 80,
+    "character": "Consolidation in bull flag pattern",
+    "catalysts": ["CPI data release at 8:30 AM", "UNH guidance suspension"],
+    "keyMovers": [
+      {
+        "ticker": "UNH",
+        "direction": "down",
+        "magnitude": "strong",
+        "reason": "Guidance suspension"
       },
-      "stocks": {
-        "TSLA": {
-          "support": [
-            {
-              "level": 300,
-              "type": "Support",
-              "consensus": "Medium"
-            }
-          ],
-          "resistance": [
-            {
-              "level": 320,
-              "type": "Resistance",
-              "consensus": "Medium"
-            }
-          ],
-          "movingAverages": {
-            "ma8": 309,
-            "ma21": 300
-          }
-        },
-        "AMD": {
-          "support": [
-            {
-              "level": 112,
-              "type": "Support",
-              "consensus": "Medium"
-            }
-          ],
-          "resistance": [
-            {
-              "level": 120,
-              "type": "Resistance",
-              "consensus": "Medium"
-            }
-          ],
-          "movingAverages": {
-            "ma8": 117,
-            "ma21": 115
-          }
-        }
+      {
+        "ticker": "TSLA",
+        "direction": "up",
+        "magnitude": "moderate",
+        "reason": "Technical breakout"
       }
-    },
-    "tradeIdeas": {
-      "primary": [
-        {
-          "ticker": "TEM",
-          "direction": "long",
-          "conviction": "high",
-          "tradeType": "swing",
-          "entry": {
-            "min": 60,
-            "max": 62,
-            "condition": "current range"
+    ],
+    "origin": {
+      "sourceCommand": "/migrate-schema",
+      "createdBy": "schema-migrator"
+    }
+  },
+  "levelFramework": {
+    "schemaVersion": "0.5.2",
+    "id": "framework-level-20250520",
+    "source": "system",
+    "timestamp": "2025-05-20T09:00:00Z",
+    "indices": {
+      "es": {
+        "support": [
+          {
+            "price": 5900,
+            "notes": "Trapped several times, key support zone",
+            "type": "major",
+            "strength": "strong"
           },
-          "risk": {
-            "stop": 58,
-            "stopPercent": 6.5,
-            "riskAllocation": 1.0
+          {
+            "price": 5850,
+            "notes": "Major support if 5900 fails",
+            "type": "major",
+            "strength": "strong"
+          }
+        ],
+        "resistance": [
+          {
+            "price": 5926,
+            "notes": "Top of the bull flag pattern",
+            "type": "major",
+            "strength": "strong"
           },
-          "targets": [
-            {
-              "price": 65,
-              "percent": 5.7,
-              "exitSize": 75
-            },
-            {
-              "price": 68,
-              "percent": 9.7,
-              "exitSize": 15
-            },
-            {
-              "price": null,
-              "percent": null,
-              "exitSize": 10,
-              "trailing": true
-            }
-          ],
-          "management": "Standard 75/15/10 rule",
-          "technicalContext": "Entry zone aligned with 8-day and 10-day MAs",
-          "source": "DP focus trade"
-        },
-        {
-          "ticker": "HOOD",
-          "direction": "long",
-          "conviction": "high",
-          "tradeType": "swing",
-          "entry": {
-            "min": 56,
-            "max": 56,
-            "condition": "pullback to support"
+          {
+            "price": 5945,
+            "notes": "Secondary resistance",
+            "type": "major",
+            "strength": "moderate"
           },
-          "risk": {
-            "stop": 53,
-            "stopPercent": 5.4,
-            "riskAllocation": 0.875
-          },
-          "targets": [
-            {
-              "price": 59,
-              "percent": 5.4,
-              "exitSize": 75
-            },
-            {
-              "price": 62,
-              "percent": 10.7,
-              "exitSize": 15
-            },
-            {
-              "price": null,
-              "percent": null,
-              "exitSize": 10,
-              "trailing": true
-            }
-          ],
-          "management": "Standard 75/15/10 rule",
-          "technicalContext": "Entry aligned with 8-day MA",
-          "source": "DP existing position, looking to add"
-        }
-      ],
-      "secondary": [
-        {
-          "ticker": "BABA",
-          "direction": "short",
-          "conviction": "medium",
-          "tradeType": "day-after-trade",
-          "entry": {
-            "min": 121,
-            "max": 121,
-            "condition": "approaching 21-day MA"
-          },
-          "risk": {
-            "stop": 124,
-            "stopPercent": 2.5,
-            "riskAllocation": 0.625
-          },
-          "targets": [
-            {
-              "price": 118,
-              "percent": 2.5,
-              "exitSize": 75
-            },
-            {
-              "price": 115,
-              "percent": 5.0,
-              "exitSize": 15
-            },
-            {
-              "price": null,
-              "percent": null,
-              "exitSize": 10,
-              "trailing": true
-            }
-          ],
-          "management": "Tighter stop due to DAT volatility",
-          "technicalContext": "Post-earnings reaction trade",
-          "source": "DP DAT idea"
-        },
-        {
-          "ticker": "AMD",
-          "direction": "long",
-          "conviction": "medium",
-          "tradeType": "options",
-          "entry": {
-            "min": 115,
-            "max": 115,
-            "condition": "price around 115"
-          },
-          "risk": {
-            "stop": 112,
-            "stopPercent": 2.6,
-            "riskAllocation": 0.5
-          },
-          "targets": [
-            {
-              "price": 117.5,
-              "percent": 2.2,
-              "exitSize": 75
-            },
-            {
-              "price": 120,
-              "percent": 4.3,
-              "exitSize": 15
-            },
-            {
-              "price": null,
-              "percent": null,
-              "exitSize": 10,
-              "trailing": true
-            }
-          ],
-          "management": "Consider time decay in management",
-          "technicalContext": "Entry near 21-day MA (115), 8-day MA at 117",
-          "source": "DP options idea"
-        }
-      ],
-      "watchlist": [
-        {
-          "ticker": "CRWV",
-          "direction": "long",
-          "conviction": "medium",
-          "tradeType": "swing",
-          "entry": {
-            "condition": "Pullback opportunity after earnings"
-          },
-          "source": "DP viable setup on pullback"
-        },
-        {
-          "ticker": "TSLA",
-          "direction": "long",
-          "conviction": "low",
-          "tradeType": "pullback",
-          "entry": {
-            "min": 309,
-            "max": 309,
-            "condition": "Pullback to 8-day MA around 309"
-          },
-          "risk": {
-            "stop": 305
-          },
-          "targets": [
-            {
-              "price": 315
-            }
-          ],
-          "notes": "Avoid chasing, only enter at specified level",
-          "source": "DP low conviction idea"
-        }
-      ]
-    },
-    "scenarioPlanning": {
-      "primaryScenario": {
-        "description": "Continued Consolidation",
-        "probability": 60,
-        "trigger": "Failed breakouts/breakdowns at range extremes",
-        "outcome": "Multiple tests of range boundaries with eventual resolution",
-        "response": [
-          "Focus on range extremes for reversal trades",
-          "Prioritize TEM and HOOD as non-index trades",
-          "Use smaller position sizes due to Mode 2 conditions",
-          "Take partial profits quickly on index-related trades"
+          {
+            "price": 5970,
+            "notes": "Measured move target if we break out",
+            "type": "key",
+            "strength": "moderate"
+          }
         ]
       },
-      "alternativeScenarios": [
-        {
-          "name": "Bear Case",
-          "description": "Break Below 5900",
-          "probability": 25,
-          "trigger": "Decisive break below 5900 with follow-through",
-          "outcome": "Test of 5850 major support level",
-          "response": [
-            "Add to BABA short position on confirmation",
-            "Reduce size or exit TEM and HOOD longs",
-            "Look for short entries on index tests of 5900 from below",
-            "Adjust daily risk budget down to 0.75%"
+      "spx": {
+        "support": [
+          {
+            "price": 5920,
+            "notes": "Equivalent to ES 5900, key support",
+            "type": "major",
+            "strength": "strong"
+          },
+          {
+            "price": 5870,
+            "notes": "Major support if 5920 breaks",
+            "type": "major",
+            "strength": "strong"
+          }
+        ],
+        "resistance": [
+          {
+            "price": 5946,
+            "notes": "Top of bull flag pattern",
+            "type": "major",
+            "strength": "strong"
+          },
+          {
+            "price": 5965,
+            "notes": "Secondary resistance",
+            "type": "key",
+            "strength": "moderate"
+          },
+          {
+            "price": 5990,
+            "notes": "Measured move target on breakout",
+            "type": "key",
+            "strength": "moderate"
+          }
+        ]
+      }
+    },
+    "stocks": [
+      {
+        "ticker": "TSLA",
+        "levels": {
+          "support": [
+            {
+              "price": 300,
+              "notes": "Key psychological level",
+              "type": "major",
+              "strength": "moderate"
+            }
+          ],
+          "resistance": [
+            {
+              "price": 320,
+              "notes": "Recent swing high",
+              "type": "major",
+              "strength": "moderate"
+            }
           ]
         },
-        {
-          "name": "Bull Case",
-          "description": "Breakout Above 5926",
-          "probability": 15,
-          "trigger": "Strong volume breakout above 5926 with acceptance",
-          "outcome": "Measured move toward 5970 target",
-          "response": [
-            "Hold TEM and HOOD longs with wider targets",
-            "Exit or avoid BABA short",
-            "Look for entries in AMD on strength",
-            "Consider adding to longs on successful retest of 5926"
-          ]
+        "movingAverages": {
+          "ma8": 309,
+          "ma21": 300
         }
-      ]
-    },
-    "riskManagement": {
-      "dailyRiskBudget": {
-        "percent": 1.0,
-        "amount": 1000
       },
-      "allocations": [
-        {
-          "ticker": "TEM",
-          "maxRiskAmount": 400,
-          "maxRiskPercent": 0.4
+      {
+        "ticker": "AMD",
+        "levels": {
+          "support": [
+            {
+              "price": 112,
+              "notes": "Recent consolidation low",
+              "type": "major",
+              "strength": "moderate"
+            }
+          ],
+          "resistance": [
+            {
+              "price": 120,
+              "notes": "Recent swing high",
+              "type": "major",
+              "strength": "moderate"
+            }
+          ]
         },
-        {
-          "ticker": "HOOD",
-          "maxRiskAmount": 300,
-          "maxRiskPercent": 0.3
-        },
-        {
-          "ticker": "BABA",
-          "maxRiskAmount": 200,
-          "maxRiskPercent": 0.2
-        },
-        {
-          "ticker": "AMD",
-          "maxRiskAmount": 100,
-          "maxRiskPercent": 0.1
+        "movingAverages": {
+          "ma8": 117,
+          "ma21": 115
         }
-      ],
-      "reserve": 0
-    },
-    "managementProtocol": {
-      "standard": [
-        "Exit 75% of position at first target (T1)",
-        "Move stop to breakeven after T1 is reached",
-        "Exit 15% of position at second target (T2)",
-        "Trail stop for remaining 10% runner portion"
-      ],
-      "modeAdjustments": [
-        "Consider taking profits more aggressively (80/20/0 split)",
-        "Use tighter trailing stops for runners",
-        "Be cautious with breakout trades",
-        "Be prepared for false breaks at range extremes"
-      ]
-    },
-    "metadata": {
-      "accountSize": 100000,
-      "generatedFrom": "DP morning call analysis",
-      "generationTimestamp": "2025-05-15T07:45:00Z"
+      }
+    ],
+    "zones": [],
+    "keyDecisionPoint": 5926,
+    "origin": {
+      "sourceCommand": "/migrate-schema",
+      "createdBy": "schema-migrator"
     }
+  },
+  "tradeIdeas": [
+    {
+      "schemaVersion": "0.5.2",
+      "id": "idea-plan-20250520-TEM-01",
+      "source": "dp",
+      "timestamp": "2025-05-20T09:00:00Z",
+      "symbol": "TEM",
+      "direction": "long",
+      "conviction": {
+        "level": "high",
+        "phrases": ["high conviction"]
+      },
+      "entryParameters": {
+        "zone": {
+          "min": 60,
+          "max": 62
+        },
+        "condition": "current range",
+        "strategy": "limit"
+      },
+      "exitParameters": {
+        "stopLoss": 58,
+        "target": 65,
+        "strategy": "Standard 75/15/10 rule",
+        "trimLevels": [
+          {
+            "price": 65,
+            "percentage": 75
+          },
+          {
+            "price": 68,
+            "percentage": 15
+          }
+        ]
+      },
+      "rationale": "Entry zone aligned with 8-day and 10-day MAs",
+      "tradeDuration": "swing",
+      "setup": "continuation",
+      "status": "active",
+      "confirmationStatus": "confirmed",
+      "classifications": {
+        "isBreakout": false,
+        "isReversal": false,
+        "isFlagPattern": false,
+        "isFailedBreakdown": false,
+        "isEarningsPlay": false,
+        "isDayAfterTrade": false,
+        "isTrendFollow": true,
+        "isRangePlay": false,
+        "isGapFill": false,
+        "isMomentumPlay": true
+      },
+      "positionSizing": {
+        "recommendation": "full",
+        "reasoning": "High conviction focus trade"
+      },
+      "risk": {
+        "plannedRMultiple": 2.5
+      },
+      "priority": 1,
+      "category": "primary",
+      "isFavorite": true,
+      "origin": {
+        "sourceCommand": "/migrate-schema",
+        "createdBy": "schema-migrator"
+      }
+    },
+    {
+      "schemaVersion": "0.5.2",
+      "id": "idea-plan-20250520-HOOD-01",
+      "source": "dp",
+      "timestamp": "2025-05-20T09:00:00Z",
+      "symbol": "HOOD",
+      "direction": "long",
+      "conviction": {
+        "level": "high",
+        "phrases": ["high conviction"]
+      },
+      "entryParameters": {
+        "zone": {
+          "min": 56,
+          "max": 56
+        },
+        "condition": "pullback to support",
+        "strategy": "limit"
+      },
+      "exitParameters": {
+        "stopLoss": 53,
+        "target": 59,
+        "strategy": "Standard 75/15/10 rule",
+        "trimLevels": [
+          {
+            "price": 59,
+            "percentage": 75
+          },
+          {
+            "price": 62,
+            "percentage": 15
+          }
+        ]
+      },
+      "rationale": "Entry aligned with 8-day MA",
+      "tradeDuration": "swing",
+      "setup": "pullback-entry",
+      "status": "active",
+      "confirmationStatus": "unconfirmed",
+      "classifications": {
+        "isBreakout": false,
+        "isReversal": false,
+        "isFlagPattern": false,
+        "isFailedBreakdown": false,
+        "isEarningsPlay": false,
+        "isDayAfterTrade": false,
+        "isTrendFollow": true,
+        "isRangePlay": false,
+        "isGapFill": false,
+        "isMomentumPlay": false
+      },
+      "positionSizing": {
+        "recommendation": "half",
+        "reasoning": "High conviction but slightly higher risk profile"
+      },
+      "risk": {
+        "plannedRMultiple": 2.0
+      },
+      "priority": 1,
+      "category": "primary",
+      "isFavorite": true,
+      "origin": {
+        "sourceCommand": "/migrate-schema",
+        "createdBy": "schema-migrator"
+      }
+    },
+    {
+      "schemaVersion": "0.5.2",
+      "id": "idea-plan-20250520-BABA-01",
+      "source": "dp",
+      "timestamp": "2025-05-20T09:00:00Z",
+      "symbol": "BABA",
+      "direction": "short",
+      "conviction": {
+        "level": "medium",
+        "phrases": ["medium conviction"]
+      },
+      "entryParameters": {
+        "zone": {
+          "min": 121,
+          "max": 121
+        },
+        "condition": "approaching 21-day MA",
+        "strategy": "limit"
+      },
+      "exitParameters": {
+        "stopLoss": 124,
+        "target": 118,
+        "strategy": "Tighter stop due to DAT volatility",
+        "trimLevels": [
+          {
+            "price": 118,
+            "percentage": 75
+          },
+          {
+            "price": 115,
+            "percentage": 15
+          }
+        ]
+      },
+      "rationale": "Post-earnings reaction trade",
+      "tradeDuration": "day",
+      "setup": "day-after-earnings",
+      "status": "active",
+      "confirmationStatus": "unconfirmed",
+      "classifications": {
+        "isBreakout": false,
+        "isReversal": false,
+        "isFlagPattern": false,
+        "isFailedBreakdown": false,
+        "isEarningsPlay": true,
+        "isDayAfterTrade": true,
+        "isTrendFollow": false,
+        "isRangePlay": false,
+        "isGapFill": false,
+        "isMomentumPlay": false
+      },
+      "positionSizing": {
+        "recommendation": "third",
+        "reasoning": "Medium conviction with higher volatility"
+      },
+      "risk": {
+        "plannedRMultiple": 1.6
+      },
+      "priority": 2,
+      "category": "secondary",
+      "isFavorite": false,
+      "origin": {
+        "sourceCommand": "/migrate-schema",
+        "createdBy": "schema-migrator"
+      }
+    },
+    {
+      "schemaVersion": "0.5.2",
+      "id": "idea-plan-20250520-AMD-01",
+      "source": "dp",
+      "timestamp": "2025-05-20T09:00:00Z",
+      "symbol": "AMD",
+      "direction": "long",
+      "conviction": {
+        "level": "medium",
+        "phrases": ["medium conviction"]
+      },
+      "entryParameters": {
+        "zone": {
+          "min": 115,
+          "max": 115
+        },
+        "condition": "price around 115",
+        "strategy": "limit"
+      },
+      "exitParameters": {
+        "stopLoss": 112,
+        "target": 117.5,
+        "strategy": "Consider time decay in management",
+        "trimLevels": [
+          {
+            "price": 117.5,
+            "percentage": 75
+          },
+          {
+            "price": 120,
+            "percentage": 15
+          }
+        ]
+      },
+      "rationale": "Entry near 21-day MA (115), 8-day MA at 117",
+      "tradeDuration": "day",
+      "setup": "ma-bounce",
+      "status": "active",
+      "confirmationStatus": "unconfirmed",
+      "classifications": {
+        "isBreakout": false,
+        "isReversal": true,
+        "isFlagPattern": false,
+        "isFailedBreakdown": false,
+        "isEarningsPlay": false,
+        "isDayAfterTrade": false,
+        "isTrendFollow": false,
+        "isRangePlay": true,
+        "isGapFill": false,
+        "isMomentumPlay": false
+      },
+      "positionSizing": {
+        "recommendation": "quarter",
+        "reasoning": "Medium conviction range play"
+      },
+      "risk": {
+        "plannedRMultiple": 1.8
+      },
+      "priority": 2,
+      "category": "secondary",
+      "isFavorite": false,
+      "origin": {
+        "sourceCommand": "/migrate-schema",
+        "createdBy": "schema-migrator"
+      }
+    },
+    {
+      "schemaVersion": "0.5.2",
+      "id": "idea-plan-20250520-CRWD-01",
+      "source": "dp",
+      "timestamp": "2025-05-20T09:00:00Z",
+      "symbol": "CRWD",
+      "direction": "long",
+      "conviction": {
+        "level": "medium",
+        "phrases": ["medium conviction"]
+      },
+      "entryParameters": {
+        "zone": {
+          "min": null,
+          "max": null
+        },
+        "condition": "Pullback opportunity after earnings",
+        "strategy": "limit"
+      },
+      "exitParameters": {
+        "stopLoss": null,
+        "target": null,
+        "strategy": "",
+        "trimLevels": []
+      },
+      "rationale": "Viable setup on pullback",
+      "tradeDuration": "swing",
+      "setup": "earnings-related",
+      "status": "pending",
+      "confirmationStatus": "unconfirmed",
+      "classifications": {
+        "isBreakout": false,
+        "isReversal": false,
+        "isFlagPattern": false,
+        "isFailedBreakdown": false,
+        "isEarningsPlay": true,
+        "isDayAfterTrade": false,
+        "isTrendFollow": false,
+        "isRangePlay": false,
+        "isGapFill": false,
+        "isMomentumPlay": false
+      },
+      "positionSizing": {
+        "recommendation": "quarter",
+        "reasoning": "Speculative earnings-related play"
+      },
+      "risk": {
+        "plannedRMultiple": null
+      },
+      "priority": 3,
+      "category": "watchlist",
+      "isFavorite": false,
+      "origin": {
+        "sourceCommand": "/migrate-schema",
+        "createdBy": "schema-migrator"
+      }
+    },
+    {
+      "schemaVersion": "0.5.2",
+      "id": "idea-plan-20250520-TSLA-01",
+      "source": "dp",
+      "timestamp": "2025-05-20T09:00:00Z",
+      "symbol": "TSLA",
+      "direction": "long",
+      "conviction": {
+        "level": "low",
+        "phrases": ["low conviction"]
+      },
+      "entryParameters": {
+        "zone": {
+          "min": 309,
+          "max": 309
+        },
+        "condition": "Pullback to 8-day MA around 309",
+        "strategy": "limit"
+      },
+      "exitParameters": {
+        "stopLoss": 305,
+        "target": 315,
+        "strategy": "",
+        "trimLevels": [
+          {
+            "price": 315,
+            "percentage": 100
+          }
+        ]
+      },
+      "rationale": "Avoid chasing, only enter at specified level",
+      "tradeDuration": "day",
+      "setup": "pullback",
+      "status": "pending",
+      "confirmationStatus": "unconfirmed",
+      "classifications": {
+        "isBreakout": false,
+        "isReversal": true,
+        "isFlagPattern": false,
+        "isFailedBreakdown": false,
+        "isEarningsPlay": false,
+        "isDayAfterTrade": false,
+        "isTrendFollow": false,
+        "isRangePlay": false,
+        "isGapFill": false,
+        "isMomentumPlay": false
+      },
+      "positionSizing": {
+        "recommendation": "small",
+        "reasoning": "Low conviction pullback play"
+      },
+      "risk": {
+        "plannedRMultiple": 1.5
+      },
+      "priority": 3,
+      "category": "watchlist",
+      "isFavorite": false,
+      "origin": {
+        "sourceCommand": "/migrate-schema",
+        "createdBy": "schema-migrator"
+      }
+    }
+  ],
+  "scenarioPlanning": [
+    {
+      "type": "neutral",
+      "conviction": "high",
+      "trigger": "Failed breakouts/breakdowns at range extremes",
+      "targets": [],
+      "stop": null,
+      "risk_reward": null,
+      "probability": 60,
+      "description": "Continued Consolidation: Multiple tests of range boundaries with eventual resolution"
+    },
+    {
+      "type": "short",
+      "conviction": "medium",
+      "trigger": "Decisive break below 5900 with follow-through",
+      "targets": [5850],
+      "stop": 5926,
+      "risk_reward": 1.4,
+      "probability": 25,
+      "description": "Bear Case: Test of 5850 major support level"
+    },
+    {
+      "type": "long",
+      "conviction": "low",
+      "trigger": "Strong volume breakout above 5926 with acceptance",
+      "targets": [5970],
+      "stop": 5900,
+      "risk_reward": 1.7,
+      "probability": 15,
+      "description": "Bull Case: Measured move toward 5970 target"
+    }
+  ],
+  "riskManagement": {
+    "accountSize": 100000,
+    "maxRiskPercent": 1.0,
+    "dailyRiskAmount": 1000,
+    "positionSizing": "Risk 0.5% on primary setups, 0.25% on secondary",
+    "stopPlacement": "Place stops below key support for longs, above key resistance for shorts",
+    "trailStrategy": "Trail to breakeven after first target reached, trail with ATR for runners"
+  },
+  "metadata": {
+    "generatedFrom": ["dp-analysis-20250520", "mancini-analysis-20250520"],
+    "generationTimestamp": "2025-05-20T09:00:00Z",
+    "updatedTimestamp": "2025-05-20T09:00:00Z"
+  },
+  "origin": {
+    "sourceCommand": "/migrate-schema",
+    "createdBy": "schema-migrator"
   }
 }
