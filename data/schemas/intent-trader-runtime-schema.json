@@ -1,161 +1,933 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Intent Trader Runtime Schema (Flattened)",
-  "description": "Simplified schema for runtime LLM agents like Claude (max depth: 3)",
+  "title": "Intent Trader Runtime Schema",
+  "description": "Runtime-optimized schema for Intent Trader v0.5.2 with limited nesting depth for Claude compatibility",
   "version": "0.5.2",
-  "type": "object",
-  "properties": {
-    "id": {
-      "type": "string",
-      "description": "Globally unique identifier for this object",
-      "pattern": "^[a-zA-Z0-9-_]+$"
+  "definitions": {
+    "baseObject": {
+      "type": "object",
+      "description": "Base object that all other schema objects inherit from",
+      "required": ["schemaVersion", "id", "source", "timestamp"],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "description": "Schema version for validation",
+          "enum": ["0.5.2"]
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this object"
+        },
+        "source": {
+          "type": "string",
+          "description": "Source system or origin",
+          "enum": ["manual", "dp", "mancini", "vtf", "moderator", "system", "claude"]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp in ISO 8601 format"
+        },
+        "origin": {
+          "type": "object",
+          "description": "Lineage information for this object",
+          "properties": {
+            "sourceCommand": {
+              "type": "string",
+              "description": "Command that created this object"
+            },
+            "createdBy": {
+              "type": "string", 
+              "description": "Component that created this object"
+            },
+            "planId": {
+              "type": "string",
+              "description": "ID of originating plan if applicable"
+            },
+            "ideaId": {
+              "type": "string",
+              "description": "ID of originating idea if applicable"
+            }
+          }
+        }
+      }
     },
-    "symbol": {
-      "type": "string",
-      "description": "The ticker symbol for this trade"
+
+    "tradeIdea": {
+      "type": "object",
+      "description": "Trading idea with setup, conviction, and parameters",
+      "required": ["schemaVersion", "id", "source", "timestamp", "symbol", "direction", "conviction"],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "description": "Schema version",
+          "enum": ["0.5.2"]
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique identifier"
+        },
+        "source": {
+          "type": "string",
+          "description": "Source system",
+          "enum": ["manual", "dp", "mancini", "vtf", "moderator", "system", "claude"]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        },
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol"
+        },
+        "direction": {
+          "type": "string",
+          "description": "Trade direction",
+          "enum": ["long", "short"]
+        },
+        "conviction": {
+          "type": "object",
+          "description": "Conviction level",
+          "required": ["level"],
+          "properties": {
+            "level": {
+              "type": "string",
+              "description": "Conviction level",
+              "enum": ["focus-trade", "high", "medium", "low", "negative"]
+            },
+            "phrases": {
+              "type": "array",
+              "description": "Conviction phrases",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "entryParameters": {
+          "type": "object",
+          "description": "Entry parameters",
+          "properties": {
+            "zone": {
+              "type": "object",
+              "description": "Entry price zone",
+              "properties": {
+                "min": {
+                  "type": "number",
+                  "description": "Minimum entry price"
+                },
+                "max": {
+                  "type": "number",
+                  "description": "Maximum entry price"
+                }
+              }
+            },
+            "condition": {
+              "type": "string",
+              "description": "Entry condition"
+            },
+            "strategy": {
+              "type": "string",
+              "description": "Entry strategy",
+              "enum": ["market", "limit", "scaled", "test-position", "all-in"]
+            }
+          }
+        },
+        "exitParameters": {
+          "type": "object",
+          "description": "Exit parameters",
+          "properties": {
+            "stopLoss": {
+              "type": "number",
+              "description": "Stop loss price"
+            },
+            "target": {
+              "type": "number",
+              "description": "Target price"
+            },
+            "strategy": {
+              "type": "string",
+              "description": "Exit strategy"
+            },
+            "trimLevels": {
+              "type": "array",
+              "description": "Trim levels",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "price": {
+                    "type": "number",
+                    "description": "Trim price"
+                  },
+                  "percentage": {
+                    "type": "number",
+                    "description": "Trim percentage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Trade rationale"
+        },
+        "tradeDuration": {
+          "type": "string",
+          "description": "Trade duration",
+          "enum": ["cashflow", "day", "swing", "position", "long-term"]
+        },
+        "setup": {
+          "type": "string",
+          "description": "Trade setup"
+        },
+        "status": {
+          "type": "string",
+          "description": "Idea status",
+          "enum": ["active", "pending", "triggered", "invalidated", "completed"]
+        },
+        "confirmationStatus": {
+          "type": "string",
+          "description": "Confirmation status",
+          "enum": ["unconfirmed", "confirmed", "rejected", "modified"]
+        },
+        "isBreakout": {
+          "type": "boolean",
+          "description": "Breakout pattern"
+        },
+        "isReversal": {
+          "type": "boolean",
+          "description": "Reversal pattern"
+        },
+        "isFlagPattern": {
+          "type": "boolean",
+          "description": "Flag pattern"
+        },
+        "isFailedBreakdown": {
+          "type": "boolean",
+          "description": "Failed breakdown pattern"
+        },
+        "isEarningsPlay": {
+          "type": "boolean",
+          "description": "Earnings-related trade"
+        },
+        "isDayAfterTrade": {
+          "type": "boolean",
+          "description": "Day after earnings trade"
+        },
+        "isTrendFollow": {
+          "type": "boolean",
+          "description": "Trend following trade"
+        },
+        "isRangePlay": {
+          "type": "boolean",
+          "description": "Range-bound trade"
+        },
+        "isGapFill": {
+          "type": "boolean",
+          "description": "Gap fill trade"
+        },
+        "isMomentumPlay": {
+          "type": "boolean",
+          "description": "Momentum trade"
+        },
+        "positionSizing": {
+          "type": "string",
+          "description": "Position sizing recommendation",
+          "enum": ["full", "half", "third", "quarter", "small", "speculative"]
+        },
+        "sizingRationale": {
+          "type": "string",
+          "description": "Rationale for position sizing"
+        },
+        "plannedRMultiple": {
+          "type": "number",
+          "description": "Planned risk-reward"
+        },
+        "priority": {
+          "type": "number",
+          "description": "Priority ranking"
+        },
+        "category": {
+          "type": "string",
+          "description": "Idea category",
+          "enum": ["primary", "secondary", "watchlist"]
+        },
+        "frequency": {
+          "type": "number",
+          "description": "Pattern frequency"
+        },
+        "isFavorite": {
+          "type": "boolean",
+          "description": "Favorite status"
+        },
+        "originCommand": {
+          "type": "string",
+          "description": "Original command"
+        },
+        "createdBy": {
+          "type": "string",
+          "description": "Creating component"
+        }
+      }
     },
-    "direction": {
-      "type": "string",
-      "enum": [
-        "long",
-        "short"
-      ],
-      "description": "Trade direction"
+
+    "tradePosition": {
+      "type": "object",
+      "description": "Trading position with entry, exit, and status",
+      "required": ["schemaVersion", "id", "source", "timestamp", "symbol", "direction", "entry"],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "description": "Schema version",
+          "enum": ["0.5.2"]
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique identifier"
+        },
+        "source": {
+          "type": "string",
+          "description": "Source system",
+          "enum": ["manual", "dp", "mancini", "vtf", "moderator", "system", "claude"]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        },
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol"
+        },
+        "direction": {
+          "type": "string",
+          "description": "Trade direction",
+          "enum": ["long", "short"]
+        },
+        "entryPrice": {
+          "type": "number",
+          "description": "Entry price"
+        },
+        "entryDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Entry date"
+        },
+        "shares": {
+          "type": "number",
+          "description": "Number of shares"
+        },
+        "contracts": {
+          "type": "number",
+          "description": "Number of contracts"
+        },
+        "stop": {
+          "type": "number",
+          "description": "Stop loss price"
+        },
+        "target": {
+          "type": "number",
+          "description": "Target price"
+        },
+        "setup": {
+          "type": "string",
+          "description": "Trade setup"
+        },
+        "status": {
+          "type": "string",
+          "description": "Position status",
+          "enum": ["open", "closed", "partial", "stopped", "target"]
+        },
+        "exitDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Exit date"
+        },
+        "exitPrice": {
+          "type": "number",
+          "description": "Exit price"
+        },
+        "profitAmount": {
+          "type": "number",
+          "description": "Profit amount"
+        },
+        "profitPercent": {
+          "type": "number",
+          "description": "Profit percentage"
+        },
+        "rMultiple": {
+          "type": "number",
+          "description": "R-multiple gain/loss"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Position notes"
+        },
+        "convictionLevel": {
+          "type": "string",
+          "description": "Conviction level",
+          "enum": ["focus-trade", "high", "medium", "low", "negative"]
+        },
+        "isBreakout": {
+          "type": "boolean",
+          "description": "Breakout pattern"
+        },
+        "isReversal": {
+          "type": "boolean",
+          "description": "Reversal pattern"
+        },
+        "isFlagPattern": {
+          "type": "boolean",
+          "description": "Flag pattern"
+        },
+        "isFailedBreakdown": {
+          "type": "boolean",
+          "description": "Failed breakdown pattern"
+        },
+        "isEarningsPlay": {
+          "type": "boolean",
+          "description": "Earnings-related trade"
+        },
+        "isDayAfterTrade": {
+          "type": "boolean",
+          "description": "Day after earnings trade"
+        },
+        "isTrendFollow": {
+          "type": "boolean",
+          "description": "Trend following trade"
+        },
+        "isRangePlay": {
+          "type": "boolean",
+          "description": "Range-bound trade"
+        },
+        "isGapFill": {
+          "type": "boolean",
+          "description": "Gap fill trade"
+        },
+        "isMomentumPlay": {
+          "type": "boolean",
+          "description": "Momentum trade"
+        },
+        "isRunner": {
+          "type": "boolean",
+          "description": "Runner position status"
+        },
+        "isCorePosition": {
+          "type": "boolean",
+          "description": "Core position status"
+        },
+        "originCommand": {
+          "type": "string",
+          "description": "Original command"
+        },
+        "createdBy": {
+          "type": "string",
+          "description": "Creating component"
+        },
+        "ideaId": {
+          "type": "string",
+          "description": "Original trade idea ID"
+        }
+      }
     },
-    "entryMin": {
-      "type": "number",
-      "description": "Minimum entry price",
-      "minimum": 0
+
+    "marketFramework": {
+      "type": "object",
+      "description": "Market analysis framework",
+      "required": ["schemaVersion", "id", "source", "timestamp"],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "description": "Schema version",
+          "enum": ["0.5.2"]
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique identifier"
+        },
+        "source": {
+          "type": "string",
+          "description": "Source system",
+          "enum": ["manual", "dp", "mancini", "vtf", "moderator", "system", "claude"]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        },
+        "bias": {
+          "type": "string",
+          "description": "Market bias",
+          "enum": ["bullish", "bearish", "neutral", "neutral-to-bullish", "neutral-to-bearish"]
+        },
+        "biasCondition": {
+          "type": "string",
+          "description": "Bias conditions"
+        },
+        "mode": {
+          "type": "string",
+          "description": "Market mode",
+          "enum": ["Mode 1", "Mode 2", "auto"]
+        },
+        "modeConfidence": {
+          "type": "number",
+          "description": "Mode confidence"
+        },
+        "character": {
+          "type": "string",
+          "description": "Market character"
+        },
+        "catalysts": {
+          "type": "array",
+          "description": "Market catalysts",
+          "items": {
+            "type": "string"
+          }
+        },
+        "keyMovers": {
+          "type": "array",
+          "description": "Key movers",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ticker": {
+                "type": "string",
+                "description": "Ticker symbol"
+              },
+              "direction": {
+                "type": "string",
+                "description": "Movement direction"
+              },
+              "magnitude": {
+                "type": "string",
+                "description": "Movement magnitude"
+              },
+              "reason": {
+                "type": "string",
+                "description": "Movement reason"
+              }
+            }
+          }
+        }
+      }
     },
-    "entryMax": {
-      "type": "number",
-      "description": "Maximum entry price",
-      "minimum": 0
+
+    "levelFramework": {
+      "type": "object",
+      "description": "Price level framework",
+      "required": ["schemaVersion", "id", "source", "timestamp"],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "description": "Schema version",
+          "enum": ["0.5.2"]
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique identifier"
+        },
+        "source": {
+          "type": "string",
+          "description": "Source system",
+          "enum": ["manual", "dp", "mancini", "vtf", "moderator", "system", "claude"]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        },
+        "indices": {
+          "type": "object",
+          "description": "Index levels",
+          "properties": {
+            "es": {
+              "type": "object",
+              "description": "ES futures levels",
+              "properties": {
+                "support": {
+                  "type": "array",
+                  "description": "Support levels",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "price": {
+                        "type": "number",
+                        "description": "Level price"
+                      },
+                      "notes": {
+                        "type": "string",
+                        "description": "Level notes"
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "Level type",
+                        "enum": ["major", "minor", "psychological", "key", "vwap", "pivot"]
+                      },
+                      "strength": {
+                        "type": "string",
+                        "description": "Level strength",
+                        "enum": ["strong", "moderate", "weak"]
+                      }
+                    }
+                  }
+                },
+                "resistance": {
+                  "type": "array",
+                  "description": "Resistance levels",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "price": {
+                        "type": "number",
+                        "description": "Level price"
+                      },
+                      "notes": {
+                        "type": "string",
+                        "description": "Level notes"
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "Level type",
+                        "enum": ["major", "minor", "psychological", "key", "vwap", "pivot"]
+                      },
+                      "strength": {
+                        "type": "string",
+                        "description": "Level strength",
+                        "enum": ["strong", "moderate", "weak"]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "spx": {
+              "type": "object",
+              "description": "SPX index levels",
+              "properties": {
+                "support": {
+                  "type": "array",
+                  "description": "Support levels",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "price": {
+                        "type": "number",
+                        "description": "Level price"
+                      },
+                      "notes": {
+                        "type": "string",
+                        "description": "Level notes"
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "Level type",
+                        "enum": ["major", "minor", "psychological", "key", "vwap", "pivot"]
+                      },
+                      "strength": {
+                        "type": "string",
+                        "description": "Level strength",
+                        "enum": ["strong", "moderate", "weak"]
+                      }
+                    }
+                  }
+                },
+                "resistance": {
+                  "type": "array",
+                  "description": "Resistance levels",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "price": {
+                        "type": "number",
+                        "description": "Level price"
+                      },
+                      "notes": {
+                        "type": "string",
+                        "description": "Level notes"
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "Level type",
+                        "enum": ["major", "minor", "psychological", "key", "vwap", "pivot"]
+                      },
+                      "strength": {
+                        "type": "string",
+                        "description": "Level strength",
+                        "enum": ["strong", "moderate", "weak"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "stocks": {
+          "type": "array",
+          "description": "Stock levels",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ticker": {
+                "type": "string",
+                "description": "Ticker symbol"
+              },
+              "support": {
+                "type": "array",
+                "description": "Support levels",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "price": {
+                      "type": "number",
+                      "description": "Level price"
+                    },
+                    "notes": {
+                      "type": "string",
+                      "description": "Level notes"
+                    }
+                  }
+                }
+              },
+              "resistance": {
+                "type": "array",
+                "description": "Resistance levels",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "price": {
+                      "type": "number",
+                      "description": "Level price"
+                    },
+                    "notes": {
+                      "type": "string",
+                      "description": "Level notes"
+                    }
+                  }
+                }
+              },
+              "ma8": {
+                "type": "number",
+                "description": "8-day moving average"
+              },
+              "ma21": {
+                "type": "number",
+                "description": "21-day moving average"
+              }
+            }
+          }
+        },
+        "zones": {
+          "type": "array",
+          "description": "Price zones",
+          "items": {
+            "type": "object",
+            "properties": {
+              "min": {
+                "type": "number",
+                "description": "Zone minimum"
+              },
+              "max": {
+                "type": "number",
+                "description": "Zone maximum"
+              },
+              "notes": {
+                "type": "string",
+                "description": "Zone notes"
+              },
+              "type": {
+                "type": "string",
+                "description": "Zone type",
+                "enum": ["entry", "profit", "stop", "decision", "consolidation"]
+              }
+            }
+          }
+        },
+        "keyDecisionPoint": {
+          "type": "number",
+          "description": "Key decision price point"
+        }
+      }
     },
-    "stop": {
-      "type": "number",
-      "description": "Stop loss price level",
-      "minimum": 0
-    },
-    "target": {
-      "type": "number",
-      "description": "Price target",
-      "minimum": 0
-    },
-    "conviction": {
-      "type": "string",
-      "enum": [
-        "focus-trade",
-        "high",
-        "medium",
-        "low",
-        "negative"
-      ],
-      "description": "Conviction level for the trade idea"
-    },
-    "confidenceScore": {
-      "type": "number",
-      "minimum": 0,
-      "maximum": 1,
-      "description": "Numerical confidence score (0-1)"
-    },
-    "setup": {
-      "type": "string",
-      "description": "The trade setup type"
-    },
-    "tradeDuration": {
-      "type": "string",
-      "enum": [
-        "cashflow",
-        "day",
-        "swing",
-        "position",
-        "long-term"
-      ],
-      "description": "Expected trade duration"
-    },
-    "isBreakout": {
-      "type": "boolean",
-      "description": "Price breaking above resistance",
-      "default": false
-    },
-    "isReversal": {
-      "type": "boolean",
-      "description": "Change in trend direction",
-      "default": false
-    },
-    "isFlagPattern": {
-      "type": "boolean",
-      "description": "Bullish or bearish flag pattern",
-      "default": false
-    },
-    "isFailedBreakdown": {
-      "type": "boolean",
-      "description": "Failed breakdown below support with reclaim",
-      "default": false
-    },
-    "isDayAfterTrade": {
-      "type": "boolean",
-      "description": "Day after major event or earnings",
-      "default": false
-    },
-    "isTrendFollow": {
-      "type": "boolean",
-      "description": "Trading in direction of established trend",
-      "default": false
-    },
-    "isRangePlay": {
-      "type": "boolean",
-      "description": "Trading within a defined range",
-      "default": false
-    },
-    "isMomentumPlay": {
-      "type": "boolean",
-      "description": "Trading based on price momentum",
-      "default": false
-    },
-    "isEarningsPlay": {
-      "type": "boolean",
-      "description": "Trade based on earnings announcement",
-      "default": false
-    },
-    "isGapFill": {
-      "type": "boolean",
-      "description": "Trade targeting gap fill",
-      "default": false
-    },
-    "source": {
-      "type": "string",
-      "description": "The source that created this object",
-      "enum": [
-        "manual",
-        "dp",
-        "mancini",
-        "vtf",
-        "moderator",
-        "system",
-        "claude"
-      ]
-    },
-    "timestamp": {
-      "type": "string",
-      "format": "date-time",
-      "description": "The ISO timestamp when this object was created"
+
+    "tradePlan": {
+      "type": "object",
+      "description": "Trading plan",
+      "required": ["schemaVersion", "id", "source", "timestamp", "date"],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "description": "Schema version",
+          "enum": ["0.5.2"]
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique identifier"
+        },
+        "source": {
+          "type": "string",
+          "description": "Source system",
+          "enum": ["manual", "dp", "mancini", "vtf", "moderator", "system", "claude"]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "Plan date"
+        },
+        "bias": {
+          "type": "string",
+          "description": "Market bias",
+          "enum": ["bullish", "bearish", "neutral", "neutral-to-bullish", "neutral-to-bearish"]
+        },
+        "biasCondition": {
+          "type": "string",
+          "description": "Bias conditions"
+        },
+        "mode": {
+          "type": "string",
+          "description": "Market mode",
+          "enum": ["Mode 1", "Mode 2", "auto"]
+        },
+        "modeConfidence": {
+          "type": "number",
+          "description": "Mode confidence"
+        },
+        "marketCharacter": {
+          "type": "string",
+          "description": "Market character"
+        },
+        "catalysts": {
+          "type": "array",
+          "description": "Market catalysts",
+          "items": {
+            "type": "string"
+          }
+        },
+        "keyLevels": {
+          "type": "array",
+          "description": "Key price levels",
+          "items": {
+            "type": "object",
+            "properties": {
+              "price": {
+                "type": "number",
+                "description": "Level price"
+              },
+              "notes": {
+                "type": "string",
+                "description": "Level notes"
+              },
+              "type": {
+                "type": "string",
+                "description": "Level type"
+              }
+            }
+          }
+        },
+        "keyDecisionPoint": {
+          "type": "number",
+          "description": "Key decision price"
+        },
+        "tradeIdeas": {
+          "type": "array",
+          "description": "Trade ideas",
+          "items": {
+            "$ref": "#/definitions/tradeIdea"
+          }
+        },
+        "scenarios": {
+          "type": "array",
+          "description": "Scenario plans",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Scenario type",
+                "enum": ["long", "short", "neutral"]
+              },
+              "conviction": {
+                "type": "string",
+                "description": "Conviction level",
+                "enum": ["high", "medium", "low"]
+              },
+              "trigger": {
+                "type": "string",
+                "description": "Scenario trigger"
+              },
+              "targets": {
+                "type": "array",
+                "description": "Price targets",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "stop": {
+                "type": "number",
+                "description": "Stop loss"
+              },
+              "riskReward": {
+                "type": "number",
+                "description": "Risk-reward ratio"
+              },
+              "probability": {
+                "type": "number",
+                "description": "Probability percentage"
+              },
+              "description": {
+                "type": "string",
+                "description": "Scenario description"
+              }
+            }
+          }
+        },
+        "accountSize": {
+          "type": "number",
+          "description": "Account size"
+        },
+        "maxRiskPercent": {
+          "type": "number",
+          "description": "Max risk percentage"
+        },
+        "dailyRiskAmount": {
+          "type": "number",
+          "description": "Daily risk amount"
+        },
+        "positionSizingStrategy": {
+          "type": "string",
+          "description": "Position sizing strategy"
+        },
+        "stopPlacementStrategy": {
+          "type": "string",
+          "description": "Stop placement strategy"
+        },
+        "trailStrategy": {
+          "type": "string",
+          "description": "Trailing stop strategy"
+        },
+        "generatedFrom": {
+          "type": "array",
+          "description": "Source objects",
+          "items": {
+            "type": "string"
+          }
+        },
+        "originCommand": {
+          "type": "string",
+          "description": "Original command"
+        },
+        "createdBy": {
+          "type": "string",
+          "description": "Creating component"
+        }
+      }
     }
-  },
-  "required": [
-    "symbol",
-    "direction",
-    "entryMin",
-    "entryMax",
-    "stop",
-    "target"
-  ],
-  "$id": "https://schemas.intenttrader.ai/schema/runtime/v0.5.2",
-  "$comment": "Flattened runtime schema for use with LLM agents (Claude-compatible)",
-  "schemaMetadata": {
-    "authoringVersion": "0.5.2",
-    "runtimeCompatible": true,
-    "generatedDate": "2025-05-20T08:42:15Z"
   }
 }
