@@ -32,8 +32,12 @@ Parse and load if present:
 
 - `README.md`
 - `INSTALL.md`
-- `state/session-manifest.json`
-- Any additional `.md` or `.json` files in root or `/state/`
+- `system/state/session-manifest.json`
+- `system/state/moderator-positions.json`
+- `system/state/my-positions.json`
+- `system/state/trade-plan-state.json`
+- `system/state/transaction-log.json`
+- Any additional `.md` or `.json` files in root or `system/state/` folders
 
 ### Step 2 — Core System Markdown
 
