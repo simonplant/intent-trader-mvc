@@ -3,7 +3,7 @@ id: entrypoint
 title: Intent Trader EntryPoint
 description: System bootstrap loader for full runtime activation
 author: Intent Trader Team
-version: 0.4.1
+version: 0.4.2
 release: 0.5.2
 created: 2025-05-19
 updated: 2025-05-21
@@ -28,6 +28,11 @@ input_format: json
 output_format: markdown
 ai_enabled: false
 ---
+
+```python
+app_config = load_config("app")
+runtime_config = load_config("runtime")
+```
 
 # Intent Trader EntryPoint
 
@@ -70,24 +75,20 @@ This file executes system initialization and binds the runtime environment for I
 }
 ```
 
-# Global Runtime Bootstrap Logic
+## Global Runtime Bootstrap Logic
 
-## Load the canonical config file
+### Load the canonical config file
 
 ```python
 with open(os.path.join(BASE_PATH, "config", "app.json")) as f:
 app_config = json.load(f)
-
-# # Extract runtime root path
-
 RUNTIME_ROOT = os.path.normpath(os.path.join(BASE_PATH, app_config["runtime_root"]))
 ```
 
-⸻
+## System Status Report
 
-✅ System Status Report
+### Component Status
 
-Component Status
 Runtime Routing: [status]
 Commands Loaded: [status]
 Session State: [status]
@@ -96,9 +97,7 @@ Audit Logging: [status]
 Emoji Enforcement: [status]
 Runtime Root: [RUNTIME_ROOT]
 
-⸻
-
-Cognitive Phases
+## Cognitive Phases
 
 Phase Commands Group Purpose
 Plan plan/_ Build trade ideas
@@ -107,9 +106,7 @@ Execute execute/_ Enter/manage trades
 Review review/_ Log performance
 Utilities utilities/\* Diagnostics, cleanup
 
-⸻
-
-Final Instruction
+## Final Instruction
 
 Intent Trader is now initialized and ready to process commands via runtime-agent.md.
 

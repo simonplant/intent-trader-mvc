@@ -1,6 +1,9 @@
 .
 ├── Archive.zip
 ├── changelog.md
+├── config
+│   ├── app.json
+│   └── features.json
 ├── docs
 │   ├── architecture
 │   │   ├── requirements.md
@@ -109,6 +112,8 @@
 │   │   ├── front-matter-template.md
 │   │   ├── trade-idea-template.json
 │   │   └── trade-plan-template.json
+│   ├── utils
+│   │   └── load-config.md
 │   └── workflow
 ├── tree.txt
 └── wip
@@ -163,4 +168,4 @@
         ├── worker-prompt-nlp.md
         └── worker-prompt-testing.md
 
-31 directories, 133 files
+33 directories, 136 files
