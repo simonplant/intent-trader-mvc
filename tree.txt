@@ -1,10 +1,10 @@
 .
+├── Archive.zip
 ├── changelog.md
 ├── docs
 │   ├── architecture
 │   │   ├── requirements.md
 │   │   └── system-architecture.md
-│   ├── command-reference.md
 │   ├── domain-model.md
 │   ├── mancini-analysis-guide.md
 │   ├── mancini-trading-style.md
@@ -16,6 +16,7 @@
 │   │   └── plan-v0.5.4.md
 │   ├── public-chat-app-container-issues.md
 │   └── runtime
+│       ├── command-reference.md
 │       ├── command-routes-update-sop.md
 │       └── command-scaffold-template.md
 ├── INSTALL.md
@@ -66,6 +67,7 @@
 │       ├── code-review-prompt.md
 │       ├── reload-active-logic.md
 │       ├── scaffold-command.md
+│       ├── status.md
 │       └── sync-commands.md
 ├── README.md
 ├── system
@@ -76,7 +78,6 @@
 │   │   ├── plugin-dispatcher.js
 │   │   ├── plugin-registry.json
 │   │   ├── runtime-agent.md
-│   │   ├── status.md
 │   │   └── validator.md
 │   ├── schemas
 │   │   ├── intent-trader-master-schema.json
@@ -108,7 +109,6 @@
 │   │   ├── front-matter-template.md
 │   │   ├── trade-idea-template.json
 │   │   └── trade-plan-template.json
-│   ├── utilities
 │   └── workflow
 ├── tree.txt
 └── wip
@@ -163,4 +163,4 @@
         ├── worker-prompt-nlp.md
         └── worker-prompt-testing.md
 
-32 directories, 132 files
+31 directories, 133 files

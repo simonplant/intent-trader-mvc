@@ -10,7 +10,17 @@ updated: 2025-05-20
 category: system
 status: stable
 tags: [sync, validator, scaffolding, integrity]
-requires: [system/runtime/command-map.md, system/runtime/plugin-registry.json, system/runtime/validator.md]
+requires:
+  [
+    docs/runtime/command-reference.md,
+    system/runtime/command-map.md,
+    system/commands.md,
+    system/runtime/plugin-registry.json,
+    system/runtime/validator.md,
+    system/runtime/runtime-agent.md,
+    INSTALL.md,
+    README.md,
+  ]
 outputs: [logs/sync-drift.json]
 input_format: command
 output_format: json
@@ -31,9 +41,17 @@ ai_enabled: true
 
 ## Drift Detection Criteria
 
-A command is considered out-of-sync if:
-- It appears in `command-map.md` but not in `plugin-registry.json`
-- It has no entry in `validator.md`
+The master of commands is the `command-map.md` file, everything should align to this first.
+A command is considered out-of-sync if it appears in `command-map.md` but not correctly integrated in:
+
+- `command-map.md`
+- `Commands.md`
+- `command-reference.md`
+- `plugin-registry.json`
+- `validator.md`
+- `runtime-agent.md`
+- `INSTALL.md`
+- `README.md`
 - It lacks a prompt implementation file in `prompts/{phase}/{command-name}.md`
 
 ---
@@ -41,14 +59,22 @@ A command is considered out-of-sync if:
 ## Fix Mode Behavior (`--fix`)
 
 When run in fix mode:
+
 1. Identifies all commands with missing components
 2. Uses `command-map.md` as source of truth
 3. Runs `/scaffold-command` behind the scenes
 4. Generates:
+
+   - Command Map updates
+   - Commands.md documentation
+   - Command Reference documentation update
    - Plugin registry patch
-   - Validator patch
-   - Prompt template (if missing)
-   - Entry stubs for `command-reference.md`, `commands.md`, and `release-notes.md`
+   - Validator patch to
+   - Runtime Agent patch
+   - Install file
+   - The root README.md
+   - Prompt template(s) (if missing)
+
 5. Writes these to:
    - `logs/sync-drift.json` (preview)
    - Optionally inserts patches if `--apply` is passed
@@ -116,3 +142,4 @@ Example:
 /sync-commands --fix --apply    # Apply all safe patches automatically
 
 This allows teams to sync drifted systems quickly while preserving manual control.
+```
