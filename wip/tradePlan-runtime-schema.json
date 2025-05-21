@@ -1,0 +1,210 @@
+{
+  "tradePlan": {
+    "type": "object",
+    "description": "Trading plan with flattened structure for runtime optimization",
+    "required": ["schemaVersion", "id", "source", "timestamp", "date", "bias", "marketFrameworkId", "levelFrameworkId"],
+    "properties": {
+      "schemaVersion": {
+        "type": "string",
+        "description": "Schema version for validation",
+        "enum": ["0.5.2"]
+      },
+      "id": {
+        "type": "string",
+        "description": "Unique identifier for this plan",
+        "pattern": "^plan-[0-9]{8}$",
+        "examples": ["plan-20250520"]
+      },
+      "source": {
+        "type": "string",
+        "description": "Source system or origin",
+        "enum": ["manual", "dp", "mancini", "vtf", "moderator", "system", "claude"]
+      },
+      "timestamp": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Creation timestamp in ISO 8601 format"
+      },
+      "date": {
+        "type": "string",
+        "format": "date",
+        "description": "Date for this trading plan",
+        "examples": ["2025-05-20"]
+      },
+      
+      // Top-level market framework fields
+      "bias": {
+        "type": "string",
+        "description": "Overall market bias",
+        "enum": ["bullish", "bearish", "neutral", "neutral-to-bullish", "neutral-to-bearish"]
+      },
+      "biasCondition": {
+        "type": "string",
+        "description": "Conditions that define the bias",
+        "examples": ["bullish above 5926, bearish below 5880"]
+      },
+      "mode": {
+        "type": "string",
+        "description": "Market mode",
+        "enum": ["Mode 1", "Mode 2", "auto"]
+      },
+      "modeConfidence": {
+        "type": "number",
+        "description": "Confidence in the mode assessment",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "marketCharacter": {
+        "type": "string", 
+        "description": "Market character or behavior"
+      },
+      
+      // Top-level level framework fields
+      "keyDecisionPoint": {
+        "type": "number",
+        "description": "Key price level for decision making"
+      },
+      
+      // Framework references
+      "marketFrameworkId": {
+        "type": "string",
+        "description": "ID of the related market framework object"
+      },
+      "levelFrameworkId": {
+        "type": "string",
+        "description": "ID of the related level framework object"
+      },
+      
+      // Trade ideas as references or simplified objects
+      "tradeIdeaIds": {
+        "type": "array",
+        "description": "IDs of related trade idea objects",
+        "items": {
+          "type": "string"
+        }
+      },
+      "primaryIdeas": {
+        "type": "array",
+        "description": "Simplified primary trade ideas for quick access",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Trade idea ID"
+            },
+            "symbol": {
+              "type": "string",
+              "description": "Ticker symbol"
+            },
+            "direction": {
+              "type": "string",
+              "description": "Trade direction",
+              "enum": ["long", "short"]
+            },
+            "convictionLevel": {
+              "type": "string",
+              "description": "Conviction level",
+              "enum": ["focus-trade", "high", "medium", "low", "negative"]
+            },
+            "setup": {
+              "type": "string",
+              "description": "Trading setup type"
+            }
+          }
+        }
+      },
+      
+      // Scenario planning (flattened)
+      "scenarios": {
+        "type": "array",
+        "description": "Scenario plans",
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Scenario type",
+              "enum": ["long", "short", "neutral"]
+            },
+            "conviction": {
+              "type": "string",
+              "description": "Conviction in this scenario",
+              "enum": ["high", "medium", "low"]
+            },
+            "trigger": {
+              "type": "string",
+              "description": "Trigger for this scenario"
+            },
+            "targets": {
+              "type": "array",
+              "description": "Price targets for this scenario",
+              "items": {
+                "type": "number"
+              }
+            },
+            "stop": {
+              "type": "number",
+              "description": "Stop loss for this scenario"
+            },
+            "riskReward": {
+              "type": "number",
+              "description": "Risk-reward ratio"
+            },
+            "probability": {
+              "type": "number",
+              "description": "Probability of scenario in percent"
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of this scenario"
+            }
+          }
+        }
+      },
+      
+      // Risk management (flattened)
+      "accountSize": {
+        "type": "number",
+        "description": "Account size in dollars"
+      },
+      "maxRiskPercent": {
+        "type": "number",
+        "description": "Maximum risk percentage per trade"
+      },
+      "dailyRiskAmount": {
+        "type": "number",
+        "description": "Maximum daily risk in dollars"
+      },
+      "positionSizingStrategy": {
+        "type": "string",
+        "description": "Position sizing strategy"
+      },
+      "stopPlacementStrategy": {
+        "type": "string",
+        "description": "Stop placement strategy"
+      },
+      "trailStrategy": {
+        "type": "string",
+        "description": "Trailing stop strategy"
+      },
+      
+      // Metadata (flattened)
+      "generatedFrom": {
+        "type": "array",
+        "description": "Source objects used to generate this plan",
+        "items": {
+          "type": "string"
+        }
+      },
+      "originCommand": {
+        "type": "string",
+        "description": "Command that created this object"
+      },
+      "createdBy": {
+        "type": "string",
+        "description": "Component that created this object"
+      }
+    }
+  }
+}

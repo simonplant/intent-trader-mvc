@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "0.5.2",
+  "id": "session-20250520",
+  "source": "system",
+  "timestamp": "2025-05-20T16:30:00Z",
+  "date": "2025-05-20",
+  "entries": [
+    {
+      "timestamp": "2025-05-20T08:45:00Z",
+      "text": "Market opened in consolidation pattern. Watching 5926 as key level.",
+      "type": "market"
+    },
+    {
+      "timestamp": "2025-05-20T09:15:00Z",
+      "text": "CPI data came in below expectations. ES moving higher.",
+      "type": "market"
+    },
+    {
+      "timestamp": "2025-05-20T09:30:00Z",
+      "text": "ES broke above 5926 with volume. Preparing to enter ES long.",
+      "type": "note"
+    },
+    {
+      "timestamp": "2025-05-20T09:45:00Z",
+      "text": "Entered ES long at 5930, stop at 5905, target 5970.",
+      "type": "trade",
+      "relatedId": "pos-20250520-ES-01"
+    },
+    {
+      "timestamp": "2025-05-20T10:15:00Z",
+      "text": "AAPL breaking out of flag pattern. Entered long at 212.75.",
+      "type": "trade",
+      "relatedId": "pos-20250520-AAPL-01"
+    },
+    {
+      "timestamp": "2025-05-20T11:30:00Z",
+      "text": "ES reaching first target at 5945. Trailing stop to breakeven.",
+      "type": "trade",
+      "relatedId": "pos-20250520-ES-01"
+    },
+    {
+      "timestamp": "2025-05-20T12:45:00Z",
+      "text": "AAPL continuing higher with strong momentum.",
+      "type": "note"
+    },
+    {
+      "timestamp": "2025-05-20T14:30:00Z",
+      "text": "ES hit target at 5970. Exited position for +40 points.",
+      "type": "trade",
+      "relatedId": "pos-20250520-ES-01"
+    },
+    {
+      "timestamp": "2025-05-20T15:45:00Z",
+      "text": "AAPL reached 218.50. Trimmed 50% of position per plan.",
+      "type": "trade",
+      "relatedId": "pos-20250520-AAPL-01"
+    },
+    {
+      "timestamp": "2025-05-20T16:00:00Z",
+      "text": "Market showing late-day strength. Holding remaining AAPL position overnight.",
+      "type": "plan"
+    }
+  ],
+  "summary": {
+    "profit": 1650.25,
+    "trades": 2,
+    "winRate": 100,
+    "keyLessons": [
+      "Plan execution was effective with precise entries",
+      "Trailing stops worked well in trending conditions",
+      "Scaling out partial positions preserved gains while capturing further upside"
+    ]
+  },
+  "planId": "plan-20250520",
+  "marketState": "Bullish trend day with steady buying after positive CPI data",
+  "origin": {
+    "sourceCommand": "/log-session",
+    "createdBy": "session-logger"
+  }
+}
