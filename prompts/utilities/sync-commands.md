@@ -12,12 +12,12 @@ status: stable
 tags: [sync, validator, scaffolding, integrity]
 requires:
   [
-    docs/runtime/command-reference.md,
     system/runtime/command-map.md,
     system/commands.md,
+    docs/runtime/command-reference.md,
     system/runtime/plugin-registry.json,
-    system/runtime/validator.md,
     system/runtime/runtime-agent.md,
+    system/runtime/validator.md,
     INSTALL.md,
     README.md,
   ]
@@ -44,12 +44,11 @@ ai_enabled: true
 The master of commands is the `command-map.md` file, everything should align to this first.
 A command is considered out-of-sync if it appears in `command-map.md` but not correctly integrated in:
 
-- `command-map.md`
 - `Commands.md`
 - `command-reference.md`
 - `plugin-registry.json`
-- `validator.md`
 - `runtime-agent.md`
+- `validator.md`
 - `INSTALL.md`
 - `README.md`
 - It lacks a prompt implementation file in `prompts/{phase}/{command-name}.md`
@@ -63,17 +62,16 @@ When run in fix mode:
 1. Identifies all commands with missing components
 2. Uses `command-map.md` as source of truth
 3. Runs `/scaffold-command` behind the scenes
-4. Generates:
+4. Generates updates to:
 
-   - Command Map updates
-   - Commands.md documentation
-   - Command Reference documentation update
-   - Plugin registry patch
-   - Validator patch to
-   - Runtime Agent patch
-   - Install file
-   - The root README.md
-   - Prompt template(s) (if missing)
+- `Commands.md`
+- `command-reference.md`
+- `plugin-registry.json`
+- `runtime-agent.md`
+- `validator.md`
+- `INSTALL.md`
+- `README.md`
+- Prompt implementations (ONLY if missing)
 
 5. Writes these to:
    - `logs/sync-drift.json` (preview)
