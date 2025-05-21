@@ -1,0 +1,444 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Intent Trader Runtime Schema",
+  "version": "0.5.2",
+  
+  "definitions": {
+    "baseObject": {
+      "type": "object",
+      "required": ["schemaVersion", "id", "source", "timestamp"],
+      "properties": {
+        "schemaVersion": { "type": "string" },
+        "id": { 
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9-_]+$"
+        },
+        "source": {
+          "type": "string",
+          "enum": ["manual", "dp", "mancini", "vtf", "moderator", "system", "claude"]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "origin": {
+          "type": "object",
+          "properties": {
+            "planId": { "type": "string" },
+            "ideaId": { "type": "string" },
+            "createdBy": { "type": "string" },
+            "sourceCommand": { "type": "string" }
+          }
+        }
+      }
+    },
+    
+    "price": { "type": "number", "minimum": 0 },
+    
+    "priceLevel": {
+      "type": "object",
+      "required": ["price"],
+      "properties": {
+        "price": { "$ref": "#/definitions/price" },
+        "type": {
+          "type": "string",
+          "enum": ["major", "minor", "psychological", "key", "vwap", "pivot"]
+        },
+        "strength": {
+          "type": "string",
+          "enum": ["strong", "moderate", "weak"]
+        }
+      }
+    },
+    
+    "priceZone": {
+      "type": "object",
+      "required": ["min", "max"],
+      "properties": {
+        "min": { "$ref": "#/definitions/price" },
+        "max": { "$ref": "#/definitions/price" },
+        "type": {
+          "type": "string",
+          "enum": ["entry", "profit", "stop", "decision", "consolidation"]
+        }
+      }
+    },
+    
+    "trimLevel": {
+      "type": "object",
+      "required": ["price", "percentage"],
+      "properties": {
+        "price": { "$ref": "#/definitions/price" },
+        "percentage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "executed": { "type": "boolean", "default": false },
+        "executionTimestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    
+    "tradedInstrument": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["stock", "option", "future", "etf", "crypto"]
+        },
+        "underlying": { "type": "string" },
+        "expiryDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "strike": { "type": "number" },
+        "optionType": {
+          "type": "string",
+          "enum": ["call", "put"]
+        },
+        "contractSize": { "type": "number" }
+      }
+    }
+  },
+  
+  "type": "object",
+  "oneOf": [
+    { "$ref": "#/tradePosition" },
+    { "$ref": "#/tradeIdea" },
+    { "$ref": "#/tradePlan" },
+    { "$ref": "#/tradeLog" },
+    { "$ref": "#/sessionLog" },
+    { "$ref": "#/conversationContext" }
+  ],
+  
+  "tradePosition": {
+    "type": "object",
+    "allOf": [{ "$ref": "#/definitions/baseObject" }],
+    "required": ["symbol", "direction", "entry", "status"],
+    "properties": {
+      "symbol": { "type": "string" },
+      "direction": {
+        "type": "string",
+        "enum": ["long", "short"]
+      },
+      "entry": {
+        "type": "object",
+        "required": ["price", "date"],
+        "properties": {
+          "price": { "$ref": "#/definitions/price" },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "shares": { "type": "number", "minimum": 0 },
+          "contracts": { "type": "number", "minimum": 0 }
+        }
+      },
+      "executionTimestamp": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "fillStatus": {
+        "type": "string",
+        "enum": ["pending", "partial", "filled", "cancelled", "rejected"]
+      },
+      "stop": { "$ref": "#/definitions/price" },
+      "initialStop": { "$ref": "#/definitions/price" },
+      "target": { "$ref": "#/definitions/price" },
+      "tradedInstrument": { "$ref": "#/definitions/tradedInstrument" },
+      "trimLevels": {
+        "type": "array",
+        "items": { "$ref": "#/definitions/trimLevel" }
+      },
+      "risk": {
+        "type": "object",
+        "properties": {
+          "percent": { "type": "number", "minimum": 0, "maximum": 100 },
+          "amount": { "type": "number", "minimum": 0 },
+          "plannedRMultiple": { "type": "number", "minimum": 0 },
+          "realizedRMultiple": { "type": "number", "minimum": 0 }
+        }
+      },
+      "status": {
+        "type": "string",
+        "enum": ["pending", "open", "closed", "cancelled", "partial"]
+      },
+      "setup": { "type": "string" },
+      "exitDate": {
+        "type": "string",
+        "format": "date"
+      },
+      "exitPrice": { "$ref": "#/definitions/price" },
+      "profit": {
+        "type": "object",
+        "properties": {
+          "amount": { "type": "number" },
+          "percent": { "type": "number" },
+          "rMultiple": { "type": "number" }
+        }
+      },
+      "convictionLevel": {
+        "type": "string",
+        "enum": ["focus-trade", "high", "medium", "low", "negative"]
+      },
+      "isRunner": { "type": "boolean", "default": false },
+      "isCorePosition": { "type": "boolean", "default": false },
+      "isBreakout": { "type": "boolean", "default": false },
+      "isReversal": { "type": "boolean", "default": false },
+      "isFlagPattern": { "type": "boolean", "default": false },
+      "isFailedBreakdown": { "type": "boolean", "default": false },
+      "isEarningsPlay": { "type": "boolean", "default": false },
+      "isDayAfterTrade": { "type": "boolean", "default": false },
+      "isTrendFollow": { "type": "boolean", "default": false },
+      "isRangePlay": { "type": "boolean", "default": false },
+      "isGapFill": { "type": "boolean", "default": false },
+      "isMomentumPlay": { "type": "boolean", "default": false }
+    }
+  },
+  
+  "tradeIdea": {
+    "type": "object",
+    "allOf": [{ "$ref": "#/definitions/baseObject" }],
+    "required": ["symbol", "direction"],
+    "properties": {
+      "symbol": { "type": "string" },
+      "direction": {
+        "type": "string",
+        "enum": ["long", "short"]
+      },
+      "convictionLevel": {
+        "type": "string",
+        "enum": ["focus-trade", "high", "medium", "low", "negative"]
+      },
+      "confidenceScore": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "entryMin": { "$ref": "#/definitions/price" },
+      "entryMax": { "$ref": "#/definitions/price" },
+      "entryCondition": { "type": "string" },
+      "stopLoss": { "$ref": "#/definitions/price" },
+      "target": { "$ref": "#/definitions/price" },
+      "tradedInstrument": { "$ref": "#/definitions/tradedInstrument" },
+      "tradeDuration": {
+        "type": "string",
+        "enum": ["cashflow", "day", "swing", "position", "long-term"]
+      },
+      "setup": { "type": "string" },
+      "status": {
+        "type": "string",
+        "enum": ["active", "executed", "invalidated", "expired"]
+      },
+      "confirmationStatus": {
+        "type": "string",
+        "enum": ["unconfirmed", "confirmed", "rejected", "modified"]
+      },
+      "priority": { "type": "number", "minimum": 0 },
+      "isFavorite": { "type": "boolean", "default": false },
+      "isBreakout": { "type": "boolean", "default": false },
+      "isReversal": { "type": "boolean", "default": false },
+      "isFlagPattern": { "type": "boolean", "default": false },
+      "isFailedBreakdown": { "type": "boolean", "default": false },
+      "isEarningsPlay": { "type": "boolean", "default": false },
+      "isDayAfterTrade": { "type": "boolean", "default": false },
+      "isTrendFollow": { "type": "boolean", "default": false },
+      "isRangePlay": { "type": "boolean", "default": false },
+      "isGapFill": { "type": "boolean", "default": false },
+      "isMomentumPlay": { "type": "boolean", "default": false },
+      "sizingRecommendation": {
+        "type": "string",
+        "enum": ["full", "half", "third", "quarter", "small", "speculative"]
+      },
+      "relatedIdeas": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "expiration": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "visualKey": { "type": "string" }
+    }
+  },
+  
+  "tradePlan": {
+    "type": "object",
+    "allOf": [{ "$ref": "#/definitions/baseObject" }],
+    "required": ["date", "marketFramework"],
+    "properties": {
+      "date": {
+        "type": "string",
+        "format": "date"
+      },
+      "marketFramework": {
+        "type": "object",
+        "required": ["bias", "mode"],
+        "properties": {
+          "bias": {
+            "type": "string",
+            "enum": ["bullish", "bearish", "neutral", "neutral-to-bullish", "neutral-to-bearish"]
+          },
+          "biasCondition": { "type": "string" },
+          "mode": {
+            "type": "string",
+            "enum": ["Mode 1", "Mode 2"]
+          },
+          "modeConfidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "character": { "type": "string" },
+          "catalysts": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      },
+      "confirmationStatus": {
+        "type": "string",
+        "enum": ["unconfirmed", "confirmed", "rejected", "modified"]
+      },
+      "indices": {
+        "type": "object",
+        "patternProperties": {
+          "^[a-zA-Z0-9]+$": {
+            "type": "object",
+            "properties": {
+              "support": {
+                "type": "array",
+                "items": { "$ref": "#/definitions/priceLevel" }
+              },
+              "resistance": {
+                "type": "array",
+                "items": { "$ref": "#/definitions/priceLevel" }
+              },
+              "keyDecisionPoint": { "$ref": "#/definitions/price" }
+            }
+          }
+        }
+      },
+      "stocks": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["ticker"],
+          "properties": {
+            "ticker": { "type": "string" },
+            "support": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/priceLevel" }
+            },
+            "resistance": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/priceLevel" }
+            },
+            "movingAverages": {
+              "type": "object",
+              "patternProperties": {
+                "^ma[0-9]+$": { "$ref": "#/definitions/price" }
+              }
+            }
+          }
+        }
+      },
+      "tradeIdeas": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["ticker", "direction", "convictionLevel", "category"],
+          "properties": {
+            "ticker": { "type": "string" },
+            "direction": {
+              "type": "string",
+              "enum": ["long", "short"]
+            },
+            "convictionLevel": {
+              "type": "string",
+              "enum": ["focus-trade", "high", "medium", "low", "negative"]
+            },
+            "category": {
+              "type": "string",
+              "enum": ["primary", "secondary", "watchlist"]
+            },
+            "ideaId": { "type": "string" },
+            "entryMin": { "$ref": "#/definitions/price" },
+            "entryMax": { "$ref": "#/definitions/price" },
+            "entryCondition": { "type": "string" },
+            "stop": { "$ref": "#/definitions/price" },
+            "targets": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/price" }
+            },
+            "setup": { "type": "string" }
+          }
+        }
+      },
+      "scenarios": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["type", "trigger"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["long", "short", "neutral"]
+            },
+            "conviction": {
+              "type": "string",
+              "enum": ["high", "medium", "low"]
+            },
+            "trigger": { "type": "string" },
+            "targets": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/price" }
+            },
+            "stop": { "$ref": "#/definitions/price" },
+            "riskReward": { "type": "number", "minimum": 0 },
+            "probability": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        }
+      },
+      "riskManagement": {
+        "type": "object",
+        "properties": {
+          "accountSize": { "type": "number", "minimum": 0 },
+          "maxRiskPercent": { "type": "number", "minimum": 0, "maximum": 100 },
+          "dailyRiskAmount": { "type": "number", "minimum": 0 }
+        }
+      }
+    }
+  },
+  
+  "tradeLog": {
+    "type": "object",
+    "allOf": [{ "$ref": "#/definitions/baseObject" }],
+    "required": ["positionId", "action"],
+    "properties": {
+      "positionId": { "type": "string" },
+      "action": {
+        "type": "string",
+        "enum": ["entry", "exit", "add", "trim", "stop-adjust", "target-adjust", "cancel"]
+      },
+      "executionTimestamp": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "price": { "$ref": "#/definitions/price" },
+      "shares": { "type": "number", "minimum": 0 },
+      "contracts": { "type": "number", "minimum": 0 },
+      "reasonType": {
+        "type": "string",
+        "enum": ["technical", "fundamental", "risk-management", "planned", "discretionary", "error"]
+      },
+      "reasonCategory": {
+        "type": "string",
+        "enum": ["profit-target", "stop-loss", "trailing-stop", "signal-reversal", "time-exit", "risk-adjustment",

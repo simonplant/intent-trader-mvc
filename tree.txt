@@ -1,6 +1,5 @@
 .
 ├── changelog.md
-├── config
 ├── data
 │   └── domain-model.md
 ├── docs
@@ -89,5 +88,9 @@
 ├── tests
 ├── tree.txt
 └── wip
+    ├── intent-trader-schema.old.json
+    ├── intent-trader.schema.runtime.json
+    ├── master-schema.json
+    └── runtime-schema-incomplete.json
 
-23 directories, 68 files
+22 directories, 72 files
