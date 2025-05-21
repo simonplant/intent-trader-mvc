@@ -68,32 +68,44 @@ This file executes system initialization and binds the runtime environment for I
   },
   "status": "Runtime initialized. Commands loaded. Session manifest valid. Awaiting your next instruction."
 }
+```
 
+# Global Runtime Bootstrap Logic
+
+## Load the canonical config file
+
+```python
+with open(os.path.join(BASE_PATH, "config", "app.json")) as f:
+app_config = json.load(f)
+
+# # Extract runtime root path
+
+RUNTIME_ROOT = os.path.normpath(os.path.join(BASE_PATH, app_config["runtime_root"]))
+```
 
 ⸻
 
 ✅ System Status Report
 
-Component	Status
-Runtime Routing	✅ Bound
-Commands Loaded	✅ Loaded
-Session State	✅ Valid
-Plugin Support	✅ Active
-Audit Logging	✅ Enabled
-Emoji Enforcement	✅ Enforced
-
+Component Status
+Runtime Routing: [status]
+Commands Loaded: [status]
+Session State: [status]
+Plugin Support: [status]
+Audit Logging: [status]
+Emoji Enforcement: [status]
+Runtime Root: [RUNTIME_ROOT]
 
 ⸻
 
 Cognitive Phases
 
-Phase	Commands Group	Purpose
-Plan	plan/*	Build trade ideas
-Focus	focus/*	Prioritize entries
-Execute	execute/*	Enter/manage trades
-Review	review/*	Log performance
-Utilities	utilities/*	Diagnostics, cleanup
-
+Phase Commands Group Purpose
+Plan plan/_ Build trade ideas
+Focus focus/_ Prioritize entries
+Execute execute/_ Enter/manage trades
+Review review/_ Log performance
+Utilities utilities/\* Diagnostics, cleanup
 
 ⸻
 
@@ -102,7 +114,6 @@ Final Instruction
 Intent Trader is now initialized and ready to process commands via runtime-agent.md.
 
 To test:
-	•	Run /list-commands
-	•	Check logs/trade-log.json for activity
-	•	Confirm session-manifest.json updates
-```
+• Run `/list-commands` or `/status`
+• Check `logs/trade-log.json` for activity
+• Confirm `session-manifest.json` updates
