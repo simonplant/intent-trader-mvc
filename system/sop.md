@@ -1,17 +1,24 @@
 ---
-title: Optimized Trading System Standard Operating Procedures  
+title: Optimized Trading System Standard Operating Procedures
 description: Enhanced comprehensive SOP for operating the Intent Trader AI-assisted trading system with improved validation, integration, and feedback mechanisms
-tags: [system, SOP, process, workflow, optimization]  
-author: Simon Plant  
-last_updated: 2025-05-15  
-version: 3.1  
-category: system  
+tags: [system, SOP, process, workflow, optimization]
+author: Simon Plant
+last_updated: 2025-05-15
+version: 3.1
+category: system
 usage: Reference guide for daily system operation. Follow these procedures exactly to ensure consistent execution and performance tracking. Enhanced with improved validation, integration, and feedback mechanisms.
-status: active  
-requires: [system-parameters.json, trading-behaviors-kb.md, trade-setups-kb.md, market-regimes.md, main-controller.md]  
-linked_outputs: [daily-trade-plan, trade-journal, performance-dashboard]  
-input_format: markdown  
-output_format: markdown  
+status: active
+requires:
+  [
+    system-parameters.json,
+    trading-behaviors-kb.md,
+    trade-setups-kb.md,
+    market-regimes.md,
+    main-controller.md,
+  ]
+linked_outputs: [daily-trade-plan, trade-journal, performance-dashboard]
+input_format: markdown
+output_format: markdown
 ai_enabled: false
 ---
 
@@ -42,12 +49,14 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 ```
 
 ### System Tier (JSON)
+
 - Structured data for machine processing
 - Strict schema enforcement and validation
 - Used for downstream processing
 - Schema version tracking and compatibility checks
 
 ### Human Tier (Summaries)
+
 - Generated from system tier data
 - Optimized for readability
 - Cross-validated with system tier data
@@ -58,6 +67,7 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 ### 1. System Initialization (5:30 AM - 6:00 AM ET)
 
 #### System Status Verification
+
 - [ ] Check system status: `/system-status`
 - [ ] Ensure all system components are available
 - [ ] Verify all data sources are accessible
@@ -66,6 +76,7 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 - [ ] Verify JSON schema compatibility
 
 #### Market Regime Classification
+
 - [ ] Determine current market regime: `/classify-regime`
   ```
   /classify-regime
@@ -81,6 +92,7 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 ### 2. Premarket Data Collection & Analysis (6:00 AM - 8:00 AM ET)
 
 #### DP Analysis
+
 - [ ] Process DP's morning call: `/analyze-dp`
   ```
   /analyze-dp
@@ -93,7 +105,8 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 - [ ] Cross-check emphasis patterns and conviction classifications
 - [ ] Document behavioral flags and position context
 
-#### Technical Level Collection
+#### Technical Level Collection (NOT YET IMPLEMENTED)
+
 - [ ] Extract key moving averages: `/get-sma`
   ```
   /get-sma
@@ -109,9 +122,10 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 - [ ] Document premarket ranges and gap conditions
 - [ ] Flag any unusual technical conditions
 
-### 3. Trade Plan Generation & Validation (8:00 AM - 9:00 AM ET)
+### 3. Trade Plan Generation & Validation (7:00 AM - 9:00 AM ET)
 
 #### Individual Setup Classification & Scoring
+
 - [ ] Classify each potential trade using standard taxonomy
 - [ ] Score each setup using the official scoring system:
   - Primary Setup: 3 points
@@ -122,6 +136,7 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 - [ ] Flag setups scoring 5+ points for priority
 
 #### Risk Protocol Application
+
 - [ ] Apply Confirmation Requirements for puts/shorts
 - [ ] Implement Macro Headline Risk Protocol if applicable
 - [ ] Incorporate Sentiment Flip Rule instructions
@@ -129,6 +144,7 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 - [ ] Apply position sizing matrix based on setup/regime/conviction
 
 #### Interaction Effects Analysis
+
 - [ ] Identify correlated trade opportunities
 - [ ] Check for potential sector concentration
 - [ ] Assess portfolio impact of concurrent trades
@@ -136,6 +152,7 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 - [ ] Flag potentially conflicting directional exposure
 
 #### Unified Plan Generation
+
 - [ ] Generate unified trade plan: `/create-plan`
   ```
   /create-plan
@@ -151,6 +168,7 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 - [ ] Perform final cross-validation with source data
 
 #### Plan Review & Preparation
+
 - [ ] Review complete trade plan: `/show-trade-plan`
 - [ ] Verify primary watchlist prioritization logic
 - [ ] Set up watchlists and alerts for key levels
@@ -224,6 +242,7 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 ### 6. Midday Reset (12:00 PM - 1:00 PM ET)
 
 #### Plan Invalidation Check
+
 - [ ] Check for plan invalidation triggers:
   - SPX breaking key decision point level
   - VIX moving +/- 10% from open
@@ -240,6 +259,7 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
   ```
 
 #### Midday Adjustments
+
 - [ ] Reduce size during typical midday chop (11:30 AM - 2:00 PM)
 - [ ] Monitor for moderator sentiment flips (apply Sentiment Flip Rule)
 - [ ] Update watchlists based on developing setups
@@ -278,6 +298,7 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 ### 9. Postmarket Analysis (4:00 PM - 6:00 PM ET)
 
 #### Trade Documentation
+
 - [ ] Record all trades with complete metadata: `/generate-trade-log`
   ```
   /generate-trade-log
@@ -290,6 +311,7 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
   ```
 
 #### Performance Analysis
+
 - [ ] Analyze trading results by setup type: `/performance-debrief`
   ```
   /performance-debrief
@@ -311,6 +333,7 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 - [ ] Analyze behavioral pattern correlations
 
 #### Knowledge Base Updates
+
 - [ ] Create detailed journal entry: `/generate-journal`
   ```
   /generate-journal
@@ -335,6 +358,7 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 - [ ] Export journal entry to markdown: `/export-journal`
 
 #### System Feedback Loop
+
 - [ ] Update setup win rates and expectancy values
 - [ ] Refine position sizing parameters based on performance
 - [ ] Adjust regime detection sensitivity if needed
@@ -345,47 +369,47 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 
 ### Premarket Command Sequence
 
-| Phase | Command | Purpose | Validation |
-|-------|---------|---------|------------|
-| 1 | `/system-status` | Verify system readiness | Check all components |
-| 2 | `/classify-regime` | Establish market regime | Validate regime characteristics |
-| 3 | `/analyze-dp` | Process DP Morning Call transcript | Validate JSON structure |
-| 4 | `/dp-summary` | Generate human-readable DP summary | Cross-check with JSON |
-| 5 | `/extract-focus` | Extract high-conviction trade ideas | Verify conviction classification |
-| 6 | `/extract-levels` | Extract key technical levels | Validate against external sources |
-| 7 | `/get-sma` | Get daily SMA data for key tickers | Verify completeness |
-| 8 | `/create-plan` | Generate unified plan from all sources | Verify setup classifications |
-| 9 | `/show-plan` | Display human-readable trade plan | Cross-check with JSON data |
-| Alt | `/premarket-sequence` | Run complete premarket workflow in one step | Validate all outputs |
+| Phase | Command               | Purpose                                     | Validation                        |
+| ----- | --------------------- | ------------------------------------------- | --------------------------------- |
+| 1     | `/system-status`      | Verify system readiness                     | Check all components              |
+| 2     | `/classify-regime`    | Establish market regime                     | Validate regime characteristics   |
+| 3     | `/analyze-dp`         | Process DP Morning Call transcript          | Validate JSON structure           |
+| 4     | `/dp-summary`         | Generate human-readable DP summary          | Cross-check with JSON             |
+| 5     | `/extract-focus`      | Extract high-conviction trade ideas         | Verify conviction classification  |
+| 6     | `/extract-levels`     | Extract key technical levels                | Validate against external sources |
+| 7     | `/get-sma`            | Get daily SMA data for key tickers          | Verify completeness               |
+| 8     | `/create-plan`        | Generate unified plan from all sources      | Verify setup classifications      |
+| 9     | `/show-plan`          | Display human-readable trade plan           | Cross-check with JSON data        |
+| Alt   | `/premarket-sequence` | Run complete premarket workflow in one step | Validate all outputs              |
 
 ### Intraday Command Sequence
 
-| Phase | Command | Purpose | Validation |
-|-------|---------|---------|------------|
-| 1 | `/size-position` | Calculate position size for trade | Verify risk parameters |
-| 2 | `/add-position` | Create new position with appropriate size | Check size against risk limits |
-| 3 | `/copilot` | Activate intraday trading copilot | Verify activation |
-| 4 | `/copilot-scout` | Scan for setups matching criteria | Validate against setup KB |
-| 5 | `/copilot-confirm` | Validate potential trade against plan | Check regime compatibility |
-| 6 | `/list-positions` | View active positions and status | Verify position tracking |
-| 7 | `/update-position` | Update position details and stops | Validate update parameters |
-| 8 | `/close-position` | Close position and record outcome | Verify trade completion |
-| 9 | `/midday-reset` | Mid-session review and plan adjustment | Check invalidation triggers |
-| 10 | `/copilot-recenter` | Reset focus during trading day | Validate priority shift logic |
+| Phase | Command             | Purpose                                   | Validation                     |
+| ----- | ------------------- | ----------------------------------------- | ------------------------------ |
+| 1     | `/size-position`    | Calculate position size for trade         | Verify risk parameters         |
+| 2     | `/add-position`     | Create new position with appropriate size | Check size against risk limits |
+| 3     | `/copilot`          | Activate intraday trading copilot         | Verify activation              |
+| 4     | `/copilot-scout`    | Scan for setups matching criteria         | Validate against setup KB      |
+| 5     | `/copilot-confirm`  | Validate potential trade against plan     | Check regime compatibility     |
+| 6     | `/list-positions`   | View active positions and status          | Verify position tracking       |
+| 7     | `/update-position`  | Update position details and stops         | Validate update parameters     |
+| 8     | `/close-position`   | Close position and record outcome         | Verify trade completion        |
+| 9     | `/midday-reset`     | Mid-session review and plan adjustment    | Check invalidation triggers    |
+| 10    | `/copilot-recenter` | Reset focus during trading day            | Validate priority shift logic  |
 
 ### Postmarket Command Sequence
 
-| Phase | Command | Purpose | Validation |
-|-------|---------|---------|------------|
-| 1 | `/generate-trade-log` | Create structured log of today's trades | Verify complete metadata |
-| 2 | `/performance-debrief` | Analyze trading performance by multiple dimensions | Check setup-specific metrics |
-| 3 | `/performance-vs-plan` | Compare execution vs plan | Validate opportunity capture rate |
-| 4 | `/generate-journal` | Create trading journal entry | Ensure key lesson identification |
-| 5 | `/log-kb` | Log a behavioral pattern or insight | Validate categorization |
-| 6 | `/generate-kb-update` | Generate KB update recommendations | Check for actionable insights |
-| 7 | `/update-behaviors` | Update trading behaviors knowledge base | Verify updates applied |
-| 8 | `/export-journal` | Export journal entry to markdown | Validate export format |
-| Alt | `/postmarket-sequence` | Run complete postmarket workflow in one step | Verify all outputs |
+| Phase | Command                | Purpose                                            | Validation                        |
+| ----- | ---------------------- | -------------------------------------------------- | --------------------------------- |
+| 1     | `/generate-trade-log`  | Create structured log of today's trades            | Verify complete metadata          |
+| 2     | `/performance-debrief` | Analyze trading performance by multiple dimensions | Check setup-specific metrics      |
+| 3     | `/performance-vs-plan` | Compare execution vs plan                          | Validate opportunity capture rate |
+| 4     | `/generate-journal`    | Create trading journal entry                       | Ensure key lesson identification  |
+| 5     | `/log-kb`              | Log a behavioral pattern or insight                | Validate categorization           |
+| 6     | `/generate-kb-update`  | Generate KB update recommendations                 | Check for actionable insights     |
+| 7     | `/update-behaviors`    | Update trading behaviors knowledge base            | Verify updates applied            |
+| 8     | `/export-journal`      | Export journal entry to markdown                   | Validate export format            |
+| Alt   | `/postmarket-sequence` | Run complete postmarket workflow in one step       | Verify all outputs                |
 
 ## Position Sizing Guidelines
 
@@ -394,21 +418,25 @@ Raw Input → Analyzers → [JSON Validation] → [JSON Storage] → Integration
 For DP-style trading approaches, follow these sizing principles:
 
 1. **Core Position Approach**:
+
    - Use `/size-position` to calculate total position size
    - Standard approach: 50% core position for building around
    - Scale into full position on confirmation or pullbacks
 
 2. **Conviction-Based Sizing**:
+
    - High conviction: Use 100% of calculated size
    - Medium conviction: Use 75% of calculated size
    - Low conviction: Use 50% of calculated size
 
 3. **Setup Type Adjustments**:
+
    - High-probability setups: 100% of calculated size
    - Medium-probability setups: 80% of calculated size
    - Speculative setups: 60% of calculated size
 
 4. **Risk Considerations**:
+
    - Options/expensive instruments: Use practical unit sizes
    - Be cautious with positions less than 4 units
    - Follow Trading Charter risk limits
@@ -423,6 +451,7 @@ For DP-style trading approaches, follow these sizing principles:
 ### Confirmation Requirements Before Entering Puts/Shorts
 
 - **Trigger Conditions**: Do not initiate short-biased trades (especially puts) without one of these confirmations:
+
   - Clear rejection candle off a planned resistance zone on the 15m or 34 EMA
   - Failed breakout (wick above level with full reversal close)
   - Moderator confirmation (DP actively trimming or flipping)
@@ -436,12 +465,14 @@ For DP-style trading approaches, follow these sizing principles:
 ### Macro Headline Risk Protocol
 
 When any of these conditions exist:
+
 - Fed speakers scheduled during session
 - Major economic releases during session
 - Geopolitical developments actively unfolding
 - Presidential/government statements expected
 
 Apply these enhanced controls:
+
 - Cap initial position size at 1/3 normal risk
 - Require TWO confirmation signals before directional bias trades
 - Monitor DP sentiment shift with 5-minute checks
@@ -454,11 +485,13 @@ Apply these enhanced controls:
 When Inner Circle leaders (DP, others) flip sentiment intraday:
 
 1. **Detection Requirements**:
+
    - Document exact time, instrument, direction, and original statement
    - Verify the flip is explicit, not ambiguous
    - Note price level at time of flip
 
 2. **Response Protocol**:
+
    - If positioned opposite to new sentiment: Reduce position by at least 50% within 15 minutes
    - Re-evaluate remaining position using stricter criteria
    - Document rationale if staying in trade against the flip
@@ -474,16 +507,16 @@ When Inner Circle leaders (DP, others) flip sentiment intraday:
 
 This enhanced compatibility matrix must be applied during trade evaluation:
 
-| Setup Type | Trending Up | Trending Down | Choppy/Range | Event-Driven | Squeeze |
-|------------|-------------|--------------|--------------|--------------|---------|
-| FB (Failed Breakdown) | ✓✓✓ | ✓ | ✓✓ | ✓ | ✓✓✓ |
-| RR (Range Reclaim) | ✓ | ✓ | ✓✓✓ | ✓ | ✓✓ |
-| TC (Trend Continuation) | ✓✓✓ | ✓✓✓ | ✗ | ✓ | ✓✓ |
-| VC (Volume Climax) | ✓ | ✓ | ✓ | ✓✓✓ | ✓✓ |
-| EG (Earnings Gap) | ✓✓ | ✓✓ | ✓ | ✓✓✓ | ✓ |
-| IC (Inner Circle) | ✓✓✓ | ✓✓✓ | ✓✓ | ✓✓ | ✓✓✓ |
-| ORB (Opening Range B/O) | ✓✓✓ | ✓✓ | ✗ | ✓ | ✓✓ |
-| VB (VWAP Boulevard) | ✓✓✓ | ✓✓ | ✗ | ✓ | ✓ |
+| Setup Type              | Trending Up | Trending Down | Choppy/Range | Event-Driven | Squeeze |
+| ----------------------- | ----------- | ------------- | ------------ | ------------ | ------- |
+| FB (Failed Breakdown)   | ✓✓✓         | ✓             | ✓✓           | ✓            | ✓✓✓     |
+| RR (Range Reclaim)      | ✓           | ✓             | ✓✓✓          | ✓            | ✓✓      |
+| TC (Trend Continuation) | ✓✓✓         | ✓✓✓           | ✗            | ✓            | ✓✓      |
+| VC (Volume Climax)      | ✓           | ✓             | ✓            | ✓✓✓          | ✓✓      |
+| EG (Earnings Gap)       | ✓✓          | ✓✓            | ✓            | ✓✓✓          | ✓       |
+| IC (Inner Circle)       | ✓✓✓         | ✓✓✓           | ✓✓           | ✓✓           | ✓✓✓     |
+| ORB (Opening Range B/O) | ✓✓✓         | ✓✓            | ✗            | ✓            | ✓✓      |
+| VB (VWAP Boulevard)     | ✓✓✓         | ✓✓            | ✗            | ✓            | ✓       |
 
 Legend: ✓✓✓ = Ideal (Full Size), ✓✓ = Good (75% Size), ✓ = Acceptable (50% Size), ✗ = Avoid
 
@@ -492,13 +525,14 @@ Legend: ✓✓✓ = Ideal (Full Size), ✓✓ = Good (75% Size), ✓ = Acceptabl
 Apply this enhanced matrix to determine position size:
 
 | Conviction | Regime: Trending | Regime: Choppy | Regime: Event-Driven | Setup Score 7+ | Current Drawdown |
-|------------|------------------|----------------|----------------------|----------------|------------------|
-| BIG_IDEA | 100% | 75% | 50% | +25% | -25% if >2% DD |
-| HIGH | 75% | 50% | 33% | +25% | -25% if >2% DD |
-| MEDIUM | 50% | 33% | 25% | No change | -50% if >2% DD |
-| LOW | 33% | 25% | 15% | No change | Avoid if >2% DD |
+| ---------- | ---------------- | -------------- | -------------------- | -------------- | ---------------- |
+| BIG_IDEA   | 100%             | 75%            | 50%                  | +25%           | -25% if >2% DD   |
+| HIGH       | 75%              | 50%            | 33%                  | +25%           | -25% if >2% DD   |
+| MEDIUM     | 50%              | 33%            | 25%                  | No change      | -50% if >2% DD   |
+| LOW        | 33%              | 25%            | 15%                  | No change      | Avoid if >2% DD  |
 
 Notes:
+
 - Base percentages are of your maximum allowable position size per charter
 - Adjustments are cumulative but cannot exceed 100% or fall below 10%
 - "Setup Score 7+" means the setup scores 7 or higher on the multi-setup stacking system
@@ -509,16 +543,19 @@ Notes:
 The trade plan must be reassessed via `/midday-reset` if ANY of these occur:
 
 1. **Price Action Triggers**:
+
    - SPX/ES moves more than 1% from opening price
    - Key decision point level in plan is broken with acceptance
    - Two consecutive failed setups from primary watchlist
 
 2. **Volatility Triggers**:
+
    - VIX moves +/- 10% from open
    - Average true range expands more than 25% from 5-day average
    - Unusual tick or breadth readings outside 2 standard deviations
 
 3. **External Triggers**:
+
    - Unscheduled macro headline during session
    - Fed official comments that impact markets
    - Significant sector rotation (>2% sector divergence)
@@ -535,23 +572,27 @@ The trade plan must be reassessed via `/midday-reset` if ANY of these occur:
 All trades must be logged with this enhanced metadata:
 
 - **Basic Data**:
+
   - Entry and exit prices and times
   - Position size and direction
   - P&L amount and percentage
 
 - **Classification Data**:
+
   - Standard setup tag (e.g., "FB-L-CF-HC")
   - Conviction level (BIG_IDEA, HIGH, MEDIUM, LOW)
   - Regime during execution
   - Source (DP, Own, etc.)
 
 - **Execution Quality**:
+
   - Planned vs. actual entry (% deviation)
   - Planned vs. actual exit (% deviation)
   - Timing quality score (1-10)
   - Plan adherence score (1-10)
 
 - **Behavioral Data**:
+
   - Emotional state during entry (1-10)
   - Emotional state during exit (1-10)
   - Behavioral flags triggered
