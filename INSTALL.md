@@ -133,4 +133,4 @@ Awaiting your next instruction.
 
 ## Compatibility
 
-This protocol supports **Intent Trader v0.5.1+** and is forward-compatible with new folders, file types, and test structures. No hardcoded updates are required when expanding functionality.
+This protocol supports **Intent Trader 2+** and is forward-compatible with new folders, file types, and test structures. No hardcoded updates are required when expanding functionality.
