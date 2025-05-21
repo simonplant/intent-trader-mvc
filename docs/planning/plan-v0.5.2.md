@@ -3,7 +3,7 @@ id: plan-v0.5.2
 title: Intent Trader v0.5.2 – Canonical Schema & Natural Language Interface
 description: Foundation release to establish canonical data schema, implement natural language command processing, reduce codebase size, and optimize for Claude
 author: Simon Plant
-version: 1.0.0
+version: 0.3.0
 release: 0.5.2
 created: 2025-05-20
 updated: 2025-05-20
@@ -21,7 +21,9 @@ ai_enabled: true
 
 ## Purpose
 
-This foundational release creates a single canonical data schema for the Intent Trader app while implementing a natural language command interface for intuitive trading interactions. It standardizes all data structures, updates prompts and runtime components to implement these schema changes, and reduces overall codebase size by 40%. The focus is on building solid data foundations with zero ambiguity to increase accuracy in classification tasks, while adding a natural language layer that makes trading commands more intuitive and efficient.
+This foundational release creates a single canonical data schema for the Intent Trader app while implementing a natural language command interface for intuitive trading interactions. It standardizes all data structures, updates prompts and runtime components to implement these schema changes, and reduces overall codebase size. The focus is on building solid data foundations to increase accuracy in classification tasks, while adding a natural language layer that makes trading commands more intuitive and efficient.
+
+This release takes an evolutionary approach that preserves existing functionality while standardizing data structures and interfaces.
 
 ---
 
@@ -30,11 +32,12 @@ This foundational release creates a single canonical data schema for the Intent 
 ### 1. Canonical Schema (Priority: Critical)
 
 - [ ] Define minimal `system/schemas/trading-intent.schema.json`
-  - Create flat, consistent structure for all trading objects (positions, ideas, logs)
+  - Create consistent structure for all trading objects (positions, ideas, logs)
   - Use `schemaVersion`, `id`, `source` on all major objects for traceability
   - Maximum 3 nested levels for Claude compatibility
   - Support zero-ambiguity classifications with clear boolean flags
-  - Design for single trader use case without over-engineering
+  - Design for single trader use case while preserving familiar patterns
+  - Standardize naming conventions across all schema objects
 
 ### 2. App File Updates (Priority: Critical)
 
@@ -43,11 +46,13 @@ This foundational release creates a single canonical data schema for the Intent 
   - Modify input/output examples to match schema
   - Update prompt logic to handle schema objects
   - Remove any ambiguous classifications with clear boolean criteria
+  - Preserve existing functionality while standardizing outputs
 
 - [ ] Update runtime components
   - Implement basic schema validation
   - Modify command parsing to work with schema objects
   - Update output formatting for schema compatibility
+  - Limit runtime changes to essential schema support
 
 ### 3. State File Alignment (Priority: High)
 
@@ -56,13 +61,15 @@ This foundational release creates a single canonical data schema for the Intent 
   - Migrate `my-positions.json` to schema format
   - Ensure backward compatibility with existing workflows
   - Add schema version references to all state files
+  - Focus on careful data preservation during conversion
 
 ### 4. Codebase Reduction (Priority: High)
 
-- [ ] Remove all decorative elements
-  - Strip emojis, ASCII art, and visual formatting
-  - Remove redundant comments and explanations
-  - Eliminate duplicate examples and verbose descriptions
+- [ ] Selective approach to content reduction
+  - Remove decorative elements (emojis, ASCII art, visual formatting)
+  - Remove redundant comments while preserving valuable documentation
+  - Eliminate duplicate examples while keeping instructive ones
+  - Focus on standardization over size reduction
 
 - [ ] Consolidate similar files
   - Merge variant prompt files into single implementations
@@ -70,9 +77,9 @@ This foundational release creates a single canonical data schema for the Intent 
   - Remove deprecated files completely
 
 - [ ] Optimize prompt files for Claude
-  - Target 40% size reduction across all files
+  - Target codebase optimization while preserving valuable content
   - Reduce token count by simplifying language
-  - Move detailed documentation to external files
+  - Focus on functionality preservation over size reduction
 
 ### 5. Natural Language Command Interface (Priority: High)
 
@@ -80,6 +87,7 @@ This foundational release creates a single canonical data schema for the Intent 
   - Create pattern matching for common trading instructions
   - Build semantic parser to extract parameters from natural text
   - Map natural language to formal command structures
+  - Maintain structured command syntax as fallback
 
 - [ ] Design context-aware command processing
   - Maintain conversation context across multiple commands
@@ -90,6 +98,83 @@ This foundational release creates a single canonical data schema for the Intent 
   - Generate human-readable confirmation of understood intent
   - Provide parameter correction opportunities
   - Support clarification requests for ambiguous commands
+
+---
+
+## Files In Scope
+
+| File Category | Files | Status |
+|---------------|-------|--------|
+| Schema | `system/schemas/trading-intent.schema.json` | New |
+| NL Interface | `prompts/utilities/natural-language-parser.md` | New |
+| NL Interface | `prompts/utilities/context-tracker.md` | New |
+| Documentation | `docs/natural-language-commands.md` | New |
+| Runtime | `system/runtime/command-parser.md` | Modified |
+| Runtime | `system/runtime/plugin-registry.json` | Modified |
+| Runtime | `system/runtime/runtime-agent.md` | Modified |
+| Documentation | `system/commands.md` | Modified |
+| State | `system/state/trade-plan-state.json` | Modified |
+| State | `system/state/my-positions.json` | Modified |
+| State | `system/state/conversation-context.json` | New |
+| Prompts | All worker prompt files | Modified |
+
+---
+
+## Prompt Refactor Coverage
+
+| Prompt File | Schema Required | Refactor Priority | Dependencies |
+|-------------|----------------|-------------------|--------------|
+| `prompts/analyze-dp.md` | Yes | High | trading-intent.schema.json |
+| `prompts/analyze-mancini.md` | Yes | High | trading-intent.schema.json |
+| `prompts/create-plan.md` | Yes | Critical | trading-intent.schema.json |
+| `prompts/add-position.md` | Yes | Critical | trading-intent.schema.json |
+| `prompts/log-session.md` | Yes | Medium | trading-intent.schema.json |
+| `prompts/market-review.md` | Yes | Medium | trading-intent.schema.json |
+| `prompts/review-positions.md` | Yes | High | trading-intent.schema.json |
+| `prompts/chart-analysis.md` | Yes | Medium | trading-intent.schema.json |
+| `prompts/utilities/natural-language-parser.md` | Yes | Critical | trading-intent.schema.json, plugin-registry.json |
+| `prompts/utilities/context-tracker.md` | Yes | Critical | trading-intent.schema.json, conversation-context.json |
+
+---
+
+## Required Files Per Prompt
+
+Each worker prompt must include the following required files to function properly:
+
+| Worker Prompt | Required Files |
+|---------------|---------------|
+| `analyze-dp.md` | trading-intent.schema.json, runtime-agent.md |
+| `analyze-mancini.md` | trading-intent.schema.json, runtime-agent.md |
+| `create-plan.md` | trading-intent.schema.json, trade-plan-state.json, runtime-agent.md |
+| `add-position.md` | trading-intent.schema.json, my-positions.json, runtime-agent.md |
+| `log-session.md` | trading-intent.schema.json, my-positions.json, runtime-agent.md |
+| `review-positions.md` | trading-intent.schema.json, my-positions.json, runtime-agent.md |
+| `natural-language-parser.md` | trading-intent.schema.json, plugin-registry.json, command-parser.md |
+| `context-tracker.md` | trading-intent.schema.json, conversation-context.json |
+
+---
+
+## State File Schema Sync Status
+
+| File | Schema Synced | Version |
+|------|---------------|---------|
+| `trade-plan-state.json` | To be updated | 0.5.2 |
+| `my-positions.json` | To be updated | 0.5.2 |
+| `conversation-context.json` | New file | 0.5.2 |
+| `transaction-log.json` | To be updated | 0.5.2 |
+
+---
+
+## Testing and Validation Plan
+
+| Test Area | Method | Success Criteria |
+|-----------|--------|------------------|
+| Schema Validation | JSON Schema validation | All schema files pass validation |
+| State File Conversion | Schema migration test | Data preserved with no loss |
+| Prompt Compatibility | Input/output testing | All prompts accept and produce schema-valid data |
+| Natural Language Interface | Pattern recognition testing | Successfully parse common trading commands |
+| Command Preservation | End-to-end workflow tests | All existing command functionality maintained |
+| Size Optimization | Token count comparison | Optimized without losing functionality |
 
 ---
 
@@ -119,14 +204,14 @@ This foundational release creates a single canonical data schema for the Intent 
 - [ ] Build verification and confirmation flows (3)
 
 ### Phase 5: Size Reduction & Cleanup (10 Points)
-- [ ] Remove all decorative elements (3)
+- [ ] Remove decorative elements (3)
 - [ ] Consolidate duplicate content (4)
 - [ ] Archive unused files (3)
 
 ### Phase 6: Validation & Testing (10 Points)
 - [ ] Test all commands with new schema (4)
 - [ ] Verify trading workflows end-to-end (4)
-- [ ] Validate size reduction achievements (2)
+- [ ] Validate optimization achievements (2)
 
 ---
 
@@ -137,6 +222,7 @@ This foundational release creates a single canonical data schema for the Intent 
 - `prompts/utilities/natural-language-parser.md` - NL command parsing implementation
 - `prompts/utilities/context-tracker.md` - Conversation context management
 - `docs/natural-language-commands.md` - NL command guide with examples
+- `system/state/conversation-context.json` - Store recent context for NL commands
 
 ### Modified Files
 - All prompt files - Update for schema compatibility and size reduction
@@ -150,6 +236,51 @@ This foundational release creates a single canonical data schema for the Intent 
 - All prompt variants (e.g., `create-plan-alt.md`)
 - Deprecated scripts and utilities
 - Historical logs and unused examples
+
+---
+
+## Standard Front Matter Templates
+
+### Markdown Prompt Template
+```yaml
+---
+id: [prompt-id]
+title: [Prompt Title]
+description: [Brief description of prompt function]
+author: [Author Name]
+version: [0.5.2]
+release: [0.5.2]
+created: [YYYY-MM-DD]
+updated: [YYYY-MM-DD]
+category: [prompt-category]
+status: [active|deprecated]
+tags: [comma, separated, tags]
+requires: [comma, separated, list, of, required, files]
+outputs: [comma, separated, list, of, output, files]
+input_format: markdown
+output_format: markdown
+ai_enabled: true
+---
+```
+
+### JSON Schema Template
+```yaml
+---
+id: [schema-id]
+title: [Schema Title]
+description: [Brief description of schema]
+author: [Author Name]
+version: [0.5.2]
+release: [0.5.2]
+created: [YYYY-MM-DD]
+updated: [YYYY-MM-DD]
+category: schema
+status: active
+tags: [comma, separated, tags]
+format: json
+validation: json-schema
+---
+```
 
 ---
 
@@ -203,27 +334,15 @@ System: "Your last TSLA trade was a long position entered on May 15 at $182.50 w
 
 ---
 
-## Content Reduction Targets
-
-| Content Type | Current Size | Target Size | Reduction |
-|--------------|--------------|-------------|-----------|
-| Prompt Files | ~120K tokens | ~70K tokens | ~42% |
-| Schema Files | ~35K tokens  | ~20K tokens | ~43% |
-| State Files  | ~25K tokens  | ~15K tokens | ~40% |
-| Commands     | ~40K tokens  | ~22K tokens | ~45% |
-| **Total**    | **~220K tokens** | **~127K tokens** | **~42%** |
-
----
-
 ## Success Criteria
 
 | Area | Target Outcome |
 |------|----------------|
 | Schema | Single canonical schema with ≤3 nesting levels and zero-ambiguity classifications |
-| State Files | All state files converted to canonical schema |
-| Prompts | All prompts updated to use canonical schema with 40%+ size reduction |
-| Commands | Natural language processing for trading intent recognition without structured syntax |
-| Size | Overall codebase reduced by 40%+ while maintaining functionality |
+| State Files | All state files converted to canonical schema with data preservation |
+| Prompts | All prompts updated to use canonical schema with standardized front matter |
+| Commands | Natural language processing for trading intent with structured fallback |
+| Optimization | Codebase optimized while maintaining functionality |
 | Accuracy | Improved classification accuracy through schema standardization |
 
 ---
@@ -234,7 +353,7 @@ This plan maintains an MVP approach suitable for a single trader by:
 
 1. Creating a focused schema without over-engineered complexity
 2. Implementing natural language interface for intuitive command input
-3. Focusing on size reduction and efficiency rather than flashy features
+3. Focusing on standardization and efficiency rather than flashy features
 4. Building a solid data foundation that enables accurate classifications
 5. Eliminating ambiguity in data structures to increase reliability
 6. Reducing cognitive load through conversation-like trading interactions
