@@ -114,52 +114,62 @@
         "isBreakout": {
           "type": "boolean",
           "description": "Trade involves a breakout pattern",
-          "default": false
+          "default": false,
+          "examples": [true, false]
         },
         "isReversal": {
           "type": "boolean",
           "description": "Trade involves a reversal pattern",
-          "default": false
+          "default": false,
+          "examples": [true, false]
         },
         "isFlagPattern": {
           "type": "boolean",
           "description": "Trade involves a flag pattern",
-          "default": false
+          "default": false,
+          "examples": [true, false]
         },
         "isFailedBreakdown": {
           "type": "boolean",
           "description": "Trade involves a failed breakdown pattern",
-          "default": false
+          "default": false,
+          "examples": [true, false]
         },
         "isEarningsPlay": {
           "type": "boolean",
           "description": "Trade is related to earnings announcement",
-          "default": false
+          "default": false,
+          "examples": [true, false]
         },
         "isDayAfterTrade": {
           "type": "boolean",
           "description": "Trade is a day-after-earnings play",
-          "default": false
+          "default": false,
+          "examples": [true, false]
         },
         "isTrendFollow": {
           "type": "boolean",
           "description": "Trade follows the existing trend",
-          "default": false
+          "default": false,
+          "examples": [true, false]
         },
         "isRangePlay": {
           "type": "boolean",
           "description": "Trade plays a range-bound pattern",
-          "default": false
+          "default": false,
+          "examples": [true, false]
         },
         "isGapFill": {
           "type": "boolean",
           "description": "Trade targets filling a gap",
-          "default": false
+          "default": false,
+          "examples": [true, false]
         },
         "isMomentumPlay": {
           "type": "boolean",
           "description": "Trade follows strong momentum",
-          "default": false
+          "default": false,
+          "examples": [true, false]
         }
       },
       "additionalProperties": false
@@ -373,7 +383,8 @@
         "isFavorite": {
           "type": "boolean",
           "description": "Whether this is a favorite idea",
-          "default": false
+          "default": false,
+          "examples": [true, false]
         }
       },
       "additionalProperties": false
@@ -483,9 +494,19 @@
                     "type": "number",
                     "description": "21-day moving average",
                     "examples": [205.80]
+                  },
+                  "ma50": {
+                    "type": "number",
+                    "description": "50-day moving average",
+                    "examples": [198.42]
+                  },
+                  "ma200": {
+                    "type": "number",
+                    "description": "200-day moving average",
+                    "examples": [185.75]
                   }
                 },
-                "additionalProperties": true
+                "additionalProperties": false
               }
             },
             "additionalProperties": false
@@ -560,7 +581,7 @@
         },
         "modeConfidence": {
           "type": "number",
-          "description": "Confidence in the mode assessment",
+          "description": "Confidence in the mode assessment (percentage)",
           "minimum": 0,
           "maximum": 100,
           "examples": [80]
@@ -593,11 +614,13 @@
               "direction": {
                 "type": "string",
                 "description": "Direction of movement",
+                "enum": ["up", "down", "sideways"],
                 "examples": ["up", "down"]
               },
               "magnitude": {
                 "type": "string",
                 "description": "Magnitude of movement",
+                "enum": ["strong", "moderate", "weak"],
                 "examples": ["strong", "moderate"]
               },
               "reason": {
@@ -733,12 +756,14 @@
         "isRunner": {
           "type": "boolean",
           "description": "Whether this is a runner position",
-          "default": false
+          "default": false,
+          "examples": [true, false]
         },
         "isCorePosition": {
           "type": "boolean",
           "description": "Whether this is a core position",
-          "default": false
+          "default": false,
+          "examples": [true, false]
         }
       },
       "additionalProperties": false
@@ -1072,7 +1097,8 @@
               "parameters": {
                 "type": "object",
                 "description": "Intent parameters",
-                "additionalProperties": true
+                "additionalProperties": true,
+                "examples": [{"symbol": "AAPL", "direction": "long"}]
               }
             },
             "additionalProperties": false
