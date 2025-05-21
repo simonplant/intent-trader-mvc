@@ -3,7 +3,7 @@ id: command-map
 title: Intent Trader Command Map
 description: Mapping of command routes to execution handlers
 author: Intent Trader Team
-version: 0.4.2
+version: 0.4.3
 release: 0.5.2
 created: 2025-05-16
 updated: 2025-05-21
