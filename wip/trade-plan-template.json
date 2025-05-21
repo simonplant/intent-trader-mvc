@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "0.5.2",
+  "id": "plan-YYYYMMDD",
+  "source": "system",
+  "timestamp": "YYYY-MM-DDT09:00:00Z",
+  "date": "YYYY-MM-DD",
+  "marketFramework": {
+    "schemaVersion": "0.5.2",
+    "id": "framework-market-YYYYMMDD",
+    "source": "system",
+    "timestamp": "YYYY-MM-DDT09:00:00Z",
+    "bias": "neutral",
+    "biasCondition": "",
+    "mode": "Mode 1",
+    "modeConfidence": 50,
+    "character": "",
+    "catalysts": [],
+    "keyMovers": [],
+    "origin": {
+      "sourceCommand": "/create-plan",
+      "createdBy": "plan-generator"
+    }
+  },
+  "levelFramework": {
+    "schemaVersion": "0.5.2",
+    "id": "framework-level-YYYYMMDD",
+    "source": "system",
+    "timestamp": "YYYY-MM-DDT09:00:00Z",
+    "indices": {
+      "es": {
+        "support": [],
+        "resistance": []
+      },
+      "spx": {
+        "support": [],
+        "resistance": []
+      }
+    },
+    "stocks": [],
+    "zones": [],
+    "keyDecisionPoint": null,
+    "origin": {
+      "sourceCommand": "/create-plan",
+      "createdBy": "plan-generator"
+    }
+  },
+  "tradeIdeas": [],
+  "scenarioPlanning": [
+    {
+      "type": "neutral",
+      "conviction": "medium",
+      "trigger": "",
+      "targets": [],
+      "stop": null,
+      "risk_reward": null,
+      "probability": 50,
+      "description": "Base case: Neutral market behavior"
+    }
+  ],
+  "riskManagement": {
+    "accountSize": 100000,
+    "maxRiskPercent": 1.0,
+    "dailyRiskAmount": 1000,
+    "positionSizing": "Risk 1% per trade maximum",
+    "stopPlacement": "Place stops below key support for longs, above key resistance for shorts",
+    "trailStrategy": "Trail to breakeven after first target reached"
+  },
+  "metadata": {
+    "generatedFrom": [],
+    "generationTimestamp": "YYYY-MM-DDT09:00:00Z",
+    "updatedTimestamp": "YYYY-MM-DDT09:00:00Z"
+  },
+  "origin": {
+    "sourceCommand": "/create-plan",
+    "createdBy": "plan-generator"
+  }
+}

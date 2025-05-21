@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "0.5.2",
+  "id": "idea-plan-YYYYMMDD-SYMBOL-XX",
+  "source": "system",
+  "timestamp": "YYYY-MM-DDTHH:MM:SSZ",
+  "symbol": "SYMBOL",
+  "direction": "long",
+  "conviction": {
+    "level": "medium",
+    "phrases": []
+  },
+  "entryParameters": {
+    "zone": {
+      "min": null,
+      "max": null
+    },
+    "condition": "",
+    "strategy": "limit"
+  },
+  "exitParameters": {
+    "stopLoss": null,
+    "target": null,
+    "strategy": "",
+    "trimLevels": []
+  },
+  "rationale": "",
+  "tradeDuration": "day",
+  "setup": "",
+  "status": "active",
+  "confirmationStatus": "unconfirmed",
+  "classifications": {
+    "isBreakout": false,
+    "isReversal": false,
+    "isFlagPattern": false,
+    "isFailedBreakdown": false,
+    "isEarningsPlay": false,
+    "isDayAfterTrade": false,
+    "isTrendFollow": false,
+    "isRangePlay": false,
+    "isGapFill": false,
+    "isMomentumPlay": false
+  },
+  "positionSizing": {
+    "recommendation": "quarter",
+    "reasoning": ""
+  },
+  "risk": {
+    "plannedRMultiple": null
+  },
+  "priority": 2,
+  "category": "secondary",
+  "isFavorite": false,
+  "origin": {
+    "sourceCommand": "/add-trade-idea",
+    "createdBy": "idea-generator",
+    "planId": "plan-YYYYMMDD"
+  }
+}
