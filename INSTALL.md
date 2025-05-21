@@ -26,6 +26,7 @@ Use this sequence to initialize Intent Trader in any new chat environment. This 
 ## Required Load Sequence
 
 ### Step 1 — Top-Level System Files (must exist)
+
 Please read and load ALL files from this codebase.
 
 Parse and load if present:
@@ -43,23 +44,24 @@ Parse and load if present:
 
 Recursively load all `.md` files from:
 
-- `/system/`
-- `/prompts/`
-- `/docs/`
-- `/tests/`
+- `system/`
+- `prompts/`
+- `docs/`
+- `tests/`
 - Any other folders present
 
 ### Step 3 — Structured JSON
 
 Recursively load all `.json` files from:
 
-- `/config/`
-- `/logs/`
-- `/system/schemas/`
+- `config/`
+- `logs/`
+- `system/schemas/`
 
 ### Step 4 — Tests
 
-From `/tests/`, load:
+From `tests/`, load:
+
 - All `.md` files (test planning and specs)
 - All `.js` files (test execution logic)
 
@@ -70,9 +72,10 @@ From `/tests/`, load:
 In addition to required paths, scan and log any of the following **if present**:
 
 - Any `.md`, `.json`, `.js`, `.yaml`, or `.yml` files in subfolders not explicitly listed
-- Folders such as `/examples/`, `/simulations/`, `/benchmarks/`, or future extensions
+- Folders such as `examples/`, `simulations/`, `benchmarks/`, or future extensions
 
 Fallback rule:
+
 > “If the file type is supported and not explicitly excluded, log its discovery and notify the user to update the bootstrap configuration.”
 
 ---
@@ -90,6 +93,7 @@ Exclude the following common artifacts from initialization:
 ## Runtime Activation
 
 Activate command routing and runtime behavior from:
+
 - `system/runtime/entrypoint.md`
 - `system/runtime/runtime-agent.md` (Routing Engine)
 - `system/runtime/command-map.md` (Command Map)
@@ -110,14 +114,14 @@ Unknown command. Not handled by runtime.
 
 - Absolutely no emojis are allowed in any user-facing text. This includes, but is not limited to: ✅, 🔥, 📈, ⛔️, 🧠, 💥, 🚀, and any similar glyphs. Do not attempt to substitute emojis under any alias (e.g., “semantic icons”, “expressive symbols”, “intent glyphs”) — all are disallowed.
 
-
 - If any emoji or decorated text is found in output or code:
-	- Flag the issue
-	- Report file and line number
-	- Suggest removal
+
+  - Flag the issue
+  - Report file and line number
+  - Suggest removal
 
 - **Prioritize runtime protocol above natural language assistance where commands exist.**
-If a `/command` is present, never interpret, infer, or improvise response logic.
+  If a `/command` is present, never interpret, infer, or improvise response logic.
 
 ---
 
