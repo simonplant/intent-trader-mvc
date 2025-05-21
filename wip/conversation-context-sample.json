@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "0.5.2",
+  "id": "context-20250520",
+  "source": "system",
+  "timestamp": "2025-05-20T12:00:00Z",
+  "activePlan": "plan-20250520",
+  "activeSession": "session-2025-05-20",
+  "focusedSymbols": [
+    "SPX",
+    "SQQQ",
+    "QQQ",
+    "TEM",
+    "CRWD"
+  ],
+  "recentCommands": [
+    {
+      "command": "/create-plan",
+      "timestamp": "2025-05-20T13:00:00Z",
+      "result": "success"
+    },
+    {
+      "command": "/add-position",
+      "timestamp": "2025-05-20T11:29:00Z",
+      "result": "success"
+    },
+    {
+      "command": "/add-position",
+      "timestamp": "2025-05-20T11:53:00Z",
+      "result": "success"
+    }
+  ],
+  "intentHistory": [
+    {
+      "intent": "create_plan",
+      "timestamp": "2025-05-20T13:00:00Z",
+      "parameters": {
+        "date": "2025-05-20"
+      }
+    },
+    {
+      "intent": "add_position",
+      "timestamp": "2025-05-20T11:29:00Z",
+      "parameters": {
+        "symbol": "SQQQ",
+        "direction": "long",
+        "price": 23.915,
+        "shares": 500
+      }
+    },
+    {
+      "intent": "add_position",
+      "timestamp": "2025-05-20T11:53:00Z",
+      "parameters": {
+        "symbol": "SPX",
+        "direction": "long",
+        "contract": "22-May-25 5870P",
+        "price": 11.60,
+        "contracts": 1
+      }
+    }
+  ],
+  "systemState": "trading",
+  "origin": {
+    "sourceCommand": "/migrate-schema",
+    "createdBy": "schema-migrator"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "0.5.2",
+  "id": "log-20250520",
+  "source": "system",
+  "timestamp": "2025-05-20T12:00:00Z",
+  "date": "2025-05-20",
+  "entries": [
+    {
+      "id": "tx-20250520-SQQQ-01",
+      "schemaVersion": "0.5.2",
+      "type": "entry",
+      "symbol": "SQQQ",
+      "direction": "long",
+      "timestamp": "2025-05-20T11:29:00Z",
+      "source": "manual-execution",
+      "price": 23.915,
+      "quantity": 500,
+      "amount": 11957.50,
+      "positionId": "pos-20250520-SQQQ-01",
+      "planId": "plan-20250520",
+      "notes": "Entry execution for market hedge"
+    },
+    {
+      "id": "tx-20250520-SPX-01",
+      "schemaVersion": "0.5.2",
+      "type": "entry",
+      "symbol": "SPX",
+      "direction": "long",
+      "timestamp": "2025-05-20T11:53:00Z",
+      "source": "manual-execution",
+      "price": 11.60,
+      "quantity": 1,
+      "amount": 1160.00,
+      "positionId": "pos-20250520-SPX-01",
+      "planId": "plan-20250520",
+      "notes": "Entry execution for 22-May-25 5870P"
+    },
+    {
+      "id": "tx-20250520-QQQ-01",
+      "schemaVersion": "0.5.2",
+      "type": "entry",
+      "symbol": "QQQ",
+      "direction": "long",
+      "timestamp": "2025-05-20T11:30:00Z",
+      "source": "manual-execution",
+      "price": 1.32,
+      "quantity": 1,
+      "amount": 132.00,
+      "positionId": "pos-20250520-QQQ-01",
+      "planId": "plan-20250520",
+      "notes": "Entry execution for 21-May-25 515P"
+    }
+  ],
+  "origin": {
+    "sourceCommand": "/migrate-schema",
+    "createdBy": "schema-migrator"
+  }
+}
