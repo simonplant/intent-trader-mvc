@@ -1,18 +1,11 @@
 .
 ├── changelog.md
-├── data
-│   ├── domain-model.md
-│   └── schemas
-│       ├── intent-trader-master-schema.json
-│       ├── intent-trader-runtime-schema.json
-│       ├── README.schema.md
-│       ├── samples
-│       └── templates
 ├── docs
 │   ├── architecture
 │   │   ├── requirements.md
 │   │   └── system-architecture.md
 │   ├── command-reference.md
+│   ├── domain-model.md
 │   ├── mancini-analysis-guide.md
 │   ├── mancini-trading-style.md
 │   ├── planning
@@ -39,6 +32,7 @@
 │   ├── 2025-05-19-unified-plan.md
 │   ├── 2025-05-20-dp-transcript.md
 │   ├── 2025-05-20-mancini-newsletter-summary.md
+│   ├── 2025-05-20-unified-plan.md
 │   ├── releases
 │   │   └── v0.5.0.md
 │   ├── test-session-output.json
@@ -73,12 +67,6 @@
 │       ├── scaffold-command.md
 │       └── sync-commands.md
 ├── README.md
-├── state
-│   ├── moderator-positions.json
-│   ├── my-positions.json
-│   ├── session-manifest.json
-│   ├── trade-plan-state.json
-│   └── transaction-log.json
 ├── system
 │   ├── commands.md
 │   ├── runtime
@@ -89,7 +77,32 @@
 │   │   ├── runtime-agent.md
 │   │   ├── status.md
 │   │   └── validator.md
+│   ├── schemas
+│   │   ├── intent-trader-master-schema.json
+│   │   ├── intent-trader-runtime-schema.json
+│   │   ├── README.schema.md
+│   │   ├── samples
+│   │   │   ├── conversation-context-sample.json
+│   │   │   ├── intent-trader-runtime-sample.json
+│   │   │   ├── sample-conversation-context.json
+│   │   │   ├── sample-level-framework.json
+│   │   │   ├── sample-market-framework.json
+│   │   │   ├── sample-session-log.json
+│   │   │   ├── sample-trade-idea.json
+│   │   │   ├── sample-trade-plan.json
+│   │   │   └── sample-trade-position.json
+│   │   └── templates
+│   │       ├── conversation-context-template.json
+│   │       ├── position-template.json
+│   │       ├── transaction-entry-template.json
+│   │       └── transaction-log-template.json
 │   ├── sop.md
+│   ├── state
+│   │   ├── moderator-positions.json
+│   │   ├── my-positions.json
+│   │   ├── session-manifest.json
+│   │   ├── trade-plan-state.json
+│   │   └── transaction-log.json
 │   ├── templates
 │   │   ├── front-matter-template.md
 │   │   ├── trade-idea-template.json
@@ -148,4 +161,4 @@
         ├── worker-prompt-nlp.md
         └── worker-prompt-testing.md
 
-33 directories, 116 files
+32 directories, 130 files

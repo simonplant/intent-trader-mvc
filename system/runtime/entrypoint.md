@@ -3,10 +3,10 @@ id: entrypoint
 title: Intent Trader EntryPoint
 description: System initialization and bootstrap loader
 author: Intent Trader Team
-version: 0.2.2
+version: 0.2.3
 release: 0.5.1
 created: 2025-05-16
-updated: 2025-05-16
+updated: 2025-05-21
 category: system
 status: stable
 tags: [system, initialization, bootstrap]
@@ -37,6 +37,7 @@ Load and permanently bind the runtime control layer:
 ```
 
 2. **Determine Trading Phase**:
+
    - Extract `currentPhase` from session manifest
    - Validate market session phase (premarket, intraday, postmarket)
    - Load phase-appropriate commands
@@ -50,12 +51,12 @@ Load and permanently bind the runtime control layer:
 
 Intent Trader operates within a structured trading day:
 
-| Phase     | Cognitive Workflow | Time Frame        | Primary Commands                              |
-|-----------|-------------------|-------------------|-----------------------------------------------|
-| premarket | Plan, Focus       | Before market open | `/analyze-dp`, `/analyze-mancini-preprocessor`, `/analyze-mancini`, `/create-plan`, `/extract-focus`, `/extract-levels` |
-| intraday  | Execute, Manage   | During market hours| `/add-position`, `/size-position`, `/update-position`, `/close-position`, `/list-positions` |
-| postmarket| Review            | After market close | `/log-session` |
-| utilities | Any               | Any time          | `/analyze-chart` |
+| Phase      | Cognitive Workflow | Time Frame          | Primary Commands                                                                                                        |
+| ---------- | ------------------ | ------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| premarket  | Plan, Focus        | Before market open  | `/analyze-dp`, `/analyze-mancini-preprocessor`, `/analyze-mancini`, `/create-plan`, `/extract-focus`, `/extract-levels` |
+| intraday   | Execute, Manage    | During market hours | `/add-position`, `/size-position`, `/update-position`, `/close-position`, `/list-positions`                             |
+| postmarket | Review             | After market close  | `/log-session`                                                                                                          |
+| utilities  | Any                | Any time            | `/analyze-chart`                                                                                                        |
 
 ## State Management
 
@@ -82,26 +83,27 @@ When a command is received:
 The system provides current system state:
 
 {
-  "system": {
-    "version": "0.5.1",
-    "phase": "intraday",
-    "sessionStarted": "2025-05-16T09:30:00Z"
-  },
-  "positions": {
-    "active": 2,
-    "closed": 1,
-    "totalRisk": "$1,200"
-  },
-  "plan": {
-    "created": "2025-05-16T09:15:00Z",
-    "focusIdeas": 3,
-    "technicalLevels": 12
-  }
+"system": {
+"version": "0.5.1",
+"phase": "intraday",
+"sessionStarted": "2025-05-16T09:30:00Z"
+},
+"positions": {
+"active": 2,
+"closed": 1,
+"totalRisk": "$1,200"
+},
+"plan": {
+"created": "2025-05-16T09:15:00Z",
+"focusIdeas": 3,
+"technicalLevels": 12
+}
 }
 
 ## Cognitive Workflow Support
 
 The system is structured around the cognitive workflow:
+
 - **Plan**: Morning call analysis and context-building
 - **Focus**: Opportunity identification and prioritization
 - **Execute**: Trade entry and position initiation
