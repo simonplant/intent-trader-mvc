@@ -115,22 +115,26 @@ In case of validation errors or processing failures, the output will still maint
 The classifier handles various error conditions and edge cases:
 
 ### Input Validation Errors
+
 - **Empty or Missing Text**: Returns error with status "failure" and appropriate message
 - **Invalid Analyst**: Falls back to "dp" with warning in processingMetadata
 - **Invalid Confidence Threshold**: Clamps to valid range (0-1) with warning
 
 ### Processing Errors
+
 - **No Ticker Symbols Found**: Returns partial success with warning and attempts basic sentiment analysis
 - **Processing Timeout**: Returns partial results with available classifications and timeout warning
 - **Pattern Matching Failure**: Falls back to default classification with low confidence
 
 ### Classification Edge Cases
+
 - **Conflicting Patterns**: Prioritizes negative patterns, then uses highest conviction level with warning about conflict
 - **Ambiguous Text**: Assigns lower confidence score and indicates ambiguity in warnings
 - **Mixed Signals**: Provides details on conflicting signals in analysis with confidence reduction
 - **Sarcasm/Irony**: Limited detection capability, adds warning about potential misinterpretation
 
 ### Recovery Strategies
+
 - **Partial Processing**: Returns successfully processed portions with status "partial_success"
 - **Graceful Degradation**: Falls back to simpler classification methods when advanced ones fail
 - **Contextual Inference**: Uses broader context when immediate context is insufficient
@@ -198,9 +202,9 @@ function loadPatternMaps() {
 
   try {
     // Load analyst-specific patterns
-    patterns.dp = require('./patterns/dp-patterns.json');
-    patterns.mancini = require('./patterns/mancini-patterns.json');
-    patterns.generic = require('./patterns/generic-patterns.json');
+    patterns.dp = require("./patterns/dp-patterns.json");
+    patterns.mancini = require("./patterns/mancini-patterns.json");
+    patterns.generic = require("./patterns/generic-patterns.json");
 
     // Validate pattern maps
     validatePatternMaps(patterns);
@@ -218,31 +222,43 @@ function validatePatternMaps(patterns) {
   for (const [analyst, patternMap] of Object.entries(patterns)) {
     // Check version
     if (!patternMap.version) {
-      throw new Error(`Pattern map for ${analyst} is missing version information`);
+      throw new Error(
+        `Pattern map for ${analyst} is missing version information`
+      );
     }
 
     // Check required conviction levels
-    const requiredLevels = ['focusTrade', 'high', 'medium', 'low', 'negative'];
+    const requiredLevels = ["focusTrade", "high", "medium", "low", "negative"];
     for (const level of requiredLevels) {
       if (!patternMap.convictionLevels[level]) {
-        throw new Error(`Pattern map for ${analyst} is missing the ${level} conviction level`);
+        throw new Error(
+          `Pattern map for ${analyst} is missing the ${level} conviction level`
+        );
       }
     }
 
     // Check pattern structure
-    for (const [level, categories] of Object.entries(patternMap.convictionLevels)) {
+    for (const [level, categories] of Object.entries(
+      patternMap.convictionLevels
+    )) {
       for (const [category, patterns] of Object.entries(categories)) {
         if (!Array.isArray(patterns)) {
-          throw new Error(`Pattern category ${category} in ${level} level for ${analyst} is not an array`);
+          throw new Error(
+            `Pattern category ${category} in ${level} level for ${analyst} is not an array`
+          );
         }
 
         for (const pattern of patterns) {
-          if (!pattern.pattern || typeof pattern.weight !== 'number') {
-            throw new Error(`Invalid pattern in ${category} of ${level} level for ${analyst}`);
+          if (!pattern.pattern || typeof pattern.weight !== "number") {
+            throw new Error(
+              `Invalid pattern in ${category} of ${level} level for ${analyst}`
+            );
           }
 
           if (pattern.weight < 0 || pattern.weight > 1) {
-            throw new Error(`Pattern weight out of range in ${category} of ${level} level for ${analyst}`);
+            throw new Error(
+              `Pattern weight out of range in ${category} of ${level} level for ${analyst}`
+            );
           }
         }
       }
@@ -256,36 +272,48 @@ function validatePatternMaps(patterns) {
 Beyond pattern matching, the classifier considers these contextual factors:
 
 ### Position Disclosure
+
 Mentions of personal positions increase conviction level
+
 - "I'm in this", "I own this", "I'm adding to my position", "I bought"
 - "I'm long/short this", "I'm positioned here", "I'm involved"
 
 ### Frequency of Mention
+
 Multiple references to the same trade idea throughout the analysis
+
 - First mention (base weight)
 - Second mention (+10% confidence)
 - Third or more mention (+20% confidence)
 
 ### Detail Level
+
 Amount of specific detail provided about the setup
+
 - Specific entry/exit levels (+10% confidence)
 - Multiple technical justifications (+15% confidence)
 - Comprehensive risk management plans (+20% confidence)
 
 ### Time Allocation
+
 Relative amount of discussion dedicated to the idea
+
 - Brief mention (base weight)
 - Extended discussion (+15% confidence)
 - Multiple section references (+20% confidence)
 
 ### Recency Effect
+
 Position in the analysis (later mentions often reflect stronger conviction)
+
 - Early mention (base weight)
 - Middle mention (+5% confidence)
 - Final or summary mention (+10% confidence)
 
 ### Comparative Language
+
 How the idea is positioned relative to others
+
 - "Better than", "prefer over", "instead of" (+10% confidence)
 - "Best of", "top of", "favorite among" (+20% confidence)
 - "Unlike", "as opposed to", "in contrast to" (context-dependent)
@@ -295,41 +323,48 @@ How the idea is positioned relative to others
 The classification process follows these steps:
 
 ### 1. Input Validation
+
 - Verify text is provided and is non-empty (minimum 10 characters)
 - Validate analyst parameter is one of supported values
 - Confirm minConfidence is a valid number between 0 and 1
 - Return appropriate error if validation fails with guidance on requirements
 
 ### 2. Preprocessing
+
 - Normalize text (lowercase, remove excess whitespace)
 - Identify ticker symbols and surrounding context (±3 sentences)
 - Extract explicit conviction phrases using pattern matching
 - If no ticker symbols found, return early with appropriate message
 
 ### 3. Pattern Matching
+
 - Match text against each level's pattern lists
 - Calculate raw pattern score based on matched patterns
 - Weight matches by pattern specificity and uniqueness
 - If no patterns match, apply default pattern handling (see below)
 
 ### 4. Contextual Analysis
+
 - Evaluate contextual enhancement factors
 - Adjust raw score based on contextual factors
 - Calculate contextual impact score
 
 ### 5. Conviction Level Assignment
+
 - Determine preliminary level based on highest pattern score
 - Apply threshold rules to assign final level
 - Handle edge cases (mixed signals, ambiguous language)
 - Apply fallback rules if classification is indeterminate
 
 ### 6. Confidence Scoring
+
 - Calculate base confidence from pattern match strength
 - Adjust for contextual factors and pattern clarity
 - Normalize to 0-1 scale
 - Ensure minimum confidence floor of 0.3 even for weak matches
 
 ### 7. Result Generation
+
 - Populate level, phrases, and confidence
 - Include analysis details for transparency
 - Apply minimum confidence threshold filtering
@@ -340,17 +375,20 @@ The classification process follows these steps:
 When no conviction patterns are matched:
 
 ### Content Analysis
+
 - Scan for any directional indicators (buy, sell, long, short)
 - Look for conditional statements (if, when, might, could)
 - Check for specific price levels or technical references
 
 ### Default Assignment
+
 - If price targets or specific entry conditions exist: Assign "low" conviction (conf. 0.4)
 - If only general mention with directional bias: Assign "low" conviction (conf. 0.3)
 - If only ticker mentioned without context: Assign "low" conviction (conf. 0.2)
 - Include "default_assignment" flag in the analysis object
 
 ### Fallback Message
+
 - Add clear message in analysis indicating default assignment was used
 - Suggest ways to improve classification with additional context
 
@@ -358,13 +396,13 @@ When no conviction patterns are matched:
 
 The following thresholds are used to assign conviction levels:
 
-| Level | Pattern Score Range | Required Patterns | Confidence Threshold |
-|-------|---------------------|-------------------|----------------------|
-| Focus Trade | ≥ 0.85 | ≥ 2 focus patterns | ≥ 0.85 |
-| High | ≥ 0.70 | ≥ 1 high pattern | ≥ 0.75 |
-| Medium | ≥ 0.50 | ≥ 1 medium pattern | ≥ 0.65 |
-| Low | ≥ 0.30 | ≥ 1 low pattern | ≥ 0.60 |
-| Negative | Any negative pattern | ≥ 1 negative pattern | ≥ 0.70 |
+| Level       | Pattern Score Range  | Required Patterns    | Confidence Threshold |
+| ----------- | -------------------- | -------------------- | -------------------- |
+| Focus Trade | ≥ 0.85               | ≥ 2 focus patterns   | ≥ 0.85               |
+| High        | ≥ 0.70               | ≥ 1 high pattern     | ≥ 0.75               |
+| Medium      | ≥ 0.50               | ≥ 1 medium pattern   | ≥ 0.65               |
+| Low         | ≥ 0.30               | ≥ 1 low pattern      | ≥ 0.60               |
+| Negative    | Any negative pattern | ≥ 1 negative pattern | ≥ 0.70               |
 
 In cases of conflicting patterns, the classifier prioritizes the highest conviction level with sufficient confidence, with negative patterns having override priority when they meet the confidence threshold.
 
@@ -373,29 +411,37 @@ In cases of conflicting patterns, the classifier prioritizes the highest convict
 For input text: "I love TEM right now, in the 60-62 range, this looks like a great entry point for a swing trade."
 
 ### Pattern Matching:
+
 - Matches "love it" pattern (Focus Trade level)
 - Matches "great entry" pattern (High level)
 - Contains specific price range "60-62" (contextual enhancement)
 - Mentions trade duration "swing trade" (contextual enhancement)
 
 ### Conviction Analysis:
+
 - Base pattern score: 0.90 (Focus Trade)
 - Contextual enhancements: +0.10 (specific levels, trade duration)
 - No negative patterns detected
 - Final confidence: 0.95
 
 ### Result:
+
 ```json
 {
   "level": "focus-trade",
-  "phrases": ["love TEM right now", "looks like a great entry point"],
+  "phrases": ["my focus is TEM right now", "looks like a great entry point"],
   "confidence": 0.95,
   "analysis": {
     "matchedPatterns": [
       {
+        "pattern": "focus",
+        "weight": 0.9,
+        "context": "focus is TEM right now"
+      },
+      {
         "pattern": "love",
         "weight": 0.85,
-        "context": "love TEM right now"
+        "context": "I love TEM right here"
       },
       {
         "pattern": "great entry",
@@ -438,7 +484,7 @@ To integrate the Conviction Classification System into another component:
 // Main module exports
 module.exports = {
   // Primary classification function
-  classify: function(text, options = {}) {
+  classify: function (text, options = {}) {
     /*
      * @param {string} text - The text to analyze for conviction
      * @param {Object} options - Configuration options
@@ -452,7 +498,7 @@ module.exports = {
   },
 
   // Load new pattern definitions
-  loadPatterns: function(patternSource) {
+  loadPatterns: function (patternSource) {
     /*
      * @param {string|Object} patternSource - Path to pattern file or pattern object
      * @returns {boolean} - Success status
@@ -461,7 +507,7 @@ module.exports = {
   },
 
   // Get available analysts
-  getAvailableAnalysts: function() {
+  getAvailableAnalysts: function () {
     /*
      * @returns {string[]} - List of available analysts
      */
@@ -469,7 +515,7 @@ module.exports = {
   },
 
   // Get pattern version information
-  getPatternVersions: function() {
+  getPatternVersions: function () {
     /*
      * @returns {Object} - Version information for all loaded patterns
      */
@@ -477,7 +523,7 @@ module.exports = {
   },
 
   // Event emitter for observability
-  events: new EventEmitter()
+  events: new EventEmitter(),
 };
 ```
 
@@ -488,21 +534,25 @@ The classifier emits events during processing for observability:
 ```javascript
 // Event types
 const events = {
-  PROCESSING_STARTED: 'processing:started',
-  TICKER_IDENTIFIED: 'ticker:identified',
-  PATTERN_MATCHED: 'pattern:matched',
-  CONVICTION_ASSIGNED: 'conviction:assigned',
-  PROCESSING_COMPLETED: 'processing:completed',
-  PROCESSING_ERROR: 'processing:error'
+  PROCESSING_STARTED: "processing:started",
+  TICKER_IDENTIFIED: "ticker:identified",
+  PATTERN_MATCHED: "pattern:matched",
+  CONVICTION_ASSIGNED: "conviction:assigned",
+  PROCESSING_COMPLETED: "processing:completed",
+  PROCESSING_ERROR: "processing:error",
 };
 
 // Usage example for monitoring
 classifier.events.on(events.TICKER_IDENTIFIED, (data) => {
-  console.log(`Identified ticker: ${data.ticker} with confidence ${data.confidence}`);
+  console.log(
+    `Identified ticker: ${data.ticker} with confidence ${data.confidence}`
+  );
 });
 
 classifier.events.on(events.CONVICTION_ASSIGNED, (data) => {
-  console.log(`Assigned ${data.level} conviction to ${data.ticker} with confidence ${data.confidence}`);
+  console.log(
+    `Assigned ${data.level} conviction to ${data.ticker} with confidence ${data.confidence}`
+  );
 });
 
 classifier.events.on(events.PROCESSING_ERROR, (error) => {
@@ -516,71 +566,75 @@ For standalone testing and debugging:
 
 ```javascript
 #!/usr/bin/env node
-const classifier = require('./conviction-classifier');
-const fs = require('fs');
-const path = require('path');
-const yargs = require('yargs');
+const classifier = require("prompts/focus/conviction-classifier");
+const fs = require("fs");
+const path = require("path");
+const yargs = require("yargs");
 
 const argv = yargs
-  .usage('Usage: $0 [options] <text>')
-  .option('file', {
-    alias: 'f',
-    describe: 'Input file to analyze',
-    type: 'string'
+  .usage("Usage: $0 [options] <text>")
+  .option("file", {
+    alias: "f",
+    describe: "Input file to analyze",
+    type: "string",
   })
-  .option('analyst', {
-    alias: 'a',
-    describe: 'Analyst source',
-    default: 'dp',
-    type: 'string'
+  .option("analyst", {
+    alias: "a",
+    describe: "Analyst source",
+    default: "dp",
+    type: "string",
   })
-  .option('min-confidence', {
-    alias: 'c',
-    describe: 'Minimum confidence threshold',
+  .option("min-confidence", {
+    alias: "c",
+    describe: "Minimum confidence threshold",
     default: 0.7,
-    type: 'number'
+    type: "number",
   })
-  .option('output', {
-    alias: 'o',
-    describe: 'Output file for results',
-    type: 'string'
+  .option("output", {
+    alias: "o",
+    describe: "Output file for results",
+    type: "string",
   })
-  .option('verbose', {
-    alias: 'v',
-    describe: 'Enable verbose output',
-    type: 'boolean',
-    default: false
+  .option("verbose", {
+    alias: "v",
+    describe: "Enable verbose output",
+    type: "boolean",
+    default: false,
   })
-  .help()
-  .argv;
+  .help().argv;
 
 async function main() {
   let text;
 
   if (argv.file) {
-    text = fs.readFileSync(path.resolve(argv.file), 'utf8');
+    text = fs.readFileSync(path.resolve(argv.file), "utf8");
   } else if (argv._.length > 0) {
-    text = argv._.join(' ');
+    text = argv._.join(" ");
   } else {
-    console.error('Error: No input text provided. Use --file or provide text as arguments.');
+    console.error(
+      "Error: No input text provided. Use --file or provide text as arguments."
+    );
     process.exit(1);
   }
 
   try {
     // Enable verbose output
     if (argv.verbose) {
-      classifier.events.on('*', (eventType, data) => {
+      classifier.events.on("*", (eventType, data) => {
         console.log(`[${eventType}]`, JSON.stringify(data, null, 2));
       });
     }
 
     const result = classifier.classify(text, {
       analyst: argv.analyst,
-      minConfidence: argv.minConfidence
+      minConfidence: argv.minConfidence,
     });
 
     if (argv.output) {
-      fs.writeFileSync(path.resolve(argv.output), JSON.stringify(result, null, 2));
+      fs.writeFileSync(
+        path.resolve(argv.output),
+        JSON.stringify(result, null, 2)
+      );
       console.log(`Results written to ${argv.output}`);
     } else {
       console.log(JSON.stringify(result, null, 2));
@@ -595,19 +649,22 @@ main().catch(console.error);
 ```
 
 ### Import the classifier:
+
 ```javascript
-const convictionClassifier = require('./system/focus/conviction-classifier');
+const convictionClassifier = require("prompts/focus/conviction-classifier.md");
 ```
 
 ### Process text content:
+
 ```javascript
 const convictionResult = convictionClassifier.classify(text, {
   analyst: "dp",
-  minConfidence: 0.7
+  minConfidence: 0.7,
 });
 ```
 
 ### Apply the result:
+
 ```javascript
 const focusIdea = {
   ticker: "TEM",
