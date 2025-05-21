@@ -77,7 +77,8 @@
 │   ├── moderator-positions.json
 │   ├── my-positions.json
 │   ├── session-manifest.json
-│   └── trade-plan-state.json
+│   ├── trade-plan-state.json
+│   └── transaction-log.json
 ├── system
 │   ├── commands.md
 │   ├── runtime
@@ -102,16 +103,14 @@
     │   └── runtime-schema-updated.json
     ├── command-parser.md
     ├── conversation-context-state.json
-    ├── conversation-context-template.json
-    ├── conversion-report.md
-    ├── field-mapping.md
-    ├── migration-code.js
-    ├── migration-implementation-plan.md
-    ├── migration-test-plan.md
-    ├── migration-test.js
-    ├── migration-utilities.js
-    ├── migration-utilities.md
-    ├── position-template.json
+    ├── docs
+    │   ├── schema-implementation-guide.md
+    │   └── template-usage-guide.md
+    ├── reports
+    │   ├── conversion-report.md
+    │   ├── schema-audit-report.md
+    │   ├── schema-validation-report.md
+    │   └── validation-report.md
     ├── samples
     │   ├── conversation-context-sample.json
     │   ├── intent-trader-runtime-sample.json
@@ -122,18 +121,22 @@
     │   ├── sample-trade-idea.json
     │   ├── sample-trade-plan.json
     │   └── sample-trade-position.json
-    ├── schema-audit-report.md
-    ├── schema-conversion-plan.md
-    ├── schema-implementation-guide.md
-    ├── schema-mapping.md
-    ├── schema-validation-report.md
-    ├── template-usage-guide.md
+    ├── templates
+    │   ├── conversation-context-template.json
+    │   ├── position-template.json
+    │   ├── transaction-entry-template.json
+    │   └── transaction-log-template.json
+    ├── tools
+    │   ├── field-mapping.md
+    │   ├── migration-code.js
+    │   ├── migration-implementation-plan.md
+    │   ├── migration-test-plan.md
+    │   ├── migration-test.js
+    │   ├── migration-utilities.js
+    │   ├── migration-utilities.md
+    │   ├── schema-conversion-plan.md
+    │   └── schema-mapping.md
     ├── tradePlan-runtime-schema.json
-    ├── transaction-entry-template.json
-    ├── transaction-log-state.json
-    ├── transaction-log-template.json
-    ├── validation-report.md
-    ├── wip-to-production.sh
     └── workflow
         ├── implementation-todo-list.md
         ├── master-workflow-controller.md
@@ -145,4 +148,4 @@
         ├── worker-prompt-nlp.md
         └── worker-prompt-testing.md
 
-29 directories, 117 files
+33 directories, 116 files
