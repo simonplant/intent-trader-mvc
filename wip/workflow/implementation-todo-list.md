@@ -100,18 +100,20 @@ This document maintains a comprehensive task list for implementing the Intent Tr
 - [x] Update analyze-dp.md (High)
 - [x] Update analyze-mancini.md (High)
 - [x] Update add-position.md (Critical)
-- [ ] Update review-positions.md (High)
+- [x] Update update-position.md (High)
+- [x] Update close-position.md (High)
+- [x] Update list-positions.md (High)
 - [ ] Update log-session.md (Medium)
 - [ ] Update market-review.md (Medium)
 - [ ] Update chart-analysis.md (Medium)
 - **Dependencies**: 1.4, 2.3
 - **Priority**: Critical
 - **Assignee**: Prompt Converter
-- **Status**: Partial (4/8 Complete, 50%)
+- **Status**: Partial (7/10 Complete, 70%)
 
 ### 3.2 Standardize front matter across all files (4 points)
 - [x] Create front matter template with schema requirements
-- [ ] Update front matter for all prompt files - In Progress (5/8 Complete, 63%)
+- [ ] Update front matter for all prompt files - In Progress (8/10 Complete, 80%)
 - [x] Update summarize-mancini.md front matter
 - [ ] Add correct version and dependencies
 - [ ] Update tags and metadata
@@ -295,9 +297,11 @@ This document maintains a comprehensive task list for implementing the Intent Tr
 - [x] prompts/summarize-mancini.md - Complete
 - [x] prompts/create-plan.md - Complete
 - [x] prompts/add-position.md - Complete
+- [x] prompts/update-position.md - Complete
+- [x] prompts/close-position.md - Complete
+- [x] prompts/list-positions.md - Complete
 - [ ] prompts/log-session.md - Pending
 - [ ] prompts/market-review.md - Pending
-- [ ] prompts/review-positions.md - Pending
 - [ ] prompts/chart-analysis.md - Pending
 
 ## Task Summary
@@ -306,11 +310,11 @@ This document maintains a comprehensive task list for implementing the Intent Tr
 |-------|--------|-------|--------|
 | 1. Schema Design & Implementation | 15 | 4 | 4/4 Complete |
 | 2. State Conversion | 10 | 3 | 3/3 Complete |
-| 3. Prompt Updates | 20 | 4 | 1/4 Complete, 1 Partial (50%), 1 In Progress (63%) |
+| 3. Prompt Updates | 20 | 4 | 1/4 Complete, 1 Partial (70%), 1 In Progress (80%) |
 | 4. Natural Language Interface | 20 | 4 | 0/4 (1 Partially Complete) |
 | 5. Size Reduction & Cleanup | 10 | 3 | 0/3 |
 | 6. Validation & Testing | 10 | 3 | 0/3 |
-| **TOTAL** | **85** | **21** | **~9/21** |
+| **TOTAL** | **85** | **21** | **~10/21** |
 
 ## Critical Path
 
@@ -323,7 +327,10 @@ This document maintains a comprehensive task list for implementing the Intent Tr
    ✅ Update analyze-dp.md (Complete)
 6. ✅ Update analyze-mancini.md (Complete)
    ✅ Update summarize-mancini.md (Complete)
-7. 🔄 Update review-positions.md (Pending) - Current Focus
+7. ✅ Update position management files (Complete)
+   ✅ Update update-position.md (Complete)
+   ✅ Update close-position.md (Complete)
+   ✅ Update list-positions.md (Complete)
 8. ⏱️ Implement natural language parser (4.2) - Next Major Step
 9. ⏱️ Verify trading workflows end-to-end (6.2)
 
@@ -331,23 +338,22 @@ This document maintains a comprehensive task list for implementing the Intent Tr
 
 - Phase 1: 100% complete (15/15 points)
 - Phase 2: 100% complete (10/10 points)
-- Phase 3: ~43% complete (8.5/20 points)
+- Phase 3: ~50% complete (10/20 points)
 - Phase 4: ~5% complete (1/20 points)
 - Phase 5: 0% complete (0/10 points)
 - Phase 6: 0% complete (0/10 points)
-- Overall: ~41% complete (34.5/85 points)
+- Overall: ~42% complete (36/85 points)
 
 ## Next Steps
 
-1. Complete review-positions.md refactoring
+1. Begin updating the remaining medium-priority prompt files (log-session.md, market-review.md, chart-analysis.md)
 2. Finish standardizing front matter across all files
-3. Begin updating the remaining medium-priority prompt files (log-session.md, market-review.md)
-4. Start designing natural language pattern recognition (Task 4.1)
+3. Start designing natural language pattern recognition (Task 4.1)
 
 ## Notes
 
 - Front matter standardization can continue in parallel with prompt refactoring
 - Natural language interface design can begin as prompt files continue to be updated
 - Prompt optimization and cleanup should follow completion of prompt refactoring
-- Consider starting Task 4.1 (natural language pattern recognition) now that critical prompt files are complete
+- Now that all position management files are complete, Task 4.1 (natural language pattern recognition) can begin
 - Template-usage-guide.md has been added as a new deliverable to support implementation
