@@ -6,11 +6,15 @@
   "author": "Simon Plant",
   "created": "2025-05-20",
   "updated": "2025-05-20",
-  
   "definitions": {
     "baseObject": {
       "type": "object",
-      "required": ["schemaVersion", "id", "source", "timestamp"],
+      "required": [
+        "schemaVersion",
+        "id",
+        "source",
+        "timestamp"
+      ],
       "properties": {
         "schemaVersion": {
           "type": "string",
@@ -25,7 +29,15 @@
         "source": {
           "type": "string",
           "description": "The source that created this object",
-          "enum": ["manual", "dp", "mancini", "vtf", "moderator", "system", "claude"]
+          "enum": [
+            "manual",
+            "dp",
+            "mancini",
+            "vtf",
+            "moderator",
+            "system",
+            "claude"
+          ]
         },
         "timestamp": {
           "type": "string",
@@ -36,21 +48,21 @@
           "type": "object",
           "description": "Lineage information for object traceability",
           "properties": {
-            "planId": { 
+            "planId": {
               "type": "string",
               "description": "ID of originating trade plan"
             },
-            "ideaId": { 
+            "ideaId": {
               "type": "string",
-              "description": "ID of originating trade idea" 
+              "description": "ID of originating trade idea"
             },
-            "createdBy": { 
+            "createdBy": {
               "type": "string",
-              "description": "Command that created this object" 
+              "description": "Command that created this object"
             },
-            "sourceCommand": { 
+            "sourceCommand": {
               "type": "string",
-              "description": "Full command text that created this object" 
+              "description": "Full command text that created this object"
             }
           }
         },
@@ -58,38 +70,49 @@
           "type": "object",
           "description": "AI processing metadata for prompt tracing",
           "properties": {
-            "promptId": { 
+            "promptId": {
               "type": "string",
-              "description": "ID of prompt that generated this object" 
+              "description": "ID of prompt that generated this object"
             },
-            "version": { 
+            "version": {
               "type": "string",
-              "description": "Prompt version used" 
+              "description": "Prompt version used"
             },
-            "parsedFrom": { 
+            "parsedFrom": {
               "type": "string",
-              "description": "Original source material ID/reference" 
+              "description": "Original source material ID/reference"
             }
           }
         }
       }
     },
-    
     "price": {
       "type": "number",
       "description": "A price value",
       "minimum": 0
     },
-    
     "priceLevel": {
       "type": "object",
-      "required": ["price"],
+      "required": [
+        "price"
+      ],
       "properties": {
-        "price": { "$ref": "#/definitions/price" },
-        "notes": { "type": "string" },
+        "price": {
+          "$ref": "#/definitions/price"
+        },
+        "notes": {
+          "type": "string"
+        },
         "type": {
           "type": "string",
-          "enum": ["major", "minor", "psychological", "key", "vwap", "pivot"],
+          "enum": [
+            "major",
+            "minor",
+            "psychological",
+            "key",
+            "vwap",
+            "pivot"
+          ],
           "enumDescriptions": {
             "major": "Primary support/resistance level with high significance",
             "minor": "Secondary support/resistance level with moderate impact",
@@ -101,7 +124,11 @@
         },
         "strength": {
           "type": "string",
-          "enum": ["strong", "moderate", "weak"],
+          "enum": [
+            "strong",
+            "moderate",
+            "weak"
+          ],
           "enumDescriptions": {
             "strong": "Well-tested level with high probability of respect",
             "moderate": "Moderately reliable level",
@@ -110,17 +137,31 @@
         }
       }
     },
-    
     "priceZone": {
       "type": "object",
-      "required": ["min", "max"],
+      "required": [
+        "min",
+        "max"
+      ],
       "properties": {
-        "min": { "$ref": "#/definitions/price" },
-        "max": { "$ref": "#/definitions/price" },
-        "notes": { "type": "string" },
+        "min": {
+          "$ref": "#/definitions/price"
+        },
+        "max": {
+          "$ref": "#/definitions/price"
+        },
+        "notes": {
+          "type": "string"
+        },
         "type": {
           "type": "string",
-          "enum": ["entry", "profit", "stop", "decision", "consolidation"],
+          "enum": [
+            "entry",
+            "profit",
+            "stop",
+            "decision",
+            "consolidation"
+          ],
           "enumDescriptions": {
             "entry": "Zone for trade entry",
             "profit": "Target zone for taking profits",
@@ -131,14 +172,21 @@
         }
       }
     },
-    
     "conviction": {
       "type": "object",
-      "required": ["level"],
+      "required": [
+        "level"
+      ],
       "properties": {
         "level": {
           "type": "string",
-          "enum": ["focus-trade", "high", "medium", "low", "negative"],
+          "enum": [
+            "focus-trade",
+            "high",
+            "medium",
+            "low",
+            "negative"
+          ],
           "enumDescriptions": {
             "focus-trade": "Highest conviction level, primary focus trade",
             "high": "Strong conviction in the trade idea",
@@ -149,7 +197,9 @@
         },
         "phrases": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Key phrases that indicate conviction level"
         },
         "score": {
@@ -160,7 +210,6 @@
         }
       }
     },
-    
     "riskParameters": {
       "type": "object",
       "properties": {
@@ -187,11 +236,12 @@
         }
       }
     },
-    
     "entryParameters": {
       "type": "object",
       "properties": {
-        "zone": { "$ref": "#/definitions/priceZone" },
+        "zone": {
+          "$ref": "#/definitions/priceZone"
+        },
         "condition": {
           "type": "string",
           "description": "Condition that must be met for entry"
@@ -199,7 +249,13 @@
         "strategy": {
           "type": "string",
           "description": "Entry execution strategy",
-          "enum": ["market", "limit", "scaled", "test-position", "all-in"],
+          "enum": [
+            "market",
+            "limit",
+            "scaled",
+            "test-position",
+            "all-in"
+          ],
           "enumDescriptions": {
             "market": "Enter at market price",
             "limit": "Use limit order at specific price",
@@ -215,29 +271,36 @@
         }
       }
     },
-    
     "exitParameters": {
       "type": "object",
       "properties": {
-        "stopLoss": { "$ref": "#/definitions/price" },
-        "target": { "$ref": "#/definitions/price" },
+        "stopLoss": {
+          "$ref": "#/definitions/price"
+        },
+        "target": {
+          "$ref": "#/definitions/price"
+        },
         "strategy": {
           "type": "string",
           "description": "Exit strategy description"
         },
         "trimLevels": {
           "type": "array",
-          "items": { "$ref": "#/definitions/trimLevel" },
+          "items": {
+            "$ref": "#/definitions/trimLevel"
+          },
           "description": "Levels for partial profit taking"
         }
       }
     },
-    
     "trimLevel": {
       "type": "object",
-      "required": ["price", "percentage"],
+      "required": [
+        "price",
+        "percentage"
+      ],
       "properties": {
-        "price": { 
+        "price": {
           "$ref": "#/definitions/price",
           "description": "Price level for the trim"
         },
@@ -259,10 +322,15 @@
         }
       }
     },
-    
     "tradeDuration": {
       "type": "string",
-      "enum": ["cashflow", "day", "swing", "position", "long-term"],
+      "enum": [
+        "cashflow",
+        "day",
+        "swing",
+        "position",
+        "long-term"
+      ],
       "enumDescriptions": {
         "cashflow": "Intraday scalp (minutes to hours)",
         "day": "Single day trade (close by end of session)",
@@ -271,7 +339,6 @@
         "long-term": "Extended hold (months+)"
       }
     },
-
     "classifications": {
       "type": "object",
       "properties": {
@@ -327,13 +394,18 @@
         }
       }
     },
-    
     "tradedInstrument": {
       "type": "object",
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["stock", "option", "future", "etf", "crypto"],
+          "enum": [
+            "stock",
+            "option",
+            "future",
+            "etf",
+            "crypto"
+          ],
           "description": "Type of financial instrument"
         },
         "underlying": {
@@ -351,7 +423,10 @@
         },
         "optionType": {
           "type": "string",
-          "enum": ["call", "put"],
+          "enum": [
+            "call",
+            "put"
+          ],
           "description": "Option type"
         },
         "contractSize": {
@@ -360,41 +435,59 @@
         }
       }
     },
-    
     "schemaMetadata": {
       "type": "object",
       "properties": {
-        "authoringVersion": { 
+        "authoringVersion": {
           "type": "string",
-          "description": "Version of authoring schema" 
+          "description": "Version of authoring schema"
         },
-        "runtimeCompatible": { 
+        "runtimeCompatible": {
           "type": "boolean",
           "description": "Whether this is compatible with runtime schema"
         },
-        "generatedDate": { 
-          "type": "string", 
+        "generatedDate": {
+          "type": "string",
           "format": "date-time",
           "description": "When this schema was generated"
         }
       }
     }
   },
-  
   "type": "object",
   "oneOf": [
-    { "$ref": "#/tradePosition" },
-    { "$ref": "#/tradeIdea" },
-    { "$ref": "#/tradePlan" },
-    { "$ref": "#/tradeLog" },
-    { "$ref": "#/sessionLog" },
-    { "$ref": "#/conversationContext" }
+    {
+      "$ref": "#/tradePosition"
+    },
+    {
+      "$ref": "#/tradeIdea"
+    },
+    {
+      "$ref": "#/tradePlan"
+    },
+    {
+      "$ref": "#/tradeLog"
+    },
+    {
+      "$ref": "#/sessionLog"
+    },
+    {
+      "$ref": "#/conversationContext"
+    }
   ],
-  
   "tradePosition": {
     "type": "object",
-    "allOf": [{ "$ref": "#/definitions/baseObject" }],
-    "required": ["symbol", "direction", "entry", "status"],
+    "allOf": [
+      {
+        "$ref": "#/definitions/baseObject"
+      }
+    ],
+    "required": [
+      "symbol",
+      "direction",
+      "entry",
+      "status"
+    ],
     "properties": {
       "symbol": {
         "type": "string",
@@ -402,14 +495,20 @@
       },
       "direction": {
         "type": "string",
-        "enum": ["long", "short"],
+        "enum": [
+          "long",
+          "short"
+        ],
         "description": "Position direction"
       },
       "entry": {
         "type": "object",
-        "required": ["price", "date"],
+        "required": [
+          "price",
+          "date"
+        ],
         "properties": {
-          "price": { 
+          "price": {
             "$ref": "#/definitions/price",
             "description": "Entry price"
           },
@@ -441,7 +540,13 @@
       },
       "fillStatus": {
         "type": "string",
-        "enum": ["pending", "partial", "filled", "cancelled", "rejected"],
+        "enum": [
+          "pending",
+          "partial",
+          "filled",
+          "cancelled",
+          "rejected"
+        ],
         "description": "Current fill status of the order",
         "enumDescriptions": {
           "pending": "Order submitted but not filled",
@@ -467,7 +572,12 @@
             },
             "result": {
               "type": "string",
-              "enum": ["success", "failed", "partial", "cancelled"],
+              "enum": [
+                "success",
+                "failed",
+                "partial",
+                "cancelled"
+              ],
               "description": "Result of the entry attempt"
             },
             "notes": {
@@ -478,15 +588,15 @@
         },
         "description": "History of entry attempts"
       },
-      "stop": { 
+      "stop": {
         "$ref": "#/definitions/price",
         "description": "Current stop loss level"
       },
-      "initialStop": { 
+      "initialStop": {
         "$ref": "#/definitions/price",
         "description": "Original stop loss level"
       },
-      "target": { 
+      "target": {
         "$ref": "#/definitions/price",
         "description": "Price target"
       },
@@ -496,16 +606,24 @@
       },
       "trimLevels": {
         "type": "array",
-        "items": { "$ref": "#/definitions/trimLevel" },
+        "items": {
+          "$ref": "#/definitions/trimLevel"
+        },
         "description": "Levels for partial profit taking"
       },
-      "risk": { 
+      "risk": {
         "$ref": "#/definitions/riskParameters",
         "description": "Risk parameters"
       },
       "status": {
         "type": "string",
-        "enum": ["pending", "open", "closed", "cancelled", "partial"],
+        "enum": [
+          "pending",
+          "open",
+          "closed",
+          "cancelled",
+          "partial"
+        ],
         "description": "Current position status"
       },
       "setup": {
@@ -517,24 +635,24 @@
         "format": "date",
         "description": "Date position was closed"
       },
-      "exitPrice": { 
+      "exitPrice": {
         "$ref": "#/definitions/price",
         "description": "Exit price"
       },
       "profit": {
         "type": "object",
         "properties": {
-          "amount": { 
+          "amount": {
             "type": "number",
-            "description": "Profit/loss amount in dollars" 
+            "description": "Profit/loss amount in dollars"
           },
-          "percent": { 
+          "percent": {
             "type": "number",
-            "description": "Profit/loss percentage" 
+            "description": "Profit/loss percentage"
           },
-          "rMultiple": { 
+          "rMultiple": {
             "type": "number",
-            "description": "Profit/loss as R multiple" 
+            "description": "Profit/loss as R multiple"
           }
         },
         "description": "Position profit/loss data"
@@ -543,7 +661,7 @@
         "type": "string",
         "description": "Additional notes about this position"
       },
-      "conviction": { 
+      "conviction": {
         "$ref": "#/definitions/conviction",
         "description": "Trade conviction level"
       },
@@ -557,17 +675,23 @@
         "default": false,
         "description": "Whether this is a core position for building around"
       },
-      "classifications": { 
+      "classifications": {
         "$ref": "#/definitions/classifications",
         "description": "Trade setup classifications"
       }
     }
   },
-  
   "tradeIdea": {
     "type": "object",
-    "allOf": [{ "$ref": "#/definitions/baseObject" }],
-    "required": ["symbol", "direction"],
+    "allOf": [
+      {
+        "$ref": "#/definitions/baseObject"
+      }
+    ],
+    "required": [
+      "symbol",
+      "direction"
+    ],
     "properties": {
       "symbol": {
         "type": "string",
@@ -575,10 +699,13 @@
       },
       "direction": {
         "type": "string",
-        "enum": ["long", "short"],
+        "enum": [
+          "long",
+          "short"
+        ],
         "description": "Trade direction"
       },
-      "conviction": { 
+      "conviction": {
         "$ref": "#/definitions/conviction",
         "description": "Conviction level"
       },
@@ -590,14 +717,16 @@
       },
       "confidencePhrases": {
         "type": "array",
-        "items": { "type": "string" },
+        "items": {
+          "type": "string"
+        },
         "description": "Phrases indicating confidence level"
       },
-      "entryParameters": { 
+      "entryParameters": {
         "$ref": "#/definitions/entryParameters",
         "description": "Entry parameters"
       },
-      "exitParameters": { 
+      "exitParameters": {
         "$ref": "#/definitions/exitParameters",
         "description": "Exit parameters"
       },
@@ -609,7 +738,7 @@
         "type": "string",
         "description": "Reasoning behind this trade idea"
       },
-      "tradeDuration": { 
+      "tradeDuration": {
         "$ref": "#/definitions/tradeDuration",
         "description": "Expected trade duration"
       },
@@ -619,12 +748,22 @@
       },
       "status": {
         "type": "string",
-        "enum": ["active", "executed", "invalidated", "expired"],
+        "enum": [
+          "active",
+          "executed",
+          "invalidated",
+          "expired"
+        ],
         "description": "Current status of the idea"
       },
       "confirmationStatus": {
         "type": "string",
-        "enum": ["unconfirmed", "confirmed", "rejected", "modified"],
+        "enum": [
+          "unconfirmed",
+          "confirmed",
+          "rejected",
+          "modified"
+        ],
         "description": "User confirmation status for the idea"
       },
       "frequency": {
@@ -642,7 +781,7 @@
         "default": false,
         "description": "Whether this is a favorite trade"
       },
-      "classifications": { 
+      "classifications": {
         "$ref": "#/definitions/classifications",
         "description": "Trade setup classifications"
       },
@@ -651,7 +790,14 @@
         "properties": {
           "recommendation": {
             "type": "string",
-            "enum": ["full", "half", "third", "quarter", "small", "speculative"],
+            "enum": [
+              "full",
+              "half",
+              "third",
+              "quarter",
+              "small",
+              "speculative"
+            ],
             "description": "Size recommendation"
           },
           "reasoning": {
@@ -676,15 +822,21 @@
       },
       "visualKey": {
         "type": "string",
-        "description": "Visual identifier for UI representation (e.g., 🔵 breakout)"
+        "description": "Visual identifier for UI representation (e.g., \ud83d\udd35 breakout)"
       }
     }
   },
-  
   "tradePlan": {
     "type": "object",
-    "allOf": [{ "$ref": "#/definitions/baseObject" }],
-    "required": ["date", "marketFramework"],
+    "allOf": [
+      {
+        "$ref": "#/definitions/baseObject"
+      }
+    ],
+    "required": [
+      "date",
+      "marketFramework"
+    ],
     "properties": {
       "date": {
         "type": "string",
@@ -693,11 +845,20 @@
       },
       "marketFramework": {
         "type": "object",
-        "required": ["bias", "mode"],
+        "required": [
+          "bias",
+          "mode"
+        ],
         "properties": {
           "bias": {
             "type": "string",
-            "enum": ["bullish", "bearish", "neutral", "neutral-to-bullish", "neutral-to-bearish"],
+            "enum": [
+              "bullish",
+              "bearish",
+              "neutral",
+              "neutral-to-bullish",
+              "neutral-to-bearish"
+            ],
             "description": "Market directional bias"
           },
           "biasCondition": {
@@ -706,7 +867,10 @@
           },
           "mode": {
             "type": "string",
-            "enum": ["Mode 1", "Mode 2"],
+            "enum": [
+              "Mode 1",
+              "Mode 2"
+            ],
             "description": "Market mode (trending vs. range/trap)",
             "enumDescriptions": {
               "Mode 1": "Trending market with directional momentum",
@@ -735,10 +899,18 @@
             "items": {
               "type": "object",
               "properties": {
-                "ticker": { "type": "string" },
-                "direction": { "type": "string" },
-                "magnitude": { "type": "string" },
-                "reason": { "type": "string" }
+                "ticker": {
+                  "type": "string"
+                },
+                "direction": {
+                  "type": "string"
+                },
+                "magnitude": {
+                  "type": "string"
+                },
+                "reason": {
+                  "type": "string"
+                }
               }
             },
             "description": "Key market movers"
@@ -748,7 +920,12 @@
       },
       "confirmationStatus": {
         "type": "string",
-        "enum": ["unconfirmed", "confirmed", "rejected", "modified"],
+        "enum": [
+          "unconfirmed",
+          "confirmed",
+          "rejected",
+          "modified"
+        ],
         "description": "User confirmation status for the plan"
       },
       "levelFramework": {
@@ -762,11 +939,15 @@
                 "properties": {
                   "support": {
                     "type": "array",
-                    "items": { "$ref": "#/definitions/priceLevel" }
+                    "items": {
+                      "$ref": "#/definitions/priceLevel"
+                    }
                   },
                   "resistance": {
                     "type": "array",
-                    "items": { "$ref": "#/definitions/priceLevel" }
+                    "items": {
+                      "$ref": "#/definitions/priceLevel"
+                    }
                   }
                 }
               }
@@ -777,7 +958,9 @@
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["ticker"],
+              "required": [
+                "ticker"
+              ],
               "properties": {
                 "ticker": {
                   "type": "string"
@@ -787,18 +970,24 @@
                   "properties": {
                     "support": {
                       "type": "array",
-                      "items": { "$ref": "#/definitions/priceLevel" }
+                      "items": {
+                        "$ref": "#/definitions/priceLevel"
+                      }
                     },
                     "resistance": {
                       "type": "array",
-                      "items": { "$ref": "#/definitions/priceLevel" }
+                      "items": {
+                        "$ref": "#/definitions/priceLevel"
+                      }
                     }
                   }
                 },
                 "movingAverages": {
                   "type": "object",
                   "patternProperties": {
-                    "^ma[0-9]+$": { "$ref": "#/definitions/price" }
+                    "^ma[0-9]+$": {
+                      "$ref": "#/definitions/price"
+                    }
                   }
                 }
               }
@@ -807,10 +996,12 @@
           },
           "zones": {
             "type": "array",
-            "items": { "$ref": "#/definitions/priceZone" },
+            "items": {
+              "$ref": "#/definitions/priceZone"
+            },
             "description": "Price zones"
           },
-          "keyDecisionPoint": { 
+          "keyDecisionPoint": {
             "$ref": "#/definitions/price",
             "description": "Key market decision point"
           }
@@ -821,7 +1012,12 @@
         "type": "array",
         "items": {
           "type": "object",
-          "required": ["ticker", "direction", "conviction", "category"],
+          "required": [
+            "ticker",
+            "direction",
+            "conviction",
+            "category"
+          ],
           "properties": {
             "ticker": {
               "type": "string",
@@ -829,17 +1025,30 @@
             },
             "direction": {
               "type": "string",
-              "enum": ["long", "short"],
+              "enum": [
+                "long",
+                "short"
+              ],
               "description": "Trade direction"
             },
             "conviction": {
               "type": "string",
-              "enum": ["focus-trade", "high", "medium", "low", "negative"],
+              "enum": [
+                "focus-trade",
+                "high",
+                "medium",
+                "low",
+                "negative"
+              ],
               "description": "Conviction level"
             },
             "category": {
               "type": "string",
-              "enum": ["primary", "secondary", "watchlist"],
+              "enum": [
+                "primary",
+                "secondary",
+                "watchlist"
+              ],
               "description": "Idea category"
             },
             "ideaId": {
@@ -849,18 +1058,26 @@
             "entry": {
               "type": "object",
               "properties": {
-                "min": { "$ref": "#/definitions/price" },
-                "max": { "$ref": "#/definitions/price" },
-                "condition": { "type": "string" }
+                "min": {
+                  "$ref": "#/definitions/price"
+                },
+                "max": {
+                  "$ref": "#/definitions/price"
+                },
+                "condition": {
+                  "type": "string"
+                }
               },
               "description": "Entry parameters summary"
             },
             "targets": {
               "type": "array",
-              "items": { "$ref": "#/definitions/price" },
+              "items": {
+                "$ref": "#/definitions/price"
+              },
               "description": "Target prices"
             },
-            "stop": { 
+            "stop": {
               "$ref": "#/definitions/price",
               "description": "Stop loss level"
             },
@@ -880,16 +1097,27 @@
         "type": "array",
         "items": {
           "type": "object",
-          "required": ["type", "trigger"],
+          "required": [
+            "type",
+            "trigger"
+          ],
           "properties": {
             "type": {
               "type": "string",
-              "enum": ["long", "short", "neutral"],
+              "enum": [
+                "long",
+                "short",
+                "neutral"
+              ],
               "description": "Scenario bias"
             },
             "conviction": {
               "type": "string",
-              "enum": ["high", "medium", "low"],
+              "enum": [
+                "high",
+                "medium",
+                "low"
+              ],
               "description": "Conviction in this scenario"
             },
             "trigger": {
@@ -898,10 +1126,12 @@
             },
             "targets": {
               "type": "array",
-              "items": { "$ref": "#/definitions/price" },
+              "items": {
+                "$ref": "#/definitions/price"
+              },
               "description": "Price targets for this scenario"
             },
-            "stop": { 
+            "stop": {
               "$ref": "#/definitions/price",
               "description": "Stop level for this scenario"
             },
@@ -983,11 +1213,17 @@
       }
     }
   },
-  
   "tradeLog": {
     "type": "object",
-    "allOf": [{ "$ref": "#/definitions/baseObject" }],
-    "required": ["positionId", "action"],
+    "allOf": [
+      {
+        "$ref": "#/definitions/baseObject"
+      }
+    ],
+    "required": [
+      "positionId",
+      "action"
+    ],
     "properties": {
       "positionId": {
         "type": "string",
@@ -995,7 +1231,15 @@
       },
       "action": {
         "type": "string",
-        "enum": ["entry", "exit", "add", "trim", "stop-adjust", "target-adjust", "cancel"],
+        "enum": [
+          "entry",
+          "exit",
+          "add",
+          "trim",
+          "stop-adjust",
+          "target-adjust",
+          "cancel"
+        ],
         "description": "Log action type"
       },
       "executionTimestamp": {
@@ -1003,7 +1247,7 @@
         "format": "date-time",
         "description": "Exact time of execution"
       },
-      "price": { 
+      "price": {
         "$ref": "#/definitions/price",
         "description": "Action price"
       },
@@ -1023,7 +1267,14 @@
       },
       "reasonType": {
         "type": "string",
-        "enum": ["technical", "fundamental", "risk-management", "planned", "discretionary", "error"],
+        "enum": [
+          "technical",
+          "fundamental",
+          "risk-management",
+          "planned",
+          "discretionary",
+          "error"
+        ],
         "description": "Reason for the action"
       },
       "reasonDetail": {
@@ -1031,7 +1282,15 @@
         "properties": {
           "category": {
             "type": "string",
-            "enum": ["profit-target", "stop-loss", "trailing-stop", "signal-reversal", "time-exit", "risk-adjustment", "other"],
+            "enum": [
+              "profit-target",
+              "stop-loss",
+              "trailing-stop",
+              "signal-reversal",
+              "time-exit",
+              "risk-adjustment",
+              "other"
+            ],
             "description": "Detailed reason category"
           },
           "explanation": {
@@ -1044,11 +1303,11 @@
       "marketContext": {
         "type": "object",
         "properties": {
-          "spxLevel": { 
+          "spxLevel": {
             "$ref": "#/definitions/price",
             "description": "SPX level at action time"
           },
-          "vixLevel": { 
+          "vixLevel": {
             "type": "number",
             "description": "VIX level at action time"
           },
@@ -1061,11 +1320,17 @@
       }
     }
   },
-  
   "sessionLog": {
     "type": "object",
-    "allOf": [{ "$ref": "#/definitions/baseObject" }],
-    "required": ["date", "summary"],
+    "allOf": [
+      {
+        "$ref": "#/definitions/baseObject"
+      }
+    ],
+    "required": [
+      "date",
+      "summary"
+    ],
     "properties": {
       "date": {
         "type": "string",
@@ -1118,37 +1383,40 @@
       "marketSummary": {
         "type": "object",
         "properties": {
-          "spxOpen": { 
+          "spxOpen": {
             "$ref": "#/definitions/price",
             "description": "SPX open price"
           },
-          "spxClose": { 
+          "spxClose": {
             "$ref": "#/definitions/price",
             "description": "SPX close price"
           },
-          "spxPercent": { 
+          "spxPercent": {
             "type": "number",
             "description": "SPX percentage change"
           },
-          "nasdaqPercent": { 
+          "nasdaqPercent": {
             "type": "number",
             "description": "NASDAQ percentage change"
           },
-          "dowPercent": { 
+          "dowPercent": {
             "type": "number",
             "description": "DOW percentage change"
           },
-          "vixOpen": { 
+          "vixOpen": {
             "type": "number",
             "description": "VIX open level"
           },
-          "vixClose": { 
+          "vixClose": {
             "type": "number",
             "description": "VIX close level"
           },
           "marketMode": {
             "type": "string",
-            "enum": ["Mode 1", "Mode 2"],
+            "enum": [
+              "Mode 1",
+              "Mode 2"
+            ],
             "description": "Market mode"
           },
           "keyEvents": {
@@ -1233,7 +1501,15 @@
           "properties": {
             "category": {
               "type": "string",
-              "enum": ["entry", "exit", "management", "planning", "psychology", "technical", "fundamental"],
+              "enum": [
+                "entry",
+                "exit",
+                "management",
+                "planning",
+                "psychology",
+                "technical",
+                "fundamental"
+              ],
               "description": "Lesson category"
             },
             "lesson": {
@@ -1250,10 +1526,13 @@
       }
     }
   },
-  
   "conversationContext": {
     "type": "object",
-    "allOf": [{ "$ref": "#/definitions/baseObject" }],
+    "allOf": [
+      {
+        "$ref": "#/definitions/baseObject"
+      }
+    ],
     "properties": {
       "activeSymbols": {
         "type": "array",
@@ -1343,7 +1622,10 @@
         "type": "array",
         "items": {
           "type": "object",
-          "required": ["symbol", "direction"],
+          "required": [
+            "symbol",
+            "direction"
+          ],
           "properties": {
             "symbol": {
               "type": "string",
@@ -1351,22 +1633,25 @@
             },
             "direction": {
               "type": "string",
-              "enum": ["long", "short"],
+              "enum": [
+                "long",
+                "short"
+              ],
               "description": "Position direction"
             },
             "positionId": {
               "type": "string",
               "description": "Position ID"
             },
-            "entryPrice": { 
+            "entryPrice": {
               "$ref": "#/definitions/price",
               "description": "Entry price"
             },
-            "stopPrice": { 
+            "stopPrice": {
               "$ref": "#/definitions/price",
               "description": "Stop price"
             },
-            "targetPrice": { 
+            "targetPrice": {
               "$ref": "#/definitions/price",
               "description": "Target price"
             }
@@ -1378,7 +1663,9 @@
         "type": "array",
         "items": {
           "type": "object",
-          "required": ["symbol"],
+          "required": [
+            "symbol"
+          ],
           "properties": {
             "symbol": {
               "type": "string",
@@ -1390,10 +1677,13 @@
             },
             "direction": {
               "type": "string",
-              "enum": ["long", "short"],
+              "enum": [
+                "long",
+                "short"
+              ],
               "description": "Anticipated direction"
             },
-            "entryZone": { 
+            "entryZone": {
               "$ref": "#/definitions/priceZone",
               "description": "Entry zone"
             }
@@ -1406,15 +1696,24 @@
         "properties": {
           "mode": {
             "type": "string",
-            "enum": ["Mode 1", "Mode 2"],
+            "enum": [
+              "Mode 1",
+              "Mode 2"
+            ],
             "description": "Current market mode"
           },
           "bias": {
             "type": "string",
-            "enum": ["bullish", "bearish", "neutral", "neutral-to-bullish", "neutral-to-bearish"],
+            "enum": [
+              "bullish",
+              "bearish",
+              "neutral",
+              "neutral-to-bullish",
+              "neutral-to-bearish"
+            ],
             "description": "Current market bias"
           },
-          "spxLevel": { 
+          "spxLevel": {
             "$ref": "#/definitions/price",
             "description": "Current SPX level"
           },
@@ -1434,7 +1733,7 @@
             "maximum": 100,
             "description": "Default risk percentage"
           },
-          "defaultDuration": { 
+          "defaultDuration": {
             "$ref": "#/definitions/tradeDuration",
             "description": "Default trade duration"
           },
@@ -1453,7 +1752,13 @@
         "properties": {
           "phase": {
             "type": "string",
-            "enum": ["premarket", "open", "lunch", "close", "afterhours"],
+            "enum": [
+              "premarket",
+              "open",
+              "lunch",
+              "close",
+              "afterhours"
+            ],
             "description": "Current session phase"
           },
           "activePlanId": {
@@ -1475,10 +1780,11 @@
       }
     }
   },
-  
   "schemaMetadata": {
     "authoringVersion": "0.5.2",
     "runtimeCompatible": true,
-    "generatedDate": "2025-05-20T00:00:00Z"
-  }
+    "generatedDate": "2025-05-21T01:57:51.934914Z"
+  },
+  "$id": "https://schemas.intenttrader.ai/schema/master/v0.5.2",
+  "$comment": "Canonical schema for all trading objects (authoritative)"
 }

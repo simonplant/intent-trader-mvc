@@ -1,1 +1,101 @@
-{ "$schema": "http://json-schema.org/draft-07/schema#", "title": "Intent Trader Runtime Schema", "version": "0.5.2", ... }
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Intent Trader Runtime Schema (Flattened)",
+  "description": "Simplified schema for runtime LLM agents like Claude (max depth: 3)",
+  "version": "0.5.2",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "direction": {
+      "type": "string",
+      "enum": [
+        "long",
+        "short"
+      ]
+    },
+    "entryMin": {
+      "type": "number"
+    },
+    "entryMax": {
+      "type": "number"
+    },
+    "stop": {
+      "type": "number"
+    },
+    "target": {
+      "type": "number"
+    },
+    "conviction": {
+      "type": "string",
+      "enum": [
+        "focus-trade",
+        "high",
+        "medium",
+        "low",
+        "negative"
+      ]
+    },
+    "confidenceScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "setup": {
+      "type": "string"
+    },
+    "tradeDuration": {
+      "type": "string",
+      "enum": [
+        "cashflow",
+        "day",
+        "swing",
+        "position",
+        "long-term"
+      ]
+    },
+    "isBreakout": {
+      "type": "boolean"
+    },
+    "isReversal": {
+      "type": "boolean"
+    },
+    "isFlagPattern": {
+      "type": "boolean"
+    },
+    "isFailedBreakdown": {
+      "type": "boolean"
+    },
+    "isDayAfterTrade": {
+      "type": "boolean"
+    },
+    "isTrendFollow": {
+      "type": "boolean"
+    },
+    "isRangePlay": {
+      "type": "boolean"
+    },
+    "isMomentumPlay": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "symbol",
+    "direction",
+    "entryMin",
+    "entryMax",
+    "stop",
+    "target"
+  ],
+  "$id": "https://schemas.intenttrader.ai/schema/runtime",
+  "$comment": "Flattened runtime schema for use with LLM agents (Claude-compatible)",
+  "schemaMetadata": {
+    "authoringVersion": "0.5.2",
+    "runtimeCompatible": true,
+    "generatedDate": "2025-05-21T01:57:51.935020Z"
+  }
+}
