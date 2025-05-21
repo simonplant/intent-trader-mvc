@@ -105,23 +105,23 @@ This document maintains a comprehensive task list for implementing the Intent Tr
 - [x] Update list-positions.md (High)
 - [x] Update log-session.md (Medium)
 - [ ] Update market-review.md (Medium)
-- [ ] Update chart-analysis.md (Medium)
+- [x] Update chart-analysis.md (Medium)
 - **Dependencies**: 1.4, 2.3
 - **Priority**: Critical
 - **Assignee**: Prompt Converter
-- **Status**: Partial (8/10 Complete, 80%)
+- **Status**: Partial (9/10 Complete, 90%)
 
 ### 3.2 Standardize front matter across all files (4 points)
 - [x] Create front matter template with schema requirements
-- [ ] Update front matter for all prompt files - In Progress (9/10 Complete, 90%)
+- [-] Update front matter for all prompt files - Partial (9/10 Complete, 90%)
 - [x] Update summarize-mancini.md front matter
-- [ ] Add correct version and dependencies
-- [ ] Update tags and metadata
-- [ ] Validate front matter consistency
+- [-] Add correct version and dependencies - Partial
+- [-] Update tags and metadata - Partial
+- [-] Validate front matter consistency - Partial
 - **Dependencies**: 3.1
 - **Priority**: Medium
 - **Assignee**: Prompt Converter
-- **Status**: In Progress
+- **Status**: Partial
 
 ### 3.3 Reduce example count and verbosity (5 points)
 - [ ] Audit example usage across prompt files
@@ -302,7 +302,7 @@ This document maintains a comprehensive task list for implementing the Intent Tr
 - [x] prompts/list-positions.md - Complete
 - [x] prompts/log-session.md - Complete
 - [ ] prompts/market-review.md - Pending
-- [ ] prompts/chart-analysis.md - Pending
+- [x] prompts/chart-analysis.md - Complete
 
 ## Task Summary
 
@@ -310,11 +310,11 @@ This document maintains a comprehensive task list for implementing the Intent Tr
 |-------|--------|-------|--------|
 | 1. Schema Design & Implementation | 15 | 4 | 4/4 Complete |
 | 2. State Conversion | 10 | 3 | 3/3 Complete |
-| 3. Prompt Updates | 20 | 4 | 1/4 Complete, 1 Partial (80%), 1 In Progress (90%) |
+| 3. Prompt Updates | 20 | 4 | 1/4 Complete, 2 Partial (90%, 50%) |
 | 4. Natural Language Interface | 20 | 4 | 0/4 (1 Partially Complete) |
 | 5. Size Reduction & Cleanup | 10 | 3 | 0/3 |
 | 6. Validation & Testing | 10 | 3 | 0/3 |
-| **TOTAL** | **85** | **21** | **~10.5/21** |
+| **TOTAL** | **85** | **21** | **~11/21** |
 
 ## Critical Path
 
@@ -332,32 +332,34 @@ This document maintains a comprehensive task list for implementing the Intent Tr
    ✅ Update close-position.md (Complete)
    ✅ Update list-positions.md (Complete)
 8. ✅ Update log-session.md (Complete)
-9. ⏱️ Implement natural language parser (4.2) - Next Major Step
-10. ⏱️ Verify trading workflows end-to-end (6.2)
+9. ✅ Update chart-analysis.md (Complete)
+10. ⏱️ Update market-review.md (Pending) - Current Focus
+11. ⏱️ Implement natural language parser (4.2) - Next Major Step
+12. ⏱️ Verify trading workflows end-to-end (6.2)
 
 ## Progress Tracking
 
 - Phase 1: 100% complete (15/15 points)
 - Phase 2: 100% complete (10/10 points)
-- Phase 3: ~55% complete (11/20 points)
+- Phase 3: ~58% complete (11.5/20 points)
 - Phase 4: ~5% complete (1/20 points)
 - Phase 5: 0% complete (0/10 points)
 - Phase 6: 0% complete (0/10 points)
-- Overall: ~43% complete (37/85 points)
+- Overall: ~44% complete (37.5/85 points)
 
 ## Next Steps
 
-1. Complete the remaining medium-priority prompt files:
+1. Complete the final prompt file:
    - Update market-review.md
-   - Update chart-analysis.md
 2. Finish standardizing front matter across all files
 3. Start designing natural language pattern recognition (Task 4.1)
 
 ## Notes
 
-- Front matter standardization can continue in parallel with prompt refactoring
-- Natural language interface design can begin as 8 of 10 prompt files are now complete
+- Front matter standardization is making good progress but still needs completion
+- With 9 of 10 prompt files now complete, natural language interface design can begin in parallel with finalizing market-review.md
 - Prompt optimization and cleanup should follow completion of prompt refactoring
-- With log-session.md complete, the trading workflow is now more fully schema-compliant
-- Focus should shift to remaining medium-priority prompt files while beginning design work on the natural language interface
+- The chart-analysis.md refactoring is now complete with schema v0.5.2 compliance verified
+- The remaining market-review.md file is the final prompt to update before completing Phase 3.1
+- Consider starting Task 4.1 (natural language pattern recognition) now to accelerate the critical path
 - Template-usage-guide.md has been added as a new deliverable to support implementation
