@@ -51,16 +51,24 @@ The **runtime schema** is a derived, flattened version designed for consumption 
 | Schema                   | Version | ID                                               | Source of Truth? |
 |--------------------------|---------|--------------------------------------------------|------------------|
 | `intent-trader.schema.master.json` | 0.5.2   | `https://schemas.intenttrader.ai/schema/master/v0.5.2` | ✅ Yes             |
-| `intent-trader.schema.runtime.json`| 0.5.2   | `https://schemas.intenttrader.ai/schema/runtime`        | ❌ Derived         |
+| `intent-trader.schema.runtime.json`| 0.5.2   | `https://schemas.intenttrader.ai/schema/runtime/v0.5.2`| ❌ Derived         |
 
 - All runtime schemas must be generated from the master schema via a deterministic transformation pipeline.
-- Future schema versions will follow semantic versioning (`v0.5.3`, `v0.6.0`, etc.) and use changelogs to track field additions, removals, and semantic shifts.
+- Future schema versions will follow semantic versioning (`v0.5.2`, `v0.6.0`, etc.) and use changelogs to track field additions, removals, and semantic shifts.
 
 ---
 
 ## 📄 Changelog
 
-### v0.5.2
+### v0.5.2 (2025-05-20)
+- Updated version numbers to 0.5.2
+- Added detailed field descriptions to runtime schema
+- Added missing classification fields to runtime schema (isEarningsPlay, isGapFill)
+- Added schemaVersion defaults to master schema
+- Added minimum value constraints to appropriate numeric fields
+- Updated $id URLs to include version info
+- Updated timestamp in schemaMetadata
+- Improved consistency in property descriptions
 - Introduced two-schema design (`master`, `runtime`)
 - Added `$id`, `$comment`, and `schemaMetadata` fields
 - Flattened runtime schema for LLM agents
