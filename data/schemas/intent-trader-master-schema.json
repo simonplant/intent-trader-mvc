@@ -1783,7 +1783,7 @@
   "schemaMetadata": {
     "authoringVersion": "0.5.2",
     "runtimeCompatible": true,
-    "generatedDate": "2025-05-21T01:57:51.934914Z"
+    "generatedDate": "2025-05-20T08:42:15Z"
   },
   "$id": "https://schemas.intenttrader.ai/schema/master/v0.5.2",
   "$comment": "Canonical schema for all trading objects (authoritative)"

@@ -1,7 +1,11 @@
 .
 ├── changelog.md
 ├── data
-│   └── domain-model.md
+│   ├── domain-model.md
+│   └── schemas
+│       ├── intent-trader-master-schema.json
+│       ├── intent-trader-runtime-schema.json
+│       └── README.schema.md
 ├── docs
 │   ├── architecture
 │   │   ├── requirements.md
@@ -85,12 +89,20 @@
 │   ├── sop.md
 │   └── templates
 │       └── front-matter-template.md
-├── tests
 ├── tree.txt
 └── wip
-    ├── intent-trader-schema.old.json
-    ├── intent-trader.schema.runtime.json
-    ├── master-schema.json
-    └── runtime-schema-incomplete.json
+    ├── archive
+    │   ├── master-schema-updated.json
+    │   └── runtime-schema-updated.json
+    ├── schema-conversion-plan.md
+    ├── schema-implementation-guide.md
+    ├── schema-mapping.md
+    └── workflow
+        ├── implementation-todo-list.md
+        ├── master-workflow-controller.md
+        ├── worker-prompt-core.md
+        ├── worker-prompt-docs.md
+        ├── worker-prompt-nlp.md
+        └── worker-prompt-testing.md
 
-22 directories, 72 files
+24 directories, 82 files
