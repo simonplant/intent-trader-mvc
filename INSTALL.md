@@ -122,11 +122,12 @@ Unknown command. Not handled by runtime.
 Once initialization completes, return:
 
 Runtime initialized.
+Runtime root: [RUNTIME_ROOT]
 Commands loaded: [count]
 Active command map: [command-map]
-Session manifest loaded: [session-state]
+Session manifest: [session-state]
 Emoji enforcement: [status]
-Audit logging: [active | inactive]
+Audit logging: [active|inactive]
 Awaiting your next instruction.
 
 ---

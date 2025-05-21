@@ -3,7 +3,7 @@ id: sync-commands
 title: Command Synchronization Validator
 description: Enforces alignment between command-map.md and all runtime systems: plugin registry, validators, routing, docs, and prompt files
 author: Intent Trader Team
-version: 0.5.0
+version: 0.5.3
 release: 0.5.2
 created: 2025-05-21
 updated: 2025-05-21
@@ -50,6 +50,18 @@ ai_enabled: true
 - `/sync-commands --fix --apply`
   Applies safe patches automatically (requires user confirmation unless explicitly called).
 
+- `/sync-commands --diff`
+  Shows proposed patch diff without applying.
+
+- `/sync-commands --continue`
+  Runs audit and scaffolding without halting on first error.
+
+- `/sync-commands --strict`
+  Treats empty or malformed blocks (e.g. validator) as drift.
+
+- `/sync-commands --skip-cache`
+  Ignores drift cache and forces full re-evaluation.
+
 ---
 
 ## Drift Detection Criteria
@@ -76,10 +88,14 @@ A command is considered **drifted** if any of the following are true:
   "status": "drift-detected",
   "drift": [
     {
-      "command": "reload-active-logic",
+      "command": "sync-commands",
       "missing": [
         "plugin-registry",
+        "runtime-agent",
         "validator",
+        "commands.md",
+        "command-reference.md",
+        "INSTALL.md",
         "README.md"
       ],
       "scaffolded": {
@@ -93,50 +109,57 @@ A command is considered **drifted** if any of the following are true:
   "autoFixMode": true,
   "errors": []
 }
-
-
-⸻
-
-Fix Mode Behavior (--fix)
-	1.	Uses command-map.md as the source of truth
-	2.	Detects and documents missing components in all runtime files
-	3.	Automatically scaffolds missing:
-	•	Plugin registry blocks
-	•	Validator rules
-	•	Prompt file stubs
-	•	Command map declarations
-	•	Docs and README anchors
-	4.	Writes to logs/sync-drift.json
-	5.	Only applies patches on --apply
-
-⸻
-
-Error Handling
-	•	Any failure to scaffold will be logged as:
-
-{ "command": "status", "error": "Failed to scaffold validator block: Reason" }
-
-	•	Never overwrites existing files unless explicitly instructed
-
-⸻
-
-Use in CI Enforcement
-
-Run /sync-commands --fix before merge to detect drift.
-Run /sync-commands --fix --apply during deploy or dev sync.
-
-⸻
-
-SOP: Maintain Command Integrity
-	•	command-map.md is the canonical source of truth.
-	•	All runtime components must stay aligned or the system enters soft-failure mode.
-	•	Manual patches are allowed, but must be reflected in future command-map entries or will be flagged as drift.
-
-⸻
-
-Example
-
-/sync-commands               # dry-run audit
-/sync-commands --fix         # detect + scaffold drift patches
-/sync-commands --fix --apply # apply patches directly
 ```
+
+---
+
+## Fix Mode Behavior (`--fix`, `--apply`, `--diff`)
+
+1. Uses `command-map.md` as the source of truth.
+2. Detects and documents missing or malformed components.
+3. Scaffolds:
+
+   - Plugin registry entries
+   - Validator blocks
+   - Prompt file stubs (if missing)
+   - Routing table lines in `runtime-agent.md`
+   - Entries in `system/commands.md`, `INSTALL.md`, `README.md`, and `command-reference.md`
+
+4. Writes output to `logs/sync-drift.json`
+5. If `--apply` is passed, will attempt to patch all files unless locked.
+6. Patch diff can be viewed via `--diff` before commit.
+
+---
+
+## Error Handling
+
+- All errors are logged with precise reason.
+- No file is overwritten unless `--apply` is explicitly passed.
+- Errors do **not halt execution** if `--continue` is passed.
+
+---
+
+## Annotations (inside `command-map.md`)
+
+You may explicitly mark any command with the following:
+
+```yaml
+sync: false # skip sync/enforcement for this command
+```
+
+---
+
+## Use in CI Enforcement
+
+- Run `/sync-commands --fix` pre-merge to detect drift.
+- Run `/sync-commands --fix --apply` during deployment.
+- Use `--diff` in preview pipelines.
+
+---
+
+## SOP: Maintain Command Integrity
+
+- `command-map.md` is the **single source of truth**.
+- All other runtime and documentation artifacts must stay aligned.
+- Manual drift is allowed only if flagged with `sync: false`.
+- Unacknowledged drift will be flagged on every CI pass until resolved.
