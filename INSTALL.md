@@ -47,23 +47,14 @@ Recursively load all `.md` files from:
 - `system/`
 - `prompts/`
 - `docs/`
-- `tests/`
 - Any other folders present
 
 ### Step 3 — Structured JSON
 
-Recursively load all `.json` files from:
+Recursively load all `.json` and `.md` files from:
 
-- `config/`
 - `logs/`
 - `system/schemas/`
-
-### Step 4 — Tests
-
-From `tests/`, load:
-
-- All `.md` files (test planning and specs)
-- All `.js` files (test execution logic)
 
 ---
 
@@ -71,8 +62,7 @@ From `tests/`, load:
 
 In addition to required paths, scan and log any of the following **if present**:
 
-- Any `.md`, `.json`, `.js`, `.yaml`, or `.yml` files in subfolders not explicitly listed
-- Folders such as `examples/`, `simulations/`, `benchmarks/`, or future extensions
+- Any `.md`, `.json`, `.js`, `.yaml`, or `.yml` files in subfolders not explicitly listed. Please log these as a catch-all bootstrap into our console chat.
 
 Fallback rule:
 
@@ -94,9 +84,11 @@ Exclude the following common artifacts from initialization:
 
 Activate command routing and runtime behavior from:
 
-- `system/runtime/entrypoint.md`
+- `system/runtime/entrypoint.md` (Entrypoint)
 - `system/runtime/runtime-agent.md` (Routing Engine)
 - `system/runtime/command-map.md` (Command Map)
+- `system/runtime/plugin-dispatcher.js` (Plugin Dispatcher)
+- `system/runtime/plugin-registry.json` (Plugin Registry)
 
 ---
 
