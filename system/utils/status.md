@@ -3,18 +3,21 @@ id: status
 title: /status Command Handler
 description: Returns current session state from session-manifest.json
 author: Intent Trader System
-version: 0.1.0
+version: 0.3.2
+release: 0.5.2
 created: 2025-05-20
-category: runtime
+updated: 2025-05-21
+category: system
 status: stable
-tags: [command, status]
-requires: [state/session-manifest.json]
+tags: [command, status, runtime]
+requires: [system/state/session-manifest.json]
+outputs: [logs/runtime-init.log]
 input_format: none
 output_format: markdown
 ai_enabled: true
 ---
 
-# /status
+# System Status
 
 Runtime boot: [status]
 Runtime root: [RUNTIME_ROOT]

@@ -121,7 +121,8 @@ Unknown command. Not handled by runtime.
 
 ## Ready Check
 
-Once initialization completes, return the full status:
+Once initialization completes, run:
+`/status`
 
 ---
 
