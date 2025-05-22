@@ -44,7 +44,7 @@ This file defines the routing and execution logic for all Intent Trader commands
 | **UTILITIES**          |
 | `/analyze-chart`       | Analyze chart patterns and levels                 | utility | Chart image, optional parameters       | prompts/utilities/analyze-chart.md       |
 | **SYSTEM COMMANDS**    |
-| `/help`                | Show available commands                           | system  | Optional command name                  | system/commands.md                       |
+| `/help`                | Show available commands                           | system  | Optional command name                  | system/runtime/command-map.md            |
 | `/status`              | Show current trading session state                | system  | None                                   | system/utils/status.md                   |
 | `/reload-active-logic` | Flush context and reload runtime logic            | system  | none                                   | prompts/utilities/reload-active-logic.md |
 | `/scaffold-command`    | Generate boilerplate for new commands             | system  | command-name, phase, type, description | prompts/utilities/scaffold-command.md    |
