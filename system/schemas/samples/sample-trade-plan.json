@@ -1,0 +1,268 @@
+{
+  "schemaVersion": "0.5.2",
+  "id": "plan-20250520",
+  "source": "system",
+  "timestamp": "2025-05-20T08:45:00Z",
+  "date": "2025-05-20",
+  "marketFramework": {
+    "bias": "neutral-to-bullish",
+    "biasCondition": "bullish above 5926, bearish below 5880",
+    "mode": "Mode 2",
+    "modeConfidence": 80,
+    "character": "Consolidation in bull flag pattern",
+    "catalysts": ["CPI data release at 8:30 AM", "FOMC minutes tomorrow"],
+    "keyMovers": [
+      {
+        "ticker": "AAPL",
+        "direction": "up",
+        "magnitude": "strong",
+        "reason": "Product announcement expected"
+      },
+      {
+        "ticker": "NVDA",
+        "direction": "up",
+        "magnitude": "moderate",
+        "reason": "Analyst upgrade"
+      }
+    ]
+  },
+  "levelFramework": {
+    "indices": {
+      "es": {
+        "support": [
+          {
+            "price": 5900,
+            "notes": "Multiple tests with rejection",
+            "type": "major",
+            "strength": "strong"
+          },
+          {
+            "price": 5880,
+            "notes": "Prior breakdown level",
+            "type": "major",
+            "strength": "moderate"
+          }
+        ],
+        "resistance": [
+          {
+            "price": 5945,
+            "notes": "Recent high",
+            "type": "major",
+            "strength": "moderate"
+          },
+          {
+            "price": 5970,
+            "notes": "Measured move target",
+            "type": "minor",
+            "strength": "weak"
+          }
+        ]
+      },
+      "spx": {
+        "support": [
+          {
+            "price": 5920,
+            "notes": "Equivalent to ES 5900",
+            "type": "major",
+            "strength": "strong"
+          }
+        ],
+        "resistance": [
+          {
+            "price": 5965,
+            "notes": "Equivalent to ES 5945",
+            "type": "major",
+            "strength": "moderate"
+          }
+        ]
+      }
+    },
+    "stocks": [
+      {
+        "ticker": "AAPL",
+        "levels": {
+          "support": [
+            {
+              "price": 205.80,
+              "notes": "Prior consolidation base",
+              "type": "major",
+              "strength": "strong"
+            }
+          ],
+          "resistance": [
+            {
+              "price": 215.50,
+              "notes": "Recent high",
+              "type": "major",
+              "strength": "moderate"
+            }
+          ]
+        },
+        "movingAverages": {
+          "ma8": 212.35,
+          "ma21": 205.80
+        }
+      }
+    ],
+    "zones": [
+      {
+        "min": 5900,
+        "max": 5926,
+        "notes": "Current consolidation range",
+        "type": "consolidation"
+      }
+    ],
+    "keyDecisionPoint": 5926
+  },
+  "tradeIdeas": [
+    {
+      "schemaVersion": "0.5.2",
+      "id": "idea-plan-20250520-AAPL-01",
+      "source": "system",
+      "timestamp": "2025-05-20T08:45:00Z",
+      "symbol": "AAPL",
+      "direction": "long",
+      "conviction": {
+        "level": "high",
+        "phrases": ["strong pattern", "clean setup"]
+      },
+      "entryParameters": {
+        "zone": {
+          "min": 210.50,
+          "max": 212.75
+        },
+        "condition": "entry above 212.75 with volume",
+        "strategy": "limit"
+      },
+      "exitParameters": {
+        "stopLoss": 205.80,
+        "target": 225.00,
+        "strategy": "Scale out 50% at first target",
+        "trimLevels": [
+          {
+            "price": 218.50,
+            "percentage": 50
+          },
+          {
+            "price": 225.00,
+            "percentage": 50
+          }
+        ]
+      },
+      "rationale": "Breaking out of bull flag consolidation with volume",
+      "tradeDuration": "swing",
+      "setup": "bull-flag-breakout",
+      "status": "active",
+      "confirmationStatus": "unconfirmed",
+      "classifications": {
+        "isBreakout": true,
+        "isReversal": false,
+        "isFlagPattern": true,
+        "isFailedBreakdown": false,
+        "isEarningsPlay": false,
+        "isDayAfterTrade": false,
+        "isTrendFollow": true,
+        "isRangePlay": false,
+        "isGapFill": false,
+        "isMomentumPlay": true
+      },
+      "positionSizing": {
+        "recommendation": "full",
+        "reasoning": "High conviction pattern with clear risk parameters"
+      },
+      "risk": {
+        "plannedRMultiple": 2.3
+      },
+      "priority": 1,
+      "category": "primary",
+      "isFavorite": true
+    },
+    {
+      "schemaVersion": "0.5.2",
+      "id": "idea-plan-20250520-ES-01",
+      "source": "system",
+      "timestamp": "2025-05-20T08:45:00Z",
+      "symbol": "ES",
+      "direction": "long",
+      "conviction": {
+        "level": "medium",
+        "phrases": ["potential breakout", "watching closely"]
+      },
+      "entryParameters": {
+        "zone": {
+          "min": 5926,
+          "max": 5935
+        },
+        "condition": "break above 5926 with follow-through",
+        "strategy": "market"
+      },
+      "exitParameters": {
+        "stopLoss": 5905,
+        "target": 5970,
+        "strategy": "Trail stop after reaching 5945"
+      },
+      "rationale": "Consolidation breakout targeting measured move",
+      "tradeDuration": "day",
+      "setup": "consolidation-breakout",
+      "status": "pending",
+      "confirmationStatus": "unconfirmed",
+      "classifications": {
+        "isBreakout": true,
+        "isReversal": false,
+        "isFlagPattern": false,
+        "isFailedBreakdown": false,
+        "isEarningsPlay": false,
+        "isDayAfterTrade": false,
+        "isTrendFollow": true,
+        "isRangePlay": false,
+        "isGapFill": false,
+        "isMomentumPlay": false
+      },
+      "positionSizing": {
+        "recommendation": "half",
+        "reasoning": "Medium conviction with market catalyst pending"
+      },
+      "priority": 2,
+      "category": "primary"
+    }
+  ],
+  "scenarioPlanning": [
+    {
+      "type": "long",
+      "conviction": "high",
+      "trigger": "reclaim above 5926 with volume",
+      "targets": [5945, 5970],
+      "stop": 5905,
+      "risk_reward": 2.5,
+      "probability": 65,
+      "description": "Breakout from consolidation targeting prior highs"
+    },
+    {
+      "type": "short",
+      "conviction": "medium",
+      "trigger": "breakdown below 5880 with follow-through",
+      "targets": [5860, 5840],
+      "stop": 5895,
+      "risk_reward": 2.0,
+      "probability": 35,
+      "description": "Breakdown from range targeting next support level"
+    }
+  ],
+  "riskManagement": {
+    "accountSize": 100000,
+    "maxRiskPercent": 1,
+    "dailyRiskAmount": 1000,
+    "positionSizing": "Risk 0.5% on primary setups, 0.25% on secondary",
+    "stopPlacement": "Place stops below key support for longs",
+    "trailStrategy": "Trail to breakeven after 50% of target reached"
+  },
+  "metadata": {
+    "generatedFrom": ["dp-analysis-20250520", "mancini-analysis-20250520"],
+    "generationTimestamp": "2025-05-20T08:45:00Z",
+    "updatedTimestamp": "2025-05-20T08:45:00Z"
+  },
+  "origin": {
+    "sourceCommand": "/create-plan",
+    "createdBy": "plan-generator"
+  }
+}

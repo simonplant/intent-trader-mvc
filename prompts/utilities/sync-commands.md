@@ -1,16 +1,27 @@
 ---
 id: sync-commands
-title: Command Consistency Validator
-description: Validates command map, plugin registry, and validators — with optional drift remediation
+title: Command Synchronization Validator
+description: Enforces alignment between command-map.md and all runtime systems: plugin registry, validators, routing, docs, and prompt files
 author: Intent Trader Team
-version: 0.3.1
-release: 0.5.1
-created: 2025-05-20
-updated: 2025-05-20
+version: 0.5.3
+release: 0.5.2
+created: 2025-05-21
+updated: 2025-05-21
 category: system
 status: stable
-tags: [sync, validator, scaffolding, integrity]
-requires: [system/runtime/command-map.md, system/runtime/plugin-registry.json, system/runtime/validator.md]
+tags: [sync, validator, scaffolding, drift-detection, enforcement]
+requires:
+  [
+    system/runtime/command-map.md,
+    system/runtime/plugin-registry.json,
+    system/runtime/runtime-agent.md,
+    system/runtime/validator.md,
+    prompts/**,
+    system/commands.md,
+    docs/runtime/command-reference.md,
+    INSTALL.md,
+    README.md
+  ]
 outputs: [logs/sync-drift.json]
 input_format: command
 output_format: json
@@ -22,97 +33,133 @@ ai_enabled: true
 ## Modes
 
 - `/sync-commands`
-  → Dry-run validator (read-only; no writes)
+  Perform a **read-only drift audit** from `command-map.md` to:
+
+  - `plugin-registry.json`
+  - `runtime-agent.md`
+  - `validator.md`
+  - `prompts/**`
+  - `system/commands.md`
+  - `docs/runtime/command-reference.md`
+  - `INSTALL.md`
+  - `README.md`
 
 - `/sync-commands --fix`
-  → Detects drift and auto-generates missing components using `/scaffold-command`
+  Identify and scaffold missing components using `/scaffold-command`. All scaffolding is written to a patch preview file.
+
+- `/sync-commands --fix --apply`
+  Applies safe patches automatically (requires user confirmation unless explicitly called).
+
+- `/sync-commands --diff`
+  Shows proposed patch diff without applying.
+
+- `/sync-commands --continue`
+  Runs audit and scaffolding without halting on first error.
+
+- `/sync-commands --strict`
+  Treats empty or malformed blocks (e.g. validator) as drift.
+
+- `/sync-commands --skip-cache`
+  Ignores drift cache and forces full re-evaluation.
 
 ---
 
 ## Drift Detection Criteria
 
-A command is considered out-of-sync if:
-- It appears in `command-map.md` but not in `plugin-registry.json`
-- It has no entry in `validator.md`
-- It lacks a prompt implementation file in `prompts/{phase}/{command-name}.md`
+A command is considered **drifted** if any of the following are true:
+
+| Check                  | Description                                                         |
+| ---------------------- | ------------------------------------------------------------------- |
+| `plugin-registry`      | Command missing from `plugin-registry.json` or incorrect phase/type |
+| `runtime-agent`        | Missing from `runtime-agent.md`                                     |
+| `validator`            | Absent or out-of-date validation block in `validator.md`            |
+| `prompt`               | Missing expected handler at `prompts/{phase}/{command-name}.md`     |
+| `commands.md`          | Missing from system-wide command listing                            |
+| `command-reference.md` | Not referenced in `docs/runtime/command-reference.md`               |
+| `INSTALL.md`           | Omitted from runtime enforcement notes                              |
+| `README.md`            | Missing from public docs if core/system command                     |
 
 ---
 
-## Fix Mode Behavior (`--fix`)
+## Output Format
 
-When run in fix mode:
-1. Identifies all commands with missing components
-2. Uses `command-map.md` as source of truth
-3. Runs `/scaffold-command` behind the scenes
-4. Generates:
-   - Plugin registry patch
-   - Validator patch
-   - Prompt template (if missing)
-   - Entry stubs for `command-reference.md`, `commands.md`, and `release-notes.md`
-5. Writes these to:
-   - `logs/sync-drift.json` (preview)
-   - Optionally inserts patches if `--apply` is passed
-
----
-
-## Example Usage
-
-```bash
-/sync-commands                    # dry-run
-/sync-commands --fix              # generate patch blocks
-/sync-commands --fix --apply      # patch files immediately (requires confirmation)
-
-
-⸻
-
-Output Structure
-
+```json
 {
   "status": "drift-detected",
   "drift": [
     {
-      "command": "status",
-      "missing": ["plugin-registry", "validator"],
+      "command": "sync-commands",
+      "missing": [
+        "plugin-registry",
+        "runtime-agent",
+        "validator",
+        "commands.md",
+        "command-reference.md",
+        "INSTALL.md",
+        "README.md"
+      ],
       "scaffolded": {
         "pluginRegistryEntry": "...",
-        "validatorEntry": "...",
-        "promptFile": "EXISTS"
+        "validatorBlock": "...",
+        "promptExists": true
       }
     }
   ],
   "patchLog": "logs/sync-drift.json",
-  "autoFixMode": true
+  "autoFixMode": true,
+  "errors": []
 }
-
-
-⸻
-
-Error Handling
-	•	If scaffold-command fails for any entry, logs it under errors
-	•	Never overwrites existing files unless --apply is explicitly set
+```
 
 ---
 
-## ✅ 2. SOP Patch: Section 5 – Maintain Sync
+## Fix Mode Behavior (`--fix`, `--apply`, `--diff`)
 
-Replace the current section with:
+1. Uses `command-map.md` as the source of truth.
+2. Detects and documents missing or malformed components.
+3. Scaffolds:
 
-5. Maintain Sync
+   - Plugin registry entries
+   - Validator blocks
+   - Prompt file stubs (if missing)
+   - Routing table lines in `runtime-agent.md`
+   - Entries in `system/commands.md`, `INSTALL.md`, `README.md`, and `command-reference.md`
 
-Use /sync-commands to validate command infrastructure consistency.
-• Dry-run mode (default) checks:
-• Missing plugin registry or validator entries
-• Orphaned files or undocumented commands
-• Version inconsistencies
-• Fix mode (--fix) auto-generates missing pieces using /scaffold-command:
-• Missing plugin registry and validator entries
-• Missing prompt files
-• Outputs suggested patches to logs/sync-drift.json
-• Apply mode (--fix --apply) writes changes directly to disk after validation
+4. Writes output to `logs/sync-drift.json`
+5. If `--apply` is passed, will attempt to patch all files unless locked.
+6. Patch diff can be viewed via `--diff` before commit.
 
-Example:
+---
 
-/sync-commands --fix            # Detect and scaffold missing entries
-/sync-commands --fix --apply    # Apply all safe patches automatically
+## Error Handling
 
-This allows teams to sync drifted systems quickly while preserving manual control.
+- All errors are logged with precise reason.
+- No file is overwritten unless `--apply` is explicitly passed.
+- Errors do **not halt execution** if `--continue` is passed.
+
+---
+
+## Annotations (inside `command-map.md`)
+
+You may explicitly mark any command with the following:
+
+```yaml
+sync: false # skip sync/enforcement for this command
+```
+
+---
+
+## Use in CI Enforcement
+
+- Run `/sync-commands --fix` pre-merge to detect drift.
+- Run `/sync-commands --fix --apply` during deployment.
+- Use `--diff` in preview pipelines.
+
+---
+
+## SOP: Maintain Command Integrity
+
+- `command-map.md` is the **single source of truth**.
+- All other runtime and documentation artifacts must stay aligned.
+- Manual drift is allowed only if flagged with `sync: false`.
+- Unacknowledged drift will be flagged on every CI pass until resolved.

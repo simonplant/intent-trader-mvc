@@ -1,0 +1,414 @@
+{
+  "schemaVersion": "0.5.2",
+  "runtime": {
+    "config": {
+      "maxNestingDepth": 3,
+      "enableSchemaValidation": true,
+      "logValidationErrors": true,
+      "strictReferenceChecking": true
+    },
+    "state": {
+      "activePlanId": "plan-20250520",
+      "activeSessionId": "session-20250520",
+      "focusedSymbols": ["AAPL", "ES"],
+      "systemStatus": "trading"
+    },
+    "objects": {
+      "tradePlans": {
+        "plan-20250520": {
+          "schemaVersion": "0.5.2",
+          "id": "plan-20250520",
+          "source": "system",
+          "timestamp": "2025-05-20T08:30:00Z",
+          "date": "2025-05-20",
+          
+          "bias": "neutral-to-bullish",
+          "biasCondition": "bullish above 5926, bearish below 5880",
+          "mode": "Mode 2",
+          "modeConfidence": 70,
+          "marketCharacter": "Consolidation in bull flag pattern",
+          
+          "keyDecisionPoint": 5926,
+          
+          "marketFrameworkId": "market-20250520",
+          "levelFrameworkId": "levels-20250520",
+          "tradeIdeaIds": ["idea-dp-20250520-AAPL-01", "idea-dp-20250520-ES-01"],
+          
+          "primaryIdeas": [
+            {
+              "id": "idea-dp-20250520-AAPL-01",
+              "symbol": "AAPL",
+              "direction": "long",
+              "convictionLevel": "high",
+              "setup": "bull-flag-breakout"
+            }
+          ],
+          
+          "scenarios": [
+            {
+              "type": "long",
+              "conviction": "high",
+              "trigger": "reclaim above 5926 with volume",
+              "targets": [5945, 5970],
+              "stop": 5905,
+              "riskReward": 2.5,
+              "probability": 65,
+              "description": "Breakout from consolidation targeting prior highs"
+            },
+            {
+              "type": "short",
+              "conviction": "medium",
+              "trigger": "break below 5880 with follow-through",
+              "targets": [5850, 5830],
+              "stop": 5905,
+              "riskReward": 1.8,
+              "probability": 35,
+              "description": "Breakdown from consolidation targeting prior lows"
+            }
+          ],
+          
+          "accountSize": 100000,
+          "maxRiskPercent": 1,
+          "dailyRiskAmount": 1000,
+          "positionSizingStrategy": "Risk 0.5% on primary setups, 0.25% on secondary",
+          "stopPlacementStrategy": "Place stops below key support for longs",
+          "trailStrategy": "Trail to breakeven after 50% of target reached",
+          
+          "generatedFrom": ["dp-analysis-20250520", "mancini-analysis-20250520"],
+          "originCommand": "/create-plan",
+          "createdBy": "command-parser"
+        }
+      },
+      
+      "marketFrameworks": {
+        "market-20250520": {
+          "schemaVersion": "0.5.2",
+          "id": "market-20250520",
+          "source": "dp",
+          "timestamp": "2025-05-20T08:15:00Z",
+          
+          "bias": "neutral-to-bullish",
+          "biasCondition": "bullish above 5926, bearish below 5880",
+          "mode": "Mode 2",
+          "modeConfidence": 70,
+          "character": "Consolidation in bull flag pattern",
+          
+          "catalysts": [
+            "CPI data release at 8:30 AM",
+            "FOMC minutes tomorrow"
+          ],
+          
+          "keyMovers": [
+            {
+              "ticker": "AAPL",
+              "direction": "up",
+              "magnitude": "moderate",
+              "reason": "Product announcement rumors"
+            },
+            {
+              "ticker": "MSFT",
+              "direction": "up",
+              "magnitude": "strong",
+              "reason": "Cloud services growth"
+            }
+          ],
+          
+          "originCommand": "/analyze-dp",
+          "createdBy": "dp-analyzer"
+        }
+      },
+      
+      "levelFrameworks": {
+        "levels-20250520": {
+          "schemaVersion": "0.5.2",
+          "id": "levels-20250520",
+          "source": "dp",
+          "timestamp": "2025-05-20T08:20:00Z",
+          
+          "indices": {
+            "es": {
+              "support": [
+                {
+                  "price": 5900,
+                  "notes": "Previous day low",
+                  "type": "key",
+                  "strength": "strong"
+                },
+                {
+                  "price": 5880,
+                  "notes": "Weekly support",
+                  "type": "major",
+                  "strength": "strong"
+                }
+              ],
+              "resistance": [
+                {
+                  "price": 5926,
+                  "notes": "Today's high",
+                  "type": "key",
+                  "strength": "moderate"
+                },
+                {
+                  "price": 5950,
+                  "notes": "Previous week high",
+                  "type": "major",
+                  "strength": "strong"
+                }
+              ]
+            },
+            "spx": {
+              "support": [
+                {
+                  "price": 5210,
+                  "notes": "Previous day low",
+                  "type": "key",
+                  "strength": "strong"
+                },
+                {
+                  "price": 5190,
+                  "notes": "Weekly support",
+                  "type": "major",
+                  "strength": "strong"
+                }
+              ],
+              "resistance": [
+                {
+                  "price": 5235,
+                  "notes": "Today's high",
+                  "type": "key",
+                  "strength": "moderate"
+                },
+                {
+                  "price": 5260,
+                  "notes": "Previous week high",
+                  "type": "major",
+                  "strength": "strong"
+                }
+              ]
+            }
+          },
+          
+          "stocks": [
+            {
+              "ticker": "AAPL",
+              "support": [
+                {
+                  "price": 210.50,
+                  "notes": "Daily support"
+                },
+                {
+                  "price": 205.80,
+                  "notes": "21-day MA"
+                }
+              ],
+              "resistance": [
+                {
+                  "price": 212.75,
+                  "notes": "Recent high"
+                },
+                {
+                  "price": 215.00,
+                  "notes": "Psychological level"
+                }
+              ],
+              "ma8": 211.25,
+              "ma21": 205.80
+            }
+          ],
+          
+          "zones": [
+            {
+              "min": 5900,
+              "max": 5926,
+              "notes": "Current consolidation range",
+              "type": "consolidation"
+            },
+            {
+              "min": 210.50,
+              "max": 212.75,
+              "notes": "AAPL entry zone",
+              "type": "entry"
+            }
+          ],
+          
+          "keyDecisionPoint": 5926,
+          
+          "originCommand": "/analyze-dp",
+          "createdBy": "dp-analyzer"
+        }
+      },
+      
+      "tradeIdeas": {
+        "idea-dp-20250520-AAPL-01": {
+          "schemaVersion": "0.5.2",
+          "id": "idea-dp-20250520-AAPL-01",
+          "source": "dp",
+          "timestamp": "2025-05-20T08:25:00Z",
+          
+          "symbol": "AAPL",
+          "direction": "long",
+          "conviction": {
+            "level": "high",
+            "phrases": ["strong long here", "compelling setup"]
+          },
+          
+          "entryZoneMin": 210.50,
+          "entryZoneMax": 212.75,
+          "entryCondition": "entry above 212.75 with volume",
+          "entryStrategy": "limit",
+          
+          "stopLoss": 205.80,
+          "target": 225.00,
+          "exitStrategy": "Scale out approach, 50% at first target",
+          "trimLevels": [
+            {
+              "price": 218.50,
+              "percentage": 50
+            },
+            {
+              "price": 222.00,
+              "percentage": 25
+            }
+          ],
+          
+          "rationale": "Breaking out of bull flag consolidation with increasing volume",
+          "tradeDuration": "swing",
+          "setup": "bull-flag-breakout",
+          "status": "active",
+          "confirmationStatus": "unconfirmed",
+          
+          "isBreakout": true,
+          "isReversal": false,
+          "isFlagPattern": true,
+          "isFailedBreakdown": false,
+          "isEarningsPlay": false,
+          "isDayAfterTrade": false,
+          "isTrendFollow": true,
+          "isRangePlay": false,
+          "isGapFill": false,
+          "isMomentumPlay": false,
+          
+          "positionSizing": "full",
+          "sizingRationale": "High conviction pattern with clear risk parameters",
+          "plannedRMultiple": 2.3,
+          "priority": 1,
+          "category": "primary",
+          "frequency": 3,
+          "isFavorite": true,
+          
+          "originCommand": "/analyze-dp",
+          "createdBy": "dp-analyzer"
+        },
+        
+        "idea-dp-20250520-ES-01": {
+          "schemaVersion": "0.5.2",
+          "id": "idea-dp-20250520-ES-01",
+          "source": "dp",
+          "timestamp": "2025-05-20T08:26:00Z",
+          
+          "symbol": "ES",
+          "direction": "long",
+          "conviction": {
+            "level": "medium",
+            "phrases": ["watching for breakout"]
+          },
+          
+          "entryZoneMin": 5900,
+          "entryZoneMax": 5926,
+          "entryCondition": "entry above 5926 with follow-through",
+          "entryStrategy": "limit",
+          
+          "stopLoss": 5880,
+          "target": 5970,
+          "exitStrategy": "Scale out at targets",
+          "trimLevels": [
+            {
+              "price": 5945,
+              "percentage": 50
+            },
+            {
+              "price": 5970,
+              "percentage": 50
+            }
+          ],
+          
+          "rationale": "Consolidation breakout if we clear 5926 resistance",
+          "tradeDuration": "day",
+          "setup": "consolidation-breakout",
+          "status": "active",
+          "confirmationStatus": "unconfirmed",
+          
+          "isBreakout": true,
+          "isReversal": false,
+          "isFlagPattern": false,
+          "isFailedBreakdown": false,
+          "isEarningsPlay": false,
+          "isDayAfterTrade": false,
+          "isTrendFollow": true,
+          "isRangePlay": false,
+          "isGapFill": false,
+          "isMomentumPlay": false,
+          
+          "positionSizing": "half",
+          "sizingRationale": "Medium conviction trade ahead of key catalyst",
+          "plannedRMultiple": 1.9,
+          "priority": 2,
+          "category": "secondary",
+          "frequency": 2,
+          "isFavorite": false,
+          
+          "originCommand": "/analyze-dp",
+          "createdBy": "dp-analyzer"
+        }
+      },
+      
+      "tradePositions": {
+        "pos-20250520-AAPL-01": {
+          "schemaVersion": "0.5.2",
+          "id": "pos-20250520-AAPL-01",
+          "source": "manual",
+          "timestamp": "2025-05-20T09:45:00Z",
+          
+          "symbol": "AAPL",
+          "direction": "long",
+          "entryPrice": 212.75,
+          "entryDate": "2025-05-20",
+          "shares": 100,
+          "contracts": null,
+          
+          "stop": 205.80,
+          "target": 225.00,
+          "setup": "bull-flag-breakout",
+          "status": "open",
+          
+          "exitDate": null,
+          "exitPrice": null,
+          "profitAmount": null,
+          "profitPercent": null,
+          "rMultiple": null,
+          
+          "notes": "Entered on breakout with strong volume",
+          "convictionLevel": "high",
+          
+          "isBreakout": true,
+          "isReversal": false,
+          "isFlagPattern": true,
+          "isFailedBreakdown": false,
+          "isEarningsPlay": false,
+          "isDayAfterTrade": false,
+          "isTrendFollow": true,
+          "isRangePlay": false,
+          "isGapFill": false,
+          "isMomentumPlay": false,
+          
+          "isRunner": false,
+          "isCorePosition": false,
+          
+          "originCommand": "/enter-position",
+          "createdBy": "trade-position-manager",
+          "ideaId": "idea-dp-20250520-AAPL-01"
+        }
+      }
+    }
+  }
+}

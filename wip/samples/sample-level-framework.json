@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "0.5.2",
+  "id": "lvl-framework-20250520",
+  "source": "system",
+  "timestamp": "2025-05-20T08:20:00Z",
+  "indices": {
+    "es": {
+      "support": [
+        {
+          "price": 5900,
+          "notes": "Multiple tests with strong rejection",
+          "type": "major",
+          "strength": "strong"
+        },
+        {
+          "price": 5880,
+          "notes": "Prior breakdown level now support",
+          "type": "major",
+          "strength": "moderate"
+        },
+        {
+          "price": 5850,
+          "notes": "Psychological level",
+          "type": "psychological",
+          "strength": "moderate"
+        }
+      ],
+      "resistance": [
+        {
+          "price": 5945,
+          "notes": "Recent high",
+          "type": "major",
+          "strength": "moderate"
+        },
+        {
+          "price": 5970,
+          "notes": "Measured move target",
+          "type": "minor",
+          "strength": "weak"
+        },
+        {
+          "price": 6000,
+          "notes": "Key psychological level",
+          "type": "psychological",
+          "strength": "strong"
+        }
+      ]
+    },
+    "spx": {
+      "support": [
+        {
+          "price": 5920,
+          "notes": "Equivalent to ES 5900",
+          "type": "major",
+          "strength": "strong"
+        },
+        {
+          "price": 5900,
+          "notes": "Equivalent to ES 5880",
+          "type": "major",
+          "strength": "moderate"
+        }
+      ],
+      "resistance": [
+        {
+          "price": 5965,
+          "notes": "Equivalent to ES 5945",
+          "type": "major",
+          "strength": "moderate"
+        },
+        {
+          "price": 5990,
+          "notes": "Equivalent to ES 5970",
+          "type": "minor",
+          "strength": "weak"
+        }
+      ]
+    }
+  },
+  "stocks": [
+    {
+      "ticker": "AAPL",
+      "levels": {
+        "support": [
+          {
+            "price": 205.80,
+            "notes": "Prior consolidation base",
+            "type": "major",
+            "strength": "strong"
+          },
+          {
+            "price": 200.00,
+            "notes": "Psychological level",
+            "type": "psychological",
+            "strength": "strong"
+          }
+        ],
+        "resistance": [
+          {
+            "price": 215.50,
+            "notes": "Recent high",
+            "type": "major",
+            "strength": "moderate"
+          },
+          {
+            "price": 225.00,
+            "notes": "Long-term target",
+            "type": "minor",
+            "strength": "weak"
+          }
+        ]
+      },
+      "movingAverages": {
+        "ma8": 212.35,
+        "ma21": 205.80,
+        "ma50": 198.45,
+        "ma200": 185.20
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "levels": {
+        "support": [
+          {
+            "price": 410.50,
+            "notes": "Recent breakout level",
+            "type": "major",
+            "strength": "strong"
+          }
+        ],
+        "resistance": [
+          {
+            "price": 425.75,
+            "notes": "All-time high",
+            "type": "major",
+            "strength": "moderate"
+          }
+        ]
+      },
+      "movingAverages": {
+        "ma8": 415.20,
+        "ma21": 408.50
+      }
+    }
+  ],
+  "zones": [
+    {
+      "min": 5900,
+      "max": 5926,
+      "notes": "Current consolidation range",
+      "type": "consolidation"
+    },
+    {
+      "min": 5926,
+      "max": 5945,
+      "notes": "Initial breakout zone",
+      "type": "decision"
+    },
+    {
+      "min": 5880,
+      "max": 5900,
+      "notes": "Breakdown alert zone",
+      "type": "stop"
+    }
+  ],
+  "keyDecisionPoint": 5926,
+  "origin": {
+    "sourceCommand": "/analyze-levels",
+    "createdBy": "level-analyzer"
+  }
+}

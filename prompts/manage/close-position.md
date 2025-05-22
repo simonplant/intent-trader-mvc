@@ -1,17 +1,26 @@
 ---
-command: close-position
-version: 1.0.0
-phase: manage
-domain: position-management
-description: Close a position and record the outcome
+id: close-position-v0.5.2
+title: Close Position Command
+description: Terminates a trading position, records exit details, and calculates performance metrics
 author: Intent Trader Team
-date: 2025-05-15
+version: 1.0.1
+release: 0.5.2
+created: 2025-05-15
+updated: 2025-05-21
+category: manage
+status: stable
+tags: [position-management, trade-tracking, schema-validation, performance-metrics]
+requires: [system/schemas/intent-trader-master-schema.json, system/schemas/intent-trader-runtime-schema.json]
+outputs: [state/my-positions.json, state/ic-moderator-positions.json, state/transaction-log.json, state/closed-positions.json]
+input_format: command
+output_format: markdown
+ai_enabled: true
 ---
 
 # Position Manager: Close Position
 
 ## Purpose
-The `/close-position` command terminates a trading position, records exit details, and calculates performance metrics.
+The `/close-position` command terminates a trading position, records exit details, and calculates performance metrics. It updates the position's status in the appropriate tracking file and archives the position data for performance analysis.
 
 ## Input Parameters
 
@@ -42,10 +51,17 @@ The `/close-position` command terminates a trading position, records exit detail
    - For full close: Set status to "closed"
    - For partial close: Update size and recalculate risk
    - Record in position history
+   - Update timestamp to current time
 
-4. **Save Updated Position**
+4. **Schema Validation**
+   - Validate updated position against `tradePosition` schema
+   - Ensure compliance with all required fields
+   - Verify proper nesting structure
+
+5. **Save Updated Position**
    - Write the updated position back to the appropriate file
-   - Archive closed positions if needed
+   - For fully closed positions, archive to closed-positions.json
+   - Update transaction log with exit transaction
 
 ## Response Format
 
@@ -126,10 +142,320 @@ Target Achievement:
 Notes: First target reached
 ```
 
+## Implementation Details
+
+### Position Close Logic
+
+```javascript
+function closePosition(symbol, exitPrice, owner, reason, size, notes) {
+  // Default values
+  reason = reason || "discretionary";
+  owner = owner || "me";
+  
+  // Load positions
+  const positionsPath = owner === "moderator" 
+    ? "state/ic-moderator-positions.json"
+    : "state/my-positions.json";
+  
+  const positions = JSON.parse(fs.readFileSync(positionsPath, 'utf8'));
+  
+  // Find the position
+  const positionIndex = positions.findIndex(p => p.symbol === symbol && p.status === "open");
+  if (positionIndex === -1) {
+    return {
+      success: false,
+      error: `No active position found for symbol '${symbol}' owned by ${owner}`
+    };
+  }
+  
+  const position = positions[positionIndex];
+  const exitTime = new Date().toISOString();
+  
+  // Calculate initial values
+  const entryPrice = position.entry.price;
+  const initialSize = position.entry.shares || position.entry.contracts;
+  const sizeUnit = position.entry.shares ? "shares" : "contracts";
+  const isPartialClose = size && size < initialSize;
+  
+  // Process the close
+  if (isPartialClose) {
+    // Partial close logic
+    const exitSize = parseFloat(size);
+    const remainingSize = initialSize - exitSize;
+    
+    // Calculate P&L for the closed portion
+    const pnl = position.direction === "long"
+      ? (exitPrice - entryPrice) * exitSize
+      : (entryPrice - exitPrice) * exitSize;
+    
+    const pnlPercentage = position.direction === "long"
+      ? ((exitPrice - entryPrice) / entryPrice) * 100
+      : ((entryPrice - exitPrice) / entryPrice) * 100;
+    
+    // Update position
+    if (position.entry.shares) {
+      position.entry.shares = remainingSize;
+    } else {
+      position.entry.contracts = remainingSize;
+    }
+    
+    // Add to position history
+    if (!position.history) {
+      position.history = [];
+    }
+    
+    position.history.push({
+      timestamp: exitTime,
+      action: "partial-close",
+      exitPrice: exitPrice,
+      exitSize: exitSize,
+      reason: reason,
+      pnl: pnl,
+      pnlPercentage: pnlPercentage,
+      notes: notes
+    });
+    
+    // Update position with partial close info
+    position.status = "partial";
+    position.lastUpdated = exitTime;
+    
+    // Log transaction
+    logTransaction({
+      type: "partial-close",
+      symbol: position.symbol,
+      direction: position.direction,
+      price: exitPrice,
+      quantity: exitSize,
+      amount: exitPrice * exitSize,
+      positionId: position.id,
+      pnl: pnl,
+      notes: notes || `Partial close: ${reason}`
+    });
+    
+    // Save updated positions
+    positions[positionIndex] = position;
+    fs.writeFileSync(positionsPath, JSON.stringify(positions, null, 2));
+    
+    return {
+      success: true,
+      isPartial: true,
+      position: position,
+      exitDetails: {
+        price: exitPrice,
+        time: exitTime,
+        size: exitSize,
+        reason: reason,
+        pnl: pnl,
+        pnlPercentage: pnlPercentage,
+        remainingSize: remainingSize
+      }
+    };
+    
+  } else {
+    // Full close logic
+    
+    // Calculate full P&L
+    const pnl = position.direction === "long"
+      ? (exitPrice - entryPrice) * initialSize
+      : (entryPrice - exitPrice) * initialSize;
+    
+    const pnlPercentage = position.direction === "long"
+      ? ((exitPrice - entryPrice) / entryPrice) * 100
+      : ((entryPrice - exitPrice) / entryPrice) * 100;
+    
+    // Calculate R-multiple if stop is set
+    let rMultiple = null;
+    if (position.stop) {
+      const initialRisk = position.direction === "long"
+        ? (entryPrice - position.stop) * initialSize
+        : (position.stop - entryPrice) * initialSize;
+      
+      rMultiple = Math.abs(pnl / initialRisk);
+    }
+    
+    // Calculate holding period
+    const entryTime = new Date(position.timestamp);
+    const exitTimeDate = new Date(exitTime);
+    const holdingPeriodMs = exitTimeDate - entryTime;
+    
+    // Format holding period
+    const holdingPeriod = formatHoldingPeriod(holdingPeriodMs);
+    
+    // Update position
+    position.status = "closed";
+    position.exitDate = exitTime.slice(0, 10);
+    position.exitPrice = exitPrice;
+    position.profit = {
+      amount: pnl,
+      percent: pnlPercentage,
+      rMultiple: rMultiple
+    };
+    position.lastUpdated = exitTime;
+    
+    // Add to position history
+    if (!position.history) {
+      position.history = [];
+    }
+    
+    position.history.push({
+      timestamp: exitTime,
+      action: "close",
+      exitPrice: exitPrice,
+      reason: reason,
+      pnl: pnl,
+      pnlPercentage: pnlPercentage,
+      rMultiple: rMultiple,
+      notes: notes
+    });
+    
+    // Log transaction
+    logTransaction({
+      type: "close",
+      symbol: position.symbol,
+      direction: position.direction,
+      price: exitPrice,
+      quantity: initialSize,
+      amount: exitPrice * initialSize,
+      positionId: position.id,
+      pnl: pnl,
+      notes: notes || `Position closed: ${reason}`
+    });
+    
+    // Archive closed position
+    archiveClosedPosition(position);
+    
+    // Remove from active positions
+    positions.splice(positionIndex, 1);
+    fs.writeFileSync(positionsPath, JSON.stringify(positions, null, 2));
+    
+    return {
+      success: true,
+      isPartial: false,
+      position: position,
+      exitDetails: {
+        price: exitPrice,
+        time: exitTime,
+        reason: reason,
+        pnl: pnl,
+        pnlPercentage: pnlPercentage,
+        rMultiple: rMultiple,
+        holdingPeriod: holdingPeriod
+      }
+    };
+  }
+}
+
+// Helper function to format holding period
+function formatHoldingPeriod(ms) {
+  const seconds = Math.floor(ms / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+  
+  const remainingHours = hours % 24;
+  const remainingMinutes = minutes % 60;
+  const remainingSeconds = seconds % 60;
+  
+  let result = "";
+  if (days > 0) {
+    result += `${days}d `;
+  }
+  if (remainingHours > 0 || days > 0) {
+    result += `${remainingHours}h `;
+  }
+  if (remainingMinutes > 0 || remainingHours > 0 || days > 0) {
+    result += `${remainingMinutes}m `;
+  }
+  result += `${remainingSeconds}s`;
+  
+  return result;
+}
+
+// Helper function to archive closed position
+function archiveClosedPosition(position) {
+  const archivePath = "state/closed-positions.json";
+  let archived;
+  
+  try {
+    archived = JSON.parse(fs.readFileSync(archivePath, 'utf8'));
+  } catch (e) {
+    // Initialize new archive if file doesn't exist
+    archived = [];
+  }
+  
+  // Add position to archive
+  archived.push(position);
+  
+  // Save updated archive
+  fs.writeFileSync(archivePath, JSON.stringify(archived, null, 2));
+  
+  return true;
+}
+
+// Helper function to log transaction
+function logTransaction(transaction) {
+  const txLogPath = "state/transaction-log.json";
+  let txLog;
+  
+  try {
+    txLog = JSON.parse(fs.readFileSync(txLogPath, 'utf8'));
+  } catch (e) {
+    // Initialize new log if file doesn't exist
+    txLog = {
+      schemaVersion: "0.5.2",
+      id: `log-${new Date().toISOString().slice(0, 10).replace(/-/g, "")}`,
+      source: "system",
+      timestamp: new Date().toISOString(),
+      date: new Date().toISOString().slice(0, 10),
+      entries: []
+    };
+  }
+  
+  // Create transaction entry
+  const txEntry = {
+    id: `tx-${transaction.positionId}-${transaction.type}-${txLog.entries.length + 1}`,
+    schemaVersion: "0.5.2",
+    type: transaction.type,
+    symbol: transaction.symbol,
+    direction: transaction.direction,
+    timestamp: new Date().toISOString(),
+    source: "manual-execution",
+    price: transaction.price,
+    quantity: transaction.quantity,
+    amount: transaction.amount,
+    positionId: transaction.positionId,
+    pnl: transaction.pnl,
+    notes: transaction.notes
+  };
+  
+  // Add transaction to log
+  txLog.entries.push(txEntry);
+  
+  // Save updated log
+  fs.writeFileSync(txLogPath, JSON.stringify(txLog, null, 2));
+  
+  return txEntry.id;
+}
+```
+
 ## Error Handling
+
+The command implements comprehensive error handling for various failure cases:
 
 - Position not found: "Error: No active position found for symbol '{SYMBOL}' owned by {OWNER}"
 - Invalid exit price: "Error: Exit price must be a valid number"
 - Invalid size: "Error: Exit size cannot exceed current position size: {CURRENT_SIZE}"
 - Already closed: "Error: Position for {SYMBOL} is already closed"
 - Storage error: "Error: Failed to save closed position to {FILE_PATH}"
+- Transaction log error: "Warning: Failed to log transaction, but position was closed"
+
+## Command Integration
+
+The `/close-position` command integrates with these other system components:
+
+- Uses `intent-trader-master-schema.json` for object structure validation
+- Updates `state/my-positions.json` or `state/ic-moderator-positions.json`
+- Updates `state/transaction-log.json` with exit transactions
+- Archives closed positions to `state/closed-positions.json`
+- Connects with other position commands via shared position data
+- Maintains history of all position actions

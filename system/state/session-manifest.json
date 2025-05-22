@@ -1,0 +1,17 @@
+{
+  "$schema": "../schemas/intent-trader-runtime-schema.json",
+  "version": "0.5.2",
+  "sessionId": "initial-session",
+  "status": "initialized",
+  "startTime": "2025-05-21T00:00:00Z",
+  "runtime": {
+    "commandsLoaded": [],
+    "lastCommand": null,
+    "lastUpdated": "2025-05-21T00:00:00Z",
+    "activePlugin": null
+  },
+  "audit": {
+    "logging": true,
+    "logFile": "logs/trade-log.json"
+  }
+}

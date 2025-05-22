@@ -1,0 +1,8 @@
+{
+  "$schema": "../schemas/intent-trader-runtime-schema.json",
+  "version": "0.5.2",
+  "planId": "initial-plan",
+  "date": "2025-05-21",
+  "ideas": [],
+  "status": "empty"
+}

@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "0.5.2",
+  "id": "mkt-framework-20250520",
+  "source": "system",
+  "timestamp": "2025-05-20T08:15:00Z",
+  "bias": "neutral-to-bullish",
+  "biasCondition": "Bullish above 5926, bearish below 5880",
+  "mode": "Mode 2",
+  "modeConfidence": 75,
+  "character": "Consolidation after strong uptrend, looking for continuation signal",
+  "catalysts": [
+    "CPI data release at 8:30 AM",
+    "FOMC minutes tomorrow",
+    "Tech earnings this week"
+  ],
+  "keyMovers": [
+    {
+      "ticker": "AAPL",
+      "direction": "up",
+      "magnitude": "strong",
+      "reason": "Product announcement expected"
+    },
+    {
+      "ticker": "NVDA",
+      "direction": "up",
+      "magnitude": "moderate",
+      "reason": "Analyst upgrade"
+    },
+    {
+      "ticker": "JPM",
+      "direction": "down",
+      "magnitude": "weak",
+      "reason": "Sector rotation"
+    }
+  ],
+  "origin": {
+    "sourceCommand": "/analyze-market",
+    "createdBy": "market-analyzer"
+  }
+}

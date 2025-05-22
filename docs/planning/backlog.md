@@ -62,6 +62,16 @@
 
 ## Technical Debt & Refactoring
 
+### Runtime Protocol Enforcement (from INSTALL.md Diagnostics)
+
+- [ ] Add schema validation for `state/session-manifest.json`
+- [ ] Require presence checks for `runtime-agent.md` and `command-map.md`
+- [ ] Abort runtime if `command-map.md` is malformed or empty
+- [ ] Define log format for `logs/runtime-init.log` (timestamp, event, status, file, error)
+- [ ] Optional: Add integrity check (e.g. SHA256) for critical runtime files
+- [ ] Replace “parse and load if present” with required file assertion
+- [ ] Rename “Extensible Load Support” section to “Optional Component Discovery”
+
 - [ ] Standardize command parameter formatting
 - [ ] Create comprehensive test suite
 - [ ] Improve error handling for all commands

@@ -1,0 +1,1117 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Intent Trader Master Schema",
+  "description": "Canonical schema definitions for Intent Trader v0.5.2",
+  "version": "0.5.2",
+  "definitions": {
+    "baseObject": {
+      "type": "object",
+      "description": "Base object that all other schema objects inherit from",
+      "required": ["schemaVersion", "id", "source", "timestamp"],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "description": "Schema version for validation",
+          "enum": ["0.5.2"],
+          "examples": ["0.5.2"]
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this object",
+          "pattern": "^[a-z]+-[a-zA-Z0-9-]+-[0-9]+$",
+          "examples": ["idea-dp-20250520-AAPL-01", "plan-20250520"]
+        },
+        "source": {
+          "type": "string",
+          "description": "Source system or origin",
+          "enum": ["manual", "dp", "mancini", "vtf", "moderator", "system", "claude"],
+          "examples": ["dp", "system", "manual"]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp in ISO 8601 format",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$",
+          "examples": ["2025-05-20T08:30:00Z"]
+        },
+        "origin": {
+          "type": "object",
+          "description": "Lineage information for this object",
+          "properties": {
+            "sourceCommand": {
+              "type": "string",
+              "description": "Command that created this object",
+              "examples": ["/analyze-dp", "/create-plan"]
+            },
+            "createdBy": {
+              "type": "string", 
+              "description": "Component that created this object",
+              "examples": ["dp-analyzer", "plan-generator"]
+            },
+            "planId": {
+              "type": "string",
+              "description": "ID of originating plan if applicable",
+              "examples": ["plan-20250520"]
+            },
+            "ideaId": {
+              "type": "string",
+              "description": "ID of originating idea if applicable",
+              "examples": ["idea-dp-20250520-AAPL-01"]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": true
+    },
+
+    "conviction": {
+      "type": "object",
+      "description": "Conviction level for a trade idea or position",
+      "required": ["level"],
+      "properties": {
+        "level": {
+          "type": "string",
+          "description": "Conviction level classification",
+          "enum": ["focus-trade", "high", "medium", "low", "negative"],
+          "examples": ["high", "focus-trade"]
+        },
+        "phrases": {
+          "type": "array",
+          "description": "Original phrases indicating conviction",
+          "items": {
+            "type": "string"
+          },
+          "examples": [["really like this setup", "strong conviction long"]]
+        }
+      },
+      "additionalProperties": false
+    },
+    
+    "priceZone": {
+      "type": "object",
+      "description": "Price zone with minimum and maximum values",
+      "required": ["min", "max"],
+      "properties": {
+        "min": {
+          "type": "number",
+          "description": "Minimum price in the zone",
+          "examples": [210.50]
+        },
+        "max": {
+          "type": "number",
+          "description": "Maximum price in the zone",
+          "examples": [212.75]
+        }
+      },
+      "additionalProperties": false
+    },
+    
+    "classifications": {
+      "type": "object",
+      "description": "Boolean flags for trade idea classification",
+      "properties": {
+        "isBreakout": {
+          "type": "boolean",
+          "description": "Trade involves a breakout pattern",
+          "default": false,
+          "examples": [true, false]
+        },
+        "isReversal": {
+          "type": "boolean",
+          "description": "Trade involves a reversal pattern",
+          "default": false,
+          "examples": [true, false]
+        },
+        "isFlagPattern": {
+          "type": "boolean",
+          "description": "Trade involves a flag pattern",
+          "default": false,
+          "examples": [true, false]
+        },
+        "isFailedBreakdown": {
+          "type": "boolean",
+          "description": "Trade involves a failed breakdown pattern",
+          "default": false,
+          "examples": [true, false]
+        },
+        "isEarningsPlay": {
+          "type": "boolean",
+          "description": "Trade is related to earnings announcement",
+          "default": false,
+          "examples": [true, false]
+        },
+        "isDayAfterTrade": {
+          "type": "boolean",
+          "description": "Trade is a day-after-earnings play",
+          "default": false,
+          "examples": [true, false]
+        },
+        "isTrendFollow": {
+          "type": "boolean",
+          "description": "Trade follows the existing trend",
+          "default": false,
+          "examples": [true, false]
+        },
+        "isRangePlay": {
+          "type": "boolean",
+          "description": "Trade plays a range-bound pattern",
+          "default": false,
+          "examples": [true, false]
+        },
+        "isGapFill": {
+          "type": "boolean",
+          "description": "Trade targets filling a gap",
+          "default": false,
+          "examples": [true, false]
+        },
+        "isMomentumPlay": {
+          "type": "boolean",
+          "description": "Trade follows strong momentum",
+          "default": false,
+          "examples": [true, false]
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "priceLevel": {
+      "type": "object",
+      "description": "Price level with notes and type",
+      "required": ["price"],
+      "properties": {
+        "price": {
+          "type": "number",
+          "description": "Price level",
+          "examples": [5900]
+        },
+        "notes": {
+          "type": "string",
+          "description": "Notes about this price level",
+          "examples": ["Trapped several times"]
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of level",
+          "enum": ["major", "minor", "psychological", "key", "vwap", "pivot"],
+          "examples": ["major", "psychological"]
+        },
+        "strength": {
+          "type": "string",
+          "description": "Strength of the level",
+          "enum": ["strong", "moderate", "weak"],
+          "examples": ["strong", "moderate"]
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "tradeIdea": {
+      "type": "object",
+      "description": "Trading idea with setup, conviction, and parameters",
+      "allOf": [
+        {
+          "$ref": "#/definitions/baseObject"
+        }
+      ],
+      "required": ["symbol", "direction", "conviction"],
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol for this trade idea",
+          "examples": ["AAPL", "ES", "SPX"]
+        },
+        "direction": {
+          "type": "string",
+          "description": "Trade direction",
+          "enum": ["long", "short"],
+          "examples": ["long", "short"]
+        },
+        "conviction": {
+          "$ref": "#/definitions/conviction",
+          "description": "Conviction level for this trade idea"
+        },
+        "entryParameters": {
+          "type": "object",
+          "description": "Entry parameters including price zone and conditions",
+          "properties": {
+            "zone": {
+              "$ref": "#/definitions/priceZone",
+              "description": "Price zone for entry"
+            },
+            "condition": {
+              "type": "string",
+              "description": "Conditions that must be met for entry",
+              "examples": ["entry above 212.75 with volume"]
+            },
+            "strategy": {
+              "type": "string",
+              "description": "Entry execution strategy",
+              "enum": ["market", "limit", "scaled", "test-position", "all-in"],
+              "examples": ["limit", "scaled"]
+            }
+          },
+          "additionalProperties": false
+        },
+        "exitParameters": {
+          "type": "object",
+          "description": "Exit parameters including stop loss and targets",
+          "properties": {
+            "stopLoss": {
+              "type": "number",
+              "description": "Stop loss price level",
+              "examples": [205.80]
+            },
+            "target": {
+              "type": "number",
+              "description": "Primary price target",
+              "examples": [225.00]
+            },
+            "strategy": {
+              "type": "string",
+              "description": "Exit execution strategy",
+              "examples": ["Scale out approach, 50% at first target"]
+            },
+            "trimLevels": {
+              "type": "array",
+              "description": "Levels for scaling out of the position",
+              "items": {
+                "type": "object",
+                "required": ["price", "percentage"],
+                "properties": {
+                  "price": {
+                    "type": "number",
+                    "description": "Price level for the trim",
+                    "examples": [218.50]
+                  },
+                  "percentage": {
+                    "type": "number",
+                    "description": "Percentage of position to trim",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "examples": [50]
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Reasoning behind this trade idea",
+          "examples": ["Breaking out of bull flag consolidation with increasing volume"]
+        },
+        "tradeDuration": {
+          "type": "string",
+          "description": "Expected duration of the trade",
+          "enum": ["cashflow", "day", "swing", "position", "long-term"],
+          "examples": ["swing", "day"]
+        },
+        "setup": {
+          "type": "string",
+          "description": "Type of trading setup",
+          "examples": ["bull-flag-breakout", "earnings-gap-fill"]
+        },
+        "status": {
+          "type": "string",
+          "description": "Current status of the trade idea",
+          "enum": ["active", "pending", "triggered", "invalidated", "completed"],
+          "default": "active",
+          "examples": ["active", "pending"]
+        },
+        "confirmationStatus": {
+          "type": "string",
+          "description": "Confirmation status of the setup",
+          "enum": ["unconfirmed", "confirmed", "rejected", "modified"],
+          "default": "unconfirmed",
+          "examples": ["unconfirmed", "confirmed"]
+        },
+        "classifications": {
+          "$ref": "#/definitions/classifications",
+          "description": "Boolean classification flags for this trade idea"
+        },
+        "positionSizing": {
+          "type": "object",
+          "description": "Position sizing recommendations",
+          "properties": {
+            "recommendation": {
+              "type": "string",
+              "description": "Position size recommendation",
+              "enum": ["full", "half", "third", "quarter", "small", "speculative"],
+              "examples": ["full", "quarter"]
+            },
+            "reasoning": {
+              "type": "string",
+              "description": "Reasoning for position size recommendation",
+              "examples": ["High conviction pattern with clear risk parameters"]
+            }
+          },
+          "additionalProperties": false
+        },
+        "risk": {
+          "type": "object",
+          "description": "Risk metrics for this trade idea",
+          "properties": {
+            "plannedRMultiple": {
+              "type": "number",
+              "description": "Planned risk-reward ratio",
+              "minimum": 0,
+              "examples": [2.3]
+            }
+          },
+          "additionalProperties": false
+        },
+        "priority": {
+          "type": "number",
+          "description": "Priority ranking (lower number = higher priority)",
+          "minimum": 1,
+          "examples": [1, 2, 3]
+        },
+        "category": {
+          "type": "string",
+          "description": "Category for this trade idea",
+          "enum": ["primary", "secondary", "watchlist"],
+          "examples": ["primary", "watchlist"]
+        },
+        "frequency": {
+          "type": "number",
+          "description": "Frequency of pattern occurrence",
+          "examples": [3]
+        },
+        "isFavorite": {
+          "type": "boolean",
+          "description": "Whether this is a favorite idea",
+          "default": false,
+          "examples": [true, false]
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "levelFramework": {
+      "type": "object",
+      "description": "Framework of price levels for indices and stocks",
+      "allOf": [
+        {
+          "$ref": "#/definitions/baseObject"
+        }
+      ],
+      "properties": {
+        "indices": {
+          "type": "object",
+          "description": "Level frameworks for market indices",
+          "properties": {
+            "es": {
+              "type": "object",
+              "description": "Levels for E-mini S&P 500 futures",
+              "properties": {
+                "support": {
+                  "type": "array",
+                  "description": "Support levels",
+                  "items": {
+                    "$ref": "#/definitions/priceLevel"
+                  }
+                },
+                "resistance": {
+                  "type": "array",
+                  "description": "Resistance levels",
+                  "items": {
+                    "$ref": "#/definitions/priceLevel"
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "spx": {
+              "type": "object",
+              "description": "Levels for S&P 500 index",
+              "properties": {
+                "support": {
+                  "type": "array",
+                  "description": "Support levels",
+                  "items": {
+                    "$ref": "#/definitions/priceLevel"
+                  }
+                },
+                "resistance": {
+                  "type": "array",
+                  "description": "Resistance levels",
+                  "items": {
+                    "$ref": "#/definitions/priceLevel"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": true
+        },
+        "stocks": {
+          "type": "array",
+          "description": "Level frameworks for individual stocks",
+          "items": {
+            "type": "object",
+            "required": ["ticker"],
+            "properties": {
+              "ticker": {
+                "type": "string",
+                "description": "Ticker symbol for this stock",
+                "examples": ["AAPL", "MSFT"]
+              },
+              "levels": {
+                "type": "object",
+                "description": "Support and resistance levels",
+                "properties": {
+                  "support": {
+                    "type": "array",
+                    "description": "Support levels",
+                    "items": {
+                      "$ref": "#/definitions/priceLevel"
+                    }
+                  },
+                  "resistance": {
+                    "type": "array",
+                    "description": "Resistance levels",
+                    "items": {
+                      "$ref": "#/definitions/priceLevel"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "movingAverages": {
+                "type": "object",
+                "description": "Key moving averages",
+                "properties": {
+                  "ma8": {
+                    "type": "number",
+                    "description": "8-day moving average",
+                    "examples": [212.35]
+                  },
+                  "ma21": {
+                    "type": "number",
+                    "description": "21-day moving average",
+                    "examples": [205.80]
+                  },
+                  "ma50": {
+                    "type": "number",
+                    "description": "50-day moving average",
+                    "examples": [198.42]
+                  },
+                  "ma200": {
+                    "type": "number",
+                    "description": "200-day moving average",
+                    "examples": [185.75]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "zones": {
+          "type": "array",
+          "description": "Price zones of interest",
+          "items": {
+            "type": "object",
+            "required": ["min", "max"],
+            "properties": {
+              "min": {
+                "type": "number",
+                "description": "Minimum price in the zone",
+                "examples": [5900]
+              },
+              "max": {
+                "type": "number",
+                "description": "Maximum price in the zone",
+                "examples": [5926]
+              },
+              "notes": {
+                "type": "string",
+                "description": "Notes about this zone",
+                "examples": ["Current consolidation range"]
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of zone",
+                "enum": ["entry", "profit", "stop", "decision", "consolidation"],
+                "examples": ["consolidation", "decision"]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "keyDecisionPoint": {
+          "type": "number",
+          "description": "Key price level for decision making",
+          "examples": [5926]
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "marketFramework": {
+      "type": "object",
+      "description": "Framework for market analysis and bias",
+      "allOf": [
+        {
+          "$ref": "#/definitions/baseObject"
+        }
+      ],
+      "properties": {
+        "bias": {
+          "type": "string",
+          "description": "Overall market bias",
+          "enum": ["bullish", "bearish", "neutral", "neutral-to-bullish", "neutral-to-bearish"],
+          "examples": ["neutral-to-bullish", "bearish"]
+        },
+        "biasCondition": {
+          "type": "string",
+          "description": "Conditions that define the bias",
+          "examples": ["bullish above 5926, bearish below 5880"]
+        },
+        "mode": {
+          "type": "string",
+          "description": "Market mode",
+          "enum": ["Mode 1", "Mode 2", "auto"],
+          "examples": ["Mode 2", "Mode 1"]
+        },
+        "modeConfidence": {
+          "type": "number",
+          "description": "Confidence in the mode assessment (percentage)",
+          "minimum": 0,
+          "maximum": 100,
+          "examples": [80]
+        },
+        "character": {
+          "type": "string",
+          "description": "Market character or behavior",
+          "examples": ["Consolidation in bull flag pattern"]
+        },
+        "catalysts": {
+          "type": "array",
+          "description": "Market catalysts or events",
+          "items": {
+            "type": "string"
+          },
+          "examples": [["CPI data release at 8:30 AM", "FOMC minutes tomorrow"]]
+        },
+        "keyMovers": {
+          "type": "array",
+          "description": "Key stocks or sectors moving the market",
+          "items": {
+            "type": "object",
+            "required": ["ticker"],
+            "properties": {
+              "ticker": {
+                "type": "string",
+                "description": "Ticker symbol",
+                "examples": ["AAPL", "MSFT"]
+              },
+              "direction": {
+                "type": "string",
+                "description": "Direction of movement",
+                "enum": ["up", "down", "sideways"],
+                "examples": ["up", "down"]
+              },
+              "magnitude": {
+                "type": "string",
+                "description": "Magnitude of movement",
+                "enum": ["strong", "moderate", "weak"],
+                "examples": ["strong", "moderate"]
+              },
+              "reason": {
+                "type": "string",
+                "description": "Reason for the movement",
+                "examples": ["Earnings beat", "Analyst downgrade"]
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "tradePosition": {
+      "type": "object",
+      "description": "Trading position with entry, exit, and status",
+      "allOf": [
+        {
+          "$ref": "#/definitions/baseObject"
+        }
+      ],
+      "required": ["symbol", "direction", "entry"],
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol for this position",
+          "examples": ["AAPL", "ES", "SPX"]
+        },
+        "direction": {
+          "type": "string",
+          "description": "Trade direction",
+          "enum": ["long", "short"],
+          "examples": ["long", "short"]
+        },
+        "entry": {
+          "type": "object",
+          "description": "Entry details",
+          "required": ["price", "date"],
+          "properties": {
+            "price": {
+              "type": "number",
+              "description": "Entry price",
+              "examples": [210.75]
+            },
+            "date": {
+              "type": "string",
+              "format": "date",
+              "description": "Entry date",
+              "examples": ["2025-05-20"]
+            },
+            "shares": {
+              "type": "number",
+              "description": "Number of shares",
+              "examples": [100]
+            },
+            "contracts": {
+              "type": "number",
+              "description": "Number of contracts",
+              "examples": [2]
+            }
+          },
+          "additionalProperties": false
+        },
+        "stop": {
+          "type": "number",
+          "description": "Stop loss price",
+          "examples": [205.80]
+        },
+        "target": {
+          "type": "number",
+          "description": "Price target",
+          "examples": [225.00]
+        },
+        "setup": {
+          "type": "string",
+          "description": "Trading setup used",
+          "examples": ["bull-flag-breakout"]
+        },
+        "status": {
+          "type": "string",
+          "description": "Current position status",
+          "enum": ["open", "closed", "partial", "stopped", "target"],
+          "examples": ["open", "closed"]
+        },
+        "exitDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Exit date if position is closed",
+          "examples": ["2025-05-25"]
+        },
+        "exitPrice": {
+          "type": "number",
+          "description": "Exit price if position is closed",
+          "examples": [222.50]
+        },
+        "profit": {
+          "type": "object",
+          "description": "Profit metrics for closed positions",
+          "properties": {
+            "amount": {
+              "type": "number",
+              "description": "Profit amount in dollars",
+              "examples": [1175.00]
+            },
+            "percent": {
+              "type": "number",
+              "description": "Profit percentage",
+              "examples": [5.57]
+            },
+            "rMultiple": {
+              "type": "number",
+              "description": "Profit as multiple of initial risk",
+              "examples": [2.4]
+            }
+          },
+          "additionalProperties": false
+        },
+        "notes": {
+          "type": "string",
+          "description": "Notes about this position",
+          "examples": ["Exited half at first target, letting rest run"]
+        },
+        "conviction": {
+          "$ref": "#/definitions/conviction",
+          "description": "Conviction level for this position"
+        },
+        "classifications": {
+          "$ref": "#/definitions/classifications",
+          "description": "Boolean classification flags for this position"
+        },
+        "isRunner": {
+          "type": "boolean",
+          "description": "Whether this is a runner position",
+          "default": false,
+          "examples": [true, false]
+        },
+        "isCorePosition": {
+          "type": "boolean",
+          "description": "Whether this is a core position",
+          "default": false,
+          "examples": [true, false]
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "tradePlan": {
+      "type": "object",
+      "description": "Trading plan with market framework, levels, and trade ideas",
+      "allOf": [
+        {
+          "$ref": "#/definitions/baseObject"
+        }
+      ],
+      "required": ["date", "marketFramework", "levelFramework", "tradeIdeas"],
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date for this trading plan",
+          "examples": ["2025-05-20"]
+        },
+        "marketFramework": {
+          "$ref": "#/definitions/marketFramework",
+          "description": "Market analysis framework"
+        },
+        "levelFramework": {
+          "$ref": "#/definitions/levelFramework",
+          "description": "Price level framework"
+        },
+        "tradeIdeas": {
+          "type": "array",
+          "description": "Trade ideas for this plan",
+          "items": {
+            "$ref": "#/definitions/tradeIdea"
+          }
+        },
+        "scenarioPlanning": {
+          "type": "array",
+          "description": "Scenario plans",
+          "items": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Scenario type",
+                "enum": ["long", "short", "neutral"],
+                "examples": ["long", "short"]
+              },
+              "conviction": {
+                "type": "string",
+                "description": "Conviction in this scenario",
+                "enum": ["high", "medium", "low"],
+                "examples": ["high", "medium"]
+              },
+              "trigger": {
+                "type": "string",
+                "description": "Trigger for this scenario",
+                "examples": ["reclaim above 5926 with volume"]
+              },
+              "targets": {
+                "type": "array",
+                "description": "Price targets for this scenario",
+                "items": {
+                  "type": "number"
+                },
+                "examples": [[5945, 5970]]
+              },
+              "stop": {
+                "type": "number",
+                "description": "Stop loss for this scenario",
+                "examples": [5905]
+              },
+              "risk_reward": {
+                "type": "number",
+                "description": "Risk-reward ratio",
+                "examples": [2.5]
+              },
+              "probability": {
+                "type": "number",
+                "description": "Probability of scenario in percent",
+                "minimum": 0,
+                "maximum": 100,
+                "examples": [65]
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of this scenario",
+                "examples": ["Breakout from consolidation targeting prior highs"]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "riskManagement": {
+          "type": "object",
+          "description": "Risk management parameters",
+          "properties": {
+            "accountSize": {
+              "type": "number",
+              "description": "Account size in dollars",
+              "examples": [100000]
+            },
+            "maxRiskPercent": {
+              "type": "number",
+              "description": "Maximum risk percentage per trade",
+              "examples": [1]
+            },
+            "dailyRiskAmount": {
+              "type": "number",
+              "description": "Maximum daily risk in dollars",
+              "examples": [1000]
+            },
+            "positionSizing": {
+              "type": "string",
+              "description": "Position sizing strategy",
+              "examples": ["Risk 0.5% on primary setups, 0.25% on secondary"]
+            },
+            "stopPlacement": {
+              "type": "string",
+              "description": "Stop placement strategy",
+              "examples": ["Place stops below key support for longs"]
+            },
+            "trailStrategy": {
+              "type": "string",
+              "description": "Trailing stop strategy",
+              "examples": ["Trail to breakeven after 50% of target reached"]
+            }
+          },
+          "additionalProperties": false
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Metadata about this plan",
+          "properties": {
+            "generatedFrom": {
+              "type": "array",
+              "description": "Source objects used to generate this plan",
+              "items": {
+                "type": "string"
+              },
+              "examples": [["dp-analysis-20250520", "mancini-analysis-20250520"]]
+            },
+            "generationTimestamp": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Timestamp when this plan was generated",
+              "examples": ["2025-05-20T08:45:00Z"]
+            },
+            "updatedTimestamp": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Timestamp when this plan was last updated",
+              "examples": ["2025-05-20T10:15:00Z"]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "sessionLog": {
+      "type": "object",
+      "description": "Log of a trading session",
+      "allOf": [
+        {
+          "$ref": "#/definitions/baseObject"
+        }
+      ],
+      "required": ["date", "entries"],
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date of this session",
+          "examples": ["2025-05-20"]
+        },
+        "entries": {
+          "type": "array",
+          "description": "Log entries for this session",
+          "items": {
+            "type": "object",
+            "required": ["timestamp", "text"],
+            "properties": {
+              "timestamp": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp of this entry",
+                "examples": ["2025-05-20T09:45:00Z"]
+              },
+              "text": {
+                "type": "string",
+                "description": "Log entry text",
+                "examples": ["Entered AAPL long at 212.75"]
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of log entry",
+                "enum": ["note", "trade", "market", "plan", "alert"],
+                "examples": ["trade", "market"]
+              },
+              "relatedId": {
+                "type": "string",
+                "description": "ID of related object",
+                "examples": ["pos-20250520-AAPL-01"]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "summary": {
+          "type": "object",
+          "description": "Session summary",
+          "properties": {
+            "profit": {
+              "type": "number",
+              "description": "Total profit for the session",
+              "examples": [1650.25]
+            },
+            "trades": {
+              "type": "number",
+              "description": "Number of trades taken",
+              "examples": [5]
+            },
+            "winRate": {
+              "type": "number",
+              "description": "Win rate percentage",
+              "minimum": 0,
+              "maximum": 100,
+              "examples": [60]
+            },
+            "keyLessons": {
+              "type": "array",
+              "description": "Key lessons from the session",
+              "items": {
+                "type": "string"
+              },
+              "examples": [["Need to be more patient with entries", "Don't chase momentum"]]
+            }
+          },
+          "additionalProperties": false
+        },
+        "planId": {
+          "type": "string",
+          "description": "ID of the trade plan for this session",
+          "examples": ["plan-20250520"]
+        },
+        "marketState": {
+          "type": "string",
+          "description": "Overall market state during this session",
+          "examples": ["Bullish trending day with expanding range"]
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "conversationContext": {
+      "type": "object",
+      "description": "Context tracking for conversation state",
+      "allOf": [
+        {
+          "$ref": "#/definitions/baseObject"
+        }
+      ],
+      "properties": {
+        "activePlan": {
+          "type": "string",
+          "description": "ID of the currently active trade plan",
+          "examples": ["plan-20250520"]
+        },
+        "activeSession": {
+          "type": "string",
+          "description": "ID of the currently active session log",
+          "examples": ["session-20250520"]
+        },
+        "focusedSymbols": {
+          "type": "array",
+          "description": "Symbols currently in focus",
+          "items": {
+            "type": "string"
+          },
+          "examples": [["AAPL", "ES"]]
+        },
+        "recentCommands": {
+          "type": "array",
+          "description": "Recent commands issued",
+          "items": {
+            "type": "object",
+            "required": ["command", "timestamp"],
+            "properties": {
+              "command": {
+                "type": "string",
+                "description": "Command text",
+                "examples": ["/analyze-dp", "/create-plan"]
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Command timestamp",
+                "examples": ["2025-05-20T08:30:00Z"]
+              },
+              "result": {
+                "type": "string",
+                "description": "Result of the command",
+                "enum": ["success", "partial_success", "failure"],
+                "examples": ["success", "failure"]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "intentHistory": {
+          "type": "array",
+          "description": "History of user intents",
+          "items": {
+            "type": "object",
+            "required": ["intent", "timestamp"],
+            "properties": {
+              "intent": {
+                "type": "string",
+                "description": "Detected user intent",
+                "examples": ["analyze_dp", "create_plan"]
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Intent timestamp",
+                "examples": ["2025-05-20T08:30:00Z"]
+              },
+              "parameters": {
+                "type": "object",
+                "description": "Intent parameters",
+                "additionalProperties": true,
+                "examples": [{"symbol": "AAPL", "direction": "long"}]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "systemState": {
+          "type": "string",
+          "description": "Current system state",
+          "enum": ["ready", "analyzing", "planning", "trading", "reviewing"],
+          "examples": ["trading", "planning"]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

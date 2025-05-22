@@ -1,0 +1,15 @@
+{
+  "id": "tx-YYYYMMDD-SYMBOL-XX",
+  "schemaVersion": "0.5.2",
+  "type": "entry",
+  "symbol": "SYMBOL",
+  "direction": "long",
+  "timestamp": "YYYY-MM-DDTHH:MM:SSZ",
+  "source": "manual-execution",
+  "price": 0.00,
+  "quantity": 0,
+  "amount": 0.00,
+  "positionId": "pos-YYYYMMDD-SYMBOL-XX",
+  "planId": "plan-YYYYMMDD",
+  "notes": "Entry execution"
+}
